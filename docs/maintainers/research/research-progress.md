@@ -31,7 +31,7 @@
 
 ### 1.1 Python Flask Backend Architecture
 - **Status:** ✅ Complete
-- **Document:** [flask-backend-architecture.md](flask-backend-architecture.md)
+- **Document:** [tech-stack/flask-backend-architecture.md](tech-stack/flask-backend-architecture.md)
 - **Completed:** 2025-11-26
 - **Key Decisions:**
   - Application factory pattern
@@ -41,7 +41,7 @@
 
 ### 1.2 React Frontend Architecture
 - **Status:** ✅ Complete
-- **Document:** [react-frontend-architecture.md](react-frontend-architecture.md)
+- **Document:** [tech-stack/react-frontend-architecture.md](tech-stack/react-frontend-architecture.md)
 - **Completed:** 2025-11-26
 - **Key Decisions:**
   - Vite as build tool
@@ -52,7 +52,7 @@
 
 ### 1.3 SQLite Database Design
 - **Status:** ✅ Complete
-- **Document:** [sqlite-database-design.md](sqlite-database-design.md)
+- **Document:** [tech-stack/sqlite-database-design.md](tech-stack/sqlite-database-design.md)
 - **Completed:** 2025-11-26
 - **Key Decisions:**
   - Comprehensive 12+ table schema
@@ -62,7 +62,7 @@
 
 ### 1.4 Flask + React Integration
 - **Status:** ✅ Complete
-- **Document:** [flask-react-integration.md](flask-react-integration.md)
+- **Document:** [tech-stack/flask-react-integration.md](tech-stack/flask-react-integration.md)
 - **Completed:** 2025-11-26
 - **Key Decisions:**
   - Separate servers in development (Vite proxy)

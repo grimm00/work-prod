@@ -14,10 +14,10 @@
 
 ### Week 1: Critical Foundation (✅ Complete)
 
-- **[Python Flask Backend Architecture](flask-backend-architecture.md)** - Backend foundation research (✅ Complete)
-- **[React Frontend Architecture](react-frontend-architecture.md)** - Frontend foundation research (✅ Complete)
-- **[SQLite Database Design](sqlite-database-design.md)** - Data persistence strategy (✅ Complete)
-- **[Flask + React Integration](flask-react-integration.md)** - Full-stack integration (✅ Complete)
+- **[Python Flask Backend Architecture](tech-stack/flask-backend-architecture.md)** - Backend foundation research (✅ Complete)
+- **[React Frontend Architecture](tech-stack/react-frontend-architecture.md)** - Frontend foundation research (✅ Complete)
+- **[SQLite Database Design](tech-stack/sqlite-database-design.md)** - Data persistence strategy (✅ Complete)
+- **[Flask + React Integration](tech-stack/flask-react-integration.md)** - Full-stack integration (✅ Complete)
 
 ### Week 2: Core Data Models & Microsoft (🔴 Not Started)
 
@@ -111,10 +111,10 @@ Research Document → Analysis → Recommendation → ADR (if architectural)
 
 ### ✅ Completed Research
 
-- Python Flask Backend Architecture (Week 1) ✅
-- React Frontend Architecture (Week 1) ✅
-- SQLite Database Design (Week 1) ✅
-- Flask + React Integration (Week 1) ✅
+- [Python Flask Backend Architecture](tech-stack/flask-backend-architecture.md) (Week 1) ✅
+- [React Frontend Architecture](tech-stack/react-frontend-architecture.md) (Week 1) ✅
+- [SQLite Database Design](tech-stack/sqlite-database-design.md) (Week 1) ✅
+- [Flask + React Integration](tech-stack/flask-react-integration.md) (Week 1) ✅
 
 ### 🟠 In Progress
 

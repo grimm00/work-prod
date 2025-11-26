@@ -72,7 +72,7 @@ Foundation for entire backend implementation.
 - Recommended Flask project structure
 - List of required Flask extensions
 
-**Status:** ✅ Complete - See [flask-backend-architecture.md](flask-backend-architecture.md)
+**Status:** ✅ Complete - See [tech-stack/flask-backend-architecture.md](tech-stack/flask-backend-architecture.md)
 
 ---
 
@@ -107,7 +107,7 @@ Foundation for entire frontend implementation.
 - State management strategy
 - Component design patterns
 
-**Status:** ✅ Complete - See [react-frontend-architecture.md](react-frontend-architecture.md)
+**Status:** ✅ Complete - See [tech-stack/react-frontend-architecture.md](tech-stack/react-frontend-architecture.md)
 
 ---
 
@@ -142,7 +142,7 @@ Data persistence strategy must be decided before feature implementation.
 - Backup/recovery approach
 - Entity Relationship Diagram (ERD)
 
-**Status:** ✅ Complete - See [sqlite-database-design.md](sqlite-database-design.md)
+**Status:** ✅ Complete - See [tech-stack/sqlite-database-design.md](tech-stack/sqlite-database-design.md)
 
 ---
 
@@ -175,7 +175,7 @@ Must work seamlessly for development workflow.
 - API integration patterns
 - Authentication strategy
 
-**Status:** ✅ Complete - See [flask-react-integration.md](flask-react-integration.md)
+**Status:** ✅ Complete - See [tech-stack/flask-react-integration.md](tech-stack/flask-react-integration.md)
 
 ---
 

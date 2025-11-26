@@ -10,11 +10,12 @@
 
 ### Core Management
 
-- **[Exploration Hub](exploration/README.md)** - Requirements gathering and research (🟠 In Progress)
-- **[Planning Hub](planning/README.md)** - Feature planning, releases, and project phases
-- **[Decisions](decisions/)** - Architecture decision records (ADRs)
-- **[Feedback](feedback/)** - External code reviews and feedback
-- **[Archived](archived/)** - Historical documentation
+- **[Exploration Hub](exploration/README.md)** - Requirements gathering and discovery (✅ Complete)
+- **[Research Hub](research/README.md)** - Technical research and analysis (✅ Week 1 Complete)
+- **[Planning Hub](planning/README.md)** - Feature planning, releases, and project phases (🟡 Planned)
+- **[Decisions Hub](decisions/README.md)** - Architecture Decision Records / ADRs (✅ 4 ADRs)
+- **[Feedback](feedback/)** - External code reviews and feedback (🔴 Not Started)
+- **[Archived](archived/)** - Historical documentation (🔴 Empty)
 
 ---
 
@@ -24,11 +25,12 @@ The maintainers directory serves as the central coordination point for project m
 
 ### Key Functions
 
-1. **Exploration & Research** - Requirements gathering and technology research
-2. **Planning Management** - Feature planning, releases, and project phases
-3. **Decision Tracking** - Architecture decisions and rationale documentation
-4. **Feedback Integration** - External code reviews and feedback
-5. **Historical Preservation** - Archived documentation and superseded documents
+1. **Exploration** - Requirements gathering and user needs discovery
+2. **Research** - Technical analysis and evaluation (organized by category)
+3. **Planning Management** - Feature planning, releases, and project phases
+4. **Decision Tracking** - Architecture Decision Records (ADRs) with rationale
+5. **Feedback Integration** - External code reviews and feedback
+6. **Historical Preservation** - Archived documentation and superseded documents
 
 ---
 
@@ -37,12 +39,20 @@ The maintainers directory serves as the central coordination point for project m
 ```
 docs/maintainers/
 ├── README.md          # 📍 HUB - This file
-├── exploration/       # 📡 SPOKE - Requirements and research
+├── exploration/       # 📡 SPOKE - Requirements and discovery
+├── research/          # 📡 SPOKE - Technical research (organized by category)
+│   ├── tech-stack/    # Technology & framework decisions
+│   ├── microsoft/     # Microsoft integrations
+│   ├── miro/          # Miro platform
+│   ├── data-models/   # Database & data structures
+│   ├── ui-ux/         # UI/UX patterns
+│   ├── security/      # Security & privacy
+│   └── features/      # Feature-specific research
 ├── planning/          # 📡 SPOKE - Project planning hub
 │   ├── features/      # Feature-based planning
 │   ├── releases/      # Release management
-│   └── ci/            # CI/CD planning
-├── decisions/         # 📡 SPOKE - Architecture decisions (ADRs)
+│   └── notes/         # Planning notes and opportunities
+├── decisions/         # 📡 SPOKE - Architecture Decision Records (ADRs)
 ├── feedback/          # 📡 SPOKE - External code reviews
 └── archived/          # 📡 SPOKE - Historical documentation
 ```

@@ -5,7 +5,7 @@ alwaysApply: true
 # Work Productivity Project - Cursor AI Rules
 
 **Purpose:** Guide AI assistance to align with project best practices and workflow  
-**Last Updated:** 2025-11-26  
+**Last Updated:** 2025-11-26 (Research organization, ADRs, current state)  
 **Status:** ✅ Active
 
 ---
@@ -18,6 +18,24 @@ This is a work productivity and engagement management system using:
 - **Feature-based planning** with phased development
 - **Git Flow** version control strategy
 - **Progressive disclosure** for documentation (Overview → Details → Analysis)
+- **Research-driven decisions** with Architecture Decision Records (ADRs)
+
+### Technology Stack (Finalized 2025-11-26)
+
+**Backend:**
+- Python + Flask (application factory pattern)
+- SQLAlchemy ORM + Flask-Migrate
+- SQLite (local-first database)
+
+**Frontend:**
+- React 18 + Vite build tool
+- Zustand (state management)
+- React Router v6 (navigation)
+- Axios (API client)
+
+**Integration:**
+- Separate servers in development (Vite proxy)
+- Flask serves React in production
 
 ---
 
@@ -210,12 +228,21 @@ work-prod/
 ├── scripts/              # Automation scripts (🔴 Not Started)
 ├── docs/                 # Documentation
 │   └── maintainers/      # Project management HUB
+│       ├── exploration/  # Requirements & discovery
 │       ├── planning/     # Feature & release planning
 │       │   ├── features/ # Feature-based development
 │       │   ├── releases/ # Version management
 │       │   ├── phases/   # Development phases
 │       │   └── notes/    # Planning insights
-│       ├── decisions/    # Architecture Decision Records
+│       ├── research/     # Research findings
+│       │   ├── tech-stack/     # Technology decisions
+│       │   ├── microsoft/      # Microsoft integrations
+│       │   ├── miro/           # Miro integration
+│       │   ├── data-models/    # Data model designs
+│       │   ├── ui-ux/          # UI/UX research
+│       │   ├── security/       # Security research
+│       │   └── features/       # Feature-specific
+│       ├── decisions/    # Architecture Decision Records (ADRs)
 │       ├── feedback/     # External code reviews
 │       └── archived/     # Historical documentation
 └── README.md             # Project hub
@@ -228,9 +255,14 @@ work-prod/
    - Templates, guides, and documentation produced from planning
    - NOT code implementation (code goes in backend/frontend)
 3. **Release Management** → `docs/maintainers/planning/releases/vX.Y.Z/`
-4. **Architecture Decisions** → `docs/maintainers/decisions/`
-5. **User Documentation** → `docs/` (user-facing guides)
-6. **Troubleshooting** → Within feature directories under `fix/`
+4. **Research Documents** → `docs/maintainers/research/[category]/`
+   - Category-based organization (tech-stack, microsoft, miro, data-models, etc.)
+   - Comprehensive analysis before decisions
+5. **Architecture Decisions (ADRs)** → `docs/maintainers/decisions/`
+   - Format: `ADR-NNNN-kebab-case-title.md`
+   - Concise decision records with rationale
+6. **User Documentation** → `docs/` (user-facing guides)
+7. **Troubleshooting** → Within feature directories under `fix/`
 
 ---
 
@@ -255,25 +287,64 @@ When writing code:
 
 ---
 
-## 📝 Decision Documentation
+## 📝 Research & Decision Documentation
 
-### When to Create ADRs (Architecture Decision Records)
+### Research-to-Decision Flow
+
+**Flow:** Research → Analysis → Recommendation → ADR (if architectural)
+
+1. **Research Documents** (`docs/maintainers/research/[category]/`)
+   - Comprehensive exploration of options
+   - Deep analysis (500-700+ lines typical)
+   - Multiple alternatives evaluated
+   - All findings documented
+   - Organized by category (tech-stack, microsoft, data-models, etc.)
+
+2. **Architecture Decision Records (ADRs)** (`docs/maintainers/decisions/`)
+   - Concise decision summary
+   - Links back to supporting research
+   - Documents rationale and consequences
+   - Captures what was decided and why
+
+### When to Create ADRs
 
 Create ADRs in `docs/maintainers/decisions/` for:
 
-- Technology stack choices
+- Technology stack choices (✅ 4 ADRs created for Week 1 tech stack)
 - Architecture patterns
 - Database schema decisions
 - API design approaches
 - Security implementations
+- Integration strategies
+
+**Do NOT create ADRs for:**
+- Implementation details
+- Temporary decisions
+- Minor refactors
+- Non-architectural choices
+
+### ADR Naming and Numbering
+
+- **Format:** `ADR-NNNN-kebab-case-title.md`
+- **Numbering:** 4-digit zero-padded sequential (0001, 0002, 0003, etc.)
+- **Never Reuse Numbers:** Even for superseded ADRs
+- **Examples:**
+  - `ADR-0001-flask-backend-architecture.md`
+  - `ADR-0002-react-frontend-architecture.md`
+  - `ADR-0003-sqlite-database-design.md`
+  - `ADR-0004-flask-react-integration-strategy.md`
 
 ### ADR Format
 
 ```markdown
-# ADR-[NNNN]: [Title]
+# ADR-NNNN: [Title]
 
 **Status:** [Proposed/Accepted/Deprecated/Superseded]
 **Date:** [YYYY-MM-DD]
+**Supersedes:** [ADR-XXXX] or None
+**Superseded By:** [ADR-YYYY] or N/A
+
+---
 
 ## Context
 
@@ -297,9 +368,41 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ## Alternatives Considered
 
-- Alternative 1: [Why not chosen]
-- Alternative 2: [Why not chosen]
+### Alternative 1: [Name]
+- **Description:** ...
+- **Pros:** ...
+- **Cons:** ...
+- **Why Not Chosen:** ...
+
+## Implementation Notes
+
+[Optional: Specific guidance]
+
+## References
+
+- [Supporting Research Document](../research/category/document.md)
+- External links
+- Related ADRs
 ```
+
+### Research Document Organization
+
+**Category Structure:**
+- `tech-stack/` - Technology and framework decisions
+- `microsoft/` - Microsoft 365 and Graph API integrations
+- `miro/` - Miro platform capabilities
+- `data-models/` - Database schema and data structures
+- `ui-ux/` - User interface and experience patterns
+- `security/` - Security and privacy approaches
+- `features/` - Feature-specific research
+
+**Research Files Include:**
+- Research questions
+- Methodology
+- Findings (comprehensive)
+- Analysis
+- Recommendations
+- References to ADRs (if decision made)
 
 ---
 
@@ -437,27 +540,54 @@ Create ADRs in `docs/maintainers/decisions/` for:
 ## 🚧 Current Project State
 
 **Version:** v0.1.0  
-**Stage:** Early Development / Initial Setup  
-**Priority:** Establishing architecture and planning foundation
+**Stage:** Research Complete → Ready for Implementation  
+**Updated:** 2025-11-26  
+**Priority:** Begin MVP implementation for January deadline
 
-### Completed
+### ✅ Completed (Week 1)
 
+**Research & Architecture:**
+- ✅ Week 1 research complete (4/4 topics, ahead of schedule)
+- ✅ Technology stack finalized
+- ✅ Flask backend architecture research (632 lines)
+- ✅ React frontend architecture research (500+ lines)
+- ✅ SQLite database design research (700+ lines)
+- ✅ Flask-React integration research (600+ lines)
+- ✅ 4 ADRs created documenting all architectural decisions
+- ✅ Research folder organized by category
+
+**Documentation:**
 - ✅ Project structure initialized
-- ✅ Documentation pattern established
+- ✅ Hub-and-spoke documentation pattern established
 - ✅ Git Flow configured
-- ✅ Cursor AI rules created
+- ✅ Exploration phase complete (requirements gathered)
+- ✅ Research tracking system implemented
+- ✅ Cursor AI rules comprehensive
 
-### In Progress
+### 🟠 In Progress
 
-- 🟠 Defining first features
-- 🟠 Technology stack decisions
+- 🟠 Ready to begin implementation setup
 
-### Planned
+### 🟡 Planned (Next Steps)
 
-- 🟡 Backend implementation
-- 🟡 Frontend implementation
-- 🟡 Database schema design
-- 🟡 Initial feature development
+**Option 1: Begin Implementation**
+- Create backend directory structure
+- Initialize Flask application with application factory
+- Create frontend directory structure with Vite
+- Implement first feature (Daily Focus / Tasks)
+- Test Flask + React integration
+
+**Option 2: Continue Research (Week 2)**
+- Microsoft Graph API - Outlook integration
+- Microsoft 365 ecosystem discovery
+- Data models (Daily Focus, Learning, Skills)
+
+### Technology Stack (Decided)
+
+**Backend:** Python + Flask + SQLAlchemy + SQLite  
+**Frontend:** React 18 + Vite + Zustand + React Router v6  
+**Integration:** Vite proxy (dev), Flask serves React (prod)  
+**Decided:** 2025-11-26 (ADR-0001 through ADR-0004)
 
 ---
 
