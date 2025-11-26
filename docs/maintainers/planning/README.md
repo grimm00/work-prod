@@ -46,7 +46,9 @@ planning/
 │       ├── status-and-next-steps.md # Current status
 │       ├── quick-start.md     # Implementation guide
 │       ├── phase-*.md         # Phase details
-│       └── fix/               # Troubleshooting docs
+│       ├── deliverables/      # Planning outputs (templates, guides)
+│       ├── fix/               # Troubleshooting docs
+│       └── archived/          # Historical documents
 ├── releases/                  # 📡 SPOKE - Release management
 │   ├── README.md              # Release hub
 │   ├── history.md             # Release timeline

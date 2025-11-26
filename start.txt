@@ -7,7 +7,21 @@ Manage Productivity and Engagement for Work
 - [x] Standard Project
 
 ## Scope
-[Define the scope and boundaries of this project]
+This project is meant to help me with understanding how I am able to manage my work overall. 
+- First, I am an DevOps Specialist apprentice at a trading firm. I have access to a macbook 24/7 where I go most of my work.
+- I have a manager that is taking on the role as our main instructor, taking us through most of the tech stack/workflows we'll be using on the job, but 
+a lot of this is like very general in a sense, where we're like a developing "egg" where we are able to find our focus area and what team we would be a good
+fit on during our next rotation. 
+- We also have coaches assigned to each of us to further explore anything that we are learning. They also give their input into what they observe when
+working with us in the time that they can. 
+- We've been learning a lot about many different technologies and tools, but there has not been any real direction (believe this is part of the egg thing.)
+We will be on a dedictated team in our next rotation so this will definitely be different.
+- I have 6 other members of the cohort that I have developed some good relationships with, but I feel like I can really be better in engaging with my fellow apprentices.
+- That said, I think it all comes down to me not knowing how to speak intelligently and act swiftly to handling priorities and getting the most out of my opportunities here:
+---- I would like to maximize my time with my managers, coaches, teams, and even the optional Slack channels and communities that I'm interested in. 
+- After the next rotation is where we have a high chance of being hired, but I want to be a great candidate regardless and get ahead by devloping strong
+habits and workflows now. This especially includes dealing with calendars, engagement, current projects (there is a lot lol), organization, etc.
+- I would like to emphasize that there may be large gaps in my knowledge on these matters, and I'm sure there are question I'm not even sure to ask. 
 
 ## Project Structure Preferences
 - [x] Use hub-and-spoke documentation pattern
@@ -23,7 +37,7 @@ Manage Productivity and Engagement for Work
 - [x] PR-based code changes (minimal diffs for rate limiting)
 
 ## Tool Integrations
-- [ ] Sourcery AI for code review
+- [x] Sourcery AI for code review
 - [ ] Bugbot for bug detection
 - [ ] Dev-toolkit integration (cd ~/Projects/dev-toolkit)
 - [x] Cursor IDE with AI rules (.cursor/rules/main.mdc)

@@ -1,0 +1,487 @@
+---
+alwaysApply: true
+---
+
+# Work Productivity Project - Cursor AI Rules
+
+**Purpose:** Guide AI assistance to align with project best practices and workflow  
+**Last Updated:** 2025-11-26  
+**Status:** ✅ Active
+
+---
+
+## 🎯 Project Overview
+
+This is a work productivity and engagement management system using:
+
+- **Hub-and-spoke documentation pattern** for organization
+- **Feature-based planning** with phased development
+- **Git Flow** version control strategy
+- **Progressive disclosure** for documentation (Overview → Details → Analysis)
+
+---
+
+## 📁 Documentation Standards
+
+### Hub-and-Spoke Pattern
+
+**ALWAYS follow this pattern when creating or updating documentation:**
+
+1. **Hub Files (README.md)**
+
+   - Serve as navigation entry points
+   - Include "📋 Quick Links" section at the top
+   - Provide overview of the directory/feature
+   - Link to spoke documents
+   - Include status indicators and last updated date
+
+2. **Spoke Documents**
+
+   - Focus on single topics or phases
+   - Link back to hub files
+   - Use descriptive filenames (e.g., `feature-plan.md`, `phase-1.md`)
+   - Include status and date metadata
+
+3. **Progressive Disclosure**
+   - Start with high-level overview
+   - Provide links to detailed documents
+   - Use clear section hierarchy
+   - Avoid overwhelming users with too much detail in hub files
+
+### Status Indicators
+
+Use these **consistently** across all documentation:
+
+- 🔴 **Not Started** - Planning stage only
+- 🟡 **Planned** - Approved but not yet begun
+- 🟠 **In Progress** - Active development
+- ✅ **Active/Complete** - Operational or finished
+
+### Date Format
+
+Always use: `YYYY-MM-DD` format (e.g., 2025-11-26)
+
+### File Naming Conventions
+
+- Use **kebab-case** for file names: `feature-plan.md`, `status-and-next-steps.md`
+- Use **descriptive names**: `phase-1-foundation.md` not `p1.md`
+- README.md files are always **UPPERCASE**
+
+---
+
+## 🚀 Git Flow Workflow
+
+### Branch Strategy
+
+**ALWAYS follow this branching model:**
+
+- `main` - Production releases ONLY (protected)
+- `develop` - Ongoing development (protected)
+- `feat/*` - Feature branches (e.g., `feat/time-tracking`)
+- `fix/*` - Bug fixes (e.g., `fix/login-error`)
+- `docs/*` - Documentation updates
+- `chore/*` - Maintenance tasks
+
+### Commit Requirements
+
+1. **Feature/Fix Branches**
+
+   - REQUIRE pull requests to develop/main
+   - Full testing and linting required
+   - External reviews on release branches
+   - Use conventional commits format
+
+2. **Documentation/Chore Branches**
+
+   - CAN push directly to develop/main
+   - Minimal validation required
+   - Focus on clarity and accuracy
+
+3. **Commit Message Format**
+
+   ```
+   type(scope): brief description
+
+   Longer explanation if needed
+   ```
+
+   Types: feat, fix, docs, chore, test, refactor
+
+---
+
+## 📊 Feature Planning Process
+
+### Creating New Features
+
+**ALWAYS follow this structure when creating features:**
+
+1. **Create Feature Directory**
+
+   ```
+   docs/maintainers/planning/features/[feature-name]/
+   ```
+
+2. **Required Files**
+
+   - `README.md` - Feature hub with quick links
+   - `feature-plan.md` - High-level overview and phases
+   - `status-and-next-steps.md` - Current progress tracking
+   - `phase-1.md` - First phase details (additional phases as needed: `phase-2.md`, `phase-3.md`, etc.)
+   - `deliverables/README.md` - Hub for planning outputs (templates, guides, documentation)
+   - `fix/README.md` - Troubleshooting hub (create as needed)
+
+3. **Feature Plan Structure**
+
+   ```markdown
+   # [Feature Name] - Feature Plan
+
+   **Status:** [Status Indicator]
+   **Created:** [YYYY-MM-DD]
+   **Priority:** [High/Medium/Low]
+
+   ## 📋 Overview
+
+   [User-facing description]
+
+   ## 🎯 Success Criteria
+
+   - [ ] Measurable criterion 1
+   - [ ] Measurable criterion 2
+
+   ## 📅 Implementation Phases
+
+   ### Phase 1: [Name]
+
+   - [ ] Task 1
+   - [ ] Task 2
+
+   ## 🚀 Next Steps
+
+   [Immediate next actions]
+   ```
+
+4. **Phase Document Structure**
+
+   ```markdown
+   # [Feature Name] - Phase [N]: [Name]
+
+   **Status:** [Status]
+   **Duration:** [Estimate]
+
+   ## 📋 Overview
+
+   [Phase purpose]
+
+   ## 🎯 Goals
+
+   - Goal 1
+   - Goal 2
+
+   ## 📝 Tasks
+
+   - [ ] Task 1
+   - [ ] Task 2
+
+   ## ✅ Completion Criteria
+
+   - [ ] Criterion 1
+   ```
+
+### Feature Development Lifecycle
+
+1. **Discovery** - Identify opportunity, create directory
+2. **Planning** - Write feature-plan.md, break into phases
+3. **Implementation** - Execute phases, update status documents
+4. **Completion** - Document results, archive superseded docs
+
+---
+
+## 🏗️ Project Structure
+
+### Directory Organization
+
+**Respect this structure when creating files:**
+
+```
+work-prod/
+├── backend/              # Server-side logic (🔴 Not Started)
+├── frontend/             # User interface (🔴 Not Started)
+├── tests/                # Test suites (🔴 Not Started)
+├── scripts/              # Automation scripts (🔴 Not Started)
+├── docs/                 # Documentation
+│   └── maintainers/      # Project management HUB
+│       ├── planning/     # Feature & release planning
+│       │   ├── features/ # Feature-based development
+│       │   ├── releases/ # Version management
+│       │   ├── phases/   # Development phases
+│       │   └── notes/    # Planning insights
+│       ├── decisions/    # Architecture Decision Records
+│       ├── feedback/     # External code reviews
+│       └── archived/     # Historical documentation
+└── README.md             # Project hub
+```
+
+### File Location Rules
+
+1. **Feature Planning** → `docs/maintainers/planning/features/[feature-name]/`
+2. **Planning Outputs (Deliverables)** → Within feature directories under `deliverables/`
+   - Templates, guides, and documentation produced from planning
+   - NOT code implementation (code goes in backend/frontend)
+3. **Release Management** → `docs/maintainers/planning/releases/vX.Y.Z/`
+4. **Architecture Decisions** → `docs/maintainers/decisions/`
+5. **User Documentation** → `docs/` (user-facing guides)
+6. **Troubleshooting** → Within feature directories under `fix/`
+
+---
+
+## 🎨 Code and Development Standards
+
+### Technology Stack (To Be Determined)
+
+- **Backend:** TBD (suggest Python/Flask or Node.js/Express)
+- **Frontend:** TBD (suggest React or Vue.js)
+- **Database:** TBD (suggest PostgreSQL or SQLite)
+- **Testing:** TBD (suggest pytest or Jest)
+
+### Code Quality
+
+When writing code:
+
+1. Follow language-specific best practices
+2. Write clear, self-documenting code
+3. Include inline comments for complex logic
+4. Create unit tests for new functionality
+5. Update documentation when changing behavior
+
+---
+
+## 📝 Decision Documentation
+
+### When to Create ADRs (Architecture Decision Records)
+
+Create ADRs in `docs/maintainers/decisions/` for:
+
+- Technology stack choices
+- Architecture patterns
+- Database schema decisions
+- API design approaches
+- Security implementations
+
+### ADR Format
+
+```markdown
+# ADR-[NNNN]: [Title]
+
+**Status:** [Proposed/Accepted/Deprecated/Superseded]
+**Date:** [YYYY-MM-DD]
+
+## Context
+
+[What is the issue we're facing?]
+
+## Decision
+
+[What decision did we make?]
+
+## Consequences
+
+### Positive
+
+- Benefit 1
+- Benefit 2
+
+### Negative
+
+- Trade-off 1
+- Trade-off 2
+
+## Alternatives Considered
+
+- Alternative 1: [Why not chosen]
+- Alternative 2: [Why not chosen]
+```
+
+---
+
+## 🔄 CI/CD Integration
+
+### Testing Requirements
+
+- **Feature branches:** Full test suite, linting, type checking
+- **Documentation branches:** Markdown validation only
+- **Release branches:** Full validation + external reviews
+
+### Tool Integrations
+
+**Currently Active:**
+
+- ✅ Sourcery AI for code review
+- ✅ GitHub CLI for repo management
+- ✅ Cursor IDE with AI rules
+
+**Planned:**
+
+- 🟡 Bugbot for bug detection
+- 🟡 Dev-toolkit integration
+
+---
+
+## 🎯 AI Assistant Guidelines
+
+### When Suggesting Changes
+
+1. **Respect existing patterns** - Don't introduce new organizational patterns
+2. **Update documentation** - When creating features, update relevant hub files
+3. **Maintain consistency** - Use established status indicators and date formats
+4. **Follow templates** - Use feature plan and phase templates
+5. **Link bidirectionally** - Hub → Spoke and Spoke → Hub
+
+### When Creating New Features
+
+1. Create feature directory with all required files
+2. Update `docs/maintainers/planning/features/README.md` with new feature link
+3. Add entry to project roadmap
+4. Use appropriate status indicators
+5. Include deliverables/ directory for planning outputs (templates, guides, documentation)
+6. Include fix/ directory structure if troubleshooting is expected
+
+### When Making Code Changes
+
+1. Check if documentation needs updating
+2. Determine if PR is required (feat/fix) or can push directly (docs/chore)
+3. Write tests for new functionality
+4. Update relevant README files
+5. Consider if ADR is needed for significant decisions
+
+### Response Style
+
+- Be clear and actionable
+- Provide rationale for suggestions
+- Reference project patterns
+- Offer to implement rather than just suggest
+- Ask clarifying questions when scope is unclear
+
+---
+
+## 📚 Reference Templates
+
+### Quick Links Section Template
+
+```markdown
+## 📋 Quick Links
+
+### [Category Name]
+
+- **[Link 1](path/to/doc.md)** - Brief description (🟠 Status)
+- **[Link 2](path/to/doc.md)** - Brief description (✅ Status)
+```
+
+### Document Footer Template
+
+```markdown
+---
+
+**Last Updated:** [YYYY-MM-DD]  
+**Status:** [Status Indicator]  
+**Next:** [Next action or milestone]
+```
+
+### Hub File Opening Template
+
+```markdown
+# [Title]
+
+**Purpose:** [One-line description]  
+**Status:** [Status Indicator]  
+**Last Updated:** [YYYY-MM-DD]
+
+---
+
+## 📋 Quick Links
+
+[Links here]
+
+---
+
+## 🎯 Overview
+
+[Content here]
+```
+
+---
+
+## 🔍 Project-Specific Context
+
+### Target Audience
+
+**Primary User:** Apprentice seeking to improve work productivity and engagement
+
+### Core Goals
+
+1. **Time Management** - Track and optimize work hours
+2. **Task Tracking** - Manage daily tasks and priorities
+3. **Engagement Monitoring** - Measure and improve work engagement
+4. **Progress Visualization** - Clear insights into productivity patterns
+5. **Reflection Tools** - Support for daily/weekly reflections
+
+### Success Metrics
+
+- Improved task completion rates
+- Better time allocation awareness
+- Increased engagement scores
+- Consistent daily/weekly reviews
+- Data-driven productivity insights
+
+---
+
+## 🚧 Current Project State
+
+**Version:** v0.1.0  
+**Stage:** Early Development / Initial Setup  
+**Priority:** Establishing architecture and planning foundation
+
+### Completed
+
+- ✅ Project structure initialized
+- ✅ Documentation pattern established
+- ✅ Git Flow configured
+- ✅ Cursor AI rules created
+
+### In Progress
+
+- 🟠 Defining first features
+- 🟠 Technology stack decisions
+
+### Planned
+
+- 🟡 Backend implementation
+- 🟡 Frontend implementation
+- 🟡 Database schema design
+- 🟡 Initial feature development
+
+---
+
+## 📞 Maintenance
+
+### Updating These Rules
+
+**Update this file when:**
+
+- New patterns are established
+- Technology stack is chosen
+- Major architectural decisions are made
+- Workflow processes change
+- New tools are integrated
+
+**Update Process:**
+
+1. Make changes to this file
+2. Commit with message: `docs(cursor-rules): [description]`
+3. Push to develop branch (docs/\* can push directly)
+4. No PR required for cursor rules updates
+
+---
+
+**Last Updated:** 2025-11-26  
+**Status:** ✅ Active  
+**Next:** Define first productivity tracking features

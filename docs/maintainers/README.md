@@ -2,7 +2,7 @@
 
 **Purpose:** Central hub for maintainer-facing documentation and project management  
 **Status:** ✅ Active  
-**Last Updated:** [Date]
+**Last Updated:** 2025-11-26
 
 ---
 
@@ -10,6 +10,7 @@
 
 ### Core Management
 
+- **[Exploration Hub](exploration/README.md)** - Requirements gathering and research (🟠 In Progress)
 - **[Planning Hub](planning/README.md)** - Feature planning, releases, and project phases
 - **[Decisions](decisions/)** - Architecture decision records (ADRs)
 - **[Feedback](feedback/)** - External code reviews and feedback
@@ -23,10 +24,11 @@ The maintainers directory serves as the central coordination point for project m
 
 ### Key Functions
 
-1. **Planning Management** - Feature planning, releases, and project phases
-2. **Decision Tracking** - Architecture decisions and rationale documentation
-3. **Feedback Integration** - External code reviews and feedback
-4. **Historical Preservation** - Archived documentation and superseded documents
+1. **Exploration & Research** - Requirements gathering and technology research
+2. **Planning Management** - Feature planning, releases, and project phases
+3. **Decision Tracking** - Architecture decisions and rationale documentation
+4. **Feedback Integration** - External code reviews and feedback
+5. **Historical Preservation** - Archived documentation and superseded documents
 
 ---
 
@@ -35,6 +37,7 @@ The maintainers directory serves as the central coordination point for project m
 ```
 docs/maintainers/
 ├── README.md          # 📍 HUB - This file
+├── exploration/       # 📡 SPOKE - Requirements and research
 ├── planning/          # 📡 SPOKE - Project planning hub
 │   ├── features/      # Feature-based planning
 │   ├── releases/      # Release management
@@ -73,6 +76,13 @@ docs/maintainers/
 
 ## 🚀 Quick Start
 
+### For Exploration & Research
+
+1. Create exploration document: `exploration/[topic].md`
+2. Document requirements, research findings, or analysis
+3. Link to relevant planning or decision documents
+4. Update exploration hub with new document
+
 ### For New Features
 
 1. Create feature directory: `planning/features/[feature-name]/`
@@ -96,6 +106,10 @@ docs/maintainers/
 
 ## 📚 Related Documentation
 
+### Exploration
+
+- [Exploration Hub](exploration/README.md) - Requirements gathering and research
+
 ### Planning
 
 - [Planning Hub](planning/README.md) - Project planning overview
@@ -112,7 +126,7 @@ docs/maintainers/
 
 ---
 
-**Last Updated:** [Date]  
+**Last Updated:** 2025-11-26  
 **Status:** ✅ Active  
-**Next:** [Next maintainer task]
+**Next:** Complete exploration phase requirements gathering
 

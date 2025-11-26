@@ -47,12 +47,45 @@ features/
 │   ├── phase-2.md                   # Phase 2 details
 │   ├── phase-N.md                   # Additional phases
 │   ├── [topic]-analysis.md          # Analysis documents
+│   ├── deliverables/                # 📁 Planning outputs
+│   │   ├── README.md                # Deliverables hub
+│   │   ├── [template].md            # Templates produced
+│   │   ├── [guide].md               # Guides produced
+│   │   └── [documentation].md       # Documentation artifacts
 │   ├── fix/                         # 📁 Troubleshooting
 │   │   ├── README.md                # Fix hub
 │   │   └── *.md                     # Fix documentation
 │   └── archived/                    # 📁 Superseded docs
 │       └── old-plan.md              # Historical documents
 ```
+
+### Directory Breakdown
+
+**Root Level (Planning/Coordination):**
+
+- Core planning and coordination files
+- Feature plans, phases, status tracking, analysis documents
+- "Planning about the work"
+
+**deliverables/ (Planning Outputs):**
+
+- Templates produced from planning (e.g., lesson-template.md, form-template.md)
+- Documentation guides created as planning outputs
+- User-facing content and guides
+- Any artifacts/outputs from the planning process
+- **NOT code implementation** (backend/frontend code stays in respective directories)
+
+**fix/ (Troubleshooting):**
+
+- Known issues and solutions
+- Troubleshooting documentation
+- Error fixes and workarounds
+
+**archived/ (Historical):**
+
+- Superseded planning documents
+- Old versions of plans
+- Historical reference material
 
 ---
 
@@ -145,6 +178,8 @@ features/
 - [ ] feature-plan.md with overview
 - [ ] phase-1.md with first phase details
 - [ ] status-and-next-steps.md created
+- [ ] deliverables/README.md created (for planning outputs)
+- [ ] fix/README.md created (if troubleshooting expected)
 - [ ] Feature added to features/README.md
 - [ ] Project roadmap updated
 
