@@ -45,6 +45,26 @@
 
 ---
 
+## 📊 Progress Dashboard
+
+**Overall Progress:** 1/25 topics complete (4%)  
+**Week 1 Progress:** 1/4 complete (25%) ⚠️  
+**Target:** Complete all Week 1 research by Dec 2
+
+### Quick Status
+
+| Week | Topics | Complete | Status |
+|------|--------|----------|--------|
+| Week 1 (Critical) | 4 | 1 | 🟠 In Progress |
+| Week 2 (High) | 5 | 0 | 🔴 Not Started |
+| Week 3 (High) | 5 | 0 | 🔴 Not Started |
+| Week 4 (Medium) | 7 | 0 | 🔴 Not Started |
+| Post-MVP (Low) | 5 | 0 | 🔴 Deferred |
+
+**📋 Detailed Tracking:** [Research Progress Tracker](research-progress.md)
+
+---
+
 ## 🎯 Overview
 
 The research directory contains in-depth research findings and analysis for all technical and product decisions. Each research document follows the pattern: **Research → Analysis → Recommendations → Decision**.
