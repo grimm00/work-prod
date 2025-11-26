@@ -11,12 +11,13 @@
 ### Exploration Documents
 
 - **[Scope Clarification Questionnaire](scope-clarification-questionnaire.md)** - Feature scope and expansion opportunities (✅ Complete)
+- **[Current State Inventory](current-state-inventory.md)** - Projects, repos, and workflow context (🟠 In Progress)
 - **[Requirements](requirements.md)** - Comprehensive requirements gathering (🟠 In Progress)
 - **[Workflow Analysis](workflow-analysis.md)** - Current vs. ideal workflows (🔴 Not Started)
 
 ### Related
 
-- **[Research Hub](../research/README.md)** - Research findings and analysis (🟠 In Progress)
+- **[Research Hub](../research/README.md)** - Research findings and analysis (✅ Week 1 Complete)
 
 ---
 
