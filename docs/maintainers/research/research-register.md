@@ -1,15 +1,51 @@
 # Research Register
 
 **Purpose:** Catalog of research topics to investigate before implementation  
-**Status:** 🟡 Planned  
+**Status:** 🟠 In Progress  
 **Created:** 2025-11-26  
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-12-01  
+**Week 1:** ✅ Complete (4/4 topics)  
+**Inventory Refined:** 2025-12-01
+
+---
+
+## ⚠️ Update 2025-12-01: Inventory Findings Refined Research Plan
+
+**Context:** Automated project inventory system discovered 59 unique projects and 24 languages, revealing data-driven insights that refine research priorities.
+
+**Key Findings That Impact Research:**
+
+1. **Projects Feature Under Evaluation** 
+   - 59 projects (20 Work, 16 Personal, 17 Learning, 6 Inactive) validates need
+   - Decision: Being evaluated for promotion to 8th core feature during Week 2
+   - See: [Requirements - Projects Feature Analysis](../exploration/requirements.md#projects-feature-potential-8th-core-feature)
+
+2. **Multi-Org Priority Elevated**
+   - Real data shows 34% Work, 27% Personal, 29% Learning split
+   - Priority: 🔵 LOW → ⚠️ Under Review for 🟡 MEDIUM (Week 4)
+   - See: Section 8.1 below
+
+3. **Skills Matrix Has Real Seed Data**
+   - 24 languages with usage patterns now available
+   - Week 2 research can use [discovered-skills.md](../exploration/discovered-skills.md)
+   - Schema must support "used in X projects" tracking
+
+4. **SQLite Schema Gaps Identified**
+   - Missing: Projects table, Skills-to-Projects relationship, classification patterns
+   - See: [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-12-01-inventory-data-reveals-schema-gaps)
+
+**Impact on Week 2 Research:**
+- Skills Matrix research: Use real 24-language dataset
+- Data models: Design Projects table and relationships
+- Daily Focus: Consider project context for tasks
 
 ---
 
 ## 📋 Overview
 
 This register catalogs all research topics identified for the work productivity and engagement management system. Topics are organized by category and prioritized based on impact on MVP delivery (January deadline) and user needs from the scope clarification questionnaire.
+
+**Inventory-Driven Refinement:** After Week 1 completion, automated inventory system provided real user data (59 projects, 24 languages) that refined requirements and research priorities.
 
 ### Priority Levels
 
@@ -797,9 +833,27 @@ POC already works and generated valuable data (59 unique projects cataloged, 24 
 
 ### 8.1 Multi-Organization Support Architecture
 
-**Priority:** 🔵 LOW  
+**Priority:** 🔵 LOW → ⚠️ Under Review (2025-12-01)  
 **Category:** Feature-Specific  
-**Timeline:** Post-MVP
+**Timeline:** Post-MVP (possibly Week 4)
+
+**⚠️ Update 2025-12-01: Inventory Data Suggests Priority Increase**
+
+**Inventory Findings:**
+- 20 Work/Apprenti projects (34%)
+- 16 Personal projects (27%)
+- 17 Learning projects (29%)
+- 6 Inactive projects (10%)
+
+**Current Assessment:**
+- Clear organizational separation exists in user's actual project data
+- Context switching is a documented pain point (questionnaire)
+- Real data validates need (not hypothetical)
+- Could affect data model design across multiple features
+
+**Recommendation:** Consider elevating to 🟡 MEDIUM priority (Week 4) alongside other polish/architecture topics.
+
+**Decision Point:** Week 2 data model research (when designing Skills, Tasks, Projects tables)
 
 **Research Questions:**
 
@@ -807,15 +861,22 @@ POC already works and generated valuable data (59 unique projects cataloged, 24 
 - Unified vs. separate views?
 - Organization-specific configurations?
 - Data isolation between organizations?
+- Should `organization_id` be added to Skills, Tasks, Projects tables?
 
-**Why Low Priority:**
+**Why Originally Low Priority:**
 User marked as HIGH priority (Q8) but noted "DRW is primary focus" - can implement basic support initially, enhance later.
+
+**Why Reconsidering:**
+- 59 projects show clear org separation (34% Work, 27% Personal, 29% Learning)
+- Context switching documented as pain point
+- May be simpler to design org support into schema from start vs. retrofit later
 
 **Resources:**
 
 - Multi-tenancy patterns
 - Organization hierarchy modeling
 - Context switching UX
+- [Requirements - Multi-Org Priority Re-evaluation](../../exploration/requirements.md#multi-organization-support-priority-re-evaluation)
 
 **Deliverables:**
 

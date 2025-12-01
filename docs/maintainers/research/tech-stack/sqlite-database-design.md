@@ -1,10 +1,57 @@
 # SQLite Database Design Research
 
-**Status:** ✅ Complete  
+**Status:** ✅ Complete (⚠️ Refinement Needed - See Update 2025-12-01)  
 **Priority:** 🔴 CRITICAL  
 **Category:** Data Model  
 **Timeline:** Week 1  
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-12-01  
+**Original Completion:** 2025-11-26
+
+---
+
+## ⚠️ Update 2025-12-01: Inventory Data Reveals Schema Gaps
+
+**Context:** Automated project inventory (59 projects, 24 languages) revealed data model needs not captured in original Week 1 research.
+
+**Gaps Identified:**
+
+1. **No Projects Table**
+   - Inventory revealed: 59 projects (20 Work, 16 Personal, 17 Learning, 6 Inactive)
+   - Current schema: No way to track projects, their tech stack, or status
+   - Needed for: Projects feature (potential 8th core feature)
+
+2. **Skills-to-Projects Relationship Missing**
+   - Inventory shows: Languages used in varying numbers of projects (Python in 18, others in 1-2)
+   - Current schema: Skills table exists, but no way to track "used in X projects"
+   - Needed for: Skills Matrix showing project usage patterns
+
+3. **Classification/Categorization Pattern**
+   - Inventory uses: Classification field (Work, Personal, Learning, Inactive)
+   - Current schema: No standard pattern for categorization beyond org_id
+   - Needed for: Multi-context project management
+
+4. **Organization Field Not Ubiquitous**
+   - Inventory shows: Clear Work (34%) vs Personal (27%) vs Learning (29%) split
+   - Current schema: Organizations table exists, but not all entities link to it
+   - Needed for: Skills table, Tasks table should optionally link to org for context switching
+
+**Impact on Week 2 Research:**
+
+- Skills Matrix data model research must incorporate project tracking
+- Daily Focus may need project context (which project am I working on today?)
+- Consider if Projects should be added as supporting entity or promoted to core feature
+
+**Action Items:**
+
+- Week 2: Design Skills-to-Projects relationship (many-to-many)
+- Week 2: Decide if Projects table needed (see requirements.md for analysis)
+- Week 2: Consider adding optional org_id to more tables for multi-context support
+- If schema changes significantly, amendment to ADR-0003 may be needed
+
+**See Also:**
+- [Requirements - Project Inventory Findings](../../exploration/requirements.md#project-inventory-discovered-data)
+- [Current State Inventory](../../exploration/current-state-inventory.md)
+- [POC Analysis](../automation/inventory-system-poc-analysis.md)
 
 ---
 

@@ -2,7 +2,8 @@
 
 **Status:** 🟠 In Progress  
 **Created:** 2025-11-26  
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-12-01  
+**Inventory Data:** ✅ Added 2025-12-01
 
 ---
 
@@ -119,6 +120,43 @@ This document captures comprehensive requirements for the work productivity and 
    - Challenge: Don't know what questions to ask
    - Challenge: Uncertain about growth areas
    - Impact: Potential missed learning opportunities
+
+### Project Inventory (Discovered Data)
+
+**Status:** ✅ Completed 2025-12-01 via automated inventory system
+
+**Findings:**
+- **59 unique projects** identified across GitHub and local directories
+- **Distribution:**
+  - Work (DRW + Apprenti): 20 projects (34%)
+  - Personal: 16 projects (27%)
+  - Learning: 17 projects (29%)
+  - Inactive/Archived: 6 projects (10%)
+- **24 languages/technologies** discovered across all projects
+- **Project patterns:**
+  - Clear organizational separation needed (Work vs Personal vs Learning)
+  - Mix of active development and archived projects
+  - Strong GitHub integration (25 remote repos, 12 have local clones)
+  - Project lifecycle stages visible (active, learning, inactive)
+
+**Top Technologies by Usage:**
+- Python: 18 projects (31%)
+- Markdown: 17 projects (29%)
+- JavaScript: 13 projects (22%)
+- Shell: 12 projects (20%)
+- HTML, CSS, YAML, JSON: 8-10 projects each
+- 16 additional languages: 1-5 projects each
+
+**Impact on Requirements:**
+- **Skills Matrix:** Has real seed data (24 languages with usage patterns)
+- **Projects Feature:** 59 projects validates need for project organization feature
+- **Multi-Org Support:** Clear split (20 Work vs 16 Personal) shows context-switching need
+- **Daily Focus:** Could benefit from project context (which project am I working on today?)
+
+**See Also:**
+- [Current State Inventory](current-state-inventory.md) - Full project catalog
+- [Discovered Skills](discovered-skills.md) - Languages identified for Skills Matrix
+- [POC Analysis](../research/automation/inventory-system-poc-analysis.md) - How data was gathered
 
 ---
 
@@ -329,6 +367,73 @@ backend/
 - Project activity tracking
 - Work vs. personal repository separation
 - Contribution patterns
+
+---
+
+## 🔮 Potential Feature Expansions
+
+Based on inventory findings and user context, these features warrant consideration:
+
+### Projects Feature (Potential 8th Core Feature)
+
+**Status:** Under evaluation (Week 2 research)
+
+**Motivation:** Inventory revealed 59 projects across work, personal, and learning categories, showing significant need for project organization beyond just Skills Matrix.
+
+**Scope Questions:**
+- Should Projects be promoted from "potential" to core feature?
+- Is this MVP or post-MVP priority?
+- What unique value does project tracking provide beyond Skills Matrix?
+
+**Potential Capabilities:**
+- Track project metadata (name, description, tech stack, status)
+- Associate projects with organization (DRW/Apprenti/Personal)
+- Link projects to skills (which skills used in which projects)
+- Track project status/lifecycle (active, learning, archived)
+- Connect to Daily Focus (what project am I working on today?)
+- GitHub integration (sync repo info)
+- Local project detection
+
+**Integration Points:**
+- **Skills Matrix:** "Used in X projects" for each skill
+- **Daily Focus:** Project context for tasks
+- **Goals:** Link goals to specific projects
+- **Learning Journal:** Associate learnings with project work
+
+**Data Model Needs:**
+- Projects table with: name, path, remote URL, org, classification, status
+- Project-to-Skills relationship (many-to-many)
+- Project-to-Tasks relationship (for Daily Focus)
+- Project-to-Goals relationship
+
+**Decision Timing:** Week 2 data model research
+
+**See Also:**
+- [Current State Inventory](current-state-inventory.md) - Full 59-project catalog
+- [POC Analysis](../research/automation/inventory-system-poc-analysis.md) - Technical debt and data model insights
+
+### Multi-Organization Support Priority Re-evaluation
+
+**Current Priority:** 🔵 LOW (Post-MVP)
+
+**Inventory Shows:**
+- 20 Work/Apprenti projects (34%)
+- 16 Personal projects (27%)
+- Clear separation needed for context switching
+
+**Question:** Should Multi-Org research move from LOW (Post-MVP) to MEDIUM (Week 4)?
+
+**Rationale:**
+- User manages projects across multiple contexts (DRW, Apprenti, Personal, Learning)
+- Context switching is a pain point identified in questionnaire
+- Real data validates need (not hypothetical)
+
+**Implications:**
+- May affect data model design (organization field in multiple tables)
+- May affect UI design (org switcher, filtering)
+- May affect Skills Matrix (skills used at Work vs Personal)
+
+**Decision Timing:** During Week 2-3 data model research
 
 ---
 
