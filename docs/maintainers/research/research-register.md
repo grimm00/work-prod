@@ -15,17 +15,20 @@
 
 **Key Findings That Impact Research:**
 
-1. **Projects Feature Under Evaluation** 
+1. **Projects Feature Under Evaluation**
+
    - 59 projects (20 Work, 16 Personal, 17 Learning, 6 Inactive) validates need
    - Decision: Being evaluated for promotion to 8th core feature during Week 2
    - See: [Requirements - Projects Feature Analysis](../exploration/requirements.md#projects-feature-potential-8th-core-feature)
 
 2. **Multi-Org Priority Elevated**
+
    - Real data shows 34% Work, 27% Personal, 29% Learning split
    - Priority: 🔵 LOW → ⚠️ Under Review for 🟡 MEDIUM (Week 4)
    - See: Section 8.1 below
 
 3. **Skills Matrix Has Real Seed Data**
+
    - 24 languages with usage patterns now available
    - Week 2 research can use [discovered-skills.md](../exploration/discovered-skills.md)
    - Schema must support "used in X projects" tracking
@@ -35,6 +38,7 @@
    - See: [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-12-01-inventory-data-reveals-schema-gaps)
 
 **Impact on Week 2 Research:**
+
 - Skills Matrix research: Use real 24-language dataset
 - Data models: Design Projects table and relationships
 - Daily Focus: Consider project context for tasks
@@ -217,6 +221,76 @@ Must work seamlessly for development workflow.
 
 ## 🟠 HIGH PRIORITY - Core Features
 
+### 2.0 Projects Data Model (NEW - ADDED 2025-12-01)
+
+**Priority:** 🟠 HIGH - **STRATEGIC PIVOT**  
+**Category:** Data Model  
+**Timeline:** Week 2
+
+**⚠️ Strategic Change:** Projects promoted from "potential 8th feature" to **Priority #1 core feature** based on user insight and inventory data (59 projects discovered).
+
+**Research Questions:**
+
+- How to model Projects table? (name, path, remote_url, organization, classification, status, tech_stack)
+- Projects-to-Skills many-to-many relationship design?
+- GitHub integration: how to sync repo metadata automatically?
+- Local project detection: how to discover ~/Projects and ~/Learning projects?
+- Classification system: Work / Personal / Learning / Inactive?
+- Organization context: optional org_id for multi-context support?
+- Project status lifecycle: active / learning / archived / inactive?
+- Import strategy: how to import 59 projects from inventory POC?
+
+**Why High Priority:**
+
+- User insight: "Maybe right now, the project needs to start with organization of my projects in general?"
+- 59 real projects discovered via inventory POC - no organization system exists
+- Foundation for other features (Daily Focus, Skills Matrix, Goals, Learning)
+- Real data available day 1 (can import immediately after schema design)
+
+**Data Available:**
+
+- [Current State Inventory](../exploration/current-state-inventory.md) - All 59 projects cataloged
+- [Discovered Skills](../exploration/discovered-skills.md) - 24 languages for Skills-to-Projects relationship
+- `classifications.json` - User-categorized projects
+- Inventory POC scripts - Import logic reference
+
+**Integration Points:**
+
+- **Skills Matrix:** Projects-to-Skills many-to-many (show "used in X projects")
+- **Daily Focus:** Project context for tasks (simplified: "What project today?")
+- **Goals:** Goals can link to projects (optional project_id FK)
+- **Learning Journal:** Learnings can associate with projects (optional project_id FK)
+
+**Schema Gaps Identified:**
+
+See [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-12-01-inventory-data-reveals-schema-gaps):
+1. No Projects table (59 projects need tracking)
+2. No Skills-to-Projects relationship
+3. No classification/categorization pattern
+4. Organization field not ubiquitous
+
+**Deliverables:**
+
+- Projects Data Model research document
+- Projects table schema design
+- projects_skills junction table design
+- Import strategy for 59 projects
+- GitHub sync strategy
+- Local project detection approach
+
+**Resources:**
+
+- [Projects-First Strategy](../planning/notes/projects-first-strategy.md) - Strategic rationale
+- [Requirements - Projects Priority #1](../exploration/requirements.md#feature-priorities)
+- [POC Analysis](automation/inventory-system-poc-analysis.md) - Implementation insights
+- Week 1 SQLite research (needs Projects table addition)
+
+**Status:** 🔴 Not Started - **Week 2 Priority #1**
+
+**See Also:** Future ADR-0005 will document "Projects as Foundation Architecture" decision
+
+---
+
 ### 2.1 Microsoft Graph API - Outlook Integration
 
 **Priority:** 🟠 HIGH  
@@ -290,11 +364,19 @@ User works at trading firm, likely has full Microsoft 365 suite. Could unlock si
 
 ### 3.1 Miro Platform Capabilities
 
-**Priority:** 🟠 HIGH  
+**Priority:** 🔵 LOW → Deferred (2025-12-01)  
 **Category:** Miro Integration  
-**Timeline:** Week 2-3
+**Timeline:** Post-MVP / Reconsider Later
 
-**Research Questions:**
+**⚠️ Update 2025-12-01: Moved to Deferred**
+
+**Reason for Deferral:**
+- User insight: "I'm only adding Miro because it seems like 'the thing' to have"
+- No clear use case identified during exploration phase
+- Projects-first strategy pivot makes Miro less critical
+- May revisit if visual board/goal tracking needs emerge
+
+**Research Questions** (if reconsidered):
 
 - What can Miro be used for in productivity tracking context?
 - Does Miro have an API for programmatic access?
@@ -303,24 +385,25 @@ User works at trading firm, likely has full Microsoft 365 suite. Could unlock si
 - Webhooks for real-time updates from Miro?
 - Use cases: visual goal tracking, skill matrix, team exploration?
 
-**Why High Priority:**
+**Why Originally High Priority:**
 User just discovered Miro access - could be valuable for visual tracking (skills matrix, goal boards, team exploration).
 
-**Resources:**
+**Why Deferred:**
+Without clear use case, implementing Miro integration would be premature optimization. Focus on Projects organization and Daily Focus first.
+
+**Reconsider If:**
+- User identifies specific visual board need
+- Project planning requires visual Kanban/boards
+- Team exploration needs visual mapping
+
+**Resources** (if reconsidered):
 
 - Miro API documentation
 - Miro REST API reference
 - Miro Web SDK
 - Miro use cases for productivity
 
-**Deliverables:**
-
-- Miro capabilities assessment
-- Potential use cases document
-- Integration architecture (if feasible)
-- Proof of concept
-
-**Status:** 🔴 Not Started
+**Status:** 🔴 Deferred - No Clear Use Case
 
 ---
 
@@ -840,12 +923,14 @@ POC already works and generated valuable data (59 unique projects cataloged, 24 
 **⚠️ Update 2025-12-01: Inventory Data Suggests Priority Increase**
 
 **Inventory Findings:**
+
 - 20 Work/Apprenti projects (34%)
 - 16 Personal projects (27%)
 - 17 Learning projects (29%)
 - 6 Inactive projects (10%)
 
 **Current Assessment:**
+
 - Clear organizational separation exists in user's actual project data
 - Context switching is a documented pain point (questionnaire)
 - Real data validates need (not hypothetical)
@@ -867,6 +952,7 @@ POC already works and generated valuable data (59 unique projects cataloged, 24 
 User marked as HIGH priority (Q8) but noted "DRW is primary focus" - can implement basic support initially, enhance later.
 
 **Why Reconsidering:**
+
 - 59 projects show clear org separation (34% Work, 27% Personal, 29% Learning)
 - Context switching documented as pain point
 - May be simpler to design org support into schema from start vs. retrofit later

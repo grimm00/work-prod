@@ -1,8 +1,9 @@
 # Architecture Decision Records (ADRs)
 
 **Purpose:** Document significant architectural and technical decisions  
-**Last Updated:** 2025-11-26  
-**Status:** ✅ Active
+**Last Updated:** 2025-12-01  
+**Status:** ✅ Active  
+**ADRs Created:** 4 (Week 1 complete) + 1 planned (ADR-0005, Week 2)
 
 ---
 
@@ -14,6 +15,10 @@
 - **[ADR-0002: React Frontend Architecture](ADR-0002-react-frontend-architecture.md)** - Vite, Zustand, feature-based structure (✅ Accepted)
 - **[ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md)** - Local-first, normalized schema, migrations (✅ Accepted)
 - **[ADR-0004: Flask-React Integration Strategy](ADR-0004-flask-react-integration-strategy.md)** - Dev/prod setup, CORS, authentication (✅ Accepted)
+
+### Feature Architecture Decisions
+
+- **ADR-0005: Projects as Foundation Architecture** (🟡 Planned - Week 2) - Strategic pivot: Projects promoted to Priority #1 core feature based on inventory data
 
 ---
 
