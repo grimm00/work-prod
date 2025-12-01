@@ -109,11 +109,16 @@ The exploration directory contains research and requirements gathering documents
 - Initial project scope definition
 - User context gathering
 - Scope clarification questionnaire (user responses complete)
+- Project inventory POC (59 unique projects, 24 languages discovered)
 
 ### 🟠 In Progress
 
 - Requirements documentation
 - Feature prioritization refinement
+
+### 🟡 Scheduled
+
+- **Project Inventory System Refactoring (Week 4)** - POC works and delivered data, but has technical debt. Full research and ADR-0005 scheduled for Week 4 alongside other medium priority topics. See [POC Analysis](../research/automation/inventory-system-poc-analysis.md).
 
 ### 🟡 Planned Exploration
 
@@ -130,12 +135,13 @@ The exploration directory contains research and requirements gathering documents
 
 1. ✅ ~~Complete scope clarification questionnaire~~
 2. ✅ ~~Create research register with topics~~
-3. **CURRENT:** Begin Week 1 critical research (Flask, React, SQLite, integration)
-4. Update requirements document with questionnaire responses
-5. Refine feature priorities based on user input
-6. Execute research register (Weeks 2-4)
-7. Create first feature plan based on requirements and research
-8. Begin MVP implementation (targeting January rotation)
+3. ✅ ~~Complete Week 1 critical research (Flask, React, SQLite, integration)~~
+4. ✅ ~~Complete project inventory POC~~
+5. **CURRENT:** Begin Week 2 HIGH priority research (Microsoft Graph, M365, Data Models)
+6. Execute Weeks 3-4 research (Additional Models, UI, Polish)
+7. Week 4: Research and refactor inventory system (ADR-0005)
+8. Create first feature plan based on requirements and research
+9. Begin MVP implementation (targeting January rotation)
 
 ---
 
@@ -152,7 +158,7 @@ The exploration directory contains research and requirements gathering documents
 
 ---
 
-**Last Updated:** 2025-11-26  
+**Last Updated:** 2025-12-01  
 **Status:** 🟠 In Progress  
-**Next:** Complete requirements.md document
+**Next:** Begin Week 2 HIGH priority research
 

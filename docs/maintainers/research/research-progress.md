@@ -1,8 +1,8 @@
 # Research Progress Tracker
 
 **Purpose:** Track completion status of all research topics  
-**Last Updated:** 2025-11-26  
-**Overall Progress:** 4/25 topics complete (16%)
+**Last Updated:** 2025-12-01  
+**Overall Progress:** 4/26 topics complete (15%)
 
 ---
 
@@ -12,7 +12,7 @@
 
 - 🔴 **CRITICAL (Week 1):** 4/4 complete (100%) ✅ COMPLETE
 - 🟠 **HIGH (Weeks 2-3):** 0/11 complete (0%)
-- 🟡 **MEDIUM (Week 4):** 0/7 complete (0%)
+- 🟡 **MEDIUM (Week 4):** 0/8 complete (0%)
 - 🔵 **LOW (Post-MVP):** 0/5 complete (0%)
 
 ### By Week
@@ -20,7 +20,7 @@
 - **Week 1 (Nov 26 - Dec 2):** 4/4 complete ✅ COMPLETE
 - **Week 2 (Dec 3 - Dec 9):** 0/5 planned
 - **Week 3 (Dec 10 - Dec 16):** 0/5 planned
-- **Week 4 (Dec 17 - Dec 23):** 0/5 planned
+- **Week 4 (Dec 17 - Dec 23):** 0/8 planned
 - **Post-MVP:** 0/5 deferred
 
 ---
@@ -184,6 +184,13 @@
 - **Priority:** 🟡 MEDIUM
 - **Target:** Dec 22-23
 
+### 8.6 Project Inventory & Automation System
+- **Status:** 🟡 POC Complete - Research Scheduled
+- **POC Analysis:** [automation/inventory-system-poc-analysis.md](automation/inventory-system-poc-analysis.md)
+- **Priority:** 🟡 MEDIUM
+- **Target:** Dec 22-23
+- **Notes:** POC delivered 59 projects cataloged, 24 languages for Skills Matrix. Technical debt exists but refactoring not blocking MVP. Full research and ADR-0005 scheduled for Week 4.
+
 ---
 
 ## 🔵 Post-MVP: Future Enhancements
@@ -252,8 +259,9 @@
 - [ ] Privacy & security
 - [ ] Data export
 - [ ] Search architecture
+- [ ] Project inventory & automation system
 
-**Target:** 6/6 complete by Dec 23
+**Target:** 7/7 complete by Dec 23
 
 ---
 

@@ -756,6 +756,43 @@ User wants full search capability (Q4.4) but can be added after core data captur
 
 ---
 
+### 8.6 Project Inventory & Automation System
+
+**Priority:** 🟡 MEDIUM  
+**Category:** Automation / Tooling  
+**Timeline:** Week 4
+
+**Research Questions:**
+
+- Data model for project tracking (classification embedded vs separate)?
+- Pipeline architecture (stages, deduplication timing)?
+- Configuration management approach (config file vs environment variables)?
+- Integration with Skills Matrix and potential Projects feature?
+- Script organization patterns (flat vs subdirectories)?
+- Master orchestration vs individual scripts?
+
+**Why Medium Priority:**
+POC already works and generated valuable data (59 unique projects cataloged, 24 languages identified for Skills Matrix seed data). Refactoring improves maintainability but not blocking MVP development. Week 2-4 focused on HIGH priority user-facing features.
+
+**Resources:**
+
+- Automation best practices
+- Pipeline architecture patterns
+- Configuration management approaches
+- Data model design patterns
+
+**Deliverables:**
+
+- POC analysis document (what works, technical debt)
+- Full research document (data model, pipeline, config options)
+- ADR-0005 for inventory system architecture
+- Refactored implementation (scripts reorganization)
+- Updated documentation
+
+**Status:** 🟡 POC Complete - Research Scheduled Week 4
+
+---
+
 ## 🔵 LOW PRIORITY - Future Enhancements
 
 ### 8.1 Multi-Organization Support Architecture
@@ -953,7 +990,9 @@ User mentioned AI agent could help with prep "once I have all information logged
 - [ ] Daily planning workflow research
 - [ ] Notification & reminder system
 - [ ] Data privacy & security
+- [ ] Data export & portability
 - [ ] Search & filtering architecture
+- [ ] Project inventory & automation system
 
 ### Post-MVP: Enhancements (LOW)
 
