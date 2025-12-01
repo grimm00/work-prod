@@ -232,6 +232,11 @@ Must work seamlessly for development workflow.
 **Research Questions:**
 
 - How to model Projects table? (name, path, remote_url, organization, classification, status, tech_stack)
+- **Learning sub-classification (MVP CRITICAL):** How to model Work-related vs Personal development learning?
+  - Schema: learning_type (work_related | personal_dev | hybrid | null), learning_context, learning_status?
+  - UI implications: filter by learning type, show learning progress?
+  - Metrics: should work-related learning count toward work metrics?
+  - Transitions: how to handle learning projects that change classification?
 - Projects-to-Skills many-to-many relationship design?
 - GitHub integration: how to sync repo metadata automatically?
 - Local project detection: how to discover ~/Projects and ~/Learning projects?
@@ -251,6 +256,7 @@ Must work seamlessly for development workflow.
 
 - [Current State Inventory](../exploration/current-state-inventory.md) - All 59 projects cataloged
 - [Discovered Skills](../exploration/discovered-skills.md) - 24 languages for Skills-to-Projects relationship
+- [Learning Project Taxonomy](data-models/learning-project-taxonomy.md) - Work vs Personal classification design (17 Learning projects)
 - `classifications.json` - User-categorized projects
 - Inventory POC scripts - Import logic reference
 
@@ -264,6 +270,7 @@ Must work seamlessly for development workflow.
 **Schema Gaps Identified:**
 
 See [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-12-01-inventory-data-reveals-schema-gaps):
+
 1. No Projects table (59 projects need tracking)
 2. No Skills-to-Projects relationship
 3. No classification/categorization pattern
@@ -272,9 +279,11 @@ See [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-
 **Deliverables:**
 
 - Projects Data Model research document
-- Projects table schema design
+- Projects table schema design (with learning_type, learning_context, learning_status fields)
 - projects_skills junction table design
-- Import strategy for 59 projects
+- Learning project classification schema (Work-related vs Personal development)
+- Import strategy for 59 projects (including Learning sub-classification)
+- UI mockups for Learning project filters and badges
 - GitHub sync strategy
 - Local project detection approach
 
@@ -362,6 +371,92 @@ User works at trading firm, likely has full Microsoft 365 suite. Could unlock si
 
 ---
 
+### 2.3 Project Search and Filtering Architecture
+
+**Priority:** 🟠 HIGH  
+**Category:** Technology Stack  
+**Timeline:** Week 2
+
+**Context:** 59 projects across multiple classifications need robust search and filtering capabilities. Learning sub-classification adds additional filtering complexity.
+
+**Research Questions:**
+
+- What Python libraries for full-text search? (Whoosh, elasticsearch-py, PostgreSQL FTS?)
+- SQLite FTS5 full-text search capabilities and performance?
+- Tagging system architecture (free-form tags vs predefined categories)?
+- Multi-faceted filtering: organization + classification + tech_stack + learning_type?
+- Search performance with 59+ projects (scalability)?
+- React UI components for search/filter (search bars, tag clouds, faceted filters)?
+- Auto-complete and suggestion strategies?
+
+**Why High Priority:**
+
+- 59 projects is too many to browse without search
+- Learning sub-classification (work_related vs personal_dev vs hybrid) adds filtering complexity
+- User needs quick discovery: "all Python work projects" or "personal learning projects"
+- Projects feature is Priority #1 - search is essential for usability
+
+**Technology Options:**
+
+**1. SQLite FTS5 (Full-Text Search extension)** ⭐ RECOMMENDED
+
+- **Pros:** Built-in, no additional dependencies, fast for <1000 records, simple integration
+- **Cons:** Limited to text search, no semantic search, requires separate FTS table
+- **Use Case:** Search project names, descriptions, tech stack
+
+**2. Flask-Elasticsearch**
+
+- **Pros:** Powerful search, typo tolerance, semantic capabilities, aggregations
+- **Cons:** Heavy infrastructure requirement, overkill for 59 projects, adds complexity
+- **Use Case:** If project count grows to thousands
+
+**3. Simple SQL LIKE with indexes**
+
+- **Pros:** No new dependencies, works immediately
+- **Cons:** Slow with growth, no relevance ranking, poor UX for multi-word queries
+- **Use Case:** Temporary solution only
+
+**React Search/Filter Libraries:**
+
+- `react-select` - Multi-select dropdowns for tags/classifications (robust, accessible)
+- `react-search-autocomplete` - Autocomplete search bars with suggestions
+- `use-debounce` - Debounce search input for performance (reduce DB queries)
+- `@tanstack/react-table` - Advanced table with built-in filtering (if using table view)
+
+**Filtering Requirements:**
+
+**Required Filters:**
+
+1. **Organization:** DRW / Apprenti / Personal / null
+2. **Classification:** Work / Personal / Learning / Inactive
+3. **Learning Type:** work_related / personal_dev / hybrid / null (only for Learning projects)
+4. **Tech Stack:** Multi-select from 24 discovered languages
+5. **Status:** active / archived / paused / etc.
+
+**Advanced Features:**
+
+- **Search:** Free-text search across project name, description, path
+- **Combined Filters:** AND logic (Organization=DRW AND Classification=Learning AND learning_type=work_related)
+- **Saved Searches:** Store common filter combinations (e.g., "My Active Work Projects")
+
+**Deliverables:**
+
+- Search architecture decision (recommend: SQLite FTS5 + react-select)
+- Tagging system design (if implemented)
+- Filter UX mockups (wireframes for search bar + filter panel)
+- Performance benchmarks (search latency with 59 projects)
+- Schema design for FTS5 table (if using)
+
+**Resources:**
+
+- [SQLite FTS5 Documentation](https://www.sqlite.org/fts5.html)
+- [react-select Documentation](https://react-select.com/)
+- [Learning Project Taxonomy](data-models/learning-project-taxonomy.md) - Filtering requirements
+
+**Status:** 🔴 Not Started - **Week 2 Priority #2** (after Projects Data Model)
+
+---
+
 ### 3.1 Miro Platform Capabilities
 
 **Priority:** 🔵 LOW → Deferred (2025-12-01)  
@@ -371,6 +466,7 @@ User works at trading firm, likely has full Microsoft 365 suite. Could unlock si
 **⚠️ Update 2025-12-01: Moved to Deferred**
 
 **Reason for Deferral:**
+
 - User insight: "I'm only adding Miro because it seems like 'the thing' to have"
 - No clear use case identified during exploration phase
 - Projects-first strategy pivot makes Miro less critical
@@ -392,6 +488,7 @@ User just discovered Miro access - could be valuable for visual tracking (skills
 Without clear use case, implementing Miro integration would be premature optimization. Focus on Projects organization and Daily Focus first.
 
 **Reconsider If:**
+
 - User identifies specific visual board need
 - Project planning requires visual Kanban/boards
 - Team exploration needs visual mapping
@@ -1106,6 +1203,91 @@ User mentioned AI agent could help with prep "once I have all information logged
 
 ---
 
+## 🔵 DEFERRED - Post-MVP Considerations
+
+### 9.1 ITIL 4 Framework Integration
+
+**Priority:** 🔵 DEFERRED  
+**Category:** Process Framework  
+**Timeline:** Post-MVP
+
+**Context:** User is ITIL 4 Certified and interested in applying ITIL service management concepts to project organization.
+
+**User Question (2025-12-01):** _"I believe that there needs to be some kind of framework surrounding how we go about organizing our projects. I am ITIL 4 Certified, and honestly this is the only thing that I can think about adding to the 'brain' of this project. I'm open to other ways to inject organizational thought processes into our project."_
+
+**Potential Applications:**
+
+- Service lifecycle stages for projects (design → transition → operation → continual improvement)
+- Change management for project status transitions
+- Service catalog metaphor for project organization
+- Value streams for learning and skill development
+- Service desk concepts for task/issue management
+- Continual improvement mindset for productivity optimization
+
+**Why Deferred:**
+
+- MVP focuses on basic project organization first (Projects Priority #1)
+- ITIL concepts valuable but not blocking functionality
+- User prefers: "Focus on basic organization first, discuss ITIL integration after MVP"
+- Need working system before adding process framework layer
+- Can retrospectively map ITIL concepts to MVP structure
+
+**Decision Point:** After Phase 1 (Projects CRUD) operational, evaluate if ITIL 4 concepts would enhance UX or organizational clarity.
+
+**Resources:**
+
+- ITIL 4 Foundation documentation
+- Service management best practices
+- User's ITIL expertise (primary resource)
+
+**Deliverables (Post-MVP):**
+
+- ITIL 4 mapping to project lifecycle
+- Service catalog design for project types
+- Change management workflow for project status
+- Value stream mapping for learning paths
+
+**Status:** 🔵 DEFERRED - Evaluate after Phase 1
+
+---
+
+### 9.2 Project Hash/Deduplication Strategy
+
+**Priority:** 🔵 NOT NEEDED  
+**Category:** Data Integrity  
+**Timeline:** N/A
+
+**User Question (2025-12-01):** _"Projects may need a hash (based on name and author maybe? Some conventional means?) to make sure project duplication doesn't happen, which will be key if I ever use another machine with similar projects."_
+
+**Decision:** NOT NEEDED
+
+**Rationale:**
+
+- **Current Deduplication Works:** Inventory POC uses `remote_url` for deduplication (proven effective)
+- **Deduplication Script Success:** `deduplicate-projects.py` successfully merged GitHub + local projects by remote URL
+- **Data Validates Approach:** 59 projects deduplicated to 59 unique entries (from 70 with duplicates) - 100% success rate
+- **Local Projects:** Projects without remotes use local path as primary key (unique per machine, no cross-machine concern)
+- **Edge Cases Minimal:** Projects without remotes are typically machine-specific anyway (POC, experiments)
+
+**Alternative Considered:**
+
+- Hash based on name + author
+- **Problem:** Doesn't handle renames, author changes, or projects without clear "author"
+- **Problem:** More complex than needed for the use case
+- **Problem:** Still requires unique identifier (hash collision risk, however small)
+
+**Multi-Machine Scenario:**
+
+- **Different machines:** Local paths are inherently different, no collision
+- **Same project on different machines:** Should have same `remote_url`, deduplicated correctly
+- **Project without remote:** Typically machine-specific (tutorials, experiments), duplication acceptable
+
+**Conclusion:** `remote_url` + `local_path` is sufficient identifier strategy. No hash needed.
+
+**Status:** ✅ Decided - No Action Required
+
+---
+
 ## 📊 Research Execution Plan
 
 ### Week 1: Foundation (CRITICAL)
@@ -1213,6 +1395,6 @@ User mentioned AI agent could help with prep "once I have all information logged
 
 ---
 
-**Last Updated:** 2025-11-26  
-**Status:** 🟡 Planned  
-**Next:** Begin Week 1 critical research (Flask, React, SQLite, integration)
+**Last Updated:** 2025-12-01  
+**Status:** 🟠 In Progress  
+**Next:** Begin Week 2 research (Projects Data Model, Learning Sub-Classification, Search Architecture)

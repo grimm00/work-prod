@@ -23,17 +23,20 @@ This is a work productivity and engagement management system using:
 ### Technology Stack (Finalized 2025-11-26)
 
 **Backend:**
+
 - Python + Flask (application factory pattern)
 - SQLAlchemy ORM + Flask-Migrate
 - SQLite (local-first database)
 
 **Frontend:**
+
 - React 18 + Vite build tool
 - Zustand (state management)
 - React Router v6 (navigation)
 - Axios (API client)
 
 **Integration:**
+
 - Separate servers in development (Vite proxy)
 - Flask serves React in production
 
@@ -294,6 +297,7 @@ When writing code:
 **Flow:** Research → Analysis → Recommendation → ADR (if architectural)
 
 1. **Research Documents** (`docs/maintainers/research/[category]/`)
+
    - Comprehensive exploration of options
    - Deep analysis (500-700+ lines typical)
    - Multiple alternatives evaluated
@@ -318,6 +322,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - Integration strategies
 
 **Do NOT create ADRs for:**
+
 - Implementation details
 - Temporary decisions
 - Minor refactors
@@ -369,6 +374,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 ## Alternatives Considered
 
 ### Alternative 1: [Name]
+
 - **Description:** ...
 - **Pros:** ...
 - **Cons:** ...
@@ -388,6 +394,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 ### Research Document Organization
 
 **Category Structure:**
+
 - `tech-stack/` - Technology and framework decisions
 - `microsoft/` - Microsoft 365 and Graph API integrations
 - `miro/` - Miro platform capabilities
@@ -397,6 +404,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - `features/` - Feature-specific research
 
 **Research Files Include:**
+
 - Research questions
 - Methodology
 - Findings (comprehensive)
@@ -547,6 +555,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 ### ✅ Completed (Week 1)
 
 **Research & Architecture:**
+
 - ✅ Week 1 research complete (4/4 topics, ahead of schedule)
 - ✅ Technology stack finalized
 - ✅ Flask backend architecture research (632 lines)
@@ -557,6 +566,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - ✅ Research folder organized by category
 
 **Documentation:**
+
 - ✅ Project structure initialized
 - ✅ Hub-and-spoke documentation pattern established
 - ✅ Git Flow configured
@@ -571,6 +581,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 ### 🟡 Planned (Next Steps)
 
 **Option 1: Begin Implementation**
+
 - Create backend directory structure
 - Initialize Flask application with application factory
 - Create frontend directory structure with Vite
@@ -578,6 +589,7 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - Test Flask + React integration
 
 **Option 2: Continue Research (Week 2)**
+
 - Microsoft Graph API - Outlook integration
 - Microsoft 365 ecosystem discovery
 - Data models (Daily Focus, Learning, Skills)
@@ -588,6 +600,36 @@ Create ADRs in `docs/maintainers/decisions/` for:
 **Frontend:** React 18 + Vite + Zustand + React Router v6  
 **Integration:** Vite proxy (dev), Flask serves React (prod)  
 **Decided:** 2025-11-26 (ADR-0001 through ADR-0004)
+
+### Learning Project Classification
+
+**Critical for MVP:** Learning projects (17 of 59 total projects) require sub-classification:
+
+**Categories:**
+
+- **Work-Related Learning:** Skills for current job, career development, company technologies
+- **Personal Development:** Hobbies, non-work skills, academic learning unrelated to work
+- **Hybrid:** Projects spanning both work and personal development categories
+
+**Schema Impact:**
+
+- `learning_type` field: `work_related` | `personal_dev` | `hybrid` | `null` (for non-Learning projects)
+- `learning_context` text field: free-form description of learning goals
+- `learning_status`: `exploring` | `active_learning` | `completed` | `paused`
+
+**UI Impact:**
+
+- Filter projects by learning type in project views
+- Display learning badges/tags
+- Separate work-related and personal learning metrics
+
+**Metrics Impact:**
+
+- Work-related learning may count toward work project metrics
+- Personal development tracked separately
+- Hybrid projects appear in both contexts
+
+**Documentation:** See `docs/maintainers/research/data-models/learning-project-taxonomy.md` for detailed taxonomy design.
 
 ---
 
@@ -612,6 +654,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-**Last Updated:** 2025-11-26  
+**Last Updated:** 2025-12-01  
 **Status:** ✅ Active  
-**Next:** Define first productivity tracking features
+**Next:** Begin Week 2 research (Projects Data Model with Learning sub-classification)

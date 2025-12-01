@@ -3,7 +3,7 @@
 **Purpose:** Document significant architectural and technical decisions  
 **Last Updated:** 2025-12-01  
 **Status:** ✅ Active  
-**ADRs Created:** 4 (Week 1 complete) + 1 planned (ADR-0005, Week 2)
+**ADRs Created:** 5 (Week 1 tech stack + Week 2 architecture pivot)
 
 ---
 
@@ -18,7 +18,7 @@
 
 ### Feature Architecture Decisions
 
-- **ADR-0005: Projects as Foundation Architecture** (🟡 Planned - Week 2) - Strategic pivot: Projects promoted to Priority #1 core feature based on inventory data
+- **[ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md)** - Strategic pivot: Projects promoted to Priority #1 core feature based on inventory data (✅ Accepted)
 
 ---
 
@@ -41,6 +41,7 @@ Architecture Decision Records (ADRs) capture important architectural and technic
 ### When to Create an ADR
 
 Create an ADR for decisions that:
+
 - Have significant impact on the system architecture
 - Are difficult or expensive to reverse
 - Affect multiple components or teams
@@ -48,6 +49,7 @@ Create an ADR for decisions that:
 - Involve trade-offs between competing concerns
 
 **Examples:**
+
 - Choice of programming language or framework
 - Database technology selection
 - API design patterns
@@ -55,6 +57,7 @@ Create an ADR for decisions that:
 - Deployment architecture
 
 **Not Needed For:**
+
 - Implementation details (variable names, minor refactors)
 - Temporary or easily reversible decisions
 - Decisions without system-wide impact
@@ -127,12 +130,14 @@ What are the drawbacks or trade-offs?
 What other options did we evaluate?
 
 ### Alternative 1: [Name]
+
 - **Description:** Brief explanation
 - **Pros:** Benefits
 - **Cons:** Drawbacks
 - **Why Not Chosen:** Rationale
 
 ### Alternative 2: [Name]
+
 - **Description:** Brief explanation
 - **Pros:** Benefits
 - **Cons:** Drawbacks
@@ -153,13 +158,18 @@ Optional: Specific guidance for implementing this decision
 
 ## 📊 Decision Status
 
-### ✅ Accepted (4)
+### ✅ Accepted (5)
 
-**Technology Stack:**
+**Technology Stack (Week 1):**
+
 - [ADR-0001: Flask Backend Architecture](ADR-0001-flask-backend-architecture.md) - 2025-11-26
 - [ADR-0002: React Frontend Architecture](ADR-0002-react-frontend-architecture.md) - 2025-11-26
-- [ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md) - 2025-11-26
+- [ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md) - 2025-11-26 (Updated 2025-12-01)
 - [ADR-0004: Flask-React Integration Strategy](ADR-0004-flask-react-integration-strategy.md) - 2025-11-26
+
+**Feature Architecture (Week 2):**
+
+- [ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md) - 2025-12-01
 
 ### 🟡 Proposed (0)
 
@@ -185,10 +195,12 @@ None yet
 4. **Implementation Phase** - Apply decision, validate assumptions
 
 **Example:**
+
 - Research: [`research/tech-stack/flask-backend-architecture.md`](../research/tech-stack/flask-backend-architecture.md) (600+ lines of analysis)
 - ADR: `ADR-0001-flask-backend-architecture.md` (concise decision record)
 
 **Key Differences:**
+
 - **Research:** Comprehensive exploration, all options, deep analysis
 - **ADR:** Concise record of decision made, rationale, consequences
 
@@ -199,12 +211,14 @@ None yet
 ### By Category
 
 **Technology Stack** (ADR-0001 to ADR-0004)
+
 - Backend framework
-- Frontend framework  
+- Frontend framework
 - Database technology
 - Integration approach
 
 **Future Categories:**
+
 - Data Models (ADR-0005+)
 - Integrations (Microsoft, Miro)
 - Security & Privacy
@@ -213,6 +227,7 @@ None yet
 ### By Date
 
 - **2025-11-26:** ADR-0001, ADR-0002, ADR-0003, ADR-0004 (Week 1 tech stack)
+- **2025-12-01:** ADR-0005 (Week 2 architecture pivot), ADR-0003 updated (Projects-First schema)
 
 ---
 
@@ -233,8 +248,6 @@ None yet
 
 ---
 
-**Last Updated:** 2025-11-26  
+**Last Updated:** 2025-12-01  
 **Status:** ✅ Active  
-**ADR Count:** 4 accepted
-
-
+**ADR Count:** 5 accepted (1 updated)

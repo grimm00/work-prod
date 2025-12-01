@@ -20,6 +20,7 @@ We needed to design a database schema and select appropriate data persistence te
 - Performance for local queries
 
 Key considerations:
+
 - Database technology choice (local vs. server)
 - Schema design and normalization
 - Migration strategy for schema changes
@@ -33,6 +34,7 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 ### Core Design Decisions:
 
 1. **Database Technology: SQLite**
+
    - Local file-based database
    - Zero configuration required
    - Perfect for single-user applications
@@ -40,6 +42,7 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
    - Built-in to Python
 
 2. **Schema Design: Normalized 12+ Tables**
+
    - Organizations (DRW, Apprenti)
    - Users (future-proofing)
    - People (contacts/relationships)
@@ -54,12 +57,14 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
    - Tags (flexible categorization)
 
 3. **Migration Strategy: Flask-Migrate (Alembic)**
+
    - Version-controlled schema changes
    - Automatic migration generation
    - Rollback capability
    - Incremental feature implementation
 
 4. **Backup Strategy: Automated Daily Backups**
+
    - File-copy backups before first use each day
    - Keep last 7 daily backups
    - Keep last 4 weekly backups
@@ -105,6 +110,7 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 - **Migration Management**: Requires discipline to manage migrations properly
 
 **Mitigation:**
+
 - Concurrency not an issue (single-user app)
 - Size limits irrelevant (years of data still under 1GB)
 - Multi-device sync can be added later if needed
@@ -118,12 +124,14 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 **Description:** Full-featured relational database server
 
 **Pros:**
+
 - Robust feature set
 - Excellent for multi-user
 - Advanced query capabilities
 - Better concurrency handling
 
 **Cons:**
+
 - Requires server installation and management
 - Overkill for single-user
 - More complex deployment
@@ -137,12 +145,14 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 **Description:** Store data in JSON files on filesystem
 
 **Pros:**
+
 - Extremely simple
 - Human-readable
 - Easy to version control
 - No database setup
 
 **Cons:**
+
 - No query capabilities
 - No relationships/integrity
 - Poor performance at scale
@@ -157,11 +167,13 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 **Description:** NoSQL document-oriented database
 
 **Pros:**
+
 - Flexible schema
 - JSON-like documents
 - Good for rapidly changing requirements
 
 **Cons:**
+
 - Overkill for structured data
 - Requires server (like PostgreSQL)
 - Relationships less natural
@@ -175,11 +187,13 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 **Description:** Store all data in minimal tables with embedded JSON
 
 **Pros:**
+
 - Fewer tables
 - Simpler queries initially
 - Faster writes
 
 **Cons:**
+
 - Data duplication
 - Update anomalies
 - Difficult to maintain integrity
@@ -191,44 +205,48 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 ## Implementation Notes
 
 1. **Incremental Rollout:**
+
    - **Phase 1 (MVP):** Users, Organizations, Tasks
    - **Phase 2:** Learnings, Skills, Tags
    - **Phase 3:** People, Meetings, Goals
    - **Phase 4:** Feedback, ActionItems, EnergyCheckins
 
 2. **SQLite Configuration:**
+
    ```python
    # Enable foreign key constraints
    PRAGMA foreign_keys = ON;
-   
+
    # Use WAL mode for better concurrency
    PRAGMA journal_mode = WAL;
-   
+
    # Optimize for local use
    PRAGMA synchronous = NORMAL;
    PRAGMA cache_size = -64000;  # 64MB cache
    ```
 
 3. **TimestampMixin Pattern:**
+
    ```python
    class TimestampMixin:
        created_at = db.Column(db.DateTime, default=datetime.utcnow)
-       updated_at = db.Column(db.DateTime, 
-                             default=datetime.utcnow, 
+       updated_at = db.Column(db.DateTime,
+                             default=datetime.utcnow,
                              onupdate=datetime.utcnow)
    ```
 
 4. **Migration Workflow:**
+
    ```bash
    # Create migration
    flask db migrate -m "Add tasks table"
-   
+
    # Review auto-generated migration
    # Edit if needed
-   
+
    # Apply migration
    flask db upgrade
-   
+
    # Rollback if needed
    flask db downgrade
    ```
@@ -251,7 +269,136 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 
 ---
 
-**Last Updated:** 2025-11-26  
-**Status:** ✅ Accepted and Active
+## 📝 Addendum: Projects-First Schema Update (2025-12-01)
 
+**Superseded By:** [ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md)
 
+Following the strategic pivot to Projects-First MVP (documented in ADR-0005), the database schema priorities have been updated:
+
+### Schema Priority Changes
+
+**Original Phase 1:** Users, Organizations, Tasks  
+**Updated Phase 1:** Users, Organizations, **Projects**, projects_skills
+
+### New Tables (Priority #1)
+
+**Projects Table:**
+
+```sql
+CREATE TABLE projects (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    path TEXT,  -- Local filesystem path
+    remote_url TEXT UNIQUE,  -- GitHub/GitLab URL (unique for deduplication)
+    organization_id INTEGER,  -- DRW, Apprenti, Personal, NULL
+    classification TEXT NOT NULL,  -- Work, Personal, Learning, Inactive
+    status TEXT NOT NULL,  -- active, learning, archived, inactive
+
+    -- Learning Sub-Classification (Critical for MVP)
+    learning_type TEXT,  -- work_related, personal_dev, hybrid, NULL
+    learning_context TEXT,  -- Free-form description of learning goals
+    learning_status TEXT,  -- exploring, active_learning, completed, paused
+
+    -- Tech Stack
+    tech_stack JSON,  -- Array of languages/technologies
+
+    -- Metadata
+    description TEXT,
+    last_worked_on DATE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (organization_id) REFERENCES organizations(id),
+    CHECK (classification IN ('Work', 'Personal', 'Learning', 'Inactive')),
+    CHECK (learning_type IN ('work_related', 'personal_dev', 'hybrid') OR learning_type IS NULL),
+    CHECK (learning_status IN ('exploring', 'active_learning', 'completed', 'paused') OR learning_status IS NULL)
+);
+
+-- Full-text search support
+CREATE VIRTUAL TABLE projects_fts USING fts5(
+    name,
+    description,
+    tech_stack,
+    content=projects,
+    content_rowid=id
+);
+```
+
+**projects_skills Junction Table:**
+
+```sql
+CREATE TABLE projects_skills (
+    project_id INTEGER NOT NULL,
+    skill_id INTEGER NOT NULL,
+    proficiency_used TEXT,  -- beginner, intermediate, advanced, expert
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (project_id, skill_id),
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (skill_id) REFERENCES skills(id) ON DELETE CASCADE
+);
+```
+
+### Updated Implementation Phases
+
+**Phase 1 (MVP - Weeks 2-3):**
+
+- Organizations
+- Users
+- **Projects** (with Learning sub-classification)
+- Skills (seeded from 24 discovered technologies)
+- projects_skills (many-to-many)
+- Tags
+
+**Phase 2 (Weeks 4-5):**
+
+- Tasks (project-centric Daily Focus)
+- EnergyCheckins
+
+**Phase 3 (Weeks 6-7):**
+
+- People
+- Meetings + MeetingAttendees
+- Learnings (associated with Learning projects)
+
+**Phase 4 (Week 8+):**
+
+- Goals + GoalMilestones
+- Feedback
+- ActionItems
+
+### Key Changes from Original Design
+
+1. **Projects Table Added:** Now Priority #1 (was "8th potential feature")
+2. **Learning Classification:** Three new fields for Learning project sub-classification
+3. **Tech Stack Tracking:** JSON field for discovered languages/technologies
+4. **SQLite FTS5:** Full-text search table for project search/filtering
+5. **projects_skills Relationship:** Many-to-many with Skills table
+6. **Bootstrap Data:** Import 59 projects from inventory, 24 skills from discovered tech stack
+
+### Migration Strategy
+
+The phased implementation approach remains unchanged, but Phase 1 now focuses on Projects rather than Tasks:
+
+```bash
+# Phase 1 Migrations
+flask db migrate -m "Create organizations table"
+flask db migrate -m "Create users table"
+flask db migrate -m "Create projects table with learning classification"  # NEW
+flask db migrate -m "Create skills table"  # MOVED UP
+flask db migrate -m "Create projects_skills junction table"  # NEW
+flask db migrate -m "Create tags table"
+flask db migrate -m "Setup SQLite FTS5 for projects"  # NEW
+```
+
+### References
+
+- [ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md) - Strategic pivot decision
+- [Learning Project Taxonomy](../research/data-models/learning-project-taxonomy.md) - Classification design
+- [Projects Data Model Research](../research/research-register.md#20-projects-data-model) - Week 2 research topic
+
+---
+
+**Original Date:** 2025-11-26  
+**Addendum Date:** 2025-12-01  
+**Last Updated:** 2025-12-01  
+**Status:** ✅ Accepted and Active (Updated with Projects-First schema)
