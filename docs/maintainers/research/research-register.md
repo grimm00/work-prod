@@ -294,9 +294,9 @@ See [SQLite Schema Update](tech-stack/sqlite-database-design.md#️-update-2025-
 - [POC Analysis](automation/inventory-system-poc-analysis.md) - Implementation insights
 - Week 1 SQLite research (needs Projects table addition)
 
-**Status:** 🔴 Not Started - **Week 2 Priority #1**
+**Status:** ✅ Complete - See [data-models/projects-data-model.md](data-models/projects-data-model.md)
 
-**See Also:** Future ADR-0005 will document "Projects as Foundation Architecture" decision
+**See Also:** [ADR-0005: Projects as Foundation Architecture](../decisions/ADR-0005-projects-as-foundation-architecture.md)
 
 ---
 
