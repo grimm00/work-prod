@@ -72,7 +72,7 @@ Scans local directories for Git repositories and projects.
 
 ---
 
-###3. `analyze-tech-stack.py`
+### 3. `analyze-tech-stack.py`
 
 Analyzes languages and technologies across all repositories.
 
@@ -125,13 +125,39 @@ python3 classify-projects.py
 
 ---
 
-### 5. `generate-report.py`
+### 5. `deduplicate-projects.py`
 
-Generates filled inventory document from collected data.
+Merges GitHub and local projects when they reference the same repository.
 
 **Usage:**
 ```bash
-python3 generate-report.py
+python3 deduplicate-projects.py
+```
+
+**Inputs:**
+- `data/github-repos.json`
+- `data/local-projects.json`
+- `data/classifications.json`
+
+**Output:**
+- `data/classifications-merged.json` - Deduplicated classifications
+- Updates `data/classifications.json` with merged entries
+
+**What it does:**
+- Matches local Git repos to GitHub repos by remote URL
+- Resolves classification conflicts (prefers local classifications)
+- Reduces project count by eliminating duplicates
+- Creates merged project IDs for unified tracking
+
+---
+
+### 6. `generate-report-deduplicated.py` ⭐
+
+Generates final deduplicated inventory and skills documents.
+
+**Usage:**
+```bash
+python3 generate-report-deduplicated.py
 ```
 
 **Inputs:**
@@ -141,8 +167,25 @@ python3 generate-report.py
 - `data/classifications.json`
 
 **Outputs:**
-- `data/generated-inventory.md` - Filled inventory
+- `data/generated-inventory-dedup.md` - Working copy
+- `../../docs/maintainers/exploration/current-state-inventory.md` - Final inventory
 - `../../docs/maintainers/exploration/discovered-skills.md` - Skills list
+
+**Features:**
+- Merges GitHub + Local projects into single entries (marked with 🔗)
+- Shows GitHub-only projects (marked with ☁️)
+- Shows local-only projects (marked with 💻)
+- Displays both GitHub push dates and local commit dates
+- Groups projects by classification
+- Generates comprehensive tech stack summary
+
+---
+
+### 7. `generate-report.py` (Legacy)
+
+Original report generator (does NOT deduplicate).
+
+**Note:** Use `generate-report-deduplicated.py` instead for cleaner reports without duplicates.
 
 ---
 
@@ -162,12 +205,17 @@ cd scripts/inventory
 # 3. Analyze tech stack
 python3 analyze-tech-stack.py
 
-# 4. Classify projects (interactive)
+# 4. Deduplicate projects
+python3 deduplicate-projects.py
+
+# 5. Classify projects (interactive - run in your terminal)
 python3 classify-projects.py
 
-# 5. Generate reports
-python3 generate-report.py
+# 6. Generate final deduplicated reports
+python3 generate-report-deduplicated.py
 ```
+
+**Note:** Steps 1-4 can be run through automation tools, but step 5 (classification) must be run interactively in your terminal since it requires user input.
 
 ---
 
@@ -178,8 +226,10 @@ All output files are saved to `data/` which is gitignored:
 - `github-repos.json` - GitHub repository data
 - `local-projects.json` - Local project data
 - `tech-stack.json` - Language statistics
-- `classifications.json` - User project classifications
-- `generated-inventory.md` - Final inventory report
+- `classifications.json` - User project classifications (deduplicated)
+- `classifications-merged.json` - Backup of merged classifications
+- `generated-inventory.md` - Legacy inventory (with duplicates)
+- `generated-inventory-dedup.md` - Deduplicated inventory (recommended)
 
 ---
 
@@ -231,4 +281,5 @@ Install required modules: `pip3 install [module-name]`
 
 **Last Updated:** 2025-11-26  
 **Status:** ✅ Scripts ready to use
+
 

@@ -11,8 +11,8 @@
 ### Exploration Documents
 
 - **[Scope Clarification Questionnaire](scope-clarification-questionnaire.md)** - Feature scope and expansion opportunities (✅ Complete)
-- **[Current State Inventory](current-state-inventory.md)** - Projects, repos, and workflow context (✅ Complete - Auto-generated)
-- **[Discovered Skills](discovered-skills.md)** - Technologies extracted from projects for Skills Matrix (✅ Complete - Auto-generated)
+- **[Current State Inventory](current-state-inventory.md)** - Deduplicated projects and repos (✅ Complete - 59 unique projects)
+- **[Discovered Skills](discovered-skills.md)** - Technologies extracted for Skills Matrix (✅ Complete - 24 languages identified)
 - **[Requirements](requirements.md)** - Comprehensive requirements gathering (🟠 In Progress)
 - **[Workflow Analysis](workflow-analysis.md)** - Current vs. ideal workflows (🔴 Not Started)
 
