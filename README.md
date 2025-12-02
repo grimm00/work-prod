@@ -1,9 +1,9 @@
 # work-prod
 
 **Purpose:** Manage Productivity and Engagement for Work  
-**Version:** v0.1.0  
-**Last Updated:** 2025-11-26  
-**Status:** 🟡 In Development
+**Version:** v0.1.0 (Phase 0 Complete)  
+**Last Updated:** 2025-12-02  
+**Status:** 🟠 In Development (Phase 0 Complete, Phase 1 Next)
 
 ---
 
@@ -11,28 +11,52 @@
 
 ### Prerequisites
 
-- [List any prerequisites]
-- [Development environment requirements]
+- Python 3.11+
+- Node.js 18+
+- npm 8+
+- Git
 
 ### Setup
 
 ```bash
-# Clone and setup
-git clone [repository-url]
-cd [project-name]
+# Clone the repository
+git clone <repository-url>
+cd work-prod
 
-# Install dependencies
-[installation commands]
+# Backend Setup
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+cd backend
+pip install -r requirements.txt
 
-# Start development environment
-[development commands]
+# Frontend Setup (in a new terminal)
+cd frontend
+npm install
+```
+
+### Running the Development Servers
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+source ../venv/bin/activate  # Activate virtual environment
+python run.py
+# Backend runs on http://localhost:5000
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+# Frontend runs on http://localhost:5173
 ```
 
 ### First Steps
 
-1. [First step]
-2. [Second step]
-3. [Third step]
+1. Start both backend and frontend servers as shown above
+2. Open http://localhost:5173 in your browser
+3. You should see "✓ Flask backend is running" message
+4. Run tests: `cd backend && pytest` and `cd frontend && npm test`
 
 ---
 
@@ -78,40 +102,47 @@ This project follows a **hub-and-spoke documentation pattern**:
 
 ### Backend
 
-- [Technology 1]
-- [Technology 2]
-- [Technology 3]
+- **Python 3.11+** - Programming language
+- **Flask 3.0** - Web framework with application factory pattern
+- **SQLAlchemy** - ORM for database operations
+- **Flask-Migrate** - Database migrations
+- **SQLite** - Local-first database
+- **pytest** - Testing framework with pytest-flask and pytest-cov
 
 ### Frontend
 
-- [Technology 1]
-- [Technology 2]
-- [Technology 3]
+- **React 18** - UI framework
+- **Vite** - Build tool and development server
+- **Zustand** - State management
+- **React Router v6** - Client-side routing
+- **Axios** - HTTP client for API calls
+- **Vitest** - Testing framework with React Testing Library
 
-### DevOps
+### Integration
 
-- [Technology 1]
-- [Technology 2]
-- [Technology 3]
+- **Vite Proxy** - Development proxy from frontend to backend
+- **Flask-CORS** - Cross-origin resource sharing support
 
 ---
 
 ## 📊 Project Status
 
-### ✅ Completed
+### ✅ Completed (Phase 0)
 
-- [Completed feature 1]
-- [Completed feature 2]
+- Flask backend with application factory pattern
+- React frontend with Vite build tool
+- Health check API endpoint
+- Backend testing infrastructure (pytest, 100% coverage)
+- Frontend testing infrastructure (Vitest, React Testing Library)
+- Vite proxy for API calls (no CORS issues)
+- Hot reload for both backend and frontend
 
-### 🟠 In Progress
+### 🟡 Planned (Phase 1)
 
-- [Current feature 1]
-- [Current feature 2]
-
-### 🟡 Planned
-
-- [Planned feature 1]
-- [Planned feature 2]
+- Projects data model and database schema
+- List projects API endpoint
+- Projects list UI component
+- Full CRUD operations for projects
 
 ---
 
@@ -134,18 +165,43 @@ This project follows a **hub-and-spoke documentation pattern**:
 
 ## 🔧 Development Commands
 
+### Backend
+
 ```bash
-# Development
-[dev command]
+# Run development server
+cd backend
+source ../venv/bin/activate
+python run.py
 
-# Testing
-[test command]
+# Run tests
+cd backend
+pytest
 
-# Building
-[build command]
+# Run tests with coverage
+pytest --cov=app --cov-report=html
 
-# Deployment
-[deploy command]
+# Run specific test file
+pytest tests/integration/api/test_health.py
+```
+
+### Frontend
+
+```bash
+# Run development server
+cd frontend
+npm run dev
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with coverage
+npm test -- --coverage
+
+# Build for production
+npm run build
 ```
 
 ---
