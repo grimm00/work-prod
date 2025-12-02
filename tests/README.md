@@ -11,6 +11,7 @@
 This directory contains **end-to-end (E2E) tests** that verify complete user workflows across both backend and frontend. These tests use **Playwright** for cross-browser testing.
 
 **Note:** Unit and integration tests live with their respective codebases:
+
 - **Backend tests:** `backend/tests/` (pytest)
 - **Frontend tests:** `frontend/src/components/*.test.jsx` (Vitest)
 
@@ -23,12 +24,14 @@ See [ADR-0006: Testing Framework and TDD Approach](../docs/maintainers/decisions
 ### Current Test Organization
 
 1. **Backend Tests** (`backend/tests/`)
+
    - Unit tests for models and services
    - Integration tests for API endpoints
    - Framework: pytest + pytest-flask
    - Coverage: >80% target
 
 2. **Frontend Tests** (`frontend/src/`)
+
    - Component tests (colocated with components)
    - Store tests (colocated with stores)
    - Framework: Vitest + React Testing Library
@@ -62,6 +65,7 @@ tests/
 ## 🚀 When to Add E2E Tests
 
 E2E tests will be added in **Phase 7: Manual Testing & Bug Fixes** after:
+
 - ✅ All features implemented (Phases 1-6)
 - ✅ Unit and integration tests passing
 - ✅ Manual testing complete

@@ -18,17 +18,20 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ## 🎯 Goals
 
 1. **Flask Application Factory Running**
+
    - Minimal Flask app with application factory pattern
    - Development server running on port 5000
    - Hot reload working
 
 2. **React + Vite Project Running**
+
    - Minimal React app with Vite
    - Development server running on port 5173
    - Hot reload working
    - Vite proxy to Flask backend configured
 
 3. **Testing Infrastructure**
+
    - pytest configured for backend
    - Frontend test framework configured (Vitest/Jest per ADR-0006)
    - Test runners working
@@ -47,6 +50,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ### Backend Setup
 
 - [ ] **Create Flask application structure**
+
   ```
   backend/
   ├── app/
@@ -65,6 +69,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
   ```
 
 - [ ] **Install Flask dependencies**
+
   - Flask
   - Flask-CORS
   - Flask-SQLAlchemy
@@ -72,15 +77,18 @@ Phase 0 establishes the minimal development environment skeleton with testing in
   - python-dotenv
 
 - [ ] **Configure pytest**
+
   - Create pytest.ini
   - Set up test fixtures
   - Configure Flask test client
 
 - [ ] **Create health check endpoint**
+
   - Route: GET /api/health
   - Response: `{"status": "ok", "message": "Flask backend is running"}`
 
 - [ ] **Write health check test**
+
   - Test GET /api/health returns 200
   - Test response JSON structure
 
@@ -92,6 +100,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ### Frontend Setup
 
 - [ ] **Initialize Vite + React project**
+
   ```
   frontend/
   ├── src/
@@ -111,6 +120,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
   ```
 
 - [ ] **Install frontend dependencies**
+
   - React 18
   - React Router v6
   - Zustand
@@ -118,25 +128,30 @@ Phase 0 establishes the minimal development environment skeleton with testing in
   - Frontend testing framework (per ADR-0006)
 
 - [ ] **Configure Vite proxy**
+
   - Proxy `/api/*` to `http://localhost:5000`
   - Enable CORS handling
 
 - [ ] **Create Axios service**
+
   - Base URL configuration
   - Request/response interceptors
   - Error handling
 
 - [ ] **Configure frontend tests**
+
   - Set up test framework
   - Configure test environment
   - Mock API responses
 
 - [ ] **Create HealthCheck component**
+
   - Call GET /api/health on mount
   - Display response message
   - Show loading and error states
 
 - [ ] **Write component test**
+
   - Test HealthCheck renders
   - Test loading state
   - Test successful API call
@@ -150,10 +165,12 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ### Integration Testing
 
 - [ ] **Run both servers concurrently**
+
   - Backend: Flask on port 5000
   - Frontend: Vite on port 5173
 
 - [ ] **Verify end-to-end flow**
+
   - Frontend calls /api/health
   - Backend responds with JSON
   - Frontend displays response
@@ -170,7 +187,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 
 - [ ] Flask development server runs and serves /api/health
 - [ ] React development server runs and makes API calls
-- [ ] Vite proxy correctly routes /api/* to Flask backend
+- [ ] Vite proxy correctly routes /api/\* to Flask backend
 - [ ] CORS configured and working (no errors in browser console)
 - [ ] pytest runs and health check test passes
 - [ ] Frontend tests run and HealthCheck component test passes
@@ -184,24 +201,28 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ## 📦 Deliverables
 
 1. **Backend Code**
+
    - Flask application factory
    - Health check endpoint
    - pytest configuration
    - requirements.txt
 
 2. **Frontend Code**
+
    - Vite + React project
    - Axios service configuration
    - HealthCheck component
    - Test configuration
 
 3. **Configuration Files**
+
    - vite.config.js with proxy
    - pytest.ini
    - config.py for Flask
    - .env.example
 
 4. **Documentation**
+
    - README.md with setup instructions
    - How to run development servers
    - How to run tests
@@ -268,6 +289,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 ### Task Checklist
 
 **Backend (0/6 complete)**
+
 - [ ] Flask structure created
 - [ ] Dependencies installed
 - [ ] pytest configured
@@ -276,6 +298,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 - [ ] Server running
 
 **Frontend (0/7 complete)**
+
 - [ ] Vite project initialized
 - [ ] Dependencies installed
 - [ ] Proxy configured
@@ -285,6 +308,7 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 - [ ] Server running
 
 **Integration (0/3 complete)**
+
 - [ ] Both servers running
 - [ ] End-to-end flow verified
 - [ ] All tests passing
@@ -327,5 +351,3 @@ Phase 0 establishes the minimal development environment skeleton with testing in
 **Status:** ✅ Complete  
 **Completed:** 2025-12-02  
 **Next:** Phase 1: List Projects
-
-

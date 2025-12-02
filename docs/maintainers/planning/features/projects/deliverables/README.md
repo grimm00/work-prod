@@ -1,7 +1,7 @@
 # Projects Feature - Deliverables Hub
 
 **Purpose:** Planning outputs, templates, guides, and documentation  
-**Status:** 🟡 Planned  
+**Status:** 🟠 In Progress (Phase 0 Complete)  
 **Last Updated:** 2025-12-02
 
 ---
@@ -16,10 +16,11 @@ This directory contains all planning deliverables for the Projects feature—tem
 
 ### Phase 0: Development Environment
 
-- [ ] Development setup guide
-- [ ] README.md with installation instructions
-- [ ] Troubleshooting guide (common setup issues)
-- [ ] Environment configuration templates (.env.example)
+- [x] **[Flask Application Factory Guide](flask-application-factory-guide.md)** - Explains Flask app factory pattern and Python package structure
+- [x] Development setup guide (Project README.md)
+- [x] README.md with installation instructions
+- [x] Environment configuration templates (.env.example in backend/)
+- [ ] Troubleshooting guide (common setup issues) - *Deferred to Phase 7*
 
 ### Phase 1-3: CRUD Operations
 
@@ -55,19 +56,15 @@ This directory contains all planning deliverables for the Projects feature—tem
 
 ## 🎯 Organization
 
-Deliverables are organized by phase and type:
+Deliverables are organized by purpose:
 
 ```
 deliverables/
-├── phase-0/               # Development environment docs
-├── phase-4/               # Import specifications
-├── phase-7/               # Final documentation
-│   ├── user-guide.md
-│   ├── api-docs.md
-│   ├── developer-guide.md
-│   └── deployment.md
-└── templates/             # Reusable templates
+├── flask-application-factory-guide.md    # ✅ Phase 0 pattern guide
+├── (future guides and templates)
 ```
+
+**Note:** Most Phase 0 documentation lives in the main project README.md and backend/.env.example. Complex implementation patterns (like the Flask application factory) are documented here for reference.
 
 ---
 
@@ -92,7 +89,7 @@ All deliverables should follow:
 ---
 
 **Last Updated:** 2025-12-02  
-**Status:** 🟡 Planned  
-**Next:** Create deliverables as phases progress
+**Status:** 🟠 In Progress (1 guide complete)  
+**Next:** Add deliverables as phases progress
 
 
