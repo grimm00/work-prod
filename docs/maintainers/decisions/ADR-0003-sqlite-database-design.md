@@ -267,6 +267,13 @@ We will use **SQLite** as our database with a **comprehensive normalized schema*
 - [Flask-SQLAlchemy Documentation](https://flask-sqlalchemy.palletsprojects.com/)
 - [Flask-Migrate Documentation](https://flask-migrate.readthedocs.io/)
 
+## Related ADRs
+
+- **ADR-0001:** Flask Backend Architecture - Backend layer that interfaces with this database
+- **ADR-0002:** React Frontend Architecture - Frontend layer that consumes this database via API
+- **ADR-0004:** Flask-React Integration Strategy - Integration approach for accessing this database
+- **ADR-0005:** Projects as Foundation Architecture - Strategic decision requiring Projects table addition (see Addendum below)
+
 ---
 
 ## 📝 Addendum: Projects-First Schema Update (2025-12-01)

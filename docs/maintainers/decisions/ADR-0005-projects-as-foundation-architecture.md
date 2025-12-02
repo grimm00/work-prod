@@ -12,6 +12,7 @@
 During Week 1 exploration, we conducted an automated inventory of the user's project landscape, discovering **59 unique projects** across GitHub and local directories. This empirical data revealed critical insights that challenged our original feature prioritization:
 
 **Inventory Findings:**
+
 - **59 projects total:** 20 Work, 16 Personal, 17 Learning, 6 Inactive
 - **24 programming languages/technologies** in active use
 - **Multi-organizational context:** DRW (host), Apprenti (employer), Personal projects
@@ -19,6 +20,7 @@ During Week 1 exploration, we conducted an automated inventory of the user's pro
 - **Complex classification needs:** Work-related vs personal development learning
 
 **Original Requirements (Pre-Inventory):**
+
 1. Daily Focus (tasks)
 2. Skills Matrix
 3. Learning Journal
@@ -28,6 +30,7 @@ During Week 1 exploration, we conducted an automated inventory of the user's pro
 7. Energy Tracking
 
 **Problem Identified:**
+
 - Projects were initially considered an "8th potential feature expansion"
 - User's core challenge is **project organization**, not adding more planning systems
 - Without project context, other features lack grounding in reality
@@ -35,6 +38,7 @@ During Week 1 exploration, we conducted an automated inventory of the user's pro
 - Daily Focus simplified to "Which project am I working on today?"
 
 **User Feedback:**
+
 > "Maybe right now, the project needs to start with organization of my projects in general?"
 
 **Strategic Question:** Should we add more productivity systems before organizing what the user already has?
@@ -44,6 +48,7 @@ During Week 1 exploration, we conducted an automated inventory of the user's pro
 We will **promote Projects to Priority #1** and make it the **foundational feature** of the MVP architecture. The application will follow a **Projects-First** approach where:
 
 1. **Projects is the Core Feature** (Priority #1)
+
    - Full CRUD for project management
    - Organization-aware (DRW / Apprenti / Personal)
    - Classification system (Work / Personal / Learning / Inactive)
@@ -52,11 +57,13 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
    - Project search and filtering
 
 2. **Daily Focus Simplified** (Priority #2)
+
    - Reframed as "Which project am I working on today?"
    - Project-centric task tracking
    - Links to project context
 
 3. **Skills Matrix Seeded** (Priority #3)
+
    - Bootstrap from 24 discovered languages/technologies
    - Skills-to-Projects many-to-many relationship
    - Track skill usage across project portfolio
@@ -69,6 +76,7 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 ### Hybrid Complexity Model
 
 **Phase 1 (Week 2-3): Projects Core**
+
 - Projects CRUD with full classification
 - Organization support (DRW, Apprenti, Personal)
 - Learning sub-classification (work_related, personal_dev, hybrid)
@@ -76,16 +84,19 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 - Project search/filtering (SQLite FTS5)
 
 **Phase 2 (Week 4-5): Simple Planning**
+
 - Simplified Daily Focus (project-centric)
 - Basic task tracking tied to projects
 - Skills Matrix seeded from inventory
 
 **Phase 3 (Week 6-7): Connections**
+
 - Projects-to-Skills relationships
 - Learning context for projects
 - Project insights and analytics
 
 **Phase 4 (Week 8+): Advanced Planning**
+
 - Goals tied to projects
 - Engagement/meetings with project context
 - Advanced filtering and reporting
@@ -112,6 +123,7 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 - **User Onboarding:** Need to import 59 projects from inventory data
 
 **Mitigation:**
+
 - Original features not abandoned, just reframed with project context
 - Projects table schema thoroughly researched (Week 2 topic)
 - SQLite FTS5 is built-in, well-documented, suitable for <1000 records
@@ -125,11 +137,13 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 **Description:** Implement Daily Focus (task tracking) as Priority #1, add Projects as 8th feature later
 
 **Pros:**
+
 - Matches original requirements document
 - Familiar productivity pattern (task lists)
 - Simpler initial UI
 
 **Cons:**
+
 - Tasks lack project context ("What project is this task for?")
 - Ignores user's actual pain point (59 projects to organize)
 - Skills Matrix can't leverage discovered tech stack data
@@ -143,11 +157,13 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 **Description:** Build Projects and Daily Focus simultaneously in Phase 1
 
 **Pros:**
+
 - Delivers both features quickly
 - Satisfies original requirements
 - Shows connection between projects and tasks
 
 **Cons:**
+
 - Splits focus between two major features
 - Increases Phase 1 complexity
 - Risks shipping neither feature well
@@ -160,11 +176,13 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 **Description:** Implement Projects as Priority #1 but defer Learning sub-classification
 
 **Pros:**
+
 - Simpler initial schema
 - Faster Phase 1 delivery
 - Fewer UI components
 
 **Cons:**
+
 - 17 Learning projects (29%) lack proper classification
 - Can't distinguish work-required learning from personal hobbies
 - Metrics and time allocation inaccurate
@@ -177,12 +195,14 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 ### Phase 1 Priorities (Week 2-3)
 
 1. **Projects Data Model Research** (HIGH - Week 2)
+
    - Schema design with Learning classification fields
    - Projects-to-Skills many-to-many relationship
    - Organization context (DRW, Apprenti, Personal)
    - Status lifecycle (active, learning, archived, inactive)
 
 2. **Project Search Architecture** (HIGH - Week 2)
+
    - SQLite FTS5 implementation
    - Multi-faceted filtering (org + classification + learning_type)
    - React search components (react-select, react-search-autocomplete)
@@ -195,7 +215,9 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 ### Database Schema Changes (ADR-0003 Impact)
 
 **New Tables:**
+
 - **Projects** (Priority #1 table)
+
   - Core fields: name, path, remote_url, organization, classification, status
   - Learning fields: learning_type, learning_context, learning_status
   - Tech stack: tech_stack (JSON array or separate table)
@@ -205,6 +227,7 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
   - Many-to-many relationship between Projects and Skills
 
 **Modified Priority:**
+
 - Projects table implemented **before** Tasks, Skills, or Learnings
 - Skills table seeded from inventory (24 languages/technologies)
 
@@ -232,8 +255,25 @@ We will **promote Projects to Priority #1** and make it the **foundational featu
 - [SQLite Database Design Research](../research/tech-stack/sqlite-database-design.md) - Schema foundation
 - [ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md) - Database architecture
 
+## Related ADRs
+
+**Foundational Decisions (Week 1):**
+
+This feature architecture builds upon the Week 1 technology stack decisions:
+
+- **ADR-0001:** Flask Backend Architecture - Provides `/api/projects` blueprint pattern and service layer for Projects feature
+- **ADR-0002:** React Frontend Architecture - Provides `projects/` feature module structure and Zustand state management
+- **ADR-0003:** SQLite Database Design - Extended with Projects table and projects_skills junction (see ADR-0003 Addendum)
+- **ADR-0004:** Flask-React Integration Strategy - Integration approach used for Projects API communication
+
+**Decision Flow:**
+
+1. ADRs 0001-0004 established tech stack (Flask, React, SQLite, integration)
+2. Week 1 inventory POC discovered 59 projects needing organization
+3. ADR-0005 promotes Projects to Priority #1 within that tech stack
+4. ADRs 0001-0002 updated to include Projects in blueprint/feature lists
+
 ---
 
 **Last Updated:** 2025-12-01  
 **Status:** ✅ Accepted and Active
-

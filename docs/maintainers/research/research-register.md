@@ -1,8 +1,8 @@
-# Research Register
+◊# Research Register
 
 **Purpose:** Catalog of research topics to investigate before implementation  
 **Status:** 🟠 In Progress  
-**Created:** 2025-11-26  
+**Created:** 2025-11-26
 **Last Updated:** 2025-12-01  
 **Week 1:** ✅ Complete (4/4 topics)  
 **Inventory Refined:** 2025-12-01

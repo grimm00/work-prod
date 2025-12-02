@@ -1,7 +1,7 @@
 # ADR-0002: React Frontend Architecture
 
 **Status:** Accepted  
-**Date:** 2025-11-26  
+**Date:** 2025-11-26 (Updated 2025-12-01)  
 **Supersedes:** None  
 **Superseded By:** N/A
 
@@ -49,6 +49,7 @@ We will use **Vite + React 18** with **Zustand for state management**, **Feature
    ```
    src/
    ├── features/           # Feature modules
+   │   ├── projects/       # Project organization (Priority #1)
    │   ├── dailyFocus/
    │   ├── learningJournal/
    │   ├── skills/
@@ -246,9 +247,19 @@ We will use **Vite + React 18** with **Zustand for state management**, **Feature
 - [Zustand Documentation](https://docs.pmnd.rs/zustand)
 - [React Router Documentation](https://reactrouter.com/)
 
+## Related ADRs
+
+- **ADR-0001:** Flask Backend Architecture - Backend counterpart to this frontend architecture
+- **ADR-0003:** SQLite Database Design - Database layer for this frontend
+- **ADR-0004:** Flask-React Integration Strategy - Integration approach between this frontend and Flask
+- **ADR-0005:** Projects as Foundation Architecture - Feature priority decision that added `projects/` feature module
+
 ---
 
 **Last Updated:** 2025-11-26  
 **Status:** ✅ Accepted and Active
+
+
+
 
 

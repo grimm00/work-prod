@@ -1,7 +1,7 @@
 # ADR-0001: Flask Backend Architecture
 
 **Status:** Accepted  
-**Date:** 2025-11-26  
+**Date:** 2025-11-26 (Updated 2025-12-01)  
 **Supersedes:** None  
 **Superseded By:** N/A
 
@@ -38,6 +38,7 @@ We will use **Flask with the Application Factory pattern**, organized with **Blu
    - Prevents circular imports
 
 2. **Blueprint Organization by Feature**
+   - `/api/projects` - Project organization and management (Priority #1)
    - `/api/tasks` - Daily focus system
    - `/api/learnings` - Learning journal
    - `/api/skills` - Skills matrix
@@ -196,9 +197,19 @@ backend/
 - [Flask Application Factory Pattern](https://flask.palletsprojects.com/en/3.0.x/patterns/appfactories/)
 - [Flask Blueprints](https://flask.palletsprojects.com/en/3.0.x/blueprints/)
 
+## Related ADRs
+
+- **ADR-0002:** React Frontend Architecture - Frontend counterpart to this backend architecture
+- **ADR-0003:** SQLite Database Design - Database layer supporting these API blueprints
+- **ADR-0004:** Flask-React Integration Strategy - Integration approach for this backend with React
+- **ADR-0005:** Projects as Foundation Architecture - Feature priority decision that added `/api/projects` blueprint
+
 ---
 
 **Last Updated:** 2025-11-26  
 **Status:** ✅ Accepted and Active
+
+
+
 
 

@@ -281,9 +281,19 @@ def serve(path):
 - [Flask-CORS Documentation](https://flask-cors.readthedocs.io/)
 - [Flask-JWT-Extended Documentation](https://flask-jwt-extended.readthedocs.io/)
 
+## Related ADRs
+
+- **ADR-0001:** Flask Backend Architecture - Backend architecture using this integration strategy
+- **ADR-0002:** React Frontend Architecture - Frontend architecture using this integration strategy
+- **ADR-0003:** SQLite Database Design - Database layer accessed via this integration
+- **ADR-0005:** Projects as Foundation Architecture - Feature architecture leveraging this integration approach
+
 ---
 
 **Last Updated:** 2025-11-26  
 **Status:** ✅ Accepted and Active
+
+
+
 
 
