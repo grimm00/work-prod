@@ -2,7 +2,7 @@
 
 **Purpose:** Feature-based planning and tracking using hub-and-spoke documentation  
 **Status:** ✅ Active  
-**Last Updated:** [Date]
+**Last Updated:** 2025-12-02
 
 ---
 
@@ -10,8 +10,11 @@
 
 ### Active Features
 
-- **[Feature Name 1](feature-name-1/README.md)** - [Brief description] (🟠 In Progress)
-- **[Feature Name 2](feature-name-2/README.md)** - [Brief description] (🟡 Planned)
+- **[Projects](projects/README.md)** - Project organization and management (#1 Foundation Feature) (🟡 Planned)
+
+### Planned Features
+
+*Other features will be added after Projects MVP is complete*
 
 ### Feature Templates
 
@@ -124,21 +127,19 @@ features/
 
 ### ✅ Completed Features
 
-| Feature     | Status      | Duration | Result    |
-| ----------- | ----------- | -------- | --------- |
-| [Feature 1] | ✅ Complete | X days   | [Summary] |
+*No features completed yet*
 
 ### 🟠 In Progress Features
 
-| Feature     | Current Phase | Progress | Next        |
-| ----------- | ------------- | -------- | ----------- |
-| [Feature 1] | Phase 2       | 60%      | [Next step] |
+*No features in progress yet*
 
 ### 🟡 Planned Features
 
-| Feature     | Priority | Estimated | Dependencies   |
-| ----------- | -------- | --------- | -------------- |
-| [Feature 1] | High     | X days    | [Dependencies] |
+| Feature     | Priority | Estimated | Dependencies   | Status |
+| ----------- | -------- | --------- | -------------- | ------ |
+| [Projects](projects/README.md) | #1 Foundation | 16 days | ADR-0006 (Testing Strategy) | 🟡 Planned |
+
+**Note:** Projects is the foundation feature. Other features (Daily Focus, Skills Matrix, Learning Journal, Goals) will leverage the Projects feature and begin after Projects MVP is complete.
 
 ---
 
@@ -263,6 +264,6 @@ features/
 
 ---
 
-**Last Updated:** [Date]  
+**Last Updated:** 2025-12-02  
 **Status:** ✅ Active  
-**Next:** [Next feature planning task]
+**Next:** Complete testing strategy research → Begin Projects Phase 0
