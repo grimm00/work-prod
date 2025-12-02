@@ -1,8 +1,8 @@
 # Research Progress Tracker
 
 **Purpose:** Track completion status of all research topics  
-**Last Updated:** 2025-12-01  
-**Overall Progress:** 4/26 topics complete (15%)
+**Last Updated:** 2025-12-02  
+**Overall Progress:** 4/27 topics complete (15%)
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### By Priority
 
-- 🔴 **CRITICAL (Week 1):** 4/4 complete (100%) ✅ COMPLETE
+- 🔴 **CRITICAL (Week 1-2):** 4/5 complete (80%) - Testing strategy prerequisite added
 - 🟠 **HIGH (Weeks 2-3):** 0/11 complete (0%)
 - 🟡 **MEDIUM (Week 4):** 0/8 complete (0%)
 - 🔵 **LOW (Post-MVP):** 0/5 complete (0%)
@@ -18,7 +18,7 @@
 ### By Week
 
 - **Week 1 (Nov 26 - Dec 2):** 4/4 complete ✅ COMPLETE
-- **Week 2 (Dec 3 - Dec 9):** 0/5 planned
+- **Week 2 (Dec 3 - Dec 9):** 0/6 planned (Testing Strategy prerequisite added)
 - **Week 3 (Dec 10 - Dec 16):** 0/5 planned
 - **Week 4 (Dec 17 - Dec 23):** 0/8 planned
 - **Post-MVP:** 0/5 deferred
@@ -74,11 +74,38 @@
   - CORS via Vite proxy in dev
   - JWT auth deferred to post-MVP
 
+### 1.5 Testing Strategy and Framework Selection
+
+- **Status:** 🟡 Planned
+- **Document:** [tech-stack/testing-strategy.md](tech-stack/testing-strategy.md)
+- **Created:** 2025-12-02
+- **Timeline:** Week 2 (prerequisite for MVP implementation)
+- **Research Focus:**
+  - Backend: pytest vs unittest vs nose2
+  - Frontend: Vitest vs Jest vs React Testing Library
+  - E2E: Playwright vs Cypress vs Selenium
+  - TDD patterns for vertical slice architecture
+  - Test organization and fixtures
+  - Coverage requirements and CI integration
+- **Deliverable:** ADR-0006: Testing Framework and TDD Approach
+
 ---
 
 ## 🟠 Week 2: Core Data Models & Microsoft (Dec 3 - Dec 9)
 
-**Status:** 🔴 Not Started (0/5 complete)
+**Status:** 🔴 Not Started (0/6 complete)  
+**Prerequisites:** Testing Strategy research (1.5) - blocks MVP implementation
+
+**⚠️ Note:** Testing Strategy (1.5) added as Week 2 prerequisite. Must complete before beginning MVP implementation (Phase 0 of Projects feature).
+
+### 1.5 Testing Strategy and Framework Selection (PREREQUISITE)
+
+- **Status:** 🟡 Planned
+- **Document:** [tech-stack/testing-strategy.md](tech-stack/testing-strategy.md)
+- **Priority:** 🔴 CRITICAL (Added 2025-12-02)
+- **Target:** Dec 3-5 (2-3 days)
+- **Blocks:** MVP implementation - needed for TDD approach
+- **Deliverable:** ADR-0006: Testing Framework and TDD Approach
 
 ### 2.1 Microsoft Graph API - Outlook Integration
 
