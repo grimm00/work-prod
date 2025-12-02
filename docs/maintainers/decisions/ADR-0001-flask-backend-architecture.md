@@ -19,6 +19,7 @@ We needed to select a backend framework and establish architectural patterns for
 - Scalability from MVP to full feature set
 
 Key considerations:
+
 - Python familiarity and ecosystem
 - Simple deployment (local desktop application)
 - Clear separation of concerns
@@ -32,12 +33,14 @@ We will use **Flask with the Application Factory pattern**, organized with **Blu
 ### Core Architecture Components:
 
 1. **Application Factory Pattern**
+
    - Function-based app creation: `create_app(config_name)`
    - Supports multiple configurations (dev, test, production)
    - Enables testing with different configurations
    - Prevents circular imports
 
 2. **Blueprint Organization by Feature**
+
    - `/api/projects` - Project organization and management (Priority #1)
    - `/api/tasks` - Daily focus system
    - `/api/learnings` - Learning journal
@@ -48,6 +51,7 @@ We will use **Flask with the Application Factory pattern**, organized with **Blu
    - `/api/energy` - Energy and engagement monitoring
 
 3. **Service Layer Pattern**
+
    - Business logic in dedicated service classes
    - Route handlers remain thin (request/response only)
    - Services are reusable and testable
@@ -101,6 +105,7 @@ backend/
 - **Abstraction**: Service layer adds an additional layer between routes and data
 
 **Mitigation:**
+
 - Complexity is one-time cost with long-term maintainability benefits
 - Clear documentation and templates provided
 - Structure pays off as soon as second feature is added
@@ -113,12 +118,14 @@ backend/
 **Description:** Full-featured Python web framework with batteries included
 
 **Pros:**
+
 - Built-in admin interface
 - More features out of the box
 - Strong ORM
 - Large ecosystem
 
 **Cons:**
+
 - Heavyweight for our simple use case
 - Steeper learning curve
 - Opinionated structure may be too rigid
@@ -132,12 +139,14 @@ backend/
 **Description:** Modern, fast Python API framework with automatic OpenAPI docs
 
 **Pros:**
+
 - Excellent performance (async)
 - Automatic API documentation
 - Type hints and validation
 - Modern Python features
 
 **Cons:**
+
 - Less mature ecosystem than Flask
 - Async complexity unnecessary for local app
 - Smaller community and fewer resources
@@ -150,12 +159,14 @@ backend/
 **Description:** Minimal Flask application without application factory or blueprints
 
 **Pros:**
+
 - Quickest to start
 - Minimal boilerplate
 - Easy to understand initially
 - Fewer files
 
 **Cons:**
+
 - Difficult to test
 - Hard to add features as app grows
 - No clear organization
@@ -167,18 +178,21 @@ backend/
 ## Implementation Notes
 
 1. **Setup Priority:**
+
    - Create application factory first
    - Add configuration classes (dev, test, prod)
    - Initialize Flask-SQLAlchemy and Flask-Migrate
    - Create first blueprint (tasks) as template for others
 
 2. **Configuration Management:**
+
    - Use environment variables via `python-dotenv`
    - Separate configs for dev/test/prod
    - Keep secrets in `.env` (gitignored)
    - Provide `.env.example` template
 
 3. **Service Layer Guidelines:**
+
    - One service per major entity (TaskService, LearningService, etc.)
    - Services handle business logic only
    - Keep services stateless
@@ -208,8 +222,3 @@ backend/
 
 **Last Updated:** 2025-11-26  
 **Status:** ✅ Accepted and Active
-
-
-
-
-
