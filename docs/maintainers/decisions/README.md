@@ -1,9 +1,9 @@
 # Architecture Decision Records (ADRs)
 
 **Purpose:** Document significant architectural and technical decisions  
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-02  
 **Status:** ✅ Active  
-**ADRs Created:** 5 (Week 1 tech stack + Week 2 architecture pivot)
+**ADRs Created:** 6 (Week 1 tech stack + Week 2 architecture + testing strategy)
 
 ---
 
@@ -15,6 +15,7 @@
 - **[ADR-0002: React Frontend Architecture](ADR-0002-react-frontend-architecture.md)** - Vite, Zustand, feature-based structure (✅ Accepted)
 - **[ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md)** - Local-first, normalized schema, migrations (✅ Accepted)
 - **[ADR-0004: Flask-React Integration Strategy](ADR-0004-flask-react-integration-strategy.md)** - Dev/prod setup, CORS, authentication (✅ Accepted)
+- **[ADR-0006: Testing Framework and TDD Approach](ADR-0006-testing-framework-and-tdd-approach.md)** - pytest, Vitest, Playwright with >80% coverage (✅ Accepted)
 
 ### Feature Architecture Decisions
 
@@ -158,7 +159,7 @@ Optional: Specific guidance for implementing this decision
 
 ## 📊 Decision Status
 
-### ✅ Accepted (5)
+### ✅ Accepted (6)
 
 **Technology Stack (Week 1):**
 
@@ -166,6 +167,7 @@ Optional: Specific guidance for implementing this decision
 - [ADR-0002: React Frontend Architecture](ADR-0002-react-frontend-architecture.md) - 2025-11-26
 - [ADR-0003: SQLite Database Design](ADR-0003-sqlite-database-design.md) - 2025-11-26 (Updated 2025-12-01)
 - [ADR-0004: Flask-React Integration Strategy](ADR-0004-flask-react-integration-strategy.md) - 2025-11-26
+- [ADR-0006: Testing Framework and TDD Approach](ADR-0006-testing-framework-and-tdd-approach.md) - 2025-12-02
 
 **Feature Architecture (Week 2):**
 
@@ -228,6 +230,7 @@ None yet
 
 - **2025-11-26:** ADR-0001, ADR-0002, ADR-0003, ADR-0004 (Week 1 tech stack)
 - **2025-12-01:** ADR-0005 (Week 2 architecture pivot), ADR-0003 updated (Projects-First schema)
+- **2025-12-02:** ADR-0006 (Testing strategy)
 
 ---
 
@@ -248,6 +251,6 @@ None yet
 
 ---
 
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-02  
 **Status:** ✅ Active  
-**ADR Count:** 5 accepted (1 updated)
+**ADR Count:** 6 accepted (1 updated)
