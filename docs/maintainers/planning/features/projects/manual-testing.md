@@ -6,6 +6,16 @@
 
 ---
 
+## ⚠️ Important Notes
+
+**Run scenarios in order!** Some scenarios depend on data created by previous scenarios:
+- Scenario 6 (duplicate path) requires Scenario 2 (full project creation) to be run first
+- Scenario 8 (CLI update) requires Scenario 7 (CLI create) to be run first
+
+**Database state matters:** If you restart the server or reset the database between scenarios, validation tests may not work as expected.
+
+---
+
 ## 🚀 Pre-Testing Setup
 
 ### 1. Start the Backend Server
@@ -154,11 +164,13 @@ curl -X PATCH http://localhost:5000/api/projects/1 \
 
 ### Scenario 6: Validation - Duplicate Path
 
+**Prerequisites:** Scenario 2 must be run first to create a project with path "/test/full"
+
 **Test:** Try to create project with duplicate path
 
 ```bash
-# First, note an existing path from previous tests
-# Then try to create another project with same path:
+# This requires Scenario 2 to have created a project with path "/test/full"
+# If Scenario 2 wasn't run, this will succeed (status 201) instead of failing
 curl -X POST http://localhost:5000/api/projects \
   -H "Content-Type: application/json" \
   -d '{"name": "Duplicate Test", "path": "/test/full"}' | python -m json.tool
@@ -167,6 +179,8 @@ curl -X POST http://localhost:5000/api/projects \
 **Expected Result:**
 - Status: 409 Conflict
 - Error message about duplicate path
+
+**If you get 201 Created:** Scenario 2 wasn't run. Run Scenario 2 first, then run this scenario again.
 
 **Verify:**
 - [ ] Status code is 409
