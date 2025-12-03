@@ -130,6 +130,38 @@ Always use: `YYYY-MM-DD` format (e.g., 2025-11-26)
 
 ---
 
+## 🔍 Pull Request Review Workflow
+
+### NEVER Merge Without Review
+
+**CRITICAL:** Do NOT merge pull requests automatically. Always follow this workflow:
+
+1. **Create PR** - Use GitHub CLI or UI to create the pull request
+2. **Stop and Wait** - Present PR link to user, do NOT proceed to merge
+3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit`
+4. **Sourcery Feedback** - Reviews saved to `docs/maintainers/feedback/sourcery/pr##.md`
+5. **Priority Assessment** - Fill out priority matrix in Sourcery review file
+6. **Fix Planning** - Create fix plans in feature's `fix/` subdirectory
+7. **User Approval** - Only merge after user explicitly approves
+
+### Priority Matrix Assessment
+
+For each Sourcery comment, assess:
+- **Priority:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
+- **Impact:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢  
+- **Effort:** LOW 🟢 / MEDIUM 🟡 / HIGH 🟠 / VERY_HIGH 🔴
+
+### Fix Plan Structure
+
+Create fix plans in `docs/maintainers/planning/features/[feature]/fix/`:
+- `issue-[number]-[short-name].md` - Individual fix plan
+- Reference Sourcery review comment number
+- Include priority, impact, effort assessment
+- Provide implementation steps
+- Link to related ADRs if architectural changes needed
+
+---
+
 ## 📊 Feature Planning Process
 
 ### Creating New Features
@@ -654,6 +686,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-03  
 **Status:** ✅ Active  
-**Next:** Begin Week 2 research (Projects Data Model with Learning sub-classification)
+**Next:** Implement Sourcery feedback fixes before Phase 2
