@@ -3,7 +3,6 @@ Integration tests for health check API endpoint.
 """
 
 import pytest
-import json
 
 
 @pytest.mark.integration
@@ -17,14 +16,14 @@ def test_health_check_returns_200(client):
 def test_health_check_returns_json(client):
     """Test that health check endpoint returns JSON content type."""
     response = client.get('/api/health')
-    assert response.content_type == 'application/json'
+    assert response.mimetype == 'application/json'
 
 
 @pytest.mark.integration
 def test_health_check_response_structure(client):
     """Test that health check response has correct structure."""
     response = client.get('/api/health')
-    data = json.loads(response.data)
+    data = response.get_json()
     
     assert 'status' in data
     assert 'message' in data
@@ -34,7 +33,7 @@ def test_health_check_response_structure(client):
 def test_health_check_response_values(client):
     """Test that health check response has correct values."""
     response = client.get('/api/health')
-    data = json.loads(response.data)
+    data = response.get_json()
     
     assert data['status'] == 'ok'
     assert data['message'] == 'Flask backend is running'
