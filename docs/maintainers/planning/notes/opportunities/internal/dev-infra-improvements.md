@@ -12,18 +12,21 @@
 This document captures actionable improvements for the dev-infra project template, informed by real implementation experience in work-prod. These improvements were discovered during Phase 0 (Development Environment) and Phase 1 (Projects API + CLI) implementation.
 
 **Why these improvements matter:**
+
 - **Reduce setup friction** - Automate manual steps that trip up new projects
 - **Encode best practices** - Bake in patterns that worked well
 - **Prevent common mistakes** - Address issues we encountered
 - **Accelerate delivery** - Start new projects with proven patterns
 
 **How they were discovered:**
+
 - Pain points during setup (missing directories, unclear patterns)
 - External code review feedback (Sourcery AI)
 - Process gaps (PR discipline, fix tracking)
 - Successful patterns (TDD, documentation structure)
 
 **What problem they solve:**
+
 - New projects don't repeat our mistakes
 - Proven patterns propagate automatically
 - Setup is faster and more reliable
@@ -42,12 +45,14 @@ The biggest delays in Phase 0 came from decisions that should have been made dur
 ### Actionable Items
 
 - [ ] **Add testing strategy to Week 1 research template**
+
   - **Location:** `templates/research/week-1-checklist.md`
   - **Add section:** "Testing Infrastructure"
   - **Include:** Framework comparison (pytest vs unittest), coverage tools, fixture patterns
   - **Deliverable:** Research document + ADR for testing approach
 
 - [ ] **Include tech stack research checklist with testing**
+
   - **Location:** `templates/research/tech-stack-template.md`
   - **Add items:**
     - Testing framework selection
@@ -79,26 +84,29 @@ Manual directory creation (`backend/instance/`) caused a cryptic SQLite error du
 ### Actionable Items
 
 - [ ] **Pre-create backend/instance/ directory**
+
   - **Location:** Template project structure
   - **Action:** Create `backend/instance/` in template
   - **Prevents:** SQLite "unable to open database file" error
 
 - [ ] **Add .gitkeep to instance/ with comment explaining SQLite storage**
+
   - **Location:** `backend/instance/.gitkeep`
   - **Content:**
     ```
     # SQLite Database Storage
-    # 
+    #
     # This directory stores SQLite database files in development and production.
     # Database files are ignored by git (see .gitignore) to prevent committing data.
-    # 
+    #
     # Files in this directory:
     # - work_prod_dev.db (development database)
     # - work_prod_test.db (test database, if not using :memory:)
     # - work_prod.db (production database)
     ```
 
-- [ ] **Include scripts/[project]_cli/ structure template**
+- [ ] **Include scripts/[project]\_cli/ structure template**
+
   - **Location:** `templates/scripts/project_cli/`
   - **Structure:**
     ```
@@ -137,6 +145,7 @@ Flask's application factory pattern enabled easy testing with different configur
 ### Actionable Items
 
 - [ ] **Add Flask application factory template**
+
   - **Location:** `templates/backend/app/__init__.py`
   - **Include:**
     - Extension initialization (db, migrate, CORS)
@@ -149,24 +158,25 @@ Flask's application factory pattern enabled easy testing with different configur
         app = Flask(__name__)
         app.config.from_object(config[config_name])
         config[config_name].init_app(app)
-        
+
         # Initialize extensions
         db.init_app(app)
         migrate.init_app(app, db)
         CORS(app, origins=app.config.get('CORS_ORIGINS', []))
-        
+
         # CRITICAL: Import models for Flask-Migrate detection
         with app.app_context():
             from app import models
-        
+
         # Register blueprints
         from app.api.health import health_bp
         app.register_blueprint(health_bp, url_prefix='/api')
-        
+
         return app
     ```
 
 - [ ] **Include config.py with environment classes**
+
   - **Location:** `templates/backend/config.py`
   - **Include:**
     - Base `Config` class
@@ -176,7 +186,8 @@ Flask's application factory pattern enabled easy testing with different configur
     - `init_app()` method for prod logging setup
   - **Reference:** work-prod `config.py` as template
 
-- [ ] **Document __init__.py patterns for packages**
+- [ ] **Document **init**.py patterns for packages**
+
   - **Location:** `templates/docs/flask-patterns.md`
   - **Add section:** "Python Package Initialization"
   - **Explain:**
@@ -186,6 +197,7 @@ Flask's application factory pattern enabled easy testing with different configur
     - Benefits: cleaner imports, encapsulation
 
 - [ ] **Add model import pattern to template**
+
   - **Location:** `templates/backend/app/models/__init__.py`
   - **Pattern:**
     ```python
@@ -200,17 +212,19 @@ Flask's application factory pattern enabled easy testing with different configur
 - [ ] **Include CORS configuration examples**
   - **Location:** `templates/backend/config.py`
   - **Add to each config class:**
+
     ```python
     class DevelopmentConfig(Config):
         CORS_ORIGINS = [
             'http://localhost:5173',  # Vite dev server
             'http://localhost:3000',  # Alternative port
         ]
-    
+
     class ProductionConfig(Config):
         # Production reads from environment variable
         CORS_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
     ```
+
   - **Document:** Security rationale in comments
 
 **Expected Impact:** Working Flask app structure out of the box, no "discovery through error" needed.
@@ -228,6 +242,7 @@ The hub-and-spoke documentation pattern (README hubs linking to spoke documents)
 ### Actionable Items
 
 - [ ] **Add feature plan template (with phase documents)**
+
   - **Location:** `templates/docs/features/feature-template/`
   - **Include:**
     - `README.md` (hub with Quick Links)
@@ -238,6 +253,7 @@ The hub-and-spoke documentation pattern (README hubs linking to spoke documents)
   - **Reference:** work-prod Projects feature structure
 
 - [ ] **Include status-and-next-steps.md template**
+
   - **Location:** `templates/docs/features/status-and-next-steps.md`
   - **Sections:**
     - Current Phase
@@ -248,6 +264,7 @@ The hub-and-spoke documentation pattern (README hubs linking to spoke documents)
     - Phase Completion Table
 
 - [ ] **Add fix plan template with pr##-issue-## naming**
+
   - **Location:** `templates/docs/features/fix/issue-template.md`
   - **Filename format:** `pr##-issue-##-[short-name].md`
   - **Sections:**
@@ -260,6 +277,7 @@ The hub-and-spoke documentation pattern (README hubs linking to spoke documents)
     - Related ADRs
 
 - [ ] **Create fix/README.md template with priority matrix**
+
   - **Location:** `templates/docs/features/fix/README.md`
   - **Include:**
     - Fix tracking workflow
@@ -296,6 +314,7 @@ Prematurely merging PRs #1 and #2 without review caused us to fix the same issue
 ### Actionable Items
 
 - [ ] **Add default .cursor/rules/main.mdc with PR review workflow**
+
   - **Location:** `templates/.cursor/rules/main.mdc`
   - **Include section:** "Pull Request Review Workflow"
   - **Content:**
@@ -307,6 +326,7 @@ Prematurely merging PRs #1 and #2 without review caused us to fix the same issue
   - **Reference:** work-prod Cursor rules PR section
 
 - [ ] **Include branch protection rule documentation**
+
   - **Location:** `templates/docs/git-workflow.md`
   - **Add section:** "Branch Protection"
   - **Explain:**
@@ -316,6 +336,7 @@ Prematurely merging PRs #1 and #2 without review caused us to fix the same issue
     - How to configure GitHub branch protection
 
 - [ ] **Add PR template with review checklist**
+
   - **Location:** `templates/.github/pull_request_template.md`
   - **Include:**
     - Description section
@@ -325,6 +346,7 @@ Prematurely merging PRs #1 and #2 without review caused us to fix the same issue
     - Breaking changes warning
 
 - [ ] **Document Sourcery integration workflow**
+
   - **Location:** `templates/docs/code-review-workflow.md`
   - **Sections:**
     - Setting up Sourcery
@@ -353,6 +375,7 @@ Test-driven development (TDD) with pytest's vertical slice approach gave us conf
 ### Actionable Items
 
 - [ ] **Add pytest.ini template with coverage settings**
+
   - **Location:** `templates/backend/pytest.ini`
   - **Include:**
     ```ini
@@ -361,7 +384,7 @@ Test-driven development (TDD) with pytest's vertical slice approach gave us conf
     python_files = test_*.py
     python_classes = Test*
     python_functions = test_*
-    addopts = 
+    addopts =
         --cov=app
         --cov-report=term-missing
         --cov-report=html
@@ -372,6 +395,7 @@ Test-driven development (TDD) with pytest's vertical slice approach gave us conf
     ```
 
 - [ ] **Include conftest.py with common fixtures**
+
   - **Location:** `templates/backend/tests/conftest.py`
   - **Include fixtures:**
     - `app` - Flask application instance
@@ -381,6 +405,7 @@ Test-driven development (TDD) with pytest's vertical slice approach gave us conf
   - **Reference:** work-prod conftest.py
 
 - [ ] **Add test directory structure (unit/integration/e2e)**
+
   - **Location:** Template project structure
   - **Create:**
     ```
@@ -401,6 +426,7 @@ Test-driven development (TDD) with pytest's vertical slice approach gave us conf
   - **Include:** Example test in each directory
 
 - [ ] **Document vertical slice TDD approach**
+
   - **Location:** `templates/docs/testing-guide.md`
   - **Sections:**
     - TDD cycle (RED-GREEN-REFACTOR)
@@ -431,6 +457,7 @@ The CLI tool (using Click + Rich) provided immediate user value without frontend
 ### Actionable Items
 
 - [ ] **Add Click-based CLI template**
+
   - **Location:** `templates/scripts/project_cli/proj`
   - **Include:**
     - Shebang pointing to venv Python
@@ -438,25 +465,27 @@ The CLI tool (using Click + Rich) provided immediate user value without frontend
     - Command registration pattern
     - Help text examples
   - **Template:**
+
     ```python
     #!/path/to/venv/bin/python
     import click
     from scripts.project_cli.commands.list_cmd import list_items
     from scripts.project_cli.commands.get_cmd import get_item
-    
+
     @click.group()
     def cli():
         """CLI tool for [project name]."""
         pass
-    
+
     cli.add_command(list_items)
     cli.add_command(get_item)
-    
+
     if __name__ == '__main__':
         cli()
     ```
 
 - [ ] **Include Rich formatting examples**
+
   - **Location:** `templates/scripts/project_cli/commands/list_cmd.py`
   - **Show:**
     - Table creation with columns
@@ -466,6 +495,7 @@ The CLI tool (using Click + Rich) provided immediate user value without frontend
   - **Reference:** work-prod list_cmd.py
 
 - [ ] **Document API client pattern**
+
   - **Location:** `templates/scripts/project_cli/api_client.py`
   - **Include:**
     - Base URL configuration
@@ -475,6 +505,7 @@ The CLI tool (using Click + Rich) provided immediate user value without frontend
   - **Template:** work-prod api_client.py
 
 - [ ] **Add command structure template**
+
   - **Location:** `templates/scripts/project_cli/commands/`
   - **Include:**
     - `list_cmd.py` - List resources
@@ -505,6 +536,7 @@ Manual steps (creating instance directory, initializing database, setting up vir
 ### Actionable Items
 
 - [ ] **Add setup.sh for initial project setup**
+
   - **Location:** `templates/scripts/setup.sh`
   - **Actions:**
     - Check Python version
@@ -516,6 +548,7 @@ Manual steps (creating instance directory, initializing database, setting up vir
   - **Make executable:** `chmod +x scripts/setup.sh`
 
 - [ ] **Include instance directory creation in setup**
+
   - **Add to setup.sh:**
     ```bash
     # Create necessary directories
@@ -524,6 +557,7 @@ Manual steps (creating instance directory, initializing database, setting up vir
     ```
 
 - [ ] **Add database initialization script**
+
   - **Location:** `templates/scripts/init_db.sh`
   - **Actions:**
     - Run migrations (`flask db upgrade`)
@@ -532,6 +566,7 @@ Manual steps (creating instance directory, initializing database, setting up vir
   - **Reference from setup.sh**
 
 - [ ] **Include virtual environment setup automation**
+
   - **Add to setup.sh:**
     ```bash
     # Create and activate virtual environment
@@ -558,54 +593,58 @@ Manual steps (creating instance directory, initializing database, setting up vir
 
 ### Template Update Priority Matrix
 
-| Improvement | Priority | Effort | Impact | Apply When |
-|------------|----------|--------|--------|-----------|
-| Testing strategy (Section 1) | 🔴 HIGH | 🟢 LOW | 🔴 HIGH | Immediately |
-| Flask patterns (Section 3) | 🔴 HIGH | 🟡 MEDIUM | 🔴 HIGH | Next update |
-| Project structure (Section 2) | 🟠 MEDIUM | 🟢 LOW | 🟠 MEDIUM | Next update |
+| Improvement                         | Priority  | Effort    | Impact    | Apply When  |
+| ----------------------------------- | --------- | --------- | --------- | ----------- |
+| Testing strategy (Section 1)        | 🔴 HIGH   | 🟢 LOW    | 🔴 HIGH   | Immediately |
+| Flask patterns (Section 3)          | 🔴 HIGH   | 🟡 MEDIUM | 🔴 HIGH   | Next update |
+| Project structure (Section 2)       | 🟠 MEDIUM | 🟢 LOW    | 🟠 MEDIUM | Next update |
 | Documentation templates (Section 4) | 🟠 MEDIUM | 🟡 MEDIUM | 🟠 MEDIUM | Next update |
-| Cursor rules (Section 5) | 🟠 MEDIUM | 🟢 LOW | 🟠 MEDIUM | Next update |
-| Testing infrastructure (Section 6) | 🟠 MEDIUM | 🟡 MEDIUM | 🟠 MEDIUM | When needed |
-| CLI template (Section 7) | 🟡 LOW | 🟡 MEDIUM | 🟡 MEDIUM | When needed |
-| Automation scripts (Section 8) | 🟢 NICE | 🟠 HIGH | 🟡 MEDIUM | Future |
+| Cursor rules (Section 5)            | 🟠 MEDIUM | 🟢 LOW    | 🟠 MEDIUM | Next update |
+| Testing infrastructure (Section 6)  | 🟠 MEDIUM | 🟡 MEDIUM | 🟠 MEDIUM | When needed |
+| CLI template (Section 7)            | 🟡 LOW    | 🟡 MEDIUM | 🟡 MEDIUM | When needed |
+| Automation scripts (Section 8)      | 🟢 NICE   | 🟠 HIGH   | 🟡 MEDIUM | Future      |
 
 ### Application Strategy
 
 **Phase 1: High Priority (Apply Immediately)**
+
 - Testing strategy in Week 1 research
 - Flask application factory template
 - CORS configuration examples
 - PR review workflow in Cursor rules
 
 **Phase 2: Medium Priority (Next Template Update)**
+
 - Instance directory pre-creation
 - Fix plan templates
 - Hub-and-spoke documentation structure
 - Branch protection documentation
 
 **Phase 3: Low Priority (When Needed)**
+
 - CLI tool templates
 - Automation scripts
 - Python package patterns guide
 
 **Phase 4: Nice to Have (Future)**
+
 - Advanced automation
 - Additional CLI examples
 - Performance optimization patterns
 
 ### Effort Estimation
 
-| Section | Effort | Time Estimate |
-|---------|--------|---------------|
-| Section 1: Pre-Project Setup | 🟢 LOW | 2 hours |
-| Section 2: Project Structure | 🟢 LOW | 2 hours |
-| Section 3: Flask Backend | 🟡 MEDIUM | 4 hours |
-| Section 4: Documentation | 🟡 MEDIUM | 3 hours |
-| Section 5: Git Flow & PR | 🟢 LOW | 2 hours |
-| Section 6: Testing Infrastructure | 🟡 MEDIUM | 4 hours |
-| Section 7: CLI Tool Pattern | 🟡 MEDIUM | 3 hours |
-| Section 8: Automation Scripts | 🟠 HIGH | 6 hours |
-| **Total** | - | **26 hours** |
+| Section                           | Effort    | Time Estimate |
+| --------------------------------- | --------- | ------------- |
+| Section 1: Pre-Project Setup      | 🟢 LOW    | 2 hours       |
+| Section 2: Project Structure      | 🟢 LOW    | 2 hours       |
+| Section 3: Flask Backend          | 🟡 MEDIUM | 4 hours       |
+| Section 4: Documentation          | 🟡 MEDIUM | 3 hours       |
+| Section 5: Git Flow & PR          | 🟢 LOW    | 2 hours       |
+| Section 6: Testing Infrastructure | 🟡 MEDIUM | 4 hours       |
+| Section 7: CLI Tool Pattern       | 🟡 MEDIUM | 3 hours       |
+| Section 8: Automation Scripts     | 🟠 HIGH   | 6 hours       |
+| **Total**                         | -         | **26 hours**  |
 
 **Recommended approach:** Apply in phases (Phase 1: 8 hours, Phase 2: 10 hours, Phase 3: 6 hours, Phase 4: 6 hours)
 
@@ -647,4 +686,3 @@ Manual steps (creating instance directory, initializing database, setting up vir
 **Status:** 🟡 Pending Application  
 **Next:** Schedule review session for template updates  
 **Related:** [Phase 1 Learnings](phase-1-learnings.md)
-

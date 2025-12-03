@@ -20,6 +20,7 @@
 - Git Flow branching and PR workflow established
 
 **Phase 1: Projects API Foundation**
+/Users/cdwilson/Projects/work-prod/docs/maintainers/feedback/sourcery/pr04.md
 
 - Project model with SQLAlchemy ORM
 - REST API endpoints (list projects, get project by ID)
