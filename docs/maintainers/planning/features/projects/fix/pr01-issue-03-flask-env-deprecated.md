@@ -2,7 +2,8 @@
 
 **Sourcery Issue:** PR #1, Comment #3  
 **Location:** `backend/run.py:14-15`  
-**Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW
+**Priority:** 🟡 MEDIUM | **Impact:** 🟡 MEDIUM | **Effort:** 🟢 LOW  
+**Status:** ✅ Complete (2025-12-03) | **Merged:** PR #4
 
 ## Problem
 
