@@ -7,7 +7,7 @@ Displays all projects in a formatted table.
 import click
 from rich.console import Console
 from rich.table import Table
-from api_client import APIClient
+from project_cli.api_client import APIClient
 
 
 @click.command()

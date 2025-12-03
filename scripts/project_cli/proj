@@ -8,14 +8,16 @@ Command-line interface for managing projects via the backend API.
 import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+# Add scripts directory to path for package imports
+scripts_dir = str(Path(__file__).parent.parent)
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
 
 import click
-from commands.list_cmd import list_projects
-from commands.get_cmd import get_project
-from commands.create_cmd import create_project
-from commands.update_cmd import update_project
+from project_cli.commands.list_cmd import list_projects
+from project_cli.commands.get_cmd import get_project
+from project_cli.commands.create_cmd import create_project
+from project_cli.commands.update_cmd import update_project
 
 
 @click.group()

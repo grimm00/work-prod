@@ -6,7 +6,7 @@ Provides a simple interface for making API requests.
 
 import requests
 from typing import List, Dict, Optional
-from config import Config
+from project_cli.config import Config
 
 
 class APIClient:
