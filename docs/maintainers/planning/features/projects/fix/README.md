@@ -1,107 +1,124 @@
-# Projects Feature - Troubleshooting Hub
+# Projects Feature - Fix Tracking
 
-**Purpose:** Known issues, solutions, and debugging guides  
-**Status:** 🟡 Planned  
-**Last Updated:** 2025-12-02
+**Purpose:** Track fixes identified through code review (Sourcery, manual review, etc.)  
+**Status:** ✅ Active  
+**Last Updated:** 2025-12-03
 
 ---
 
 ## 📋 Overview
 
-This directory contains troubleshooting documentation for the Projects feature. As issues arise during development and usage, we document problems and their solutions here to help future developers and users.
+This directory tracks fixes identified through code review processes including:
+- Sourcery AI code review
+- Manual code review
+- Security audits
+- Performance analysis
 
 ---
 
-## 🔧 Common Issues
+## 🔧 Fix Branch Strategy
 
-### Setup and Installation
+### For Multiple Related Fixes
 
-*Issues will be documented here as they arise during Phase 0*
+- Create `fix/pr##-sourcery-issues` branch from develop
+- Implement all CRITICAL and HIGH priority fixes
+- Create single PR with all fixes
+- Group by priority in commit messages
 
-### API and Backend
+**Example:**
+```bash
+git checkout develop
+git pull
+git checkout -b fix/pr01-sourcery-issues
+# Implement fixes #1, #2, #3
+git commit -m "fix: address critical CORS and logging issues from PR #1 review"
+```
 
-*Issues will be documented here as they arise during Phases 1-6*
+### For Individual Urgent Fixes
 
-### UI and Frontend
+- Create `fix/issue-[number]-[short-name]` branch
+- Implement single fix
+- Fast-track PR if CRITICAL
 
-*Issues will be documented here as they arise during Phases 1-7*
-
-### Performance
-
-*Issues will be documented here if performance problems occur*
-
-### Integration
-
-*Integration issues with other features will be documented here*
-
----
-
-## 📝 Issue Template
-
-When documenting an issue, use this format:
-
-```markdown
-### Issue: [Short Description]
-
-**Phase:** [Phase where discovered]  
-**Severity:** [Critical/High/Medium/Low]  
-**Date Discovered:** YYYY-MM-DD
-
-**Symptoms:**
-- Describe what the user sees/experiences
-
-**Root Cause:**
-- Technical explanation of the problem
-
-**Solution:**
-- Steps to resolve the issue
-
-**Prevention:**
-- How to avoid this in the future
-
-**Related:**
-- Links to relevant documentation, commits, or discussions
+**Example:**
+```bash
+git checkout -b fix/issue-02-cors-security
+# Implement CORS fix
+git commit -m "fix(security): configure CORS for production"
 ```
 
 ---
 
-## 🔗 Escalation
+## 📝 Current Fixes
 
-If you encounter an issue that:
-- Blocks development
-- Affects data integrity
-- Impacts security
+See individual fix plan documents in this directory:
 
-Create a GitHub issue immediately and link it here.
+| Issue | Priority | Impact | Effort | Status | File |
+|-------|----------|--------|--------|--------|------|
+| #1 | 🟠 HIGH | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [issue-01-logging-config.md](issue-01-logging-config.md) |
+| #2 | 🔴 CRITICAL | 🔴 CRITICAL | 🟢 LOW | 🟡 Planned | [issue-02-cors-security.md](issue-02-cors-security.md) |
+| #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [issue-03-flask-env-deprecated.md](issue-03-flask-env-deprecated.md) |
+| #5 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [issue-05-test-improvements.md](issue-05-test-improvements.md) |
+| #6 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [issue-06-readme-typo.md](issue-06-readme-typo.md) |
 
----
-
-## 🎯 Organization
-
-Troubleshooting documents organized by category:
-
-```
-fix/
-├── README.md              # This hub
-├── setup-issues.md        # Installation and configuration
-├── api-issues.md          # Backend API problems
-├── ui-issues.md           # Frontend problems
-├── performance-issues.md  # Performance debugging
-└── integration-issues.md  # Cross-feature problems
-```
+**Note:** Issue #4 (Frontend CSS) is deferred to Phase 8 (Frontend Learning Project).
 
 ---
 
-## 📚 Related Documents
+## 🚦 Priority Guidelines
 
-- [Projects Feature Hub](../README.md)
-- [Phase 0: Development Environment](../phase-0.md) - Setup troubleshooting
-- [Phase 7: Polish](../phase-7.md) - General troubleshooting guide
+### Priority Levels
+- 🔴 **CRITICAL**: Security, stability, or core functionality issues
+- 🟠 **HIGH**: Bug risks or significant maintainability issues
+- 🟡 **MEDIUM**: Code quality and maintainability improvements
+- 🟢 **LOW**: Nice-to-have improvements
+
+### Impact Levels
+- 🔴 **CRITICAL**: Affects core functionality
+- 🟠 **HIGH**: User-facing or significant changes
+- 🟡 **MEDIUM**: Developer experience improvements
+- 🟢 **LOW**: Minor improvements
+
+### Effort Levels
+- 🟢 **LOW**: Simple, quick changes
+- 🟡 **MEDIUM**: Moderate complexity
+- 🟠 **HIGH**: Complex refactoring
+- 🔴 **VERY_HIGH**: Major rewrites
 
 ---
 
-**Last Updated:** 2025-12-02  
-**Status:** 🟡 Planned  
-**Next:** Document issues as they arise during implementation
+## 📋 Workflow
 
+1. **Sourcery Review** - Code review identifies issues
+2. **Priority Assessment** - Fill priority matrix in `docs/maintainers/feedback/sourcery/pr##.md`
+3. **Create Fix Plans** - Document each fix in this directory
+4. **Create Fix Branch** - Branch from develop
+5. **Implement Fixes** - Follow fix plan implementation steps
+6. **Test Thoroughly** - Run all tests, verify no regressions
+7. **Create PR** - Link to fix plans in PR description
+8. **Review & Merge** - Merge to develop after approval
+9. **Mark Complete** - Update fix plan status
 
+---
+
+## 🎯 Recommended Next Steps
+
+**Before Phase 2:**
+1. Create `fix/pr01-sourcery-issues` branch
+2. Implement CRITICAL and HIGH fixes (#1, #2, #3)
+3. Test thoroughly
+4. Create PR with fixes
+5. Merge to develop
+
+**Opportunistically:**
+- Fix #5 (test improvements) when working on tests
+- Fix #6 (README typo) when updating documentation
+
+**Phase 8:**
+- Address #4 (frontend CSS) during frontend learning project
+
+---
+
+**Last Updated:** 2025-12-03  
+**Status:** ✅ Active  
+**Next:** Implement PR #1 fixes before Phase 2
