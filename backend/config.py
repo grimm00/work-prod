@@ -78,11 +78,18 @@ class ProductionConfig(Config):
         """Initialize production-specific settings."""
         Config.init_app(app)
         
-        # Only add handler if not already present (prevent duplicates)
-        if not app.logger.handlers:
-            import logging
-            from logging import StreamHandler
-            
+        import logging
+        from logging import StreamHandler
+        
+        # Always ensure INFO level in production (regardless of existing handlers)
+        # This ensures consistent log levels across different deployment scenarios
+        app.logger.setLevel(logging.INFO)
+        
+        # Only add StreamHandler if one doesn't already exist (prevent duplicates)
+        # Check specifically for StreamHandler to allow other handler types from Flask/extensions
+        has_stream_handler = any(isinstance(h, StreamHandler) for h in app.logger.handlers)
+        
+        if not has_stream_handler:
             handler = StreamHandler()
             handler.setLevel(logging.INFO)
             
@@ -93,7 +100,6 @@ class ProductionConfig(Config):
             handler.setFormatter(formatter)
             
             app.logger.addHandler(handler)
-            app.logger.setLevel(logging.INFO)
 
 
 # Configuration dictionary
