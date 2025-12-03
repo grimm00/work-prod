@@ -56,4 +56,39 @@ class APIClient:
         response = self.session.get(f'{self.base_url}/projects/{project_id}')
         response.raise_for_status()
         return response.json()
+    
+    def create_project(self, data: Dict) -> Dict:
+        """
+        Create a new project.
+        
+        Args:
+            data: Project data dictionary
+            
+        Returns:
+            Created project dictionary
+            
+        Raises:
+            requests.RequestException: If API request fails
+        """
+        response = self.session.post(f'{self.base_url}/projects', json=data)
+        response.raise_for_status()
+        return response.json()
+    
+    def update_project(self, project_id: int, data: Dict) -> Dict:
+        """
+        Update an existing project.
+        
+        Args:
+            project_id: ID of the project to update
+            data: Fields to update
+            
+        Returns:
+            Updated project dictionary
+            
+        Raises:
+            requests.RequestException: If API request fails
+        """
+        response = self.session.patch(f'{self.base_url}/projects/{project_id}', json=data)
+        response.raise_for_status()
+        return response.json()
 
