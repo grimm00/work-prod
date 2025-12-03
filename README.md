@@ -1,10 +1,10 @@
 # work-prod
 
 **Purpose:** Manage Productivity and Engagement for Work  
-**Version:** v0.1.0 (Phase 0 Complete)  
-**Last Updated:** 2025-12-02  
-**Status:** 🟠 In Development (Backend MVP - Phase 1 Next)  
-**Approach:** Backend-First API Development with CLI
+**Version:** v0.1.0-dev (Phase 1 Complete)  
+**Last Updated:** 2025-12-03  
+**Status:** ✅ Phase 1 Complete + Quality Fixes Merged  
+**Approach:** Backend-First API Development with CLI Tools
 
 ---
 
@@ -13,8 +13,6 @@
 ### Prerequisites
 
 - Python 3.11+
-- Node.js 18+
-- npm 8+
 - Git
 
 ### Setup
@@ -30,34 +28,38 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 cd backend
 pip install -r requirements.txt
 
-# Frontend Setup (in a new terminal)
-cd frontend
-npm install
+# Initialize database
+flask db upgrade
 ```
 
-### Running the Development Servers
+### Running the Backend
 
-**Terminal 1 - Backend:**
 ```bash
 cd backend
-source ../venv/bin/activate  # Activate virtual environment
+source ../venv/bin/activate
 python run.py
 # Backend runs on http://localhost:5000
 ```
 
-**Terminal 2 - Frontend:**
+### Using the CLI Tool
+
 ```bash
-cd frontend
-npm run dev
-# Frontend runs on http://localhost:5173
+# List all projects
+./scripts/project_cli/proj list
+
+# Get project details
+./scripts/project_cli/proj get <id>
+
+# For help
+./scripts/project_cli/proj --help
 ```
 
 ### First Steps
 
-1. Start both backend and frontend servers as shown above
-2. Open http://localhost:5173 in your browser
-3. You should see "✓ Flask backend is running" message
-4. Run tests: `cd backend && pytest` and `cd frontend && npm test`
+1. Start the backend server as shown above
+2. Verify health: `curl http://localhost:5000/api/health`
+3. Use CLI to interact: `./scripts/project_cli/proj list`
+4. Run tests: `cd backend && pytest`
 
 ---
 
@@ -72,11 +74,16 @@ This project follows a **hub-and-spoke documentation pattern**:
 ### Key Directories
 
 - **`docs/maintainers/`** - Project management hub ([Maintainers Guide](docs/maintainers/README.md))
-- **`backend/`** - Backend application ([Backend Guide](backend/README.md))
-- **`frontend/`** - Frontend application ([Frontend Guide](frontend/README.md))
-- **`tests/`** - Centralized testing ([Testing Guide](tests/README.md))
-- **`scripts/`** - Automation scripts ([Scripts Guide](scripts/README.md))
-- **`docs/`** - User documentation ([Documentation Guide](docs/README.md))
+  - `planning/` - Feature plans, roadmap, notes
+  - `research/` - Technical research documents
+  - `decisions/` - Architecture Decision Records (ADRs)
+  - `feedback/` - External code reviews (Sourcery)
+- **`backend/`** - Flask API application ([Backend Guide](backend/README.md))
+- **`scripts/project_cli/`** - Command-line interface tools ([CLI Guide](scripts/project_cli/README.md))
+- **`scripts/inventory/`** - Project inventory automation
+- **`tests/`** - End-to-end testing (E2E only)
+- **`frontend/`** - React application (deferred to Phase 8)
+- **`docs/`** - User documentation
 
 ---
 
@@ -128,35 +135,57 @@ This project follows a **hub-and-spoke documentation pattern**:
 
 ## 📊 Project Status
 
-### ✅ Completed (Phase 0)
+### ✅ Completed (Phase 0 + Phase 1)
 
+**Phase 0: Development Environment**
 - Flask backend with application factory pattern
-- Health check API endpoint
-- Backend testing infrastructure (pytest, 100% coverage)
-- Hot reload for backend
-- React frontend skeleton (deferred to Phase 8)
+- Health check API endpoint (`/api/health`)
+- Backend testing infrastructure (pytest, 100% coverage on Phase 0)
+- Database migrations with Flask-Migrate
 
-### 🟡 Next (Phase 1 - Backend API)
+**Phase 1: List & Get Projects (Backend + CLI)**
+- Project model (id, name, path, timestamps)
+- GET `/api/projects` - List all projects
+- GET `/api/projects/<id>` - Get single project
+- CLI commands: `proj list` and `proj get`
+- 17 tests passing with 98% coverage
+- Merged via PR #2 on 2025-12-03
 
-- Projects data model and database schema
-- GET /api/projects endpoint (list all)
-- GET /api/projects/<id> endpoint (get single)
-- CLI `proj list` command
-- Backend tests with TDD
+**Code Quality Fixes**
+- PR #3: CORS security configuration (CRITICAL)
+- PR #4: Production logging + FLASK_ENV deprecation (HIGH + MEDIUM)
+- 3/5 Sourcery issues resolved (60%)
+- Remaining: 2 LOW priority (opportunistic fixes)
 
-### 🟡 Planned (Phases 2-7 - Backend MVP)
+**Documentation & Process**
+- Opportunities structure created (internal/external knowledge transfer)
+- Phase 1 learnings documented (878 lines)
+- Dev-infra improvements checklist (689 lines, 26 hours estimated)
+- Post-PR review workflow established
 
-- Full CRUD API operations (create, update, delete, archive)
-- Search and filter functionality
+### 🟠 Current (Phase 2 - Next)
+
+- POST `/api/projects` endpoint with validation (TDD)
+- PATCH `/api/projects/<id>` endpoint (TDD)
+- CLI `proj create` and `proj update` commands
+- Full test coverage
+- Estimated: 1.5 days
+
+### 🟡 Planned (Phases 3-7 - Backend MVP)
+
+- Delete and archive projects
 - Import 59 projects from inventory
+- Search and filter functionality
 - Enhanced CLI with rich output
 - API documentation (OpenAPI spec)
+- Total: ~8 days remaining
 
 ### 🟡 Deferred (Phase 8 - Frontend Learning Project)
 
 - React UI for project management
 - Build on working backend API
 - Learn JavaScript/React without deadline pressure
+- Frontend is a separate learning project
 
 ---
 
@@ -222,17 +251,40 @@ npm run build
 
 ## 📈 Metrics
 
-- [Key metric 1]
-- [Key metric 2]
-- [Key metric 3]
+**Phase 1 Complete:**
+- **17 tests** (4 unit, 13 integration) with **98% coverage**
+- **4 PRs merged** (2 features, 2 quality fixes)
+- **600+ lines** of backend code
+- **2.5 days** total implementation time
+- **Zero production bugs** (all issues caught in code review)
+
+**Documentation:**
+- **1,706 lines** of opportunities documentation
+- **8 sections** of actionable dev-infra improvements
+- **26 hours** estimated template improvement effort
 
 ---
 
 ## 🎊 Key Achievements
 
-1. [Achievement 1]
-2. [Achievement 2]
-3. [Achievement 3]
+**Week 1 (Nov 26 - Dec 1):**
+1. ✅ Tech stack research complete (4 ADRs, 2,500+ lines analysis)
+2. ✅ Testing strategy finalized (ADR-0006)
+3. ✅ Projects-first architecture decided (ADR-0005)
+4. ✅ Backend-first MVP pivot completed
+
+**Week 2 (Dec 2-6):**
+1. ✅ Phase 0: Development environment setup (1 day)
+2. ✅ Phase 1: List & Get Projects API + CLI (1 day)
+3. ✅ Code quality fixes (CORS, logging, FLASK_ENV)
+4. ✅ Opportunities documentation structure created
+5. ✅ Phase 1 learnings captured for dev-infra template
+
+**Quality & Process:**
+- TDD vertical slice approach working excellently
+- Hub-and-spoke documentation pattern scaling well
+- PR review workflow preventing issues before merge
+- CLI-first approach accelerating backend development
 
 ---
 
@@ -244,6 +296,6 @@ npm run build
 
 ---
 
-**Last Updated:** 2025-11-26  
-**Status:** [Status]  
-**Next:** [Next milestone]
+**Last Updated:** 2025-12-03  
+**Status:** ✅ Phase 1 Complete + Quality Fixes Merged  
+**Next:** Phase 2: Create & Update Projects (Backend + CLI)
