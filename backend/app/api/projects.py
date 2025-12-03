@@ -113,7 +113,20 @@ def create_project():
         return jsonify({'error': str(e)}), 500
 
 
-@projects_bp.route('/projects/<int:project_id>', methods=['GET'])
+@projects_bp.route('/projects/<int:project_id>', methods=['GET', 'PATCH'])
+def project_detail(project_id):
+    """
+    Handle GET and PATCH requests for a specific project.
+    
+    GET: Retrieve project details
+    PATCH: Update project fields
+    """
+    if request.method == 'GET':
+        return get_project(project_id)
+    elif request.method == 'PATCH':
+        return update_project(project_id)
+
+
 def get_project(project_id):
     """
     Get a specific project by ID.
@@ -133,6 +146,84 @@ def get_project(project_id):
         return jsonify({'error': 'Project not found'}), 404
     
     return jsonify(project.to_dict()), 200
+
+
+def update_project(project_id):
+    """
+    Update an existing project.
+    
+    Request body (JSON): Fields to update (all optional)
+        - name: Project name
+        - path: File system path
+        - organization: Organization name
+        - classification: Project classification
+        - status: Project status
+        - description: Project description
+        - remote_url: Git repository URL
+    
+    Returns:
+        200: Updated project
+        400: Validation error
+        404: Project not found
+        409: Duplicate path conflict
+    """
+    project = db.session.get(Project, project_id)
+    
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+    
+    data = request.get_json()
+    if not data:
+        # No updates provided - return current project
+        return jsonify(project.to_dict()), 200
+    
+    # Validate classification if provided
+    if 'classification' in data and data['classification'] is not None:
+        if data['classification'] not in VALID_CLASSIFICATIONS:
+            return jsonify({
+                'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
+            }), 400
+    
+    # Validate status if provided
+    if 'status' in data and data['status'] is not None:
+        if data['status'] not in VALID_STATUSES:
+            return jsonify({
+                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
+            }), 400
+    
+    # Check for duplicate path if updating path
+    if 'path' in data and data['path'] and data['path'] != project.path:
+        existing = Project.query.filter_by(path=data['path']).first()
+        if existing:
+            return jsonify({'error': 'Project with this path already exists'}), 409
+    
+    # Update fields that are provided
+    try:
+        if 'name' in data:
+            project.name = data['name']
+        if 'path' in data:
+            project.path = data['path']
+        if 'organization' in data:
+            project.organization = data['organization']
+        if 'classification' in data:
+            project.classification = data['classification']
+        if 'status' in data:
+            project.status = data['status']
+        if 'description' in data:
+            project.description = data['description']
+        if 'remote_url' in data:
+            project.remote_url = data['remote_url']
+        
+        db.session.commit()
+        
+        return jsonify(project.to_dict()), 200
+    
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'error': 'Database integrity error'}), 409
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 
 @projects_bp.route('/projects/<project_id>', methods=['GET'])

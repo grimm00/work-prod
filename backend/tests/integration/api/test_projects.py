@@ -265,3 +265,152 @@ def test_create_project_appears_in_list(client):
     project_ids = [p['id'] for p in data]
     assert project_id in project_ids
 
+
+# PATCH /api/projects/<id> tests (Phase 2)
+
+
+@pytest.mark.integration
+def test_update_project_single_field(client, app):
+    """Test PATCH /api/projects/<id> updates single field."""
+    # Create project
+    with app.app_context():
+        project = Project(name="Original Name", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Update only status
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={'status': 'completed'},
+                           content_type='application/json')
+    
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    assert data['status'] == 'completed'
+    assert data['name'] == 'Original Name'  # Unchanged
+
+
+@pytest.mark.integration
+def test_update_project_multiple_fields(client, app):
+    """Test PATCH /api/projects/<id> updates multiple fields."""
+    # Create project
+    with app.app_context():
+        project = Project(name="Test Project")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Update multiple fields
+    updates = {
+        'name': 'Updated Name',
+        'organization': 'work',
+        'classification': 'primary',
+        'status': 'active',
+        'description': 'Updated description'
+    }
+    
+    response = client.patch(f'/api/projects/{project_id}',
+                           json=updates,
+                           content_type='application/json')
+    
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    assert data['name'] == 'Updated Name'
+    assert data['organization'] == 'work'
+    assert data['classification'] == 'primary'
+    assert data['status'] == 'active'
+    assert data['description'] == 'Updated description'
+
+
+@pytest.mark.integration
+def test_update_project_idempotent(client, app):
+    """Test PATCH /api/projects/<id> with no changes succeeds."""
+    # Create project
+    with app.app_context():
+        project = Project(name="Test Project", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Update with same values
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={},
+                           content_type='application/json')
+    
+    assert response.status_code == 200
+
+
+@pytest.mark.integration
+def test_update_project_invalid_classification(client, app):
+    """Test PATCH /api/projects/<id> with invalid classification returns 400."""
+    # Create project
+    with app.app_context():
+        project = Project(name="Test Project")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Try invalid classification
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={'classification': 'invalid_type'},
+                           content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_update_project_invalid_status(client, app):
+    """Test PATCH /api/projects/<id> with invalid status returns 400."""
+    # Create project
+    with app.app_context():
+        project = Project(name="Test Project")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Try invalid status
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={'status': 'invalid_status'},
+                           content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_update_project_not_found(client):
+    """Test PATCH /api/projects/<id> returns 404 for non-existent project."""
+    response = client.patch('/api/projects/99999',
+                           json={'status': 'active'},
+                           content_type='application/json')
+    
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_update_project_duplicate_path(client, app):
+    """Test PATCH /api/projects/<id> prevents duplicate path."""
+    # Create two projects
+    with app.app_context():
+        project1 = Project(name="Project 1", path="/path/1")
+        project2 = Project(name="Project 2", path="/path/2")
+        db.session.add_all([project1, project2])
+        db.session.commit()
+        project2_id = project2.id
+    
+    # Try to update project2's path to project1's path
+    response = client.patch(f'/api/projects/{project2_id}',
+                           json={'path': '/path/1'},
+                           content_type='application/json')
+    
+    assert response.status_code == 409
+    data = json.loads(response.data)
+    assert 'error' in data
+
