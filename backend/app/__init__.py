@@ -38,9 +38,15 @@ def create_app(config_name='default'):
     migrate.init_app(app, db)
     CORS(app)
     
+    # Import models to register with SQLAlchemy
+    with app.app_context():
+        from app import models
+    
     # Register blueprints
     from app.api.health import health_bp
+    from app.api.projects import projects_bp
     app.register_blueprint(health_bp, url_prefix='/api')
+    app.register_blueprint(projects_bp, url_prefix='/api')
     
     return app
 
