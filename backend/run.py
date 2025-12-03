@@ -13,7 +13,9 @@ load_dotenv()
 
 # Create Flask app with explicit configuration
 # APP_CONFIG can be: 'development', 'testing', 'production'
-config_name = os.environ.get('APP_CONFIG', 'development')
+# Backwards compatibility: Falls back to FLASK_ENV if APP_CONFIG not set
+# Priority: APP_CONFIG > FLASK_ENV > 'development'
+config_name = os.environ.get('APP_CONFIG') or os.environ.get('FLASK_ENV', 'development')
 app = create_app(config_name)
 
 if __name__ == '__main__':
