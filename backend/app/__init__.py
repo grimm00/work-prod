@@ -36,7 +36,9 @@ def create_app(config_name='default'):
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app)
+    
+    # Configure CORS with environment-specific origins
+    CORS(app, origins=app.config.get('CORS_ORIGINS', []))
     
     # Import models to register with SQLAlchemy
     with app.app_context():

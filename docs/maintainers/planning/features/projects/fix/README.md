@@ -55,13 +55,13 @@ See individual fix plan documents in this directory:
 
 | Issue | Priority | Impact | Effort | Status | File |
 |-------|----------|--------|--------|--------|------|
-| #1 | 🟠 HIGH | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [issue-01-logging-config.md](issue-01-logging-config.md) |
-| #2 | 🔴 CRITICAL | 🔴 CRITICAL | 🟢 LOW | 🟡 Planned | [issue-02-cors-security.md](issue-02-cors-security.md) |
-| #3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [issue-03-flask-env-deprecated.md](issue-03-flask-env-deprecated.md) |
-| #5 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [issue-05-test-improvements.md](issue-05-test-improvements.md) |
-| #6 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [issue-06-readme-typo.md](issue-06-readme-typo.md) |
+| PR01-#1 | 🟠 HIGH | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [pr01-issue-01-logging-config.md](pr01-issue-01-logging-config.md) |
+| PR01-#2 | 🔴 CRITICAL | 🔴 CRITICAL | 🟢 LOW | ✅ Complete | [pr01-issue-02-cors-security.md](pr01-issue-02-cors-security.md) |
+| PR01-#3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | 🟡 Planned | [pr01-issue-03-flask-env-deprecated.md](pr01-issue-03-flask-env-deprecated.md) |
+| PR01-#5 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [pr01-issue-05-test-improvements.md](pr01-issue-05-test-improvements.md) |
+| PR01-#6 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Planned | [pr01-issue-06-readme-typo.md](pr01-issue-06-readme-typo.md) |
 
-**Note:** Issue #4 (Frontend CSS) is deferred to Phase 8 (Frontend Learning Project).
+**Note:** Issue #4 (Frontend CSS) is deferred to Phase 8 - see [DEFERRED.md](../DEFERRED.md).
 
 ---
 

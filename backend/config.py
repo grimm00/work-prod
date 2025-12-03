@@ -20,6 +20,9 @@ class Config:
     # Get the base directory (backend directory)
     BASE_DIR = Path(__file__).parent
     
+    # CORS settings (override in subclasses)
+    CORS_ORIGINS = []
+    
     @staticmethod
     def init_app(app):
         """Initialize application with config-specific settings."""
@@ -36,6 +39,12 @@ class DevelopmentConfig(Config):
     # Enable Flask debug toolbar if available
     DEBUG_TB_ENABLED = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    
+    # CORS: Allow localhost development servers
+    CORS_ORIGINS = [
+        'http://localhost:5173',  # Vite dev server
+        'http://localhost:3000',  # Alternative frontend port
+    ]
 
 
 class TestingConfig(Config):
@@ -49,6 +58,9 @@ class TestingConfig(Config):
     
     # Disable CSRF for testing
     WTF_CSRF_ENABLED = False
+    
+    # CORS: Allow test client
+    CORS_ORIGINS = ['http://localhost:5173']
 
 
 class ProductionConfig(Config):
@@ -57,6 +69,9 @@ class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         f"sqlite:///{Config.BASE_DIR / 'instance' / 'work_prod.db'}"
+    
+    # CORS: Load from environment variable (comma-separated origins)
+    CORS_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if os.environ.get('CORS_ALLOWED_ORIGINS') else []
     
     @classmethod
     def init_app(cls, app):
