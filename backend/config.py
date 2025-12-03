@@ -17,8 +17,8 @@ class Config:
     # Database settings
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # Get the base directory (project root)
-    BASE_DIR = Path(__file__).parent.parent
+    # Get the base directory (backend directory)
+    BASE_DIR = Path(__file__).parent
     
     @staticmethod
     def init_app(app):
