@@ -113,3 +113,155 @@ def test_list_projects_ordering(client, app):
     ids = [p['id'] for p in data]
     assert ids == sorted(ids)
 
+
+# POST /api/projects tests (Phase 2)
+
+
+@pytest.mark.integration
+def test_create_project_minimal(client):
+    """Test POST /api/projects with minimal data (name only)."""
+    response = client.post('/api/projects', 
+                          json={'name': 'New Project'},
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    assert 'Location' in response.headers
+    
+    data = json.loads(response.data)
+    assert data['name'] == 'New Project'
+    assert data['status'] == 'active'  # Default status
+    assert 'id' in data
+    assert data['id'] is not None
+
+
+@pytest.mark.integration
+def test_create_project_full_data(client):
+    """Test POST /api/projects with all fields."""
+    project_data = {
+        'name': 'Full Project',
+        'path': '/full/path',
+        'organization': 'work',
+        'classification': 'primary',
+        'status': 'active',
+        'description': 'A complete project',
+        'remote_url': 'https://github.com/user/repo'
+    }
+    
+    response = client.post('/api/projects',
+                          json=project_data,
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    
+    data = json.loads(response.data)
+    assert data['name'] == 'Full Project'
+    assert data['path'] == '/full/path'
+    assert data['organization'] == 'work'
+    assert data['classification'] == 'primary'
+    assert data['status'] == 'active'
+    assert data['description'] == 'A complete project'
+    assert data['remote_url'] == 'https://github.com/user/repo'
+
+
+@pytest.mark.integration
+def test_create_project_location_header(client):
+    """Test that POST returns correct Location header."""
+    response = client.post('/api/projects',
+                          json={'name': 'Test Project'},
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    assert 'Location' in response.headers
+    
+    data = json.loads(response.data)
+    project_id = data['id']
+    
+    # Location header should point to the new resource
+    assert f'/api/projects/{project_id}' in response.headers['Location']
+
+
+@pytest.mark.integration
+def test_create_project_missing_name(client):
+    """Test POST /api/projects without name returns 400."""
+    response = client.post('/api/projects',
+                          json={'path': '/some/path'},
+                          content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+    assert 'name' in data['error'].lower()
+
+
+@pytest.mark.integration
+def test_create_project_invalid_classification(client):
+    """Test POST /api/projects with invalid classification returns 400."""
+    response = client.post('/api/projects',
+                          json={
+                              'name': 'Test Project',
+                              'classification': 'invalid_type'
+                          },
+                          content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_create_project_invalid_status(client):
+    """Test POST /api/projects with invalid status returns 400."""
+    response = client.post('/api/projects',
+                          json={
+                              'name': 'Test Project',
+                              'status': 'invalid_status'
+                          },
+                          content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_create_project_duplicate_path(client, app):
+    """Test POST /api/projects with duplicate path returns 409."""
+    # Create first project
+    with app.app_context():
+        project = Project(name="Existing Project", path="/duplicate/path")
+        db.session.add(project)
+        db.session.commit()
+    
+    # Try to create second project with same path
+    response = client.post('/api/projects',
+                          json={
+                              'name': 'New Project',
+                              'path': '/duplicate/path'
+                          },
+                          content_type='application/json')
+    
+    assert response.status_code == 409
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_create_project_appears_in_list(client):
+    """Test that created project appears in GET /api/projects."""
+    # Create project via POST
+    response = client.post('/api/projects',
+                          json={'name': 'Listed Project'},
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    created_data = json.loads(response.data)
+    project_id = created_data['id']
+    
+    # Verify it appears in list
+    response = client.get('/api/projects')
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    project_ids = [p['id'] for p in data]
+    assert project_id in project_ids
+

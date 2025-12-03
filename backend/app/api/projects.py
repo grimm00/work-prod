@@ -1,17 +1,36 @@
 """
 Projects API endpoints.
 
-Provides REST API for managing projects including list and get operations.
+Provides REST API for managing projects including list, get, and create operations.
 """
 
 from flask import Blueprint, jsonify, request
 from app.models.project import Project
 from app import db
+from sqlalchemy.exc import IntegrityError
 
 projects_bp = Blueprint('projects', __name__)
 
 
-@projects_bp.route('/projects', methods=['GET'])
+# Validation constants
+VALID_CLASSIFICATIONS = ['primary', 'secondary', 'archive', 'maintenance']
+VALID_STATUSES = ['active', 'paused', 'completed', 'cancelled']
+
+
+@projects_bp.route('/projects', methods=['GET', 'POST'])
+def projects():
+    """
+    Handle GET and POST requests for projects collection.
+    
+    GET: List all projects
+    POST: Create a new project
+    """
+    if request.method == 'GET':
+        return list_projects()
+    elif request.method == 'POST':
+        return create_project()
+
+
 def list_projects():
     """
     List all projects.
@@ -21,6 +40,77 @@ def list_projects():
     """
     projects = Project.query.order_by(Project.id).all()
     return jsonify([project.to_dict() for project in projects]), 200
+
+
+def create_project():
+    """
+    Create a new project.
+    
+    Request body (JSON):
+        - name (required): Project name
+        - path (optional): File system path
+        - organization (optional): Organization name
+        - classification (optional): Project classification
+        - status (optional): Project status (defaults to 'active')
+        - description (optional): Project description
+        - remote_url (optional): Git repository URL
+    
+    Returns:
+        201: Created project with Location header
+        400: Validation error
+        409: Duplicate path conflict
+    """
+    data = request.get_json()
+    
+    # Validate required fields
+    if not data or 'name' not in data or not data['name']:
+        return jsonify({'error': 'Name is required'}), 400
+    
+    # Validate classification if provided
+    if 'classification' in data and data['classification'] is not None:
+        if data['classification'] not in VALID_CLASSIFICATIONS:
+            return jsonify({
+                'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
+            }), 400
+    
+    # Validate status if provided
+    if 'status' in data and data['status'] is not None:
+        if data['status'] not in VALID_STATUSES:
+            return jsonify({
+                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
+            }), 400
+    
+    # Check for duplicate path
+    if 'path' in data and data['path']:
+        existing = Project.query.filter_by(path=data['path']).first()
+        if existing:
+            return jsonify({'error': 'Project with this path already exists'}), 409
+    
+    # Create project
+    try:
+        project = Project(
+            name=data['name'],
+            path=data.get('path'),
+            organization=data.get('organization'),
+            classification=data.get('classification'),
+            status=data.get('status', 'active'),
+            description=data.get('description'),
+            remote_url=data.get('remote_url')
+        )
+        
+        db.session.add(project)
+        db.session.commit()
+        
+        return jsonify(project.to_dict()), 201, {
+            'Location': f'/api/projects/{project.id}'
+        }
+    
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'error': 'Database integrity error'}), 409
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 
 @projects_bp.route('/projects/<int:project_id>', methods=['GET'])
