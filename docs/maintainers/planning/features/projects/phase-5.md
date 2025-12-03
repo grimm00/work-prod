@@ -1,7 +1,7 @@
-# Projects Feature - Phase 5: Search and Filtering
+# Projects Feature - Phase 5: Projects API - Import from JSON
 
-**Phase:** 5 - Search and Filtering  
-**Duration:** 2 days  
+**Phase:** 5 - Projects API - Import from JSON (Backend + CLI)  
+**Duration:** 1 day  
 **Status:** 🔴 Not Started  
 **Prerequisites:** Phase 4 complete
 
@@ -9,91 +9,180 @@
 
 ## 📋 Overview
 
-Phase 5 adds search and filtering capabilities to quickly find projects in a large list. With 59+ projects, users need efficient ways to locate specific projects by name, organization, classification, or learning type.
+Phase 5 implements bulk import functionality to load the 59 existing projects from the inventory POC data. This phase creates a POST /api/projects/import endpoint and a CLI command to import from JSON. By the end, all 59 projects are loaded into the database.
 
-**Success Definition:** Can search and filter 100+ projects in under 1 second.
+**Success Definition:** Can import all 59 projects from classifications.json with one command.
 
 ---
 
 ## 🎯 Goals
 
-1. **Full-Text Search** - SQLite FTS5 for fast search
-2. **Multi-Faceted Filtering** - By organization, classification, status, learning_type
-3. **Sort Options** - By name, updated_at, status
-4. **Search UI** - Debounced search bar with results highlighting
-5. **Filter UI** - Filter chips with clear/reset
+1. **POST /api/projects/import Endpoint** - Bulk import from JSON
+2. **Data Mapping** - Map inventory POC format to Project model
+3. **Duplicate Handling** - Skip or update existing projects
+4. **CLI Import Command** - `proj import <file>`
+5. **Import Success** - All 59 projects loaded correctly
 
 ---
 
-## 📝 TDD Tasks
+## 📝 Tasks
 
-### Backend Search
+### TDD Flow
 
-- [ ] Set up SQLite FTS5 virtual table
-- [ ] Write search endpoint tests
-  - Test full-text search
-  - Test filtering by organization
-  - Test filtering by classification
-  - Test filtering by status
-  - Test filtering by learning_type
-  - Test combined filters
-  - Test sorting options
-- [ ] Implement GET /api/projects/search
-  - Query params: `q`, `organization`, `classification`, `status`, `learning_type`, `sort`
-  - Return filtered and sorted results
-  - Performance: < 100ms for 100+ projects
+#### 1. Write Import Tests (TDD - RED)
+- [ ] Test import single project from JSON
+- [ ] Test import multiple projects
+- [ ] Test duplicate handling (skip existing)
+- [ ] Test invalid JSON returns 400
+- [ ] Test import statistics in response
 
-### Frontend Search UI
+#### 2. Implement Import Endpoint (TDD - GREEN)
+- [ ] Add POST /api/projects/import route:
+  ```python
+  @projects_bp.route('/projects/import', methods=['POST'])
+  def import_projects():
+      data = request.get_json()
+      
+      imported = 0
+      skipped = 0
+      errors = []
+      
+      for project_data in data.get('projects', []):
+          try:
+              # Check if already exists
+              existing = Project.query.filter_by(
+                  remote_url=project_data.get('remote_url')
+              ).first()
+              
+              if existing:
+                  skipped += 1
+                  continue
+              
+              # Create new project
+              project = Project(
+                  name=project_data['name'],
+                  path=project_data.get('path'),
+                  organization=project_data.get('organization'),
+                  classification=project_data.get('classification'),
+                  status=project_data.get('status', 'active'),
+                  description=project_data.get('description'),
+                  remote_url=project_data.get('remote_url')
+              )
+              db.session.add(project)
+              imported += 1
+          except Exception as e:
+              errors.append({'project': project_data.get('name'), 'error': str(e)})
+      
+      db.session.commit()
+      
+      return jsonify({
+          'imported': imported,
+          'skipped': skipped,
+          'errors': errors
+      }), 201
+  ```
 
-- [ ] Write search UI tests
-- [ ] Create SearchBar component with debounced input
-- [ ] Create FilterChips component
-- [ ] Add learning project badges
-- [ ] Add sort dropdown
-- [ ] Integrate with ProjectList
+#### 3. Create Data Mapping Script
+- [ ] Create `scripts/map_inventory_to_projects.py`:
+  - Read `scripts/inventory/data/classifications-merged.json`
+  - Map to Project model format
+  - Output projects.json for import
 
-### Manual Testing
+#### 4. Write Mapping Tests
+- [ ] Test mapping inventory format to Project format
+- [ ] Test all 59 projects map correctly
+- [ ] Test special cases (missing fields, etc.)
 
-- [ ] Search for project by name
-- [ ] Filter by organization
-- [ ] Filter by learning type
-- [ ] Combine multiple filters
-- [ ] Test with 100+ projects (seed data)
-- [ ] Verify performance (< 1 second)
+#### 5. Implement CLI Import
+- [ ] Add `proj import <file>` command:
+  ```python
+  def import_projects(filename):
+      with open(filename, 'r') as f:
+          data = json.load(f)
+      
+      resp = requests.post(f"{API_BASE}/projects/import", json=data)
+      
+      if resp.status_code == 201:
+          stats = resp.json()
+          print(f"✓ Imported: {stats['imported']}")
+          print(f"⊘ Skipped: {stats['skipped']}")
+          if stats['errors']:
+              print(f"✗ Errors: {len(stats['errors'])}")
+      else:
+          print(f"✗ Import failed: {resp.json()}")
+  ```
+
+#### 6. Execute Full Import
+- [ ] Run mapping script to generate projects.json
+- [ ] Import via CLI: `./proj import projects.json`
+- [ ] Verify all 59 projects in database
+- [ ] Verify classifications match expectations
 
 ---
 
 ## ✅ Completion Criteria
 
-- [ ] FTS5 search configured
-- [ ] Search endpoint returns results in < 100ms
-- [ ] Search UI with debounce working
-- [ ] Filters working (org, classification, status, learning_type)
-- [ ] Sort options working
-- [ ] Learning project badges visible
-- [ ] All tests passing
+- [ ] Import endpoint works for bulk data
+- [ ] Duplicate detection prevents re-imports
+- [ ] All 59 projects from inventory imported successfully
+- [ ] Import statistics accurate
+- [ ] Tests pass with coverage > 80%
+- [ ] CLI import command works
+- [ ] Can list all imported projects
 
 ---
 
 ## 📦 Deliverables
 
-- SQLite FTS5 configuration
-- GET /api/projects/search endpoint
-- SearchBar component
-- FilterChips component
-- Learning project badges
-- Backend and frontend tests
+1. POST /api/projects/import endpoint
+2. Data mapping script
+3. CLI import command
+4. Mapped projects.json file
+5. Import tests
+6. Documentation of import process
 
 ---
 
-## 🔗 Dependencies
+## 💡 Import Process
 
-**Prerequisites:** Phase 4 complete  
-**Blocks:** Phase 6
+### Step 1: Map Data
+```bash
+cd scripts
+python map_inventory_to_projects.py \
+  inventory/data/classifications-merged.json \
+  projects.json
+```
+
+### Step 2: Import via CLI
+```bash
+cd project_cli
+./proj import ../projects.json
+```
+
+### Step 3: Verify
+```bash
+./proj list
+# Should show all 59 projects
+```
+
+### curl Example
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d @projects.json | jq
+```
+
+---
+
+## 📊 Expected Import Results
+
+- **Total Projects:** 59
+- **Work Projects:** ~25
+- **Learning Projects:** ~17 (with learning_type classification)
+- **Personal Projects:** ~17
 
 ---
 
 **Last Updated:** 2025-12-02  
-**Status:** 🔴 Not Started
-
-
+**Status:** 🔴 Not Started  
+**Next:** Begin after Phase 4 complete

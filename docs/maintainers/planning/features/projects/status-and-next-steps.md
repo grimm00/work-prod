@@ -3,13 +3,14 @@
 **Feature:** Project Organization and Management  
 **Current Phase:** Phase 0 Complete - Ready for Phase 1  
 **Last Updated:** 2025-12-02  
-**Overall Progress:** 1/8 phases complete (12.5%)
+**Overall Progress:** 1/8 phases complete (12.5%)  
+**Approach:** Backend-First API Development with CLI
 
 ---
 
 ## 📊 Current Status
 
-**Phase:** Phase 0 Complete  
+**Phase:** Phase 0 Complete, Backend-First Approach  
 **Status:** ✅ Complete  
 **Blocker:** None - Ready for Phase 1
 
@@ -17,9 +18,9 @@
 
 - ✅ Phase 0: Development Environment complete
 - ✅ Flask backend with health check endpoint running
-- ✅ React frontend with HealthCheck component working
-- ✅ All tests passing (backend 100% coverage, frontend 4/4 tests)
-- 🟡 Ready to begin Phase 1: List Projects
+- ✅ Backend testing infrastructure (pytest, 100% coverage)
+- ✅ **Backend-first pivot complete** - All phases updated for API + CLI
+- 🟡 Ready to begin Phase 1: List & Get Projects (Backend + CLI)
 
 ---
 
@@ -68,22 +69,26 @@
 
 - ✅ **Phase 0: Development Environment Complete** (2025-12-02)
   - Flask application factory pattern implemented
-  - React + Vite project initialized
   - pytest configured with 100% coverage on health endpoint
-  - Vitest + React Testing Library configured
   - Health check endpoint created and tested
-  - HealthCheck React component created and tested
-  - Vite proxy configured (no CORS issues)
-  - Hot reload working for both backend and frontend
+  - Backend testing infrastructure ready
   - Project README updated with setup instructions
+  - React + Vite project initialized (deferred to Phase 8)
+
+- ✅ **Backend-First Pivot Complete** (2025-12-02)
+  - All phase documents updated to backend-only approach
+  - CLI tool design documented
+  - MVP roadmap adjusted (2 weeks vs. 3+ weeks)
+  - Feature plan reflects backend-first strategy
+  - Frontend deferred to Phase 8 as learning project
 
 ---
 
 ## 🟠 In Progress
 
-### Phase 1: List Projects (Next)
+### Phase 1: List & Get Projects (Next)
 
-Phase 0 is complete. Ready to begin Phase 1: List Projects implementation.
+Phase 0 complete. Backend-first pivot complete. Ready to begin Phase 1: Backend API + CLI for list and get operations.
 
 ---
 
@@ -103,19 +108,19 @@ Phase 0 complete. Ready to begin Phase 1: List Projects.
 
 ### Immediate (This Week - Dec 2-6)
 
-1. **Begin Phase 1: List Projects** (2-3 days)
-   - [ ] Create Project model with minimal fields
+1. **Begin Phase 1: List & Get Projects** (1.5 days)
+   - [ ] Create Project model with minimal fields (TDD)
    - [ ] Set up database migrations
-   - [ ] Implement GET /api/projects endpoint
-   - [ ] Write backend tests (model + API)
-   - [ ] Build ProjectList React component
-   - [ ] Set up Zustand projects store
-   - [ ] Write frontend component tests
-   - [ ] Verify vertical slice end-to-end
+   - [ ] Implement GET /api/projects endpoint (TDD)
+   - [ ] Implement GET /api/projects/<id> endpoint (TDD)
+   - [ ] Write all backend tests (model + API)
+   - [ ] Create basic CLI `proj list` command
+   - [ ] Test with curl and CLI
 
 ### Next Week (Dec 9-13)
 
-2. **Phase 2: Add/Edit Projects** (2-3 days)
+2. **Phase 2: Create & Update Projects** (1.5 days)
+3. **Phase 3: Delete & Archive** (1 day)
    - [ ] Create Project model (minimal fields)
    - [ ] Implement GET /api/projects endpoint
    - [ ] Build ProjectList React component

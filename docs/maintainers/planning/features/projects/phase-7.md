@@ -1,7 +1,7 @@
-# Projects Feature - Phase 7: Polish and MVP Completion
+# Projects Feature - Phase 7: Manual Testing & Bug Fixes
 
-**Phase:** 7 - Production-Ready MVP  
-**Duration:** 3 days  
+**Phase:** 7 - Manual Testing & Bug Fixes  
+**Duration:** 2 days  
 **Status:** 🔴 Not Started  
 **Prerequisites:** Phase 6 complete
 
@@ -9,206 +9,224 @@
 
 ## 📋 Overview
 
-Phase 7 polishes the Projects feature to production quality. This phase focuses on responsive design, accessibility, performance, error handling, and documentation to ensure the MVP is ready for daily use.
+Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimization, and documentation completion. This phase ensures the backend MVP is production-ready for daily use. By the end, the Projects API and CLI are stable, tested, and documented.
 
-**Success Definition:** Projects feature is stable, polished, and ready for production deployment.
+**Success Definition:** Backend MVP is production-ready with no critical bugs and complete documentation.
 
 ---
 
 ## 🎯 Goals
 
-1. **Responsive Design** - Works on mobile, tablet, desktop
-2. **Accessibility** - WCAG 2.1 AA compliant
-3. **Performance** - Fast with 100+ projects
-4. **Error Handling** - Graceful failures with recovery guidance
-5. **Documentation** - User guide and API docs
+1. **Comprehensive Testing** - Manual test all endpoints and CLI commands
+2. **Bug Fixes** - Fix all discovered issues
+3. **Performance** - Optimize slow queries and operations
+4. **API Documentation** - Complete OpenAPI/Swagger spec
+5. **User Documentation** - README and usage guides
 
 ---
 
 ## 📝 Tasks
 
-### Frontend Polish
+### 1. Manual Testing Checklist
 
-- [ ] **Responsive Design**
-  - Mobile layout (< 768px)
-  - Tablet layout (768px - 1024px)
-  - Desktop layout (> 1024px)
-  - Touch-friendly controls on mobile
-  
-- [ ] **Loading States**
-  - Skeleton loaders for project list
-  - Loading spinners for actions
-  - Progress indicators for imports
-  
-- [ ] **Empty States**
-  - "No projects" with helpful message
-  - "No search results" with suggestions
-  - "Import your projects" call-to-action
-  
-- [ ] **Error States**
-  - User-friendly error messages
-  - Recovery suggestions
-  - Retry buttons
-  
-- [ ] **Accessibility**
-  - ARIA labels on all interactive elements
-  - Keyboard navigation (Tab, Enter, Escape)
-  - Focus management (modals, forms)
-  - Screen reader testing
-  - Color contrast ratios (4.5:1 minimum)
-  
-- [ ] **Keyboard Shortcuts**
-  - `/` to focus search
-  - `n` to create new project
-  - `Esc` to close modals
-  - Arrow keys for navigation
+#### API Endpoints
+- [ ] GET /api/health - Health check works
+- [ ] GET /api/projects - List projects (empty, with data, filtered)
+- [ ] GET /api/projects/<id> - Get single project
+- [ ] POST /api/projects - Create project (valid, invalid, duplicates)
+- [ ] PUT /api/projects/<id> - Update project (partial, full, validation)
+- [ ] DELETE /api/projects/<id> - Delete project
+- [ ] PUT /api/projects/<id>/archive - Archive project
+- [ ] POST /api/projects/import - Import bulk data
 
-### Backend Polish
+#### CLI Commands
+- [ ] `proj list` - All variations (filters, search)
+- [ ] `proj get <id>` - Get single project
+- [ ] `proj create` - Create projects
+- [ ] `proj update` - Update projects
+- [ ] `proj delete` - Delete with confirmation
+- [ ] `proj archive` - Archive projects
+- [ ] `proj import` - Import from JSON
+- [ ] `proj stats` - Statistics display
+- [ ] `proj recent` - Recent projects
+- [ ] `proj active` - Active projects filter
 
-- [ ] **Error Handling**
-  - Comprehensive error messages
-  - Proper HTTP status codes
-  - Error logging
-  
-- [ ] **API Documentation**
-  - OpenAPI/Swagger specification
-  - Endpoint descriptions
-  - Request/response examples
-  
-- [ ] **Database Optimization**
-  - Indexes on frequently queried fields
-  - Query performance analysis
-  
-- [ ] **Logging and Monitoring**
-  - Request logging
-  - Error tracking
-  - Performance metrics
+#### Edge Cases
+- [ ] Empty database
+- [ ] Large dataset (100+ projects)
+- [ ] Invalid input handling
+- [ ] Network errors (backend down)
+- [ ] Concurrent updates
+- [ ] Special characters in names/paths
+- [ ] Very long descriptions
 
-### Testing
+### 2. Bug Tracking
 
-- [ ] **Manual Testing Checklist**
-  - [ ] Create, read, update, delete projects
-  - [ ] Search and filter functionality
-  - [ ] GitHub sync
-  - [ ] Import 59 projects
-  - [ ] Edge cases (empty strings, special characters, unicode)
-  - [ ] Mobile responsive design
-  - [ ] Keyboard navigation
-  
-- [ ] **Performance Testing**
-  - [ ] Load 100+ projects
-  - [ ] Search performance < 1 second
-  - [ ] Import performance acceptable
-  - [ ] API response times < 200ms
-  
-- [ ] **Browser Compatibility**
-  - [ ] Chrome
-  - [ ] Firefox
-  - [ ] Safari
-  - [ ] Edge
+- [ ] Create `docs/maintainers/planning/features/projects/fix/bugs.md`
+- [ ] Document all discovered bugs
+- [ ] Prioritize: Critical, High, Medium, Low
+- [ ] Fix critical and high priority bugs
+- [ ] Track medium/low for future phases
 
-### Documentation
+### 3. Performance Testing
 
-- [ ] **User Guide**
-  - Getting started
-  - Creating projects
-  - Importing projects
-  - Searching and filtering
-  - GitHub sync
-  
-- [ ] **API Documentation**
-  - All endpoints documented
-  - Request/response examples
-  - Error codes explained
-  
-- [ ] **Developer Setup Guide**
+- [ ] Test with 100 projects
+- [ ] Test with 1000 projects (stress test)
+- [ ] Measure query times
+- [ ] Add database indexes if needed
+- [ ] Optimize slow endpoints
+
+### 4. API Documentation
+
+- [ ] Create OpenAPI/Swagger specification
+- [ ] Document all endpoints:
+  - Request format
+  - Response format
+  - Status codes
+  - Error responses
+  - Examples
+- [ ] Generate API docs with Swagger UI or similar
+- [ ] Add to project README
+
+### 5. User Documentation
+
+- [ ] Update project README.md:
+  - Backend MVP features
+  - API endpoints list
+  - CLI tool usage
   - Installation instructions
-  - Running development servers
-  - Running tests
-  - Deployment instructions
-  
-- [ ] **Troubleshooting Guide**
-  - Common issues and solutions
-  - Error message explanations
-  - Where to get help
+  - Development setup
+- [ ] Create CLI usage guide
+- [ ] Create API usage examples
+- [ ] Add troubleshooting section
+
+### 6. Code Quality
+
+- [ ] Run linter (flake8 or pylint)
+- [ ] Fix linting issues
+- [ ] Add type hints where helpful
+- [ ] Add docstrings to all functions
+- [ ] Review code for security issues
+
+### 7. Final Verification
+
+- [ ] All backend tests pass
+- [ ] Test coverage > 80%
+- [ ] No critical bugs remaining
+- [ ] Documentation complete
+- [ ] CLI works smoothly
+- [ ] API stable and responsive
 
 ---
 
 ## ✅ Completion Criteria
 
-- [ ] Responsive on mobile, tablet, desktop
-- [ ] Accessible (WCAG 2.1 AA)
-- [ ] Performance < 1s for all operations with 100+ projects
-- [ ] Error handling comprehensive
-- [ ] All documentation complete
-- [ ] Manual testing checklist complete
+- [ ] All manual test cases pass
+- [ ] Critical bugs fixed
+- [ ] Performance acceptable (queries < 100ms for 100 projects)
+- [ ] API fully documented (OpenAPI spec)
+- [ ] User documentation complete
+- [ ] Code quality high (linting, docstrings)
 - [ ] Test coverage > 80%
-- [ ] No critical bugs
 - [ ] Ready for daily use
-- [ ] Ready for other features to integrate
 
 ---
 
 ## 📦 Deliverables
 
-### Code
+1. **Bug Reports**
+   - Documented bugs in fix/bugs.md
+   - Critical bugs resolved
+   
+2. **API Documentation**
+   - OpenAPI/Swagger specification
+   - API usage guide
+   - Example requests/responses
 
-- Responsive CSS
-- Accessibility improvements
-- Error handling
-- Performance optimizations
+3. **User Documentation**
+   - Updated README
+   - CLI usage guide
+   - Troubleshooting guide
+   - Development setup guide
 
-### Documentation
+4. **Code Quality**
+   - Linting clean
+   - Docstrings complete
+   - Type hints added
 
-- User guide
-- API documentation (OpenAPI)
-- Developer setup guide
-- Troubleshooting guide
-
-### Testing
-
-- Manual testing checklist (completed)
-- Performance test results
-- Browser compatibility matrix
-
----
-
-## 🔗 Dependencies
-
-**Prerequisites:** Phase 6 complete  
-**Blocks:** None - MVP complete!
+5. **Test Results**
+   - Manual test report
+   - Performance test results
+   - Coverage report
 
 ---
 
-## 🎉 MVP Success Metrics
+## 📊 Test Coverage Goals
 
-At the end of Phase 7, the Projects feature should meet all success criteria:
+### Backend
+- Models: > 90%
+- API endpoints: > 85%
+- Overall: > 80%
 
-- [x] All 59 projects imported and visible
-- [x] CRUD operations work flawlessly
-- [x] Search finds projects in < 1 second
-- [x] Filters work correctly (org, classification, learning_type)
-- [x] GitHub sync working for public repos
-- [x] UI is responsive and polished
-- [x] Test coverage > 80%
-- [x] Ready for daily use
-- [x] Foundation ready for other features (Daily Focus, Skills, Learning, Goals)
+### Integration
+- All CRUD operations tested
+- All filter combinations tested
+- Error handling tested
+- Edge cases covered
 
 ---
 
-## 🚀 Handoff to Other Features
+## 🐛 Known Issues Template
 
-With Projects MVP complete, these features can now begin:
+For tracking bugs during testing:
 
-1. **Daily Focus:** Add `project_id` FK to tasks table
-2. **Skills Matrix:** Use `projects_skills` junction table
-3. **Learning Journal:** Associate learnings with Learning-type projects
-4. **Goals:** Link goals to project milestones
+```markdown
+## Bug: [Title]
+
+**Priority:** Critical | High | Medium | Low
+**Status:** Open | In Progress | Fixed | Won't Fix
+
+**Description:**
+[What's wrong]
+
+**Steps to Reproduce:**
+1. Step 1
+2. Step 2
+
+**Expected:**
+[What should happen]
+
+**Actual:**
+[What actually happens]
+
+**Fix:**
+[How it was fixed]
+```
+
+---
+
+## 📝 Documentation Structure
+
+```
+docs/
+└── backend-mvp/
+    ├── API.md           # API reference
+    ├── CLI.md           # CLI usage guide
+    ├── SETUP.md         # Development setup
+    ├── TROUBLESHOOTING.md
+    └── openapi.yaml     # OpenAPI spec
+```
+
+---
+
+## 🔗 Related Documents
+
+- [Phase 6: CLI Enhancement](phase-6.md)
+- [Feature Plan](feature-plan.md)
+- [Testing Strategy](../../../research/tech-stack/testing-strategy.md)
 
 ---
 
 **Last Updated:** 2025-12-02  
 **Status:** 🔴 Not Started  
-**Next:** Begin after Phase 6 complete
-
-
+**Next:** Begin after Phase 6 complete and before declaring MVP complete

@@ -3,7 +3,8 @@
 **Purpose:** Manage Productivity and Engagement for Work  
 **Version:** v0.1.0 (Phase 0 Complete)  
 **Last Updated:** 2025-12-02  
-**Status:** 🟠 In Development (Phase 0 Complete, Phase 1 Next)
+**Status:** 🟠 In Development (Backend MVP - Phase 1 Next)  
+**Approach:** Backend-First API Development with CLI
 
 ---
 
@@ -130,19 +131,32 @@ This project follows a **hub-and-spoke documentation pattern**:
 ### ✅ Completed (Phase 0)
 
 - Flask backend with application factory pattern
-- React frontend with Vite build tool
 - Health check API endpoint
 - Backend testing infrastructure (pytest, 100% coverage)
-- Frontend testing infrastructure (Vitest, React Testing Library)
-- Vite proxy for API calls (no CORS issues)
-- Hot reload for both backend and frontend
+- Hot reload for backend
+- React frontend skeleton (deferred to Phase 8)
 
-### 🟡 Planned (Phase 1)
+### 🟡 Next (Phase 1 - Backend API)
 
 - Projects data model and database schema
-- List projects API endpoint
-- Projects list UI component
-- Full CRUD operations for projects
+- GET /api/projects endpoint (list all)
+- GET /api/projects/<id> endpoint (get single)
+- CLI `proj list` command
+- Backend tests with TDD
+
+### 🟡 Planned (Phases 2-7 - Backend MVP)
+
+- Full CRUD API operations (create, update, delete, archive)
+- Search and filter functionality
+- Import 59 projects from inventory
+- Enhanced CLI with rich output
+- API documentation (OpenAPI spec)
+
+### 🟡 Deferred (Phase 8 - Frontend Learning Project)
+
+- React UI for project management
+- Build on working backend API
+- Learn JavaScript/React without deadline pressure
 
 ---
 

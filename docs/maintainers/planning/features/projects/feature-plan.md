@@ -2,10 +2,11 @@
 
 **Feature:** Project Organization and Management  
 **Priority:** #1 Foundation Feature  
-**Status:** 🟡 Planned  
+**Status:** 🟠 In Progress (Phase 0 Complete)  
 **Created:** 2025-12-02  
-**Approach:** Vertical Slice TDD  
-**Target:** Mid-December 2025
+**Updated:** 2025-12-02 (Backend-First Pivot)  
+**Approach:** Backend-First API Development with CLI  
+**Target:** Backend MVP in 2 weeks, Frontend in Phase 8 (deferred)
 
 ---
 
@@ -15,7 +16,11 @@ The Projects feature provides comprehensive organization and management capabili
 
 **User-Facing Description:**
 
-"Organize all your projects in one place. Track work projects, personal projects, and learning initiatives. Search and filter to find what you need instantly. Sync with GitHub to keep project information current. Build the foundation for connecting your daily tasks, skills, learnings, and goals to your actual project work."
+"Organize all your projects in one place via API and CLI. Track work projects, personal projects, and learning initiatives. Search and filter to find what you need instantly. Import existing projects from inventory data. Build the foundation for connecting your daily tasks, skills, learnings, and goals to your actual project work."
+
+**Implementation Approach:**
+
+Backend-first development focuses on API and CLI tools, deferring frontend (React) to Phase 8 as a separate learning project. This reduces cognitive load by focusing on Python/Flask while providing fully functional project management via command-line interface.
 
 ---
 
@@ -40,30 +45,34 @@ The Projects feature provides comprehensive organization and management capabili
 
 ## 🎯 Success Criteria
 
-### Must Have (MVP)
+### Must Have (Backend MVP)
 
 - [ ] All 59 existing projects imported successfully
-- [ ] Full CRUD operations (Create, Read, Update, Delete) work flawlessly
+- [ ] Full CRUD operations via API (Create, Read, Update, Delete, Archive)
 - [ ] Search finds projects in under 1 second
-- [ ] Filter by organization, classification, status, and learning type
-- [ ] GitHub sync retrieves metadata for public repositories
-- [ ] UI is responsive on desktop, tablet, and mobile
-- [ ] Test coverage exceeds 80%
+- [ ] Filter by organization, classification, status
+- [ ] CLI tool for daily project management
+- [ ] API test coverage exceeds 80%
 - [ ] No critical bugs or data loss issues
+- [ ] API fully documented (OpenAPI spec)
 
-### Should Have (Post-MVP)
+### Should Have (Phase 8 - Frontend)
 
-- [ ] Bulk operations (multi-select, batch edit/delete)
-- [ ] Project templates for common project types
-- [ ] Project archival and restoration
-- [ ] Activity timeline showing project history
-- [ ] Export projects to JSON/CSV
+- [ ] React UI for project management
+- [ ] Project list and detail views
+- [ ] Create/edit project forms
+- [ ] Search and filter UI
+- [ ] Responsive design (desktop, tablet, mobile)
+- [ ] Frontend test coverage > 75%
 
-### Could Have (Future)
+### Could Have (Future Enhancements)
 
+- [ ] GitHub sync (retrieves metadata for public repositories)
 - [ ] Project dependencies and relationships
 - [ ] Project tags and custom metadata
-- [ ] Project sharing and collaboration
+- [ ] Bulk operations (multi-select, batch operations)
+- [ ] Project templates for common types
+- [ ] Activity timeline showing history
 - [ ] Integration with other Git providers (GitLab, Bitbucket)
 - [ ] Local project auto-discovery and monitoring
 
@@ -71,13 +80,15 @@ The Projects feature provides comprehensive organization and management capabili
 
 ## 📅 Implementation Phases
 
-### Phase 0: Development Environment (1 day)
+**Note:** See [mvp-roadmap.md](../../mvp-roadmap.md) for complete phase details.
+
+### Phase 0: Development Environment (✅ Complete)
 
 **Goal:** Minimal skeleton with testing infrastructure
 
 **Key Deliverables:**
-- Flask application factory running
-- Vite + React project initialized
+- ✅ Flask application factory running
+- ✅ React project initialized (deferred to Phase 8)
 - pytest and Vitest configured
 - Health check endpoint with tests
 - Development servers running with hot reload

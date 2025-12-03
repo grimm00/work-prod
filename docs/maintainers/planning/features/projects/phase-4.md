@@ -1,7 +1,7 @@
-# Projects Feature - Phase 4: Import Projects
+# Projects Feature - Phase 4: Projects API - Search & Filter
 
-**Phase:** 4 - Import Existing Projects  
-**Duration:** 2 days  
+**Phase:** 4 - Projects API - Search & Filter (Backend + CLI)  
+**Duration:** 1.5 days  
 **Status:** 🔴 Not Started  
 **Prerequisites:** Phase 3 complete
 
@@ -9,100 +9,127 @@
 
 ## 📋 Overview
 
-Phase 4 imports all 59 existing projects from the inventory POC. This phase extends the Project model to its full schema and implements bulk import with duplicate detection and validation.
+Phase 4 adds search and filtering capabilities to the Projects API. This phase implements query parameters for filtering by organization, classification, status, and text search. By the end, you can find specific projects quickly via API and CLI.
 
-**Success Definition:** All 59 projects imported successfully and visible in the UI.
+**Success Definition:** Can search and filter projects by multiple criteria via curl/CLI.
 
 ---
 
 ## 🎯 Goals
 
-1. **Full Project Model Schema** - Add all remaining fields
-2. **POST /api/projects/import** - Bulk import endpoint
-3. **Import UI** - JSON paste or file upload interface
-4. **Duplicate Detection** - By remote_url or path
-5. **Import Summary** - Show success/failure results
+1. **Query Parameters** - GET /api/projects?status=active&org=work
+2. **Text Search** - Search project names and descriptions
+3. **Multiple Filters** - Combine filters (AND logic)
+4. **CLI Search/Filter** - `proj list --status active --org work`
+5. **Performance** - Fast queries with proper indexing
 
 ---
 
-## 📝 TDD Tasks
+## 📝 Tasks
 
-### Extend Model to Full Schema
+### TDD Flow
 
-- [ ] Add fields: `remote_url`, `description`, `tech_stack` (JSON), `learning_type`
-- [ ] Create `projects_skills` junction table
-- [ ] Migration: `flask db migrate -m "Add full project schema"`
+#### 1. Write Filter Tests (TDD - RED)
+- [ ] Test filter by status: GET /api/projects?status=active
+- [ ] Test filter by organization: GET /api/projects?organization=work
+- [ ] Test filter by classification: GET /api/projects?classification=primary
+- [ ] Test multiple filters: GET /api/projects?status=active&organization=work
+- [ ] Test invalid filter values return all projects (or 400)
 
-### Bulk Import Endpoint
+#### 2. Implement Filtering (TDD - GREEN)
+- [ ] Update GET /api/projects to accept query parameters
+- [ ] Build dynamic query with filters:
+  ```python
+  @projects_bp.route('/projects', methods=['GET'])
+  def get_projects():
+      query = Project.query
+      
+      # Apply filters
+      if 'status' in request.args:
+          query = query.filter_by(status=request.args['status'])
+      if 'organization' in request.args:
+          query = query.filter_by(organization=request.args['organization'])
+      if 'classification' in request.args:
+          query = query.filter_by(classification=request.args['classification'])
+      
+      projects = query.all()
+      return jsonify({
+          'projects': [p.to_dict() for p in projects],
+          'total': len(projects)
+      }), 200
+  ```
 
-- [ ] Write import endpoint tests
-  - Test valid JSON array import
-  - Test duplicate detection
-  - Test validation errors
-  - Test transaction rollback on error
-- [ ] Implement POST /api/projects/import
-  - Accept JSON array
-  - Validate each project
-  - Detect duplicates (skip or update)
-  - Bulk insert with transaction
-  - Return summary: `{imported: N, skipped: M, errors: [...]}`
+#### 3. Write Search Tests (TDD - RED)
+- [ ] Test search by name: GET /api/projects?search=work
+- [ ] Test search is case-insensitive
+- [ ] Test search matches partial names
+- [ ] Test search in description field
 
-### Import UI
+#### 4. Implement Text Search (TDD - GREEN)
+- [ ] Add search parameter:
+  ```python
+  if 'search' in request.args:
+      search_term = f"%{request.args['search']}%"
+      query = query.filter(
+          (Project.name.ilike(search_term)) |
+          (Project.description.ilike(search_term))
+      )
+  ```
+- [ ] Add index on name field for performance
 
-- [ ] Write import UI tests
-- [ ] Create ImportProjects component
-  - JSON paste textarea
-  - File upload option
-  - Progress indicator
-  - Results display (imported/skipped/errors)
-- [ ] Add import button to projects list
-
-### Data Mapping
-
-- [ ] Map classifications.json to new schema
-- [ ] Set learning_type for Learning projects
-- [ ] Handle missing fields gracefully
-
-### Manual Testing
-
-- [ ] Import 59 projects from inventory POC
-- [ ] Verify all appear in UI
-- [ ] Verify duplicate detection works
-- [ ] Test error handling
+#### 5. Enhance CLI
+- [ ] Add filter options to `proj list`:
+  ```python
+  ./proj list --status active
+  ./proj list --org work
+  ./proj list --search "productivity"
+  ./proj list --status active --org work  # Multiple filters
+  ```
 
 ---
 
 ## ✅ Completion Criteria
 
-- [ ] Full Project model schema complete
-- [ ] Import endpoint validates and imports
-- [ ] All 59 projects imported successfully
-- [ ] Import UI shows clear results
-- [ ] Duplicate detection working
-- [ ] All tests passing
+- [ ] Filtering by status, organization, classification works
+- [ ] Text search works (case-insensitive, partial match)
+- [ ] Multiple filters combine correctly (AND logic)
+- [ ] Tests pass with coverage > 80%
+- [ ] CLI supports filter flags
+- [ ] Performance acceptable (< 100ms for 100 projects)
 
 ---
 
 ## 📦 Deliverables
 
-- Full Project model with all fields
-- POST /api/projects/import endpoint
-- ImportProjects component
-- Import results summary UI
-- 59 projects in database
-- Backend and frontend tests
+1. Enhanced GET /api/projects with query parameters
+2. Search functionality
+3. CLI with filter flags
+4. Performance optimization (indexes)
+5. Filter tests
 
 ---
 
-## 🔗 Dependencies
+## 💡 curl Examples
 
-**Prerequisites:** Phase 3 complete  
-**Blocks:** Phase 5  
-**Data Source:** `scripts/inventory/data/classifications.json`
+```bash
+# Filter by status
+curl "http://localhost:5000/api/projects?status=active" | jq
+
+# Filter by organization
+curl "http://localhost:5000/api/projects?organization=work" | jq
+
+# Multiple filters
+curl "http://localhost:5000/api/projects?status=active&organization=work" | jq
+
+# Text search
+curl "http://localhost:5000/api/projects?search=productivity" | jq
+
+# Complex query
+curl "http://localhost:5000/api/projects?status=active&classification=primary&search=work" | jq
+```
 
 ---
 
 **Last Updated:** 2025-12-02  
-**Status:** 🔴 Not Started
-
-
+**Status:** 🔴 Not Started  
+**Next:** Begin after Phase 3 complete

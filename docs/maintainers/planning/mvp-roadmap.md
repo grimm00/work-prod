@@ -1,11 +1,12 @@
-# Projects Feature - MVP Roadmap
+# Projects Feature - Backend MVP Roadmap
 
 **Feature:** Project Organization and Management  
 **Priority:** #1 Foundation Feature  
-**Target:** MVP ready for January deadline  
+**Target:** Backend MVP ready for daily use (2 weeks)  
 **Created:** 2025-12-02  
-**Approach:** Vertical Slice TDD  
-**Status:** 🟡 Planned
+**Updated:** 2025-12-02 (Backend-First Pivot)  
+**Approach:** Backend-First API Development with CLI  
+**Status:** 🟠 In Progress (Phase 0 Complete)
 
 ---
 
@@ -14,527 +15,408 @@
 - **59 existing projects** need organization and management
 - **Foundation feature** for Daily Focus, Skills Matrix, Goals, and Learning features
 - **Real data available** from inventory POC (classifications.json)
-- **Architecture decisions complete** (ADRs 0001-0005)
-- **Testing strategy TBD** (Week 2 research → ADR-0006)
+- **Architecture decisions complete** (ADRs 0001-0006)
+- **Backend-first approach** reduces cognitive load, focuses on Python/Flask
+- **Frontend deferred** to Phase 8 as a learning project (JavaScript/React)
 
-## 🎯 Prerequisites
+---
 
-**Before Implementation:**
+## 🎯 Backend MVP Goals
 
-- Complete testing strategy research
-- Create ADR-0006: Testing Framework and TDD Approach
-- Decide: pytest, frontend test framework, E2E tooling
-- Establish test patterns for vertical slices
+1. **API Complete** - All CRUD operations working
+2. **CLI Tools** - Daily-usable command-line interface
+3. **Data Imported** - All 59 projects loaded and manageable
+4. **Search/Filter** - Find projects quickly
+5. **Production Ready** - Stable, tested, documented
 
-**Estimated Time:** 2-3 days (Week 2 research)
-
-**Status:** 🟡 Planned - Testing research document created, ready to begin
+**Timeline:** 2 weeks (10 days) vs. original 3+ weeks for full-stack
 
 ---
 
 ## 🚀 Implementation Phases
 
-### Phase 0: Development Environment (Day 1)
+### ✅ Phase 0: Development Environment (Complete)
 
-**Goal:** Minimal skeleton with testing infrastructure
+**Duration:** 1 day  
+**Status:** ✅ Complete
 
-**Vertical Slice Approach:**
-- This phase sets up the bare minimum to begin TDD
-- Subsequent phases each deliver one complete vertical slice
-
-**Setup Tasks:**
-
-**Backend:**
-- Initialize Flask application factory (minimal)
-- Set up blueprint structure (`/api/projects`)
-- Configure SQLAlchemy + Flask-Migrate
-- Configure testing framework (pytest - pending ADR-0006)
-- Create /api/health endpoint
-
-**Frontend:**
-- Initialize Vite + React project (minimal)
-- Configure Zustand store structure
-- Set up React Router
-- Configure Axios with base API service
-- Configure testing framework (Vitest/Jest - pending ADR-0006)
-
-**Integration:**
-- Configure Vite proxy to Flask backend
-- Verify CORS configuration
-- Set up test runners and CI hooks
-
-**Testing:**
-- Backend: Health endpoint test (pytest)
-- Frontend: Simple component test
-- Integration: Frontend calls backend health check
+**Accomplished:**
+- Flask application factory with health endpoint
+- React + Vite project (deferred to Phase 8)
+- pytest configured (100% coverage on health endpoint)
+- Vitest configured (deferred to Phase 8)
+- Backend and testing infrastructure ready
 
 **Deliverables:**
-- [ ] Tests can run: `pytest` and `npm test`
-- [ ] Simple health check test passes (backend + frontend integration)
-- [ ] Ready for vertical slice TDD
-- [ ] Development environment documented
+- ✅ Backend tests run: `pytest`
+- ✅ Health check endpoint verified
+- ✅ Ready for TDD backend development
 
 ---
 
-### Phase 1: List Projects (Days 2-3)
+### Phase 1: Projects API - List & Get (1.5 days)
 
-**Goal:** Complete vertical slice - view all projects
+**Status:** 🔴 Not Started
+
+**Goals:**
+- Project model with minimal fields (id, name, path, timestamps)
+- GET /api/projects endpoint (list all)
+- GET /api/projects/<id> endpoint (get single)
+- Basic CLI `proj list` command
+- Backend tests with >80% coverage
 
 **TDD Flow:**
-
-1. **Write backend model test**
-   - Test Project model creation with minimal fields
-   - Test model validation
-
-2. **Implement Project model (minimal)**
-   - Fields: id, name, path, created_at, updated_at
-   - SQLAlchemy model in `backend/models/project.py`
-   - Database migration
-
-3. **Write API test for GET /api/projects**
-   - Test empty list response
-   - Test list with projects
-   - Test response format
-
-4. **Implement GET /api/projects endpoint**
-   - Blueprint route in `backend/api/projects.py`
-   - Query all projects
-   - Return JSON response
-
-5. **Write frontend test for ProjectList component**
-   - Test empty state rendering
-   - Test project list rendering
-   - Test loading state
-
-6. **Implement ProjectList component with Zustand**
-   - Create Zustand store for projects
-   - Fetch projects from API
-   - Display project list
-   - Handle loading/error states
-
-7. **Write integration test**
-   - E2E test (if framework ready from ADR-0006)
-   - Verify backend → API → frontend flow
-
-8. **Verify end-to-end**
-   - Manual testing: View empty project list
-   - Manual testing: See project list after seeding test data
+1. Write model tests → Implement model
+2. Write API tests → Implement endpoints
+3. Create CLI tool → Test with curl
+4. Verify coverage and functionality
 
 **Deliverables:**
-- [ ] Can view empty project list
-- [ ] Complete test coverage for this slice
-- [ ] First vertical slice complete
-- [ ] Zustand store pattern established
+- [ ] Project model and migration
+- [ ] List and get endpoints working
+- [ ] CLI `proj list` command
+- [ ] Backend tests passing
 
 ---
 
-### Phase 2: Create Project (Days 4-5)
+### Phase 2: Projects API - Create & Update (1.5 days)
 
-**Goal:** Complete vertical slice - add new project
+**Status:** 🔴 Not Started
+
+**Goals:**
+- Extend model with organization, classification, status
+- POST /api/projects endpoint (create)
+- PUT /api/projects/<id> endpoint (update)
+- CLI `proj create` and `proj update` commands
+- Full validation (server-side)
 
 **TDD Flow:**
-
-1. **Write backend validation tests**
-   - Test required field validation
-   - Test field length limits
-   - Test duplicate detection (by path or remote_url)
-
-2. **Extend Project model**
-   - Add fields: organization, classification, status
-   - Add validation rules
-   - Update migration
-
-3. **Write API test for POST /api/projects**
-   - Test successful creation
-   - Test validation errors
-   - Test duplicate handling
-
-4. **Implement POST endpoint with validation**
-   - Create route in projects blueprint
-   - Validate input data
-   - Create project record
-   - Return created project
-
-5. **Write frontend test for ProjectForm component**
-   - Test form rendering
-   - Test form validation
-   - Test submit handler
-
-6. **Implement form with Zustand actions**
-   - Create ProjectForm component
-   - Form fields for name, path, organization, classification, status
-   - Client-side validation
-   - Zustand action for creating project
-   - Success/error handling
-
-7. **Integration test: Create project flows to list**
-   - E2E test: Fill form → submit → see in list
-   - Verify data persistence
-
-8. **Verify: Can create and see project in list**
-   - Manual testing: Create project via UI
-   - Manual testing: Verify appears in list
+1. Extend model tests → Add fields and migration
+2. Write POST/PUT tests → Implement endpoints
+3. Enhance CLI → Test with curl
+4. Validate all edge cases
 
 **Deliverables:**
-- [ ] Can create projects via UI
-- [ ] Validation working (backend + frontend)
-- [ ] Second vertical slice complete
-- [ ] Form pattern established
+- [ ] Extended model with core fields
+- [ ] Create and update endpoints
+- [ ] CLI create/update commands
+- [ ] Validation working
 
 ---
 
-### Phase 3: Update and Delete Projects (Days 6-7)
+### Phase 3: Projects API - Delete & Archive (1 day)
 
-**Goal:** Complete CRUD operations - edit and delete
+**Status:** 🔴 Not Started
 
-**TDD Flow (Update):**
-
-1. **Write backend update tests**
-   - Test updating individual fields
-   - Test validation on update
-   - Test updating non-existent project
-
-2. **Implement PATCH /api/projects/{id} endpoint**
-   - Update project fields
-   - Validate changes
-   - Return updated project
-
-3. **Write frontend test for Edit functionality**
-   - Test edit form pre-population
-   - Test update submission
-   - Test optimistic updates in store
-
-4. **Implement Edit UI**
-   - Edit button on project detail
-   - Edit mode in ProjectForm
-   - Update Zustand action
-
-**TDD Flow (Delete):**
-
-1. **Write backend delete tests**
-   - Test successful deletion
-   - Test deleting non-existent project
-   - Test cascade behavior (future)
-
-2. **Implement DELETE /api/projects/{id} endpoint**
-   - Delete project by ID
-   - Return success response
-
-3. **Write frontend test for Delete functionality**
-   - Test delete confirmation dialog
-   - Test delete action
-   - Test removal from list
-
-4. **Implement Delete UI**
-   - Delete button with confirmation
-   - Zustand delete action
-   - Remove from store
+**Goals:**
+- DELETE /api/projects/<id> endpoint
+- PUT /api/projects/<id>/archive endpoint
+- CLI `proj delete` and `proj archive` commands
+- Safety checks and confirmations
 
 **Deliverables:**
-- [ ] Full CRUD operations working
-- [ ] Can edit projects via UI
-- [ ] Can delete projects with confirmation
-- [ ] Project detail view complete
+- [ ] Delete endpoint (permanent removal)
+- [ ] Archive endpoint (soft delete)
+- [ ] CLI delete/archive commands
 
 ---
 
-### Phase 4: Import Existing Projects (Days 8-9)
+### Phase 4: Projects API - Search & Filter (1.5 days)
 
-**Goal:** Import 59 projects from inventory POC
+**Status:** 🔴 Not Started
 
-**TDD Flow:**
-
-1. **Write import endpoint tests**
-   - Test importing valid JSON
-   - Test duplicate detection
-   - Test validation errors
-   - Test bulk insert
-
-2. **Extend Project model for full schema**
-   - Add fields: remote_url, description, tech_stack (JSON), learning_type
-   - Add projects_skills junction table
-   - Update migration
-
-3. **Implement POST /api/projects/import endpoint**
-   - Accept JSON array of projects
-   - Validate each project
-   - Detect duplicates (by remote_url or path)
-   - Bulk insert with transaction
-   - Return import summary
-
-4. **Write frontend test for Import UI**
-   - Test file upload
-   - Test paste JSON
-   - Test progress indicator
-   - Test results display
-
-5. **Implement Import UI**
-   - Import button/page
-   - JSON paste textarea or file upload
-   - Progress indicator during import
-   - Results summary (success/failures)
-
-6. **Data mapping**
-   - Map classifications.json to new schema
-   - Set learning_type for Learning projects
-   - Handle missing fields
+**Goals:**
+- Query parameters (status, organization, classification)
+- Text search (name, description)
+- Multiple filter combinations
+- CLI filter flags
+- Performance optimization
 
 **Deliverables:**
-- [ ] All 59 projects imported successfully
-- [ ] User can see their entire project portfolio
-- [ ] Duplicate detection working
-- [ ] Import results clearly displayed
+- [ ] Filtering by all criteria
+- [ ] Text search working
+- [ ] CLI with filter flags
+- [ ] Query performance < 100ms
 
 ---
 
-### Phase 5: Search and Filtering (Days 10-11)
+### Phase 5: Projects API - Import from JSON (1 day)
 
-**Goal:** Find projects quickly in a 59+ project list
+**Status:** 🔴 Not Started
 
-**TDD Flow:**
-
-1. **Write search endpoint tests**
-   - Test full-text search
-   - Test filtering by organization
-   - Test filtering by classification
-   - Test filtering by status
-   - Test filtering by learning_type
-   - Test combined filters
-   - Test sorting options
-
-2. **Implement search backend**
-   - SQLite FTS5 setup for full-text search
-   - GET /api/projects/search endpoint
-   - Query parameters: q, organization, classification, status, learning_type, sort
-   - Return filtered and sorted results
-
-3. **Write frontend search tests**
-   - Test search input with debounce
-   - Test filter chip components
-   - Test results highlighting
-   - Test no results state
-
-4. **Implement search UI**
-   - Search bar with debounced API calls
-   - Filter dropdowns/chips
-   - Results highlighting
-   - Learning project badges
-   - Sort dropdown
+**Goals:**
+- POST /api/projects/import endpoint
+- Data mapping from inventory POC
+- Duplicate handling
+- CLI `proj import` command
+- All 59 projects imported
 
 **Deliverables:**
-- [ ] Sub-second search across all projects
-- [ ] Multi-faceted filtering working
-- [ ] Clear visual distinction for Learning projects
-- [ ] Sort by name, date, status
+- [ ] Bulk import endpoint
+- [ ] Data mapping script
+- [ ] CLI import command
+- [ ] All 59 projects loaded
 
 ---
 
-### Phase 6: GitHub Integration (Days 12-13)
+### Phase 6: CLI Enhancement & Daily Use Tools (1 day)
 
-**Goal:** Sync metadata from GitHub repositories
+**Status:** 🔴 Not Started
 
-**TDD Flow:**
-
-1. **Write GitHub sync tests**
-   - Test fetching repo metadata
-   - Test updating project with GitHub data
-   - Test rate limit handling
-   - Test error handling (private repos, 404s)
-
-2. **Implement GitHub integration**
-   - GitHub API client
-   - POST /api/projects/{id}/sync endpoint
-   - Fetch: description, stars, last_updated, languages
-   - Update project record
-   - Store last_synced timestamp
-
-3. **Write frontend sync tests**
-   - Test sync button
-   - Test sync status indicator
-   - Test last synced display
-
-4. **Implement sync UI**
-   - Sync button on project detail
-   - Last synced timestamp display
-   - Sync status indicator (loading/success/error)
-   - Batch sync for multiple projects
+**Goals:**
+- Rich library for tables and colors
+- Configuration file (~/.projrc)
+- Additional commands (stats, recent, active)
+- Better error handling
+- Comprehensive help
 
 **Deliverables:**
-- [ ] One-click sync for projects with remote_url
-- [ ] GitHub data displayed in UI
-- [ ] Error handling for private repos
-- [ ] Rate limit awareness
+- [ ] Beautiful CLI output
+- [ ] Config file support
+- [ ] Convenience commands
+- [ ] Production-ready CLI
 
 ---
 
-### Phase 7: Polish and MVP Completion (Days 14-16)
+### Phase 7: Manual Testing & Bug Fixes (2 days)
 
-**Goal:** Production-ready Projects feature
+**Status:** 🔴 Not Started
 
-**Backend Polish:**
-- Comprehensive error handling and logging
-- API documentation (OpenAPI/Swagger)
-- Database indexes optimization
-- Backup strategy documentation
-
-**Frontend Polish:**
-- Responsive design (mobile, tablet, desktop)
-- Loading states for all async operations
-- Empty states with helpful messages
-- Error messages with recovery suggestions
-- Keyboard shortcuts (navigation, search)
-- Accessibility audit (ARIA labels, focus management)
-
-**Testing:**
-- Manual testing checklist
-- Edge cases (empty projects, long names, special characters, unicode)
-- Performance testing (100+ projects)
-- Browser compatibility testing
-
-**Documentation:**
-- User guide for Projects feature
-- API documentation
-- Developer setup guide
-- Deployment instructions
+**Goals:**
+- Comprehensive manual testing
+- Bug fixes (critical and high priority)
+- Performance optimization
+- API documentation (OpenAPI spec)
+- User documentation complete
 
 **Deliverables:**
-- [ ] Stable, polished Projects MVP
-- [ ] Ready for daily use
-- [ ] Foundation ready for other features
-- [ ] All tests passing
-- [ ] Documentation complete
+- [ ] All manual tests pass
+- [ ] Critical bugs fixed
+- [ ] API fully documented
+- [ ] Backend MVP production-ready
 
 ---
 
-## 📅 Timeline Summary
+### Phase 8: Frontend Learning Project (Deferred)
 
-**Total Estimated Time:** 16 days (3 weeks)
+**Status:** 🟡 Deferred (No Deadline)
 
-- **Prerequisites:** 2-3 days (Testing research + ADR-0006)
-- **Phase 0:** 1 day (Development environment)
-- **Phase 1:** 2 days (List projects)
-- **Phase 2:** 2 days (Create project)
-- **Phase 3:** 2 days (Update/Delete)
-- **Phase 4:** 2 days (Import 59 projects)
-- **Phase 5:** 2 days (Search and filtering)
-- **Phase 6:** 2 days (GitHub integration)
-- **Phase 7:** 3 days (Polish and completion)
+**Goals:**
+- Learn React with working backend
+- Build UI on top of stable API
+- No deadline pressure
+- Track as separate learning project
 
-**Target Completion:** Mid-December (allows 2-3 weeks for other features before January deadline)
+**Why Deferred:**
+- Reduces cognitive load during MVP
+- Allows focus on Python/Flask (strength area)
+- Backend is usable via CLI in the meantime
+- JavaScript/React learning is tracked as its own project
+- Can learn React at own pace without deadline
+
+**Future Phases (When Ready):**
+- Phase 8a: Basic React components
+- Phase 8b: Project list/detail views
+- Phase 8c: Create/edit forms
+- Phase 8d: Search and filters
+- Phase 8e: UI polish
+
+---
+
+## 📊 Timeline Comparison
+
+### Original Full-Stack Approach
+- Phase 0: 1 day
+- Phases 1-6: 2 days each = 12 days
+- Phase 7: 3 days
+- **Total: ~16 days (3+ weeks)**
+
+### Backend-First Approach
+- Phase 0: ✅ 1 day (complete)
+- Phase 1: 1.5 days
+- Phase 2: 1.5 days
+- Phase 3: 1 day
+- Phase 4: 1.5 days
+- Phase 5: 1 day
+- Phase 6: 1 day
+- Phase 7: 2 days
+- **Total: ~10 days (2 weeks)**
+
+**Time Saved:** 6 days (38% faster)
 
 ---
 
 ## ✅ Success Criteria
 
-- [ ] All 59 projects imported and visible
-- [ ] CRUD operations work flawlessly
-- [ ] Search finds projects in < 1 second
-- [ ] Filters work correctly (org, classification, learning_type)
-- [ ] GitHub sync working for public repos
-- [ ] UI is responsive and polished
+### Backend MVP Complete When:
+- [ ] All CRUD operations working via API
+- [ ] CLI enables daily project management
+- [ ] All 59 projects imported and manageable
+- [ ] Search and filter working efficiently
+- [ ] Backend test coverage > 80%
+- [ ] API documented (OpenAPI spec)
 - [ ] No critical bugs
-- [ ] Test coverage > 80%
-- [ ] Ready to use as daily project reference
+- [ ] Production-ready for daily use
+
+### Phase 8 (Frontend) Complete When:
+- [ ] React UI fully functional
+- [ ] All API endpoints have UI
+- [ ] UX is polished and intuitive
+- [ ] Frontend tests pass
+- [ ] JavaScript learning project goals met
 
 ---
 
-## 🎯 Key Milestones
+## 🛠️ Technology Stack
 
-1. **Testing Strategy Complete** (ADR-0006 published)
-2. **Environment Working** (End of Phase 0)
-3. **First Project Created via UI** (Phase 2, Day 5)
-4. **All 59 Projects Imported** (Phase 4, Day 9)
-5. **Search and Filters Working** (Phase 5, Day 11)
-6. **GitHub Sync Functional** (Phase 6, Day 13)
-7. **MVP Complete** (Phase 7, Day 16)
-
----
-
-## 📦 Dependencies
-
-**Completed:**
-- ✅ ADR-0001: Flask Backend Architecture
-- ✅ ADR-0002: React Frontend Architecture
-- ✅ ADR-0003: SQLite Database Design
-- ✅ ADR-0004: Flask-React Integration Strategy
-- ✅ ADR-0005: Projects as Foundation Architecture
-- ✅ Projects Data Model Research (1,200+ lines)
-
-**In Progress:**
-- 🟠 Testing Strategy Research → ADR-0006
-
-**Required for Start:**
-- ADR-0006: Testing Framework and TDD Approach (Week 2)
-
-**External Dependencies:**
-- GitHub API (for sync feature - Phase 6)
+### Backend (Current Focus)
 - Python 3.11+
-- Node.js 18+
+- Flask 3.0 (application factory)
+- SQLAlchemy + Flask-Migrate
+- SQLite (local-first)
+- pytest (testing)
+
+### CLI Tools
+- Python requests library
+- Click (CLI framework)
+- Rich (beautiful terminal output)
+- Configuration file support
+
+### Frontend (Phase 8 - Deferred)
+- React 18
+- Vite (build tool)
+- Zustand (state management)
+- React Router v6
+- Vitest (testing)
 
 ---
 
-## ⚠️ Risks and Mitigations
+## 📝 CLI Tool Design
 
-**Risk 1: Integration Issues Between Flask and React**
-- **Mitigation:** Phase 0 validates Flask + React + SQLite integration early with health check test
-- **Fallback:** Detailed troubleshooting in ADR-0004
+### Commands
 
-**Risk 2: FTS5 Performance with Large Project Lists**
-- **Mitigation:** Test with 100+ projects before committing to FTS5 approach
-- **Fallback:** Use standard SQLite LIKE queries if FTS5 proves problematic
+```bash
+# List projects
+proj list [--status STATUS] [--org ORG] [--search TERM]
 
-**Risk 3: GitHub Rate Limits**
-- **Mitigation:** Implement caching, respect rate limits, graceful degradation
-- **Fallback:** Manual metadata entry if sync fails
+# Get single project
+proj get <id>
 
-**Risk 4: Time Overrun**
-- **Mitigation:** Phases 6-7 are optional for MVP. Core value is Phases 0-5 (CRUD + Import + Search)
-- **Priority:** Phases 0-4 are essential, 5-7 are enhancements
+# Create project
+proj create NAME [--path PATH] [--org ORG] [--status STATUS]
 
-**Risk 5: Testing Framework Learning Curve**
-- **Mitigation:** Comprehensive research and ADR before implementation
-- **Fallback:** Start with simple unit tests, add integration tests incrementally
+# Update project
+proj update <id> [--name NAME] [--status STATUS] [...]
+
+# Delete project
+proj delete <id>
+
+# Archive project
+proj archive <id>
+
+# Import projects
+proj import <file.json>
+
+# Statistics
+proj stats
+
+# Recent projects
+proj recent
+
+# Active projects
+proj active
+```
+
+### Example Usage
+
+```bash
+# List all active work projects
+proj list --status active --org work
+
+# Create a new project
+proj create "work-prod" --path ~/Projects/work-prod --org work --status active
+
+# Update project status
+proj update 1 --status completed
+
+# Show project statistics
+proj stats
+
+# Import all projects
+proj import projects.json
+```
 
 ---
 
-## 🔮 Next Steps After MVP
+## 🔍 Risk Mitigation
 
-Once Projects MVP is complete, these features can leverage the foundation:
+### Risk: Backend-Only Seems Limited
+**Mitigation:** CLI provides full functionality, sufficient for daily use  
+**Evidence:** Many developers prefer CLI tools (git, gh, docker, kubectl)
 
-1. **Daily Focus Integration**
-   - Add project_id foreign key to tasks table
-   - Associate daily tasks with projects
-   - View tasks by project
+### Risk: Learning Two Things Separately
+**Mitigation:** Deep understanding of backend before frontend actually helps learning  
+**Evidence:** TDD and API design patterns apply to both
 
-2. **Skills Matrix Integration**
-   - Leverage projects_skills junction table
-   - Skill proficiency tracking per project
-   - Skills discovered from project work
-
-3. **Learning Journal**
-   - Associate learnings with projects
-   - Track learning progress per project
-   - Link to Learning-type projects
-
-4. **Goals**
-   - Link goals to projects
-   - Track project contribution to goals
-   - Project-based milestone tracking
+### Risk: Frontend Takes Longer Later
+**Mitigation:** No deadline on Phase 8, it's a learning project  
+**Evidence:** Working API makes frontend straightforward
 
 ---
 
-## 📚 References
+## 📚 Documentation
 
-- [ADR-0005: Projects as Foundation Architecture](../decisions/ADR-0005-projects-as-foundation-architecture.md)
-- [Projects Data Model Research](../research/data-models/projects-data-model.md)
-- [Testing Strategy Research](../research/tech-stack/testing-strategy.md)
-- [Projects-First Strategy](notes/projects-first-strategy.md)
-- [Current State Inventory](../exploration/current-state-inventory.md) - 59 projects
+### Backend MVP Documentation
+- API Reference (OpenAPI spec)
+- CLI Usage Guide
+- Development Setup
+- Testing Guide
+- Troubleshooting
+
+### Phase 8 Documentation (Future)
+- Frontend Architecture
+- Component Guide
+- State Management Patterns
+- Testing Patterns
+
+---
+
+## 🎯 Next Steps
+
+**Immediate (This Week):**
+1. ✅ Update all planning documents (this session)
+2. Begin Phase 1: List & Get Projects
+3. Establish backend TDD workflow
+
+**Next Week:**
+1. Complete Phases 2-3 (Create, Update, Delete)
+2. Begin Phases 4-5 (Search, Import)
+
+**Week 3:**
+1. Complete Phase 6 (CLI Polish)
+2. Begin Phase 7 (Testing & Documentation)
+
+**MVP Complete:** ~2 weeks from Phase 1 start
+
+---
+
+## 📞 Decision Points
+
+### When to Start Phase 8?
+- Backend MVP complete and stable
+- Using CLI daily without issues
+- Ready to dedicate time to JavaScript/React learning
+- No other pressing projects
+
+### Criteria for Phase 8 Readiness:
+- Backend has been stable for 1+ week
+- Comfortable with backend codebase
+- JavaScript learning project prioritized
+- Time available for learning (not rushed)
 
 ---
 
 **Last Updated:** 2025-12-02  
-**Status:** 🟡 Planned  
-**Next:** Complete testing strategy research → ADR-0006 → Begin Phase 0
-
-
+**Status:** 🟠 In Progress (Phase 0 Complete)  
+**Next:** Begin Phase 1 - List & Get Projects  
+**Timeline:** 2 weeks to Backend MVP
