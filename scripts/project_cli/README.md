@@ -1,7 +1,7 @@
 # Project Management CLI Tool
 
 **Purpose:** Command-line interface for managing projects via the Projects API  
-**Status:** ✅ Active (Phase 1 Complete)  
+**Status:** ✅ Phase 2 Complete - Full CRUD  
 **Created:** 2025-12-02  
 **Updated:** 2025-12-03
 
@@ -11,11 +11,14 @@
 
 The `proj` CLI tool provides a user-friendly command-line interface for managing your projects. It's the primary way to interact with the Projects API during the backend MVP phase (Phases 1-7).
 
-**Phase 1 Status:** ✅ Complete
+**Phase 1-2 Status:** ✅ Complete
 - ✅ List all projects
 - ✅ Get project by ID
+- ✅ Create new projects
+- ✅ Update existing projects
 - ✅ Beautiful Rich formatting
-- ✅ Error handling
+- ✅ Comprehensive error handling
+- ✅ Before/after change comparison
 
 ---
 
@@ -52,7 +55,7 @@ chmod +x proj
 
 ## 📝 Commands
 
-### Phase 1 Commands (✅ Implemented)
+### Phase 1-2 Commands (✅ Implemented)
 
 #### `list` - List All Projects
 
@@ -62,14 +65,13 @@ chmod +x proj
 
 **Output Example:**
 ```
-                                  Projects (3)                                  
-┏━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ ID ┃ Name            ┃ Path                                     ┃ Created    ┃
-┡━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│  1 │ work-prod       │ /Users/cdwilson/Projects/work-prod       │ 2025-12-03 │
-│  2 │ learning-python │ /Users/cdwilson/Projects/learning-python │ 2025-12-03 │
-│  3 │ home-automation │ No path                                  │ 2025-12-03 │
-└────┴─────────────────┴──────────────────────────────────────────┴────────────┘
+                   Projects (2)                    
+┏━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ ID ┃ Name             ┃ Path       ┃ Created    ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│  1 │ Test via curl    │ /test/curl │ 2025-12-03 │
+│  2 │ CLI Test Project │ No path    │ 2025-12-03 │
+└────┴──────────────────┴────────────┴────────────┘
 ```
 
 #### `get` - Get Project Details
@@ -83,30 +85,73 @@ chmod +x proj
 ./proj get 1
 ```
 
+#### `create` - Create New Project
+
+```bash
+./proj create --name "Project Name" [OPTIONS]
+```
+
+**Options:**
+- `--name, -n` (required) - Project name
+- `--path, -p` - File system path
+- `--organization, -o` - Organization (work, personal, etc.)
+- `--classification, -c` - Classification (primary, secondary, archive, maintenance)
+- `--status, -s` - Status (active, paused, completed, cancelled) [default: active]
+- `--description, -d` - Project description
+- `--remote-url, -r` - Git repository URL
+
+**Example:**
+```bash
+./proj create --name "New Project" --organization work --classification primary
+```
+
 **Output:**
 ```
-╭───────────────────────────── Project: work-prod ─────────────────────────────╮
-│  ID               1                                                          │
-│  Name             work-prod                                                  │
-│  Path             /Users/cdwilson/Projects/work-prod                         │
-│  Created          2025-12-03T15:59:48                                        │
-│  Updated          2025-12-03T15:59:48                                        │
-╰──────────────────────────────────────────────────────────────────────────────╯
+✓ Created project #3: New Project
+            Project Details             
+┌────────────────┬──────────────────┐
+│             ID │ 3                │
+│           Name │ New Project      │
+│   Organization │ work             │
+│ Classification │ primary          │
+│         Status │ active           │
+│        Created │ 2025-12-03 21:10 │
+└────────────────┴──────────────────┘
 ```
 
-### Future Commands (Phase 2+)
-
-#### `create` - Create New Project (Phase 2)
+#### `update` - Update Project
 
 ```bash
-./proj create "Project Name" --path /path/to/project
+./proj update <project_id> [OPTIONS]
 ```
 
-#### `update` - Update Project (Phase 2)
+**Options:** (all optional, provide only fields to update)
+- `--name, -n` - New project name
+- `--path, -p` - New file system path
+- `--organization, -o` - New organization
+- `--classification, -c` - New classification
+- `--status, -s` - New status
+- `--description, -d` - New description
+- `--remote-url, -r` - New remote URL
 
+**Example:**
 ```bash
-./proj update <project_id> --name "New Name" --path /new/path
+./proj update 2 --status paused --description "On hold"
 ```
+
+**Output:**
+```
+✓ Updated project #2: CLI Test Project
+              Changes              
+┏━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃       Field ┃ Before  ┃ After  ┃
+┡━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│      Status │ active  │ paused │
+│ Description │ Old     │ On hold│
+└─────────────┴─────────┴────────┘
+```
+
+### Future Commands (Phase 3+)
 
 #### `delete` - Delete Project (Phase 3)
 
