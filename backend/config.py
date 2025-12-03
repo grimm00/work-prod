@@ -78,12 +78,22 @@ class ProductionConfig(Config):
         """Initialize production-specific settings."""
         Config.init_app(app)
         
-        # Log to stderr in production
-        import logging
-        from logging import StreamHandler
-        file_handler = StreamHandler()
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
+        # Only add handler if not already present (prevent duplicates)
+        if not app.logger.handlers:
+            import logging
+            from logging import StreamHandler
+            
+            handler = StreamHandler()
+            handler.setLevel(logging.INFO)
+            
+            # Add formatter with timestamp, level, and module
+            formatter = logging.Formatter(
+                '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+            )
+            handler.setFormatter(formatter)
+            
+            app.logger.addHandler(handler)
+            app.logger.setLevel(logging.INFO)
 
 
 # Configuration dictionary

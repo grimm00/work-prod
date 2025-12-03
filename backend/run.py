@@ -11,8 +11,10 @@ from app import create_app
 # Load environment variables from .env file
 load_dotenv()
 
-# Create Flask app with development configuration
-app = create_app(os.environ.get('FLASK_ENV', 'development'))
+# Create Flask app with explicit configuration
+# APP_CONFIG can be: 'development', 'testing', 'production'
+config_name = os.environ.get('APP_CONFIG', 'development')
+app = create_app(config_name)
 
 if __name__ == '__main__':
     # Run development server
