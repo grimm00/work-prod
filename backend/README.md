@@ -1,30 +1,115 @@
 # Backend
 
-**Purpose:** Backend application logic and API  
-**Status:** 🔴 Not Started  
-**Last Updated:** {{CURRENT_DATE}}
+**Purpose:** Flask API backend for project management  
+**Status:** ✅ Phase 2 Complete - CRUD API + CLI  
+**Last Updated:** 2025-12-03
 
 ---
 
-## 📋 Quick Links
+## 🚀 Quick Start
 
-### Backend Components
-- **[API Routes](api/README.md)** - REST API endpoints
-- **[Database Models](models/README.md)** - Data models and schemas
-- **[Business Logic](services/README.md)** - Core application logic
-- **[Configuration](config/README.md)** - Environment and app config
+```bash
+# Setup
+cd backend
+source ../venv/bin/activate
+pip install -r requirements.txt
+
+# Initialize database
+flask db upgrade
+
+# Run development server
+python run.py
+# Server runs on http://localhost:5000
+```
 
 ---
 
-## 🎯 Overview
+## 📡 API Endpoints
 
-The backend directory contains all server-side application logic, including API endpoints, database models, business logic, and configuration.
+### Health Check
+- `GET /api/health` - Server health status
 
-### Key Components
-1. **API Layer** - REST endpoints and request handling
-2. **Business Logic** - Core application functionality
-3. **Data Layer** - Database models and data access
-4. **Configuration** - Environment and application settings
+### Projects API (Phase 1-2 Complete)
+- `GET /api/projects` - List all projects
+- `GET /api/projects/<id>` - Get project by ID
+- `POST /api/projects` - Create new project
+- `PATCH /api/projects/<id>` - Update project
+
+### Request/Response Examples
+
+**Create Project:**
+```bash
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "My Project",
+    "organization": "work",
+    "classification": "primary",
+    "status": "active",
+    "description": "Project description"
+  }'
+```
+
+**Update Project:**
+```bash
+curl -X PATCH http://localhost:5000/api/projects/1 \
+  -H "Content-Type: application/json" \
+  -d '{"status": "completed"}'
+```
+
+### Validation Rules
+
+**Classification:** `primary`, `secondary`, `archive`, `maintenance`  
+**Status:** `active`, `paused`, `completed`, `cancelled`
+
+**Required Fields:**
+- `name` (for POST)
+
+**Optional Fields:**
+- `path`, `organization`, `classification`, `status`, `description`, `remote_url`
+
+---
+
+## 🗄️ Database
+
+**Engine:** SQLite  
+**ORM:** SQLAlchemy  
+**Migrations:** Flask-Migrate
+
+**Models:**
+- `Project` - Core project tracking with organization, classification, status
+
+**Migrations:**
+```bash
+# Create migration
+flask db migrate -m "Description"
+
+# Apply migrations
+flask db upgrade
+
+# Rollback
+flask db downgrade
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=app --cov-report=html
+
+# Run specific test file
+pytest tests/integration/api/test_projects.py
+
+# Run specific test
+pytest tests/unit/models/test_project.py::test_project_creation
+```
+
+**Current Coverage:** 88% (21 integration tests, 13 unit tests)
 
 ---
 
@@ -32,16 +117,39 @@ The backend directory contains all server-side application logic, including API 
 
 ```
 backend/
-├── api/              # REST API endpoints
-├── models/           # Database models
-├── services/         # Business logic
-├── config/           # Configuration files
-├── instance/         # Instance-specific files
-└── utils/            # Utility functions
+├── app/
+│   ├── __init__.py          # Application factory
+│   ├── api/                 # API endpoints
+│   │   ├── health.py        # Health check
+│   │   └── projects.py      # Projects CRUD
+│   └── models/              # Database models
+│       └── project.py       # Project model
+├── migrations/              # Database migrations
+├── tests/
+│   ├── unit/               # Unit tests
+│   └── integration/        # Integration tests
+├── config.py               # Configuration classes
+├── run.py                  # Development server
+└── requirements.txt        # Python dependencies
 ```
 
 ---
 
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
-**Next:** [API Routes](api/README.md)
+## ⚙️ Configuration
+
+Environment variables:
+- `APP_CONFIG` - Configuration to use (development, production, testing)
+- `DATABASE_URL` - Database connection string (production)
+- `CORS_ALLOWED_ORIGINS` - Comma-separated allowed origins (production)
+
+Configurations:
+- `DevelopmentConfig` - Local development (DEBUG=True)
+- `TestingConfig` - Testing environment (in-memory DB)
+- `ProductionConfig` - Production deployment
+
+---
+
+**Last Updated:** 2025-12-03  
+**Status:** ✅ Phase 2 Complete  
+**Coverage:** 88% (34 tests passing)  
+**Next:** Phase 3 - Delete & Archive Projects

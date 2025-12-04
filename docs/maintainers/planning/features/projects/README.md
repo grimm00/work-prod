@@ -30,6 +30,10 @@
 
 - **[Deliverables](deliverables/README.md)** - Templates, guides, and planning documentation (🟡 Planned)
 
+### Testing
+
+- **[Manual Testing Guide](manual-testing.md)** - Phase 2 comprehensive testing scenarios (✅ Complete)
+
 ### Code Quality
 
 - **[Fix Tracking](fix/README.md)** - Issues identified through code review (✅ Active)

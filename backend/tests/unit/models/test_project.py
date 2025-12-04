@@ -93,3 +93,108 @@ def test_project_path_unique(app):
     with pytest.raises(Exception):  # Should raise IntegrityError
         db.session.commit()
 
+
+# Extended Model Fields Tests (Phase 2)
+
+
+def test_project_creation_with_extended_fields(app):
+    """Test creating a Project with organization, classification, status, description, remote_url."""
+    project = Project(
+        name="Extended Project",
+        path="/extended/path",
+        organization="work",
+        classification="primary",
+        status="active",
+        description="A test project with all fields",
+        remote_url="https://github.com/user/repo"
+    )
+    
+    assert project.name == "Extended Project"
+    assert project.path == "/extended/path"
+    assert project.organization == "work"
+    assert project.classification == "primary"
+    assert project.status == "active"
+    assert project.description == "A test project with all fields"
+    assert project.remote_url == "https://github.com/user/repo"
+
+
+def test_project_default_status(app):
+    """Test that status defaults to 'active' if not provided."""
+    from app import db
+    
+    project = Project(name="Test Project")
+    db.session.add(project)
+    db.session.commit()
+    
+    assert project.status == "active"
+
+
+def test_project_extended_fields_nullable(app):
+    """Test that extended fields can be null except status."""
+    from app import db
+    
+    project = Project(name="Minimal Project")
+    db.session.add(project)
+    db.session.commit()
+    
+    assert project.organization is None
+    assert project.classification is None
+    assert project.status == "active"  # Has default
+    assert project.description is None
+    assert project.remote_url is None
+
+
+def test_project_valid_classification_values(app):
+    """Test that valid classification values are accepted."""
+    from app import db
+    
+    valid_classifications = ['primary', 'secondary', 'archive', 'maintenance']
+    
+    for classification in valid_classifications:
+        project = Project(name=f"Project {classification}", classification=classification)
+        db.session.add(project)
+        db.session.commit()
+        
+        assert project.classification == classification
+        db.session.rollback()  # Clean up for next iteration
+
+
+def test_project_valid_status_values(app):
+    """Test that valid status values are accepted."""
+    from app import db
+    
+    valid_statuses = ['active', 'paused', 'completed', 'cancelled']
+    
+    for status in valid_statuses:
+        project = Project(name=f"Project {status}", status=status)
+        db.session.add(project)
+        db.session.commit()
+        
+        assert project.status == status
+        db.session.rollback()  # Clean up for next iteration
+
+
+def test_project_to_dict_includes_extended_fields(app):
+    """Test that to_dict() includes all extended fields."""
+    from app import db
+    
+    project = Project(
+        name="Full Project",
+        path="/full/path",
+        organization="work",
+        classification="primary",
+        status="active",
+        description="Full description",
+        remote_url="https://github.com/user/repo"
+    )
+    db.session.add(project)
+    db.session.commit()
+    
+    project_dict = project.to_dict()
+    
+    assert project_dict['organization'] == "work"
+    assert project_dict['classification'] == "primary"
+    assert project_dict['status'] == "active"
+    assert project_dict['description'] == "Full description"
+    assert project_dict['remote_url'] == "https://github.com/user/repo"
+
