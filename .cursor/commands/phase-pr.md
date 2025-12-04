@@ -46,6 +46,7 @@ Use this command after completing ALL tasks in a phase, before creating the PR. 
 
 #### Manual Testing
 - [ ] Check if manual testing guide exists: `docs/maintainers/planning/features/projects/manual-testing.md`
+- [ ] **REQUIRED:** Add new scenarios for phase features (see step 3a)
 - [ ] If guide exists, run ALL scenarios in order
 - [ ] Document any issues found during manual testing
 - [ ] Fix any bugs found before proceeding
@@ -107,9 +108,158 @@ Use this command after completing ALL tasks in a phase, before creating the PR. 
 
 **Manual Testing Guide:**
 - `docs/maintainers/planning/features/projects/manual-testing.md`
-- Add new scenarios for phase features
+- **REQUIRED:** Add new scenarios for phase features
 - Update scenario numbering
 - Add prerequisites/notes
+- See "3a. Add Manual Testing Scenarios" below for details
+
+---
+
+### 3a. Add Manual Testing Scenarios
+
+**File:** `docs/maintainers/planning/features/projects/manual-testing.md`
+
+**When to add scenarios:**
+- New API endpoints added
+- New CLI commands added
+- New features that need user verification
+- Filtering/search capabilities
+- Any user-facing functionality
+
+**Checklist:**
+- [ ] Review phase features and identify what needs manual testing
+- [ ] Check current scenario count (last scenario number)
+- [ ] Add scenarios for each new feature
+- [ ] Number scenarios sequentially (continue from last number)
+- [ ] Include both curl and CLI examples (if applicable)
+- [ ] Add verification steps
+- [ ] Note any prerequisites or dependencies
+- [ ] Update "Phases" field in document header if needed
+
+**Scenario Template:**
+
+```markdown
+### Scenario N: [Feature Name] - [Method]
+
+**Test:** [What this scenario tests]
+
+**Prerequisites:** [Any required setup or previous scenarios]
+
+**API Test (if applicable):**
+```bash
+# curl command
+curl [endpoint] [options]
+# Expected: [expected response]
+```
+
+**CLI Test (if applicable):**
+```bash
+# CLI command
+./proj [command] [options]
+# Expected Output:
+# [example output]
+```
+
+**Verification:**
+```bash
+# Commands to verify the result
+# Expected: [expected result]
+```
+
+**Expected Result:** ✅ [Success criteria]
+```
+
+**Common Scenario Types:**
+
+**For Filtering Features:**
+- Filter by each filter type (status, organization, classification)
+- Multiple filters combined
+- Invalid filter values
+- Empty results
+- CLI filter flags
+
+**For Search Features:**
+- Search by name
+- Search by description
+- Case-insensitive search
+- Partial match
+- No results found
+- Combined with filters
+- CLI search flag
+
+**For New Endpoints:**
+- Basic functionality (happy path)
+- Error cases (404, 400, validation)
+- Edge cases
+- CLI equivalent (if applicable)
+
+**Example for Phase 4 (Search & Filter):**
+
+```markdown
+### Scenario 16: Filter Projects by Status (API)
+
+**Test:** Filter projects using status query parameter
+
+**Prerequisites:** At least 2 projects with different statuses
+
+```bash
+# Create projects with different statuses first
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Active Project", "status": "active"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Paused Project", "status": "paused"}'
+
+# Filter by active status
+curl "http://localhost:5000/api/projects?status=active" | jq
+# Expected: Only projects with status="active" returned
+```
+
+**Verification:**
+```bash
+# Verify only active projects returned
+curl "http://localhost:5000/api/projects?status=active" | jq '.[] | .status'
+# Expected: All values are "active"
+```
+
+**Expected Result:** ✅ Filter returns only projects matching status
+
+---
+
+### Scenario 17: Filter Projects by Status (CLI)
+
+**Test:** Use CLI to filter projects by status
+
+**Prerequisites:** At least 2 projects with different statuses
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Filter by active status
+./proj list --status active
+
+# Expected Output:
+# Shows only projects with status="active"
+```
+
+**Verification:**
+```bash
+# Verify filtered results
+./proj list --status active
+# Check that all displayed projects have status="active"
+```
+
+**Expected Result:** ✅ CLI filter flag works correctly
+```
+
+**After adding scenarios:**
+- [ ] Update scenario count in document header if needed
+- [ ] Verify scenarios are numbered sequentially
+- [ ] Check that prerequisites are clear
+- [ ] Ensure scenarios can be run in order (or note dependencies)
+- [ ] Test at least one scenario manually to verify format
 
 ---
 
@@ -211,14 +361,37 @@ feat: [Phase N Description] (Phase N)
    ```
 
 2. **Create PR using GitHub CLI:**
+   
+   **Option A: Use temporary file (auto-cleaned):**
+   ```bash
+   # Create description file in /tmp (auto-cleaned by OS)
+   cat > /tmp/pr-description-phase-N.md << 'EOF'
+   [paste PR description content]
+   EOF
+   
+   gh pr create --title "feat: [Phase N Description] (Phase N)" \
+                --body-file /tmp/pr-description-phase-N.md \
+                --base develop \
+                --head feat/phase-N-[description]
+   
+   # Clean up
+   rm /tmp/pr-description-phase-N.md
+   ```
+   
+   **Option B: Use inline body (simpler):**
    ```bash
    gh pr create --title "feat: [Phase N Description] (Phase N)" \
-                --body-file pr-description.md \
+                --body "$(cat << 'EOF'
+   [paste PR description content]
+   EOF
+   )" \
                 --base develop \
                 --head feat/phase-N-[description]
    ```
+   
+   **Option C: Use GitHub web UI** (paste description manually)
 
-   Or use GitHub web UI if preferred.
+   **Note:** PR description files are gitignored (`pr-description*.md`) to prevent accidental commits.
 
 3. **Get PR number from output** (e.g., `#12`)
 
@@ -399,11 +572,13 @@ feat: [Phase N Description] (Phase N)
 ## Tips
 
 **Before PR:**
+- **Don't skip adding manual testing scenarios** - Required for new features
 - Don't skip manual testing - it catches real bugs
 - Run full test suite one more time before PR
 - Review all changes in diff view
 - Ensure commit messages are clear
 - Check that documentation is accurate
+- Verify manual testing scenarios are complete and numbered correctly
 
 **During PR:**
 - Present PR link clearly to user

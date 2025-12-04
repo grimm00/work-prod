@@ -11,14 +11,23 @@ from project_cli.api_client import APIClient
 
 
 @click.command()
-def list_projects():
-    """List all projects."""
+@click.option('--status', '-s', help='Filter by status (active, paused, completed, cancelled)')
+@click.option('--org', '-o', 'organization', help='Filter by organization name')
+@click.option('--classification', '-c', help='Filter by classification (primary, secondary, archive, maintenance)')
+@click.option('--search', help='Search in project names and descriptions')
+def list_projects(status, organization, classification, search):
+    """List all projects with optional filtering."""
     console = Console()
     
     try:
-        # Fetch projects from API
+        # Fetch projects from API with filters
         client = APIClient()
-        projects = client.list_projects()
+        projects = client.list_projects(
+            status=status,
+            organization=organization,
+            classification=classification,
+            search=search
+        )
         
         if not projects:
             console.print("[yellow]No projects found.[/yellow]")

@@ -26,9 +26,16 @@ class APIClient:
             'Accept': 'application/json'
         })
     
-    def list_projects(self) -> List[Dict]:
+    def list_projects(self, status: str = None, organization: str = None, 
+                     classification: str = None, search: str = None) -> List[Dict]:
         """
-        Get all projects.
+        Get all projects with optional filtering.
+        
+        Args:
+            status: Filter by status (active, paused, completed, cancelled)
+            organization: Filter by organization name
+            classification: Filter by classification (primary, secondary, archive, maintenance)
+            search: Search term for name and description
         
         Returns:
             List of project dictionaries
@@ -36,7 +43,17 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.get(f'{self.base_url}/projects')
+        params = {}
+        if status:
+            params['status'] = status
+        if organization:
+            params['organization'] = organization
+        if classification:
+            params['classification'] = classification
+        if search:
+            params['search'] = search
+        
+        response = self.session.get(f'{self.base_url}/projects', params=params)
         response.raise_for_status()
         return response.json()
     

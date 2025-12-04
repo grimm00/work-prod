@@ -109,6 +109,8 @@ temp/
 *.temp
 *.bak
 *.backup
+pr-description*.md
+pr-*.md
 
 # Security
 *.pem
