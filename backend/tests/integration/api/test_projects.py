@@ -655,3 +655,134 @@ def test_archive_nonexistent_project_returns_404(client):
     # Route doesn't exist yet, so response may not be JSON in RED phase
     # Once implemented, this will return JSON with error message
 
+
+# Phase 4: Search & Filter Tests
+
+@pytest.mark.integration
+def test_filter_projects_by_status(client, app):
+    """Test GET /api/projects?status=active filters by status."""
+    # Create projects with different statuses
+    with app.app_context():
+        active_project = Project(name="Active Project", status="active")
+        paused_project = Project(name="Paused Project", status="paused")
+        completed_project = Project(name="Completed Project", status="completed")
+        
+        db.session.add_all([active_project, paused_project, completed_project])
+        db.session.commit()
+    
+    # Filter by active status
+    response = client.get('/api/projects?status=active')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 1
+    assert data[0]['name'] == "Active Project"
+    assert data[0]['status'] == 'active'
+
+
+@pytest.mark.integration
+def test_filter_projects_by_organization(client, app):
+    """Test GET /api/projects?organization=work filters by organization."""
+    # Create projects with different organizations
+    with app.app_context():
+        work_project = Project(name="Work Project", organization="work")
+        personal_project = Project(name="Personal Project", organization="personal")
+        work_project2 = Project(name="Another Work Project", organization="work")
+        
+        db.session.add_all([work_project, personal_project, work_project2])
+        db.session.commit()
+    
+    # Filter by work organization
+    response = client.get('/api/projects?organization=work')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 2
+    assert all(p['organization'] == 'work' for p in data)
+
+
+@pytest.mark.integration
+def test_filter_projects_by_classification(client, app):
+    """Test GET /api/projects?classification=primary filters by classification."""
+    # Create projects with different classifications
+    with app.app_context():
+        primary_project = Project(name="Primary Project", classification="primary")
+        secondary_project = Project(name="Secondary Project", classification="secondary")
+        archive_project = Project(name="Archive Project", classification="archive")
+        
+        db.session.add_all([primary_project, secondary_project, archive_project])
+        db.session.commit()
+    
+    # Filter by primary classification
+    response = client.get('/api/projects?classification=primary')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 1
+    assert data[0]['name'] == "Primary Project"
+    assert data[0]['classification'] == 'primary'
+
+
+@pytest.mark.integration
+def test_filter_projects_multiple_filters(client, app):
+    """Test GET /api/projects?status=active&organization=work combines filters."""
+    # Create projects with various combinations
+    with app.app_context():
+        # Matches both filters
+        match1 = Project(name="Match 1", status="active", organization="work")
+        match2 = Project(name="Match 2", status="active", organization="work")
+        # Matches status only
+        status_only = Project(name="Status Only", status="active", organization="personal")
+        # Matches organization only
+        org_only = Project(name="Org Only", status="paused", organization="work")
+        # Matches neither
+        neither = Project(name="Neither", status="paused", organization="personal")
+        
+        db.session.add_all([match1, match2, status_only, org_only, neither])
+        db.session.commit()
+    
+    # Filter by both status and organization
+    response = client.get('/api/projects?status=active&organization=work')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 2
+    assert all(p['status'] == 'active' and p['organization'] == 'work' for p in data)
+    assert all(p['name'] in ['Match 1', 'Match 2'] for p in data)
+
+
+@pytest.mark.integration
+def test_filter_projects_invalid_status_value(client, app):
+    """Test GET /api/projects?status=invalid returns all projects or 400."""
+    # Create some projects
+    with app.app_context():
+        project1 = Project(name="Project 1", status="active")
+        project2 = Project(name="Project 2", status="paused")
+        db.session.add_all([project1, project2])
+        db.session.commit()
+    
+    # Try to filter by invalid status
+    response = client.get('/api/projects?status=invalid')
+    
+    # Should either return 400 Bad Request or return all projects (ignore invalid filter)
+    # For now, we'll test that it doesn't crash and returns a valid response
+    assert response.status_code in [200, 400]
+    
+    if response.status_code == 200:
+        # If returning all projects, should have both
+        data = json.loads(response.data)
+        assert isinstance(data, list)
+        assert len(data) == 2
+    elif response.status_code == 400:
+        # If returning error, should have error message
+        data = json.loads(response.data)
+        assert 'error' in data
+
