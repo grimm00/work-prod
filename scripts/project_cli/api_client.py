@@ -91,4 +91,34 @@ class APIClient:
         response = self.session.patch(f'{self.base_url}/projects/{project_id}', json=data)
         response.raise_for_status()
         return response.json()
+    
+    def delete_project(self, project_id: int) -> None:
+        """
+        Delete a project permanently.
+        
+        Args:
+            project_id: ID of the project to delete
+            
+        Raises:
+            requests.RequestException: If API request fails
+        """
+        response = self.session.delete(f'{self.base_url}/projects/{project_id}')
+        response.raise_for_status()
+    
+    def archive_project(self, project_id: int) -> Dict:
+        """
+        Archive a project by setting classification to 'archive' and status to 'completed'.
+        
+        Args:
+            project_id: ID of the project to archive
+            
+        Returns:
+            Archived project dictionary
+            
+        Raises:
+            requests.RequestException: If API request fails
+        """
+        response = self.session.put(f'{self.base_url}/projects/{project_id}/archive')
+        response.raise_for_status()
+        return response.json()
 
