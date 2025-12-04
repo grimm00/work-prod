@@ -46,6 +46,7 @@ Use this command after completing ALL tasks in a phase, before creating the PR. 
 
 #### Manual Testing
 - [ ] Check if manual testing guide exists: `docs/maintainers/planning/features/projects/manual-testing.md`
+- [ ] **REQUIRED:** Add new scenarios for phase features (see step 3a)
 - [ ] If guide exists, run ALL scenarios in order
 - [ ] Document any issues found during manual testing
 - [ ] Fix any bugs found before proceeding
@@ -107,9 +108,10 @@ Use this command after completing ALL tasks in a phase, before creating the PR. 
 
 **Manual Testing Guide:**
 - `docs/maintainers/planning/features/projects/manual-testing.md`
-- Add new scenarios for phase features
+- **REQUIRED:** Add new scenarios for phase features
 - Update scenario numbering
 - Add prerequisites/notes
+- See "3a. Add Manual Testing Scenarios" below for details
 
 ---
 
@@ -422,11 +424,13 @@ feat: [Phase N Description] (Phase N)
 ## Tips
 
 **Before PR:**
+- **Don't skip adding manual testing scenarios** - Required for new features
 - Don't skip manual testing - it catches real bugs
 - Run full test suite one more time before PR
 - Review all changes in diff view
 - Ensure commit messages are clear
 - Check that documentation is accurate
+- Verify manual testing scenarios are complete and numbered correctly
 
 **During PR:**
 - Present PR link clearly to user
