@@ -8,11 +8,21 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 **Pattern:**
 1. Phase has multiple tasks (usually TDD: RED → GREEN cycles)
-2. **IMPORTANT: This command handles ONE task at a time**
-3. Implement the specified task completely (RED → GREEN → REFACTOR)
-4. Commit the task
-5. Stop and wait for user to invoke command again for next task
+2. **Task Grouping:** RED + GREEN phases are grouped together (tightly coupled TDD cycle)
+3. Implement the task group completely (RED → GREEN → REFACTOR)
+4. Commit the work
+5. Stop and wait for user to invoke command again for next task group
 6. Create PR only after completing ALL tasks in phase (use `/phase-pr` command)
+
+**Task Grouping Rules:**
+- **Group together:** RED test task + GREEN implementation task (e.g., Task 1 + Task 2)
+- **Separate:** Different task types (e.g., API tasks vs CLI tasks)
+- **Separate:** Large/complex tasks that benefit from review
+
+**Examples:**
+- Task 1 (Write Filter Tests - RED) + Task 2 (Implement Filtering - GREEN) = **One invocation**
+- Task 3 (Write Search Tests - RED) + Task 4 (Implement Search - GREEN) = **One invocation**
+- Task 5 (Enhance CLI) = **Separate invocation** (different component)
 
 **When to create PR:**
 - After completing the LAST task in the phase
@@ -21,7 +31,7 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 - After all tests pass
 - After manual testing (if applicable)
 
-**Key Principle:** One task per invocation. Complete the task, commit it, then stop. User will invoke command again for the next task.
+**Key Principle:** Group related TDD cycles (RED+GREEN), but separate different components. Complete the task group, commit it, then stop. User will invoke command again for the next task group.
 
 ---
 
@@ -30,14 +40,19 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 **Command:** `@phase-task [phase-number] [task-number]`
 
 **Examples:**
-- `@phase-task 4 1` - Implement Phase 4, Task 1 only
-- `@phase-task 4 2` - Implement Phase 4, Task 2 only (after Task 1 complete)
-- `@phase-task 4 3` - Implement Phase 4, Task 3 only (after Task 2 complete)
+- `@phase-task 4 1` - Implement Phase 4, Tasks 1-2 (RED + GREEN for filtering)
+- `@phase-task 4 3` - Implement Phase 4, Tasks 3-4 (RED + GREEN for search)
+- `@phase-task 4 5` - Implement Phase 4, Task 5 (CLI enhancement)
+
+**Task Grouping:**
+- When you specify a RED task (e.g., Task 1), automatically include the next GREEN task (Task 2)
+- Different task types (API vs CLI) are separate invocations
+- Check phase document to identify natural groupings
 
 **Important:** 
-- This command handles **ONE task at a time**
-- After completing a task, stop and wait for user to invoke again for next task
-- Do NOT continue to next task automatically
+- This command handles **one task group at a time** (typically RED+GREEN pair)
+- After completing a task group, stop and wait for user to invoke again for next group
+- Do NOT continue to next task group automatically
 - Use `/phase-pr` command when all tasks are complete to create PR
 
 ---
@@ -64,9 +79,11 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 ---
 
-### 2. Implement Task Following TDD
+### 2. Implement Task Group Following TDD
 
 **TDD Pattern (RED → GREEN → REFACTOR):**
+
+**If task group includes RED + GREEN:**
 
 #### RED Phase (Write Tests First)
 - [ ] Write failing tests for the task
@@ -80,7 +97,12 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 #### REFACTOR Phase (Improve Code)
 - [ ] Refactor if needed (with tests still passing)
-- [ ] Commit: `refactor(phase-N): improve [task description]`
+- [ ] Commit: `refactor(phase-N): improve [task description]` (if needed)
+
+**If task group is standalone (e.g., CLI task):**
+- [ ] Implement the task completely
+- [ ] Test manually
+- [ ] Commit: `feat(phase-N): implement [task description]`
 
 **Task-specific patterns:**
 
@@ -158,18 +180,19 @@ git commit -m "feat(phase-3): add proj delete CLI command"
 
 ---
 
-### 5. Stop After Task Completion
+### 5. Stop After Task Group Completion
 
-**After completing a task:**
+**After completing a task group:**
 
-- [ ] Task fully implemented and tested
+- [ ] Task group fully implemented and tested
 - [ ] All commits made to feature branch
 - [ ] Tests passing
-- [ ] **STOP - Do NOT proceed to next task**
+- [ ] **STOP - Do NOT proceed to next task group**
 - [ ] Present completion summary to user
-- [ ] Wait for user to invoke command again for next task
+- [ ] Indicate which tasks were completed (e.g., "Tasks 1-2 complete: Filter tests + implementation")
+- [ ] Wait for user to invoke command again for next task group
 
-**Important:** This command handles ONE task at a time. The user will invoke the command again with the next task number when ready to continue.
+**Important:** This command handles ONE task group at a time (typically RED+GREEN pair). The user will invoke the command again with the next task number when ready to continue.
 
 ---
 
@@ -364,23 +387,28 @@ Tasks are typically numbered in phase documents:
 ## Tips
 
 **While implementing:**
-- Focus on ONE task only
+- Focus on ONE task group (typically RED+GREEN pair)
 - Keep phase document open for reference
 - Check off items as you complete them
 - Don't skip tests (TDD discipline)
 - Commit frequently (small commits)
 - Push to branch regularly
 
-**After completing task:**
-- **STOP - Do NOT continue to next task**
+**Task grouping:**
+- RED + GREEN phases naturally belong together
+- Complete the full TDD cycle before stopping
+- Different components (API vs CLI) are separate
+
+**After completing task group:**
+- **STOP - Do NOT continue to next task group**
 - Present summary of what was accomplished
-- Indicate task is complete
+- Indicate which tasks were completed (e.g., "Tasks 1-2 complete")
 - Wait for user to invoke command again
 
 **Important reminders:**
-- One task per invocation
-- Complete task fully before stopping
-- Don't proceed to next task automatically
+- One task group per invocation (typically RED+GREEN pair)
+- Complete task group fully before stopping
+- Don't proceed to next task group automatically
 - Use `/phase-pr` when all tasks done
 
 ---
