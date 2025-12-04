@@ -1,21 +1,26 @@
 # Projects Feature - Fix Tracking
 
 **Purpose:** Track fixes identified through code review (Sourcery, manual review, etc.)  
-**Status:** ⚠️ CRITICAL ISSUES FOUND  
-**Last Updated:** 2025-12-03  
-**Progress:** 3/16 complete (19%)
+**Status:** 🔴 CRITICAL ISSUES IN PR #8  
+**Last Updated:** 2025-12-04  
+**Progress:** 5/18 complete (28%)
 
 ---
 
-## 🚨 URGENT: Critical Issues Found
+## 🚨 URGENT: Critical Issues in PR #8
 
-**Date:** 2025-12-03  
-**Review:** PRs #2, #3, #4 feedback analyzed  
-**Status:** 🔴 CRITICAL issue in `develop` branch
+**Date:** 2025-12-04  
+**Review:** PR #8 (Phase 2) Sourcery feedback  
+**Status:** 🔴 **MUST FIX BEFORE MERGE**
 
-**Breaking Change Alert:** PR #4 introduced a breaking change - deployments using `FLASK_ENV=production` will silently run in development mode.
+**Security Issue Alert:** PR #8 has a CRITICAL security issue - exception details are leaked to clients, potentially exposing database schema and internal implementation details.
 
-**Action Required:** Fix CRITICAL and HIGH priority issues before Phase 2 PR.
+**High Priority Bug:** Null status validation causes confusing 409 errors instead of proper 400 validation errors.
+
+**Action Required:** 
+1. Fix PR08-#1 (CRITICAL - security)
+2. Fix PR08-#2 (HIGH - validation bug)
+3. Then merge PR #8
 
 ---
 
@@ -93,32 +98,48 @@ git commit -m "fix(critical): add FLASK_ENV fallback and fix logging config"
 
 | Issue | Priority | Impact | Effort | Status | File |
 |-------|----------|--------|--------|--------|------|
-| PR04-#1 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | 🔴 Not Fixed | [pr04-issue-01-02-logging-setup.md](pr04-issue-01-02-logging-setup.md) |
-| PR04-#2 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | 🔴 Not Fixed | [pr04-issue-01-02-logging-setup.md](pr04-issue-01-02-logging-setup.md) |
-| PR04-#3 | 🔴 CRITICAL | 🔴 CRITICAL | 🟢 LOW | 🔴 Not Fixed | [pr04-issue-03-flask-env-fallback.md](pr04-issue-03-flask-env-fallback.md) |
+| PR04-#1 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | ✅ Fixed (PR #6) | [pr04-issue-01-02-logging-setup.md](pr04-issue-01-02-logging-setup.md) |
+| PR04-#2 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | ✅ Fixed (PR #6) | [pr04-issue-01-02-logging-setup.md](pr04-issue-01-02-logging-setup.md) |
+| PR04-#3 | 🔴 CRITICAL | 🔴 CRITICAL | 🟢 LOW | ✅ Fixed (PR #6) | [pr04-issue-03-flask-env-fallback.md](pr04-issue-03-flask-env-fallback.md) |
+
+### PR #8 Sourcery Review (Phase 2) - **🔴 URGENT**
+
+| Issue | Priority | Impact | Effort | Status | File |
+|-------|----------|--------|--------|--------|------|
+| PR08-#1 | 🔴 CRITICAL | 🔴 CRITICAL | 🟡 MEDIUM | 🔴 **BLOCKS MERGE** | [pr08-issue-01-exception-leak.md](pr08-issue-01-exception-leak.md) |
+| PR08-#2 | 🟠 HIGH | 🟠 HIGH | 🟡 MEDIUM | 🔴 **BLOCKS MERGE** | [pr08-issue-02-null-status-validation.md](pr08-issue-02-null-status-validation.md) |
+| PR08-#3 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | 🟡 Deferred | Missing test: empty JSON body |
+| PR08-#14 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | 🟡 Deferred | Bare except in CLI |
+| PR08-Overall | 🟡 MEDIUM | 🟠 HIGH | 🟠 HIGH | 🟡 Deferred | Code duplication (validation, errors, CLI) |
+| PR08-#4-#15 | 🟢 LOW | 🟢 LOW | 🟢 LOW | 🟡 Deferred | Style improvements (12 issues) |
+
+**Note:** PR #8 cannot be merged until PR08-#1 and PR08-#2 are fixed.
 
 ---
 
 ## 📊 Summary Statistics
 
-**Total Issues:** 16 across 4 PRs  
+**Total Issues:** 24 across 5 PRs  
 **Status Breakdown:**
-- ✅ Complete: 3 (PR #1)
+- ✅ Complete/Fixed: 8 (PRs #1, #4, #6)
 - ✅ Resolved: 2 (PR #2 - fixed in Phase 2)
-- 🔴 Not Fixed: 11 (PRs #2, #3, #4)
+- 🔴 **BLOCKS MERGE:** 2 (PR #8 - **URGENT**)
+- 🔴 Not Fixed: 4 (PRs #2, #3)
+- 🟡 Deferred: 6 (PR #8 - MEDIUM/LOW)
 - 🟡 Planned: 2 (PR #1 - LOW priority)
 
 **Priority Breakdown:**
-- 🔴 CRITICAL: 1 (PR04-#3 - **BLOCKING**)
-- 🟠 HIGH: 3 (PR02-#3, PR04-#1, PR04-#2 - **URGENT**)
-- 🟡 MEDIUM: 5 (can defer)
-- 🟢 LOW: 5 (can defer)
-- ✅ Complete/Resolved: 5
+- 🔴 CRITICAL: 1 (PR08-#1 - **BLOCKS PR #8 MERGE**)
+- 🟠 HIGH: 1 (PR08-#2 - **BLOCKS PR #8 MERGE**)
+- 🟠 HIGH (other): 1 (PR02-#3 - can defer)
+- 🟡 MEDIUM: 8 (can defer)
+- 🟢 LOW: 13 (can defer)
+- ✅ Complete/Resolved/Fixed: 10
 
-**Effort Estimate for Outstanding CRITICAL/HIGH:**
-- CRITICAL (1 issue): 5 minutes
-- HIGH (3 issues): 40 minutes
-- **Total: 45 minutes**
+**Effort Estimate for PR #8 Blocking Issues:**
+- CRITICAL (1 issue): 30 minutes (PR08-#1 - Exception leak fix)
+- HIGH (1 issue): 20 minutes (PR08-#2 - Null validation fix)
+- **Total: 50 minutes to unblock PR #8**
 
 ---
 
@@ -146,21 +167,21 @@ git commit -m "fix(critical): add FLASK_ENV fallback and fix logging config"
 
 ## 🎯 Recommended Action Plan
 
-### URGENT: Fix CRITICAL + HIGH Issues (45 minutes)
+### 🔴 URGENT: Fix PR #8 Blocking Issues (50 minutes)
 
-**Branch:** `fix/critical-config-logging-issues` from `develop`
+**Note:** PR #8 has been merged to `develop`, but contains CRITICAL security issue. Fix must be applied immediately.
 
-**Issues to Fix:**
-1. 🔴 PR04-#3 - FLASK_ENV fallback (5 min)
-2. 🟠 PR04-#1-#2 - Logging configuration (30 min)
-3. 🟠 PR02-#3 - CLI imports (10 min) - **Fix in Phase 2 branch**
+**Branch:** `fix/pr08-critical-security-validation` from `develop`
+
+**MUST FIX IMMEDIATELY (PR #8 is already merged):**
+1. 🔴 PR08-#1 - Exception leak security issue (30 min) - **SECURITY**
+2. 🟠 PR08-#2 - Null status validation bug (20 min)
 
 **Process:**
-1. Fix PR04 issues in `develop`
-2. Create PR, review, merge
-3. Rebase Phase 2 on updated `develop`
-4. Fix PR02-#3 in Phase 2 branch
-5. Proceed with Phase 2 PR
+1. Create fix branch from `develop`
+2. Implement both fixes with tests
+3. Create PR, fast-track review
+4. Merge immediately (docs/* or with approval)
 
 ### Future: Test Improvements PR
 
