@@ -211,14 +211,37 @@ feat: [Phase N Description] (Phase N)
    ```
 
 2. **Create PR using GitHub CLI:**
+   
+   **Option A: Use temporary file (auto-cleaned):**
+   ```bash
+   # Create description file in /tmp (auto-cleaned by OS)
+   cat > /tmp/pr-description-phase-N.md << 'EOF'
+   [paste PR description content]
+   EOF
+   
+   gh pr create --title "feat: [Phase N Description] (Phase N)" \
+                --body-file /tmp/pr-description-phase-N.md \
+                --base develop \
+                --head feat/phase-N-[description]
+   
+   # Clean up
+   rm /tmp/pr-description-phase-N.md
+   ```
+   
+   **Option B: Use inline body (simpler):**
    ```bash
    gh pr create --title "feat: [Phase N Description] (Phase N)" \
-                --body-file pr-description.md \
+                --body "$(cat << 'EOF'
+   [paste PR description content]
+   EOF
+   )" \
                 --base develop \
                 --head feat/phase-N-[description]
    ```
+   
+   **Option C: Use GitHub web UI** (paste description manually)
 
-   Or use GitHub web UI if preferred.
+   **Note:** PR description files are gitignored (`pr-description*.md`) to prevent accidental commits.
 
 3. **Get PR number from output** (e.g., `#12`)
 
