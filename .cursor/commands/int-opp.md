@@ -1,6 +1,8 @@
 # Document Internal Opportunities
 
-After completing a phase, use this command to capture learnings for improving dev-infra template.
+After completing a phase and updating documentation, use this command to capture learnings for improving dev-infra template.
+
+**Note:** Run `/post-pr` first to update documentation, then use this command to capture learnings.
 
 ## Instructions
 

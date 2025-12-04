@@ -438,5 +438,6 @@ feat: [Phase N Description] (Phase N)
 
 **Related Commands:**
 - `/phase-task` - Individual task implementation
-- `/int-opp` - Document phase learnings
+- `/post-pr` - Post-merge documentation updates (run after PR merge)
+- `/int-opp` - Document phase learnings (run after post-pr)
 

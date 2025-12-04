@@ -19,6 +19,8 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 - After all tests pass
 - After manual testing (if applicable)
 
+**Note:** Use `/phase-pr` command for complete PR workflow after all tasks done.
+
 ---
 
 ## Usage
@@ -165,21 +167,22 @@ git commit -m "feat(phase-3): add proj delete CLI command"
 
 **When ALL tasks in phase are done:**
 
-**Pre-PR Checklist:**
+**Use `/phase-pr` command for complete PR workflow.**
+
+The `/phase-pr` command handles:
+- Pre-PR validation checklist
+- Manual testing workflow
+- Documentation updates
+- PR creation with proper description
+- Sourcery review workflow
+- User approval process
+- Post-merge cleanup
+
+**Quick checklist before using `/phase-pr`:**
 - [ ] All tasks completed
 - [ ] All tests passing
 - [ ] Coverage maintained/improved
-- [ ] Manual testing complete (if applicable)
-- [ ] Phase document updated (all tasks marked complete)
-- [ ] README/docs updated (if needed)
-- [ ] No linter errors
-
-**Create PR:**
-1. Push final commits to feature branch
-2. Run Sourcery review: `dt-review` from dev-toolkit
-3. Fill out priority matrix in `docs/maintainers/feedback/sourcery/pr##.md`
-4. Address any CRITICAL/HIGH issues before PR
-5. Create PR with comprehensive description
+- [ ] All changes committed
 
 **PR Title Format:**
 ```
@@ -388,4 +391,9 @@ Tasks are typically numbered in phase documents:
 **Workflow:**
 - Git Flow: `docs/maintainers/planning/notes/projects-first-strategy.md`
 - PR Review: Cursor rules (Pull Request Review Workflow section)
+
+**Related Commands:**
+- `/phase-pr` - Phase completion and PR workflow (use after all tasks done)
+- `/post-pr` - Post-merge documentation updates (use after PR merged)
+- `/int-opp` - Document phase learnings (use after post-pr)
 
