@@ -786,3 +786,98 @@ def test_filter_projects_invalid_status_value(client, app):
         data = json.loads(response.data)
         assert 'error' in data
 
+
+# Phase 4: Search Tests
+
+@pytest.mark.integration
+def test_search_projects_by_name(client, app):
+    """Test GET /api/projects?search=term searches project names."""
+    # Create projects with different names
+    with app.app_context():
+        work_project = Project(name="Work Productivity Tool", description="A tool for work")
+        personal_project = Project(name="Personal Blog", description="My personal blog")
+        work_project2 = Project(name="Work Tracker", description="Track work hours")
+        
+        db.session.add_all([work_project, personal_project, work_project2])
+        db.session.commit()
+    
+    # Search for "work" in names
+    response = client.get('/api/projects?search=work')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 2
+    assert all('work' in p['name'].lower() for p in data)
+
+
+@pytest.mark.integration
+def test_search_projects_case_insensitive(client, app):
+    """Test search is case-insensitive."""
+    # Create projects
+    with app.app_context():
+        project1 = Project(name="Productivity Tool", description="A tool")
+        project2 = Project(name="PRODUCTIVITY APP", description="An app")
+        project3 = Project(name="Productivity System", description="A system")
+        
+        db.session.add_all([project1, project2, project3])
+        db.session.commit()
+    
+    # Search with different cases
+    response = client.get('/api/projects?search=PRODUCTIVITY')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 3
+    assert all('productivity' in p['name'].lower() for p in data)
+
+
+@pytest.mark.integration
+def test_search_projects_partial_match(client, app):
+    """Test search matches partial names."""
+    # Create projects
+    with app.app_context():
+        project1 = Project(name="Productivity Tool", description="A tool")
+        project2 = Project(name="Product Manager", description="Manager role")
+        project3 = Project(name="Production System", description="A system")
+        
+        db.session.add_all([project1, project2, project3])
+        db.session.commit()
+    
+    # Search for partial match "product"
+    response = client.get('/api/projects?search=product')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 3
+    assert all('product' in p['name'].lower() for p in data)
+
+
+@pytest.mark.integration
+def test_search_projects_in_description(client, app):
+    """Test search matches description field."""
+    # Create projects
+    with app.app_context():
+        project1 = Project(name="Project A", description="A productivity tool for work")
+        project2 = Project(name="Project B", description="A personal blog")
+        project3 = Project(name="Project C", description="Work tracking system")
+        
+        db.session.add_all([project1, project2, project3])
+        db.session.commit()
+    
+    # Search for "work" in descriptions
+    response = client.get('/api/projects?search=work')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    assert isinstance(data, list)
+    assert len(data) == 2
+    # Should match projects with "work" in name or description
+    assert any('work' in p.get('description', '').lower() or 'work' in p['name'].lower() for p in data)
+
