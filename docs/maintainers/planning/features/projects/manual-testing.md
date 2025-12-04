@@ -1,7 +1,7 @@
 # Projects Feature Manual Testing Guide
 
-**Phases:** Phase 2 & Phase 3 - Create, Update, Delete & Archive  
-**Last Updated:** 2025-12-03  
+**Phases:** Phase 2, Phase 3 & Phase 4 - Create, Update, Delete, Archive, Search & Filter  
+**Last Updated:** 2025-12-04  
 **Tester:** User verification before PR merge
 
 ---
@@ -439,6 +439,419 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Expected Result:** ✅ Archive command works, displays archived project details
+
+---
+
+## Phase 4: Search & Filter Scenarios
+
+### Scenario 16: Filter Projects by Status (API)
+
+**Test:** Filter projects using status query parameter
+
+**Prerequisites:** At least 2 projects with different statuses
+
+```bash
+# Create projects with different statuses first (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Active Project", "status": "active"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Paused Project", "status": "paused"}'
+
+# Filter by active status
+curl "http://localhost:5000/api/projects?status=active" | jq
+# Expected: Only projects with status="active" returned
+```
+
+**Verification:**
+```bash
+# Verify only active projects returned
+curl "http://localhost:5000/api/projects?status=active" | jq '.[] | .status'
+# Expected: All values are "active"
+```
+
+**Expected Result:** ✅ Filter returns only projects matching status
+
+---
+
+### Scenario 17: Filter Projects by Organization (API)
+
+**Test:** Filter projects using organization query parameter
+
+**Prerequisites:** At least 2 projects with different organizations
+
+```bash
+# Create projects with different organizations (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Project", "organization": "work"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Personal Project", "organization": "personal"}'
+
+# Filter by work organization
+curl "http://localhost:5000/api/projects?organization=work" | jq
+# Expected: Only projects with organization="work" returned
+```
+
+**Verification:**
+```bash
+# Verify only work projects returned
+curl "http://localhost:5000/api/projects?organization=work" | jq '.[] | .organization'
+# Expected: All values are "work"
+```
+
+**Expected Result:** ✅ Filter returns only projects matching organization
+
+---
+
+### Scenario 18: Filter Projects by Classification (API)
+
+**Test:** Filter projects using classification query parameter
+
+**Prerequisites:** At least 2 projects with different classifications
+
+```bash
+# Create projects with different classifications (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Primary Project", "classification": "primary"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Secondary Project", "classification": "secondary"}'
+
+# Filter by primary classification
+curl "http://localhost:5000/api/projects?classification=primary" | jq
+# Expected: Only projects with classification="primary" returned
+```
+
+**Verification:**
+```bash
+# Verify only primary projects returned
+curl "http://localhost:5000/api/projects?classification=primary" | jq '.[] | .classification'
+# Expected: All values are "primary"
+```
+
+**Expected Result:** ✅ Filter returns only projects matching classification
+
+---
+
+### Scenario 19: Multiple Filters Combined (API)
+
+**Test:** Combine multiple filters with AND logic
+
+**Prerequisites:** Projects with various combinations of status, organization, and classification
+
+```bash
+# Create test projects (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Active Primary", "status": "active", "organization": "work", "classification": "primary"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Active Secondary", "status": "active", "organization": "work", "classification": "secondary"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Paused Primary", "status": "paused", "organization": "work", "classification": "primary"}'
+
+# Filter by status AND organization AND classification
+curl "http://localhost:5000/api/projects?status=active&organization=work&classification=primary" | jq
+# Expected: Only projects matching ALL filters returned
+```
+
+**Verification:**
+```bash
+# Verify all filters applied
+curl "http://localhost:5000/api/projects?status=active&organization=work&classification=primary" | jq '.[] | {status, organization, classification}'
+# Expected: All projects have status="active", organization="work", classification="primary"
+```
+
+**Expected Result:** ✅ Multiple filters combine correctly with AND logic
+
+---
+
+### Scenario 20: Text Search in Names (API)
+
+**Test:** Search for projects by name using text search
+
+**Prerequisites:** Projects with various names
+
+```bash
+# Create test projects (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Productivity Tool", "description": "A tool for work"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Product Manager", "description": "Manager role"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Personal Blog", "description": "My blog"}'
+
+# Search for "product" in names
+curl "http://localhost:5000/api/projects?search=product" | jq
+# Expected: Projects with "product" in name or description returned
+```
+
+**Verification:**
+```bash
+# Verify search results
+curl "http://localhost:5000/api/projects?search=product" | jq '.[] | .name'
+# Expected: All returned projects have "product" in name (case-insensitive)
+```
+
+**Expected Result:** ✅ Search finds projects with matching text in names
+
+---
+
+### Scenario 21: Text Search in Descriptions (API)
+
+**Test:** Search for projects by description using text search
+
+**Prerequisites:** Projects with various descriptions
+
+```bash
+# Create test projects (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Project A", "description": "A productivity tool for work"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Project B", "description": "A personal blog"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Project C", "description": "Work tracking system"}'
+
+# Search for "work" in descriptions
+curl "http://localhost:5000/api/projects?search=work" | jq
+# Expected: Projects with "work" in name or description returned
+```
+
+**Verification:**
+```bash
+# Verify search results include description matches
+curl "http://localhost:5000/api/projects?search=work" | jq '.[] | {name, description}'
+# Expected: All returned projects have "work" in name or description
+```
+
+**Expected Result:** ✅ Search finds projects with matching text in descriptions
+
+---
+
+### Scenario 22: Case-Insensitive Search (API)
+
+**Test:** Verify search is case-insensitive
+
+**Prerequisites:** Projects with mixed-case names
+
+```bash
+# Create test projects (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Productivity Tool", "description": "A tool"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "PRODUCTIVITY APP", "description": "An app"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Productivity System", "description": "A system"}'
+
+# Search with uppercase
+curl "http://localhost:5000/api/projects?search=PRODUCTIVITY" | jq
+# Expected: All projects with "productivity" (any case) returned
+```
+
+**Verification:**
+```bash
+# Verify case-insensitive matching
+curl "http://localhost:5000/api/projects?search=PRODUCTIVITY" | jq '.[] | .name'
+# Expected: Projects with "productivity" in any case returned
+```
+
+**Expected Result:** ✅ Search is case-insensitive
+
+---
+
+### Scenario 23: Search Combined with Filters (API)
+
+**Test:** Combine text search with filters
+
+**Prerequisites:** Projects with various attributes
+
+```bash
+# Create test projects (if needed)
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Productivity Tool", "status": "active", "organization": "work"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Personal Productivity App", "status": "active", "organization": "personal"}'
+
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Work Tracker", "status": "paused", "organization": "work"}'
+
+# Search for "productivity" AND filter by status="active" AND organization="work"
+curl "http://localhost:5000/api/projects?search=productivity&status=active&organization=work" | jq
+# Expected: Only projects matching search AND all filters returned
+```
+
+**Verification:**
+```bash
+# Verify combined search and filters
+curl "http://localhost:5000/api/projects?search=productivity&status=active&organization=work" | jq '.[] | {name, status, organization}'
+# Expected: All projects have "productivity" in name/description, status="active", organization="work"
+```
+
+**Expected Result:** ✅ Search and filters combine correctly with AND logic
+
+---
+
+### Scenario 24: CLI - Filter by Status
+
+**Test:** Use CLI to filter projects by status
+
+**Prerequisites:** At least 2 projects with different statuses
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Filter by active status
+./proj list --status active
+
+# Expected Output:
+# Shows only projects with status="active" in table format
+```
+
+**Verification:**
+```bash
+# Verify filtered results
+./proj list --status active
+# Check that all displayed projects have status="active"
+```
+
+**Expected Result:** ✅ CLI filter flag works correctly
+
+---
+
+### Scenario 25: CLI - Filter by Organization
+
+**Test:** Use CLI to filter projects by organization
+
+**Prerequisites:** At least 2 projects with different organizations
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Filter by work organization
+./proj list --org work
+
+# Expected Output:
+# Shows only projects with organization="work" in table format
+```
+
+**Verification:**
+```bash
+# Verify filtered results
+./proj list --org work
+# Check that all displayed projects have organization="work"
+```
+
+**Expected Result:** ✅ CLI organization filter works correctly
+
+---
+
+### Scenario 26: CLI - Filter by Classification
+
+**Test:** Use CLI to filter projects by classification
+
+**Prerequisites:** At least 2 projects with different classifications
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Filter by primary classification
+./proj list --classification primary
+
+# Expected Output:
+# Shows only projects with classification="primary" in table format
+```
+
+**Verification:**
+```bash
+# Verify filtered results
+./proj list --classification primary
+# Check that all displayed projects have classification="primary"
+```
+
+**Expected Result:** ✅ CLI classification filter works correctly
+
+---
+
+### Scenario 27: CLI - Text Search
+
+**Test:** Use CLI to search projects by name/description
+
+**Prerequisites:** Projects with various names and descriptions
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Search for "productivity"
+./proj list --search productivity
+
+# Expected Output:
+# Shows only projects with "productivity" in name or description
+```
+
+**Verification:**
+```bash
+# Verify search results
+./proj list --search productivity
+# Check that all displayed projects have "productivity" in name or description
+```
+
+**Expected Result:** ✅ CLI search flag works correctly
+
+---
+
+### Scenario 28: CLI - Multiple Filters Combined
+
+**Test:** Use CLI with multiple filter flags
+
+**Prerequisites:** Projects with various combinations of attributes
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Filter by status AND organization AND search
+./proj list --status active --org work --search work
+
+# Expected Output:
+# Shows only projects matching ALL filters and search term
+```
+
+**Verification:**
+```bash
+# Verify combined filters
+./proj list --status active --org work --search work
+# Check that all displayed projects match all criteria
+```
+
+**Expected Result:** ✅ CLI multiple filters combine correctly
 
 ---
 
