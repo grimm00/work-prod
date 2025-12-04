@@ -185,25 +185,62 @@ git commit -m "fix(critical): add FLASK_ENV fallback and fix logging config"
 - 4 new tests added, all passing
 - Coverage maintained at 94%
 
-### Future: Test Improvements PR
+### 📦 Deferred Issues Backlog
 
-**Branch:** `feat/test-improvements`
+**Total:** 14 deferred issues (can be addressed in future PRs)
 
-**Issues to Fix:**
-- 🟡 PR02-#4 - Test null path serialization
-- 🟡 PR02-#6-#7 - Use IntegrityError in tests
-- 🟡 PR02-#8 - Test updated_at changes
-- 🟡 PR03-#1 - CORS parsing robustness
+#### Test Improvements (7 issues)
 
-**Timing:** After Phase 2 merges
+| Issue | Priority | Effort | Description |
+|-------|----------|--------|-------------|
+| PR09-#1 | 🟢 LOW | 🟢 LOW | Assert exact error messages in tests |
+| PR09-#2 | 🟢 LOW | 🟢 LOW | Remove redundant monkeypatch restore |
+| PR08-#3 | 🟡 MEDIUM | 🟢 LOW | Add test for empty JSON body on POST |
+| PR02-#4 | 🟡 MEDIUM | 🟢 LOW | Test null path serialization |
+| PR02-#6-#7 | 🟡 MEDIUM | 🟢 LOW | Use IntegrityError in tests (2 places) |
+| PR02-#8 | 🟡 MEDIUM | 🟢 LOW | Test updated_at timestamp changes |
+| PR01-#5 | 🟢 LOW | 🟢 LOW | Improve health check tests |
 
-### Opportunistic: Code Quality
+**Estimated effort:** 2-3 hours for all test improvements
 
-**Issues:**
-- 🟢 PR01-#5-#6 - Test improvements and README
-- 🟢 PR02-#5, #9-#11 - Test and error handling improvements
+#### Code Quality & Refactoring (5 issues)
 
-**Timing:** Fix when touching related code
+| Issue | Priority | Effort | Description |
+|-------|----------|--------|-------------|
+| PR09-Overall-1 | 🟡 MEDIUM | 🟡 MEDIUM | Extract status validation helper (reduce duplication) |
+| PR08-Overall | 🟡 MEDIUM | 🟠 HIGH | Reduce duplication in validation, errors, and CLI |
+| PR08-#14 | 🟡 MEDIUM | 🟢 LOW | Replace bare except in CLI with Exception |
+| PR03-#1 | 🟡 MEDIUM | 🟢 LOW | Improve CORS origin parsing robustness |
+| PR02-#3 | 🟠 HIGH | 🟢 LOW | Use package-qualified imports in CLI (partially done) |
+
+**Estimated effort:** 3-4 hours for refactoring work
+
+#### Style Improvements (12 individual items from PR08)
+
+| Category | Count | Effort | Description |
+|----------|-------|--------|-------------|
+| Merge nested ifs | 4 | 🟢 LOW | Simplify validation conditions (#6, #7, #8, #9) |
+| Avoid loops in tests | 2 | 🟢 LOW | Refactor enum validation tests (#10, #11) |
+| Use walrus operator | 2 | 🟢 LOW | Simplify assignment + conditional (#12, #13) |
+| Documentation | 1 | 🟢 LOW | Fix typo in manual testing guide (#4) |
+| Test coverage | 1 | 🟢 LOW | Add 404 test scenario (#5) |
+| Remove unnecessary code | 2 | 🟢 LOW | Remove .keys() call, simplify dict access (#15) |
+
+**Estimated effort:** 1-2 hours for all style improvements
+
+#### Summary by Priority
+
+- 🟠 **HIGH:** 1 issue (CLI imports - can defer)
+- 🟡 **MEDIUM:** 8 issues (test improvements, refactoring)
+- 🟢 **LOW:** 17 issues (style, documentation)
+
+**Total estimated effort:** 6-9 hours across all deferred items
+
+#### Recommended Approach
+
+1. **Short-term (opportunistic):** Fix style improvements when touching related code
+2. **Medium-term (dedicated PR):** Test improvements bundle (2-3 hours)
+3. **Long-term (Phase 3+):** Code quality refactoring (extract helpers, reduce duplication)
 
 ---
 
@@ -229,6 +266,6 @@ git commit -m "fix(critical): add FLASK_ENV fallback and fix logging config"
 
 ---
 
-**Last Updated:** 2025-12-03  
-**Status:** ⚠️ CRITICAL ISSUES FOUND - MUST FIX BEFORE PHASE 2  
-**Next:** Create `fix/critical-config-logging-issues` branch and implement fixes
+**Last Updated:** 2025-12-04  
+**Status:** ✅ All CRITICAL issues resolved - 14 deferred improvements tracked  
+**Next:** Address deferred items opportunistically or in dedicated improvement PRs
