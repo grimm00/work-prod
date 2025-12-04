@@ -8,16 +8,20 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 **Pattern:**
 1. Phase has multiple tasks (usually TDD: RED → GREEN cycles)
-2. Implement each task incrementally
-3. Commit after each task (or logical group)
-4. Create PR after completing ALL tasks in phase
-5. Run Sourcery review before PR creation
+2. **IMPORTANT: This command handles ONE task at a time**
+3. Implement the specified task completely (RED → GREEN → REFACTOR)
+4. Commit the task
+5. Stop and wait for user to invoke command again for next task
+6. Create PR only after completing ALL tasks in phase (use `/phase-pr` command)
 
 **When to create PR:**
 - After completing the LAST task in the phase
+- Use `/phase-pr` command for complete PR workflow
 - Before marking phase as complete
 - After all tests pass
 - After manual testing (if applicable)
+
+**Key Principle:** One task per invocation. Complete the task, commit it, then stop. User will invoke command again for the next task.
 
 ---
 
@@ -26,9 +30,15 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 **Command:** `@phase-task [phase-number] [task-number]`
 
 **Examples:**
-- `@phase-task 3 1` - Start Phase 3, Task 1
-- `@phase-task 3 2` - Continue Phase 3, Task 2
-- `@phase-task 3 pr` - Create PR after all tasks complete
+- `@phase-task 4 1` - Implement Phase 4, Task 1 only
+- `@phase-task 4 2` - Implement Phase 4, Task 2 only (after Task 1 complete)
+- `@phase-task 4 3` - Implement Phase 4, Task 3 only (after Task 2 complete)
+
+**Important:** 
+- This command handles **ONE task at a time**
+- After completing a task, stop and wait for user to invoke again for next task
+- Do NOT continue to next task automatically
+- Use `/phase-pr` command when all tasks are complete to create PR
 
 ---
 
@@ -148,16 +158,18 @@ git commit -m "feat(phase-3): add proj delete CLI command"
 
 ---
 
-### 5. Move to Next Task
+### 5. Stop After Task Completion
 
-**Before starting next task:**
+**After completing a task:**
 
-- [ ] Previous task fully complete
-- [ ] All commits pushed to feature branch
-- [ ] Tests still passing
-- [ ] Ready for next task
+- [ ] Task fully implemented and tested
+- [ ] All commits made to feature branch
+- [ ] Tests passing
+- [ ] **STOP - Do NOT proceed to next task**
+- [ ] Present completion summary to user
+- [ ] Wait for user to invoke command again for next task
 
-**Repeat steps 2-4 for next task**
+**Important:** This command handles ONE task at a time. The user will invoke the command again with the next task number when ready to continue.
 
 ---
 
@@ -352,24 +364,24 @@ Tasks are typically numbered in phase documents:
 ## Tips
 
 **While implementing:**
+- Focus on ONE task only
 - Keep phase document open for reference
 - Check off items as you complete them
 - Don't skip tests (TDD discipline)
 - Commit frequently (small commits)
 - Push to branch regularly
 
-**Before PR:**
-- Review all changes
-- Run full test suite
-- Check coverage report
-- Update any relevant docs
-- Ensure phase doc reflects completion
+**After completing task:**
+- **STOP - Do NOT continue to next task**
+- Present summary of what was accomplished
+- Indicate task is complete
+- Wait for user to invoke command again
 
-**After PR:**
-- Don't auto-merge (wait for approval)
-- Address review feedback promptly
-- Update fix tracking if issues found
-- Mark phase complete after merge
+**Important reminders:**
+- One task per invocation
+- Complete task fully before stopping
+- Don't proceed to next task automatically
+- Use `/phase-pr` when all tasks done
 
 ---
 
