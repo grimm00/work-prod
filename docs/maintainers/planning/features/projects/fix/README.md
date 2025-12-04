@@ -21,6 +21,24 @@
 
 ---
 
+## 📋 PR #12 Deferred Issues (Phase 4)
+
+**Date:** 2025-12-04  
+**Review:** PR #12 (Phase 4) Sourcery feedback  
+**Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled opportunistically
+
+**Deferred Issues:**
+
+- **PR12-#1:** Use `click.Choice` for CLI validation (MEDIUM priority, LOW effort) - Improves UX by catching invalid values early
+- **PR12-#2:** Tighten test expectations for invalid status (MEDIUM priority, LOW effort) - Test quality improvement
+- **PR12-#3:** Avoid conditionals in tests (MEDIUM priority, MEDIUM effort) - Code quality improvement, requires test refactoring
+- **PR12-#4:** Use named expression (LOW priority, LOW effort) - Minor code quality improvement
+- **PR12-#5:** Raise from previous error (LOW priority, LOW effort) - Minor code quality improvement
+
+**Action Plan:** These can be handled opportunistically during future phases or in a dedicated code quality improvement PR.
+
+---
+
 ## 📋 Overview
 
 This directory tracks fixes identified through code review processes including:
