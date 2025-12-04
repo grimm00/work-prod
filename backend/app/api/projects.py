@@ -4,7 +4,7 @@ Projects API endpoints.
 Provides REST API for managing projects including list, get, and create operations.
 """
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from app.models.project import Project
 from app import db
 from sqlalchemy.exc import IntegrityError
@@ -74,7 +74,9 @@ def create_project():
             }), 400
     
     # Validate status if provided
-    if 'status' in data and data['status'] is not None:
+    if 'status' in data:
+        if data['status'] is None:
+            return jsonify({'error': 'Status cannot be null'}), 400
         if data['status'] not in VALID_STATUSES:
             return jsonify({
                 'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
@@ -110,7 +112,8 @@ def create_project():
         return jsonify({'error': 'Database integrity error'}), 409
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.error(f"Unexpected error in create_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @projects_bp.route('/projects/<int:project_id>', methods=['GET', 'PATCH'])
@@ -185,7 +188,9 @@ def update_project(project_id):
             }), 400
     
     # Validate status if provided
-    if 'status' in data and data['status'] is not None:
+    if 'status' in data:
+        if data['status'] is None:
+            return jsonify({'error': 'Status cannot be null'}), 400
         if data['status'] not in VALID_STATUSES:
             return jsonify({
                 'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
@@ -223,7 +228,8 @@ def update_project(project_id):
         return jsonify({'error': 'Database integrity error'}), 409
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.error(f"Unexpected error in update_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @projects_bp.route('/projects/<project_id>', methods=['GET'])
