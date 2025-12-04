@@ -8,6 +8,7 @@ from flask import Blueprint, jsonify, request, current_app
 from app.models.project import Project
 from app import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 
 projects_bp = Blueprint('projects', __name__)
 
