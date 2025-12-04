@@ -167,38 +167,65 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 
 ---
 
-### 5. Update Fix Tracking (If Applicable)
+### 5. Document Deferred Issues
 
 **File:** `docs/maintainers/planning/features/projects/fix/README.md`
 
-**When to update:**
-- If PR had deferred issues (MEDIUM/LOW priority)
-- If issues will be handled in next phase
-- If issues need tracking
+**IMPORTANT:** Always check for deferred issues, even if none exist. This ensures tracking is complete.
 
-**Updates to make:**
+**Process:**
 
-1. **Add Deferred Issues Section** (if needed)
-   - List issues from PR Sourcery review
-   - Note priority and effort
-   - Reference next phase if handling there
+1. **Check Sourcery Review File**
+   - Location: `docs/maintainers/feedback/sourcery/pr##.md`
+   - Review priority matrix for all comments
+   - Identify MEDIUM/LOW priority issues that were deferred
 
-2. **Update Issue Status**
-   - Mark any issues from this PR as "Deferred to Phase N"
-   - Or mark as "Complete" if addressed
+2. **If Deferred Issues Exist:**
+   - Add new section: `## 📋 PR #N Deferred Issues (Phase N)`
+   - Include date, review source, and status
+   - List each deferred issue with:
+     - Comment number (e.g., PR12-#1)
+     - Brief description
+     - Priority and effort levels
+     - Action plan (deferred to next phase, future PR, etc.)
 
-**Example entry:**
+3. **If No Deferred Issues:**
+   - Note in checklist that review was checked
+   - All issues were CRITICAL/HIGH and addressed, or no issues found
+
+**Example entry (with deferred issues):**
 ```markdown
-### Deferred from PR #10 (Phase 3)
+## 📋 PR #12 Deferred Issues (Phase 4)
 
-- **PR10-#3:** Bare except in archive_cmd.py (MEDIUM, LOW effort) - Deferred to Phase 4
-- **PR10-#4:** Bare except in delete_cmd.py (MEDIUM, LOW effort) - Deferred to Phase 4
-- **PR10-#1:** Test assertion improvement (MEDIUM, LOW effort) - Deferred to Phase 4
+**Date:** 2025-12-04  
+**Review:** PR #12 (Phase 4) Sourcery feedback  
+**Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled opportunistically
+
+**Deferred Issues:**
+
+- **PR12-#1:** Use `click.Choice` for CLI validation (MEDIUM priority, LOW effort) - Improves UX by catching invalid values early
+- **PR12-#2:** Tighten test expectations for invalid status (MEDIUM priority, LOW effort) - Test quality improvement
+- **PR12-#3:** Avoid conditionals in tests (MEDIUM priority, MEDIUM effort) - Code quality improvement, requires test refactoring
+- **PR12-#4:** Use named expression (LOW priority, LOW effort) - Minor code quality improvement
+- **PR12-#5:** Raise from previous error (LOW priority, LOW effort) - Minor code quality improvement
+
+**Action Plan:** These can be handled opportunistically during future phases or in a dedicated code quality improvement PR.
+```
+
+**Example entry (no deferred issues):**
+```markdown
+## 📋 PR #N Deferred Issues (Phase N)
+
+**Date:** YYYY-MM-DD  
+**Review:** PR #N (Phase N) Sourcery feedback  
+**Status:** ✅ **NONE** - All issues were CRITICAL/HIGH priority and addressed in PR, or no issues found
 ```
 
 **Checklist:**
-- [ ] Deferred issues documented (if any)
-- [ ] Next phase referenced (if applicable)
+- [ ] Sourcery review file checked for deferred issues
+- [ ] Deferred issues section added (if issues exist)
+- [ ] Each issue documented with priority, effort, and action plan
+- [ ] No deferred issues noted (if none exist)
 - [ ] Fix tracking hub updated
 
 ---
@@ -214,6 +241,7 @@ Post-PR #N documentation updates:
 - Update feature status milestones
 - Update progress to X/8 phases (XX%)
 - Update next steps to Phase N+1
+- Document deferred issues (if any)
 
 Related: PR #N
 ```
@@ -231,6 +259,7 @@ Post-PR #N documentation updates:
 - Update feature status milestones
 - Update progress to X/8 phases (XX%)
 - Update next steps to Phase N+1
+- Document deferred issues (if any)
 
 Related: PR #N"
 ```
@@ -319,6 +348,8 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 
 - [ ] Phase document exists and is readable
 - [ ] Status document exists and is readable
+- [ ] Fix tracking document exists and is readable
+- [ ] Sourcery review file checked for deferred issues
 - [ ] All required fields can be updated
 - [ ] No conflicting changes in files
 
@@ -437,15 +468,17 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 
 ### Scenario 4: Phase with Deferred Issues
 
-**Situation:** Phase 3 complete, PR #10 had deferred MEDIUM issues
+**Situation:** Phase 4 complete, PR #12 had deferred MEDIUM/LOW issues
 
 **Steps:**
-1. Run `/post-pr 10 3`
+1. Run `/post-pr 12 4`
 2. Updates phase and status documents
-3. Updates fix tracking with deferred issues
-4. Notes issues will be handled in Phase 4
+3. Checks Sourcery review file (`pr12.md`)
+4. Updates fix tracking with deferred issues section
+5. Documents all 5 deferred issues with priority/effort
+6. Notes action plan (opportunistic handling)
 
-**Result:** Documentation complete, deferred issues tracked
+**Result:** Documentation complete, deferred issues tracked for future handling
 
 ---
 
@@ -464,6 +497,8 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 - Verify dates are correct (today's date)
 - Double-check progress percentage calculation
 - Ensure next phase number is correct
+- Check Sourcery review for deferred issues
+- Document deferred issues even if none exist (note "NONE")
 
 ### After Updates
 

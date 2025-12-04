@@ -5,6 +5,8 @@
 **Last Updated:** 2025-12-04  
 **Progress:** 7/22 complete (32%)
 
+**Note:** Completed fix plans are archived to `fix/archived/` directory. Use `@fix-plan --archive-completed` to archive completed plans.
+
 ---
 
 ## ✅ PR #8 Critical Issues - RESOLVED
