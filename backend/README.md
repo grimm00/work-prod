@@ -1,8 +1,8 @@
 # Backend
 
 **Purpose:** Flask API backend for project management  
-**Status:** ✅ Phase 2 Complete - CRUD API + CLI  
-**Last Updated:** 2025-12-03
+**Status:** ✅ Phase 4 Complete - Search & Filter API + CLI  
+**Last Updated:** 2025-12-04
 
 ---
 
@@ -29,8 +29,9 @@ python run.py
 ### Health Check
 - `GET /api/health` - Server health status
 
-### Projects API (Phase 1-3 Complete)
-- `GET /api/projects` - List all projects
+### Projects API (Phase 1-4 Complete)
+- `GET /api/projects` - List all projects (with filtering and search)
+- `GET /api/projects?status=active&organization=work&search=term` - Filter and search projects
 - `GET /api/projects/<id>` - Get project by ID
 - `POST /api/projects` - Create new project
 - `PATCH /api/projects/<id>` - Update project
