@@ -2,7 +2,7 @@
 
 **Phase:** 3 - Projects API - Delete & Archive (Backend + CLI)  
 **Duration:** 1 day  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Prerequisites:** Phase 2 complete
 
 ---
@@ -29,41 +29,41 @@ Phase 3 implements DELETE endpoint and archive functionality. This phase allows 
 ### TDD Flow
 
 #### 1. Write DELETE Endpoint Tests (TDD - RED)
-- [ ] Test DELETE /api/projects/<id> returns 204 No Content
-- [ ] Test DELETE removes project from database
-- [ ] Test DELETE on non-existent project returns 404
-- [ ] Test project cannot be retrieved after deletion
+- [x] Test DELETE /api/projects/<id> returns 204 No Content
+- [x] Test DELETE removes project from database
+- [x] Test DELETE on non-existent project returns 404
+- [x] Test project cannot be retrieved after deletion
 
 #### 2. Implement DELETE Endpoint (TDD - GREEN)
-- [ ] Add DELETE route to `backend/app/api/projects.py`
-- [ ] Implement hard delete: `db.session.delete(project)`
-- [ ] Return 204 No Content on success
-- [ ] Tests pass ✅
+- [x] Add DELETE route to `backend/app/api/projects.py`
+- [x] Implement hard delete: `db.session.delete(project)`
+- [x] Return 204 No Content on success
+- [x] Tests pass ✅
 
 #### 3. Write Archive Tests (TDD - RED)
-- [ ] Test archiving sets classification to 'archive' and status to 'completed'
-- [ ] Test archived projects still appear in list
-- [ ] Test archived projects filterable
+- [x] Test archiving sets classification to 'archive' and status to 'completed'
+- [x] Test archived projects still appear in list
+- [x] Test archived projects filterable
 
 #### 4. Implement Archive Endpoint (TDD - GREEN)
-- [ ] Add PUT /api/projects/<id>/archive route
-- [ ] Set `classification='archive'` and `status='completed'`
-- [ ] Return updated project
+- [x] Add PUT /api/projects/<id>/archive route
+- [x] Set `classification='archive'` and `status='completed'`
+- [x] Return updated project
 
 #### 5. Enhance CLI
-- [ ] Add `proj delete <id>` command with confirmation
-- [ ] Add `proj archive <id>` command
-- [ ] Test commands
+- [x] Add `proj delete <id>` command with confirmation
+- [x] Add `proj archive <id>` command
+- [x] Test commands
 
 ---
 
 ## ✅ Completion Criteria
 
-- [ ] DELETE endpoint works and removes projects
-- [ ] Archive endpoint works and updates classification
-- [ ] Tests pass with coverage > 80%
-- [ ] CLI delete/archive commands work
-- [ ] Safety confirmations in place
+- [x] DELETE endpoint works and removes projects
+- [x] Archive endpoint works and updates classification
+- [x] Tests pass with coverage > 80% (92% achieved)
+- [x] CLI delete/archive commands work
+- [x] Safety confirmations in place
 
 ---
 
