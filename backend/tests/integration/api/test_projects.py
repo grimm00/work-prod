@@ -512,3 +512,77 @@ def test_update_project_exception_not_leaked(client, app, monkeypatch):
     # Restore original commit
     monkeypatch.setattr(db.session, 'commit', original_commit)
 
+
+# Phase 3: Delete & Archive Tests
+
+@pytest.mark.integration
+def test_delete_project_returns_204(client, app):
+    """Test DELETE /api/projects/<id> returns 204 No Content."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    
+    assert response.status_code == 204
+    assert len(response.data) == 0  # No content body
+
+
+@pytest.mark.integration
+def test_delete_project_removes_from_database(client, app):
+    """Test DELETE removes project from database."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+        
+        # Verify project exists
+        assert Project.query.get(project_id) is not None
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    assert response.status_code == 204
+    
+    # Verify project no longer exists
+    with app.app_context():
+        assert Project.query.get(project_id) is None
+
+
+@pytest.mark.integration
+def test_delete_nonexistent_project_returns_404(client):
+    """Test DELETE on non-existent project returns 404."""
+    response = client.delete('/api/projects/9999')
+    
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_project_cannot_be_retrieved_after_deletion(client, app):
+    """Test project cannot be retrieved after deletion."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Verify project can be retrieved before deletion
+    response = client.get(f'/api/projects/{project_id}')
+    assert response.status_code == 200
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    assert response.status_code == 204
+    
+    # Verify project cannot be retrieved after deletion
+    response = client.get(f'/api/projects/{project_id}')
+    assert response.status_code == 404
+
