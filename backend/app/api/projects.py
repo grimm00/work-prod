@@ -33,12 +33,39 @@ def projects():
 
 def list_projects():
     """
-    List all projects.
+    List all projects with optional filtering.
+    
+    Query parameters:
+        - status: Filter by status (active, paused, completed, cancelled)
+        - organization: Filter by organization name
+        - classification: Filter by classification (primary, secondary, archive, maintenance)
     
     Returns:
-        JSON array of all projects ordered by ID
+        JSON array of projects ordered by ID, filtered by query parameters
     """
-    projects = Project.query.order_by(Project.id).all()
+    query = Project.query
+    
+    # Filter by status
+    if 'status' in request.args:
+        status = request.args['status']
+        if status in VALID_STATUSES:
+            query = query.filter_by(status=status)
+        # If invalid status, ignore filter (return all projects)
+    
+    # Filter by organization
+    if 'organization' in request.args:
+        organization = request.args['organization']
+        if organization:  # Non-empty string
+            query = query.filter_by(organization=organization)
+    
+    # Filter by classification
+    if 'classification' in request.args:
+        classification = request.args['classification']
+        if classification in VALID_CLASSIFICATIONS:
+            query = query.filter_by(classification=classification)
+        # If invalid classification, ignore filter (return all projects)
+    
+    projects = query.order_by(Project.id).all()
     return jsonify([project.to_dict() for project in projects]), 200
 
 
