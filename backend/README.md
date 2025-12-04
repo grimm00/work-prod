@@ -29,11 +29,13 @@ python run.py
 ### Health Check
 - `GET /api/health` - Server health status
 
-### Projects API (Phase 1-2 Complete)
+### Projects API (Phase 1-3 Complete)
 - `GET /api/projects` - List all projects
 - `GET /api/projects/<id>` - Get project by ID
 - `POST /api/projects` - Create new project
 - `PATCH /api/projects/<id>` - Update project
+- `DELETE /api/projects/<id>` - Delete project permanently
+- `PUT /api/projects/<id>/archive` - Archive project
 
 ### Request/Response Examples
 
@@ -55,6 +57,18 @@ curl -X POST http://localhost:5000/api/projects \
 curl -X PATCH http://localhost:5000/api/projects/1 \
   -H "Content-Type: application/json" \
   -d '{"status": "completed"}'
+```
+
+**Archive Project:**
+```bash
+curl -X PUT http://localhost:5000/api/projects/1/archive
+# Sets classification='archive' and status='completed'
+```
+
+**Delete Project:**
+```bash
+curl -X DELETE http://localhost:5000/api/projects/1
+# Returns 204 No Content on success
 ```
 
 ### Validation Rules

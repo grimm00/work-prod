@@ -11,11 +11,13 @@
 
 The `proj` CLI tool provides a user-friendly command-line interface for managing your projects. It's the primary way to interact with the Projects API during the backend MVP phase (Phases 1-7).
 
-**Phase 1-2 Status:** ✅ Complete
+**Phase 1-3 Status:** ✅ Complete
 - ✅ List all projects
 - ✅ Get project by ID
 - ✅ Create new projects
 - ✅ Update existing projects
+- ✅ Delete projects (with confirmation)
+- ✅ Archive projects
 - ✅ Beautiful Rich formatting
 - ✅ Comprehensive error handling
 - ✅ Before/after change comparison
@@ -55,7 +57,7 @@ chmod +x proj
 
 ## 📝 Commands
 
-### Phase 1-2 Commands (✅ Implemented)
+### Phase 1-3 Commands (✅ Implemented)
 
 #### `list` - List All Projects
 
@@ -151,15 +153,54 @@ chmod +x proj
 └─────────────┴─────────┴────────┘
 ```
 
-### Future Commands (Phase 3+)
-
-#### `delete` - Delete Project (Phase 3)
+#### `delete` - Delete Project
 
 ```bash
-./proj delete <project_id>
+./proj delete <project_id> [--yes]
 ```
 
-#### `search` - Search Projects (Phase 4)
+**Options:**
+- `--yes, -y` - Skip confirmation prompt
+
+**Example:**
+```bash
+./proj delete 3
+```
+
+**Output:**
+```
+Warning: This will permanently delete project #3: Test Project
+Are you sure you want to delete this project? [y/N]: y
+✓ Deleted project #3: Test Project
+```
+
+#### `archive` - Archive Project
+
+```bash
+./proj archive <project_id>
+```
+
+**Example:**
+```bash
+./proj archive 2
+```
+
+**Output:**
+```
+✓ Archived project #2: CLI Test Project
+         Archived Project         
+┌────────────────┬──────────────────┐
+│             ID │ 2                │
+│           Name │ CLI Test Project │
+│ Classification │ archive          │
+│         Status │ completed        │
+│        Updated │ 2025-12-03 21:15 │
+└────────────────┴──────────────────┘
+```
+
+### Future Commands (Phase 4+)
+
+#### `search` - Search Projects
 
 ```bash
 ./proj search "keyword"
@@ -335,10 +376,10 @@ chmod +x proj
 - Update existing projects
 - Validation and error handling
 
-### Phase 3: Delete & Archive (🟡 Planned)
-- Delete projects
-- Archive projects
-- Confirmation prompts
+### Phase 3: Delete & Archive (✅ Complete)
+- ✅ Delete projects
+- ✅ Archive projects
+- ✅ Confirmation prompts
 
 ### Phase 4: Search & Filter (🟡 Planned)
 - Search by name/path

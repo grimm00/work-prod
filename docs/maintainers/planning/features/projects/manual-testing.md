@@ -1,7 +1,7 @@
-# Phase 2 Manual Testing Guide
+# Projects Feature Manual Testing Guide
 
-**Phase:** Phase 2 - Create & Update Projects  
-**Testing Date:** 2025-12-03  
+**Phases:** Phase 2 & Phase 3 - Create, Update, Delete & Archive  
+**Last Updated:** 2025-12-03  
 **Tester:** User verification before PR merge
 
 ---
@@ -274,6 +274,174 @@ cd /Users/cdwilson/Projects/work-prod
 
 ---
 
+## Phase 3: Delete & Archive Scenarios
+
+### Scenario 11: Delete Project with curl
+
+**Test:** Delete a project permanently via DELETE endpoint
+
+**Prerequisites:** At least one project exists (run Scenario 1 or 2 first)
+
+```bash
+# First, get a project ID to delete
+curl http://localhost:5000/api/projects | jq '.[0].id'
+# Note the ID (e.g., 1)
+
+# Delete the project
+curl -X DELETE http://localhost:5000/api/projects/1 -v
+
+# Expected Response:
+# HTTP/1.1 204 No Content
+# (No response body)
+```
+
+**Verification:**
+```bash
+# Verify project is deleted
+curl http://localhost:5000/api/projects/1
+# Expected: {"error": "Project not found"} with 404 status
+
+# Verify project no longer appears in list
+curl http://localhost:5000/api/projects | jq '.[] | select(.id == 1)'
+# Expected: No results
+```
+
+**Expected Result:** ✅ Project deleted, returns 204, cannot be retrieved
+
+---
+
+### Scenario 12: Delete Non-Existent Project with curl
+
+**Test:** DELETE endpoint returns 404 for non-existent project
+
+```bash
+curl -X DELETE http://localhost:5000/api/projects/9999 -v
+
+# Expected Response:
+# HTTP/1.1 404 Not Found
+# {"error": "Project not found"}
+```
+
+**Expected Result:** ✅ Returns 404 with error message
+
+---
+
+### Scenario 13: Archive Project with curl
+
+**Test:** Archive a project via PUT /archive endpoint
+
+**Prerequisites:** At least one project exists (run Scenario 1 or 2 first)
+
+```bash
+# First, get a project ID to archive
+curl http://localhost:5000/api/projects | jq '.[0].id'
+# Note the ID (e.g., 2)
+
+# Archive the project
+curl -X PUT http://localhost:5000/api/projects/2/archive | jq
+
+# Expected Response:
+# {
+#   "id": 2,
+#   "name": "...",
+#   "classification": "archive",
+#   "status": "completed",
+#   ...
+# }
+```
+
+**Verification:**
+```bash
+# Verify project is archived
+curl http://localhost:5000/api/projects/2 | jq '.classification, .status'
+# Expected: "archive" and "completed"
+
+# Verify archived project still appears in list
+curl http://localhost:5000/api/projects | jq '.[] | select(.id == 2)'
+# Expected: Project appears with classification="archive" and status="completed"
+```
+
+**Expected Result:** ✅ Project archived, classification='archive', status='completed', still in list
+
+---
+
+### Scenario 14: CLI - Delete Project
+
+**Test:** Delete a project using CLI with confirmation
+
+**Prerequisites:** At least one project exists
+
+```bash
+# List projects to get an ID
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj list
+
+# Delete project (will prompt for confirmation)
+./proj delete 3
+
+# Expected Output:
+# Warning: This will permanently delete project #3: Project Name
+# Are you sure you want to delete this project? [y/N]: y
+# ✓ Deleted project #3: Project Name
+```
+
+**Test with --yes flag:**
+```bash
+./proj delete 4 --yes
+
+# Expected Output:
+# ✓ Deleted project #4: Project Name
+# (No confirmation prompt)
+```
+
+**Verification:**
+```bash
+# Verify project is deleted
+./proj get 3
+# Expected: Error: Project not found
+```
+
+**Expected Result:** ✅ Delete command works, shows confirmation, deletes project
+
+---
+
+### Scenario 15: CLI - Archive Project
+
+**Test:** Archive a project using CLI
+
+**Prerequisites:** At least one project exists
+
+```bash
+# List projects to get an ID
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj list
+
+# Archive project
+./proj archive 5
+
+# Expected Output:
+# ✓ Archived project #5: Project Name
+#          Archived Project         
+# ┌────────────────┬──────────────────┐
+# │             ID │ 5                │
+# │           Name │ Project Name      │
+# │ Classification │ archive           │
+# │         Status │ completed         │
+# │        Updated │ 2025-12-03 21:15 │
+# └────────────────┴──────────────────┘
+```
+
+**Verification:**
+```bash
+# Verify project is archived
+./proj get 5
+# Expected: Shows project with classification="archive" and status="completed"
+```
+
+**Expected Result:** ✅ Archive command works, displays archived project details
+
+---
+
 ## ✅ Acceptance Criteria
 
 Mark these as complete after testing:
@@ -282,6 +450,8 @@ Mark these as complete after testing:
 - [ ] POST /api/projects creates projects with minimal data
 - [ ] POST /api/projects creates projects with full data
 - [ ] PATCH /api/projects/<id> updates projects (partial updates work)
+- [ ] DELETE /api/projects/<id> deletes projects (returns 204)
+- [ ] PUT /api/projects/<id>/archive archives projects
 - [ ] Validation rejects invalid classification values
 - [ ] Validation rejects invalid status values
 - [ ] Duplicate path detection works (409 Conflict)
@@ -290,6 +460,8 @@ Mark these as complete after testing:
 ### CLI Functionality
 - [ ] `proj create` command works with all options
 - [ ] `proj update` command works with partial updates
+- [ ] `proj delete` command works with confirmation
+- [ ] `proj archive` command works
 - [ ] `proj list` shows all projects in table format
 - [ ] `proj get` shows project details
 - [ ] Error messages are clear and helpful

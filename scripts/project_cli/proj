@@ -18,6 +18,8 @@ from project_cli.commands.list_cmd import list_projects
 from project_cli.commands.get_cmd import get_project
 from project_cli.commands.create_cmd import create_project
 from project_cli.commands.update_cmd import update_project
+from project_cli.commands.delete_cmd import delete_project
+from project_cli.commands.archive_cmd import archive_project
 
 
 @click.group()
@@ -36,6 +38,8 @@ cli.add_command(list_projects, name='list')
 cli.add_command(get_project, name='get')
 cli.add_command(create_project, name='create')
 cli.add_command(update_project, name='update')
+cli.add_command(delete_project, name='delete')
+cli.add_command(archive_project, name='archive')
 
 
 if __name__ == '__main__':

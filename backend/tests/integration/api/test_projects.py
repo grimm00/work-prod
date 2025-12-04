@@ -512,3 +512,146 @@ def test_update_project_exception_not_leaked(client, app, monkeypatch):
     # Restore original commit
     monkeypatch.setattr(db.session, 'commit', original_commit)
 
+
+# Phase 3: Delete & Archive Tests
+
+@pytest.mark.integration
+def test_delete_project_returns_204(client, app):
+    """Test DELETE /api/projects/<id> returns 204 No Content."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    
+    assert response.status_code == 204
+    assert len(response.data) == 0  # No content body
+
+
+@pytest.mark.integration
+def test_delete_project_removes_from_database(client, app):
+    """Test DELETE removes project from database."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+        
+        # Verify project exists
+        assert Project.query.get(project_id) is not None
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    assert response.status_code == 204
+    
+    # Verify project no longer exists
+    with app.app_context():
+        assert Project.query.get(project_id) is None
+
+
+@pytest.mark.integration
+def test_delete_nonexistent_project_returns_404(client):
+    """Test DELETE on non-existent project returns 404."""
+    response = client.delete('/api/projects/9999')
+    
+    assert response.status_code == 404
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_project_cannot_be_retrieved_after_deletion(client, app):
+    """Test project cannot be retrieved after deletion."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", path="/test/delete")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Verify project can be retrieved before deletion
+    response = client.get(f'/api/projects/{project_id}')
+    assert response.status_code == 200
+    
+    # Delete the project
+    response = client.delete(f'/api/projects/{project_id}')
+    assert response.status_code == 204
+    
+    # Verify project cannot be retrieved after deletion
+    response = client.get(f'/api/projects/{project_id}')
+    assert response.status_code == 404
+
+
+@pytest.mark.integration
+def test_archive_project_sets_classification_and_status(client, app):
+    """Test archiving sets classification to 'archive' and status to 'completed'."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", classification="primary", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Archive the project
+    response = client.put(f'/api/projects/{project_id}/archive',
+                         content_type='application/json')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    # Verify classification and status updated
+    assert data['classification'] == 'archive'
+    assert data['status'] == 'completed'
+    
+    # Verify project still exists in database
+    with app.app_context():
+        archived_project = Project.query.get(project_id)
+        assert archived_project is not None
+        # Handle both Enum objects and string values from SQLAlchemy
+        classification_value = archived_project.classification.value if hasattr(archived_project.classification, 'value') else archived_project.classification
+        status_value = archived_project.status.value if hasattr(archived_project.status, 'value') else archived_project.status
+        assert classification_value == 'archive'
+        assert status_value == 'completed'
+
+
+@pytest.mark.integration
+def test_archive_project_still_appears_in_list(client, app):
+    """Test archived projects still appear in list."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", classification="primary", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Archive the project
+    response = client.put(f'/api/projects/{project_id}/archive',
+                         content_type='application/json')
+    assert response.status_code == 200
+    
+    # Get list of projects
+    response = client.get('/api/projects')
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    project_ids = [p['id'] for p in data]
+    
+    # Verify archived project appears in list
+    assert project_id in project_ids
+
+
+@pytest.mark.integration
+def test_archive_nonexistent_project_returns_404(client):
+    """Test archiving non-existent project returns 404."""
+    response = client.put('/api/projects/9999/archive',
+                         content_type='application/json')
+    
+    assert response.status_code == 404
+    # Route doesn't exist yet, so response may not be JSON in RED phase
+    # Once implemented, this will return JSON with error message
+
