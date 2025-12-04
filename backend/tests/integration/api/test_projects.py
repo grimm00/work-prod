@@ -586,3 +586,69 @@ def test_project_cannot_be_retrieved_after_deletion(client, app):
     response = client.get(f'/api/projects/{project_id}')
     assert response.status_code == 404
 
+
+@pytest.mark.integration
+def test_archive_project_sets_classification_and_status(client, app):
+    """Test archiving sets classification to 'archive' and status to 'completed'."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", classification="primary", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Archive the project
+    response = client.put(f'/api/projects/{project_id}/archive',
+                         content_type='application/json')
+    
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    
+    # Verify classification and status updated
+    assert data['classification'] == 'archive'
+    assert data['status'] == 'completed'
+    
+    # Verify project still exists in database
+    with app.app_context():
+        archived_project = Project.query.get(project_id)
+        assert archived_project is not None
+        assert archived_project.classification.value == 'archive'
+        assert archived_project.status.value == 'completed'
+
+
+@pytest.mark.integration
+def test_archive_project_still_appears_in_list(client, app):
+    """Test archived projects still appear in list."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", classification="primary", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Archive the project
+    response = client.put(f'/api/projects/{project_id}/archive',
+                         content_type='application/json')
+    assert response.status_code == 200
+    
+    # Get list of projects
+    response = client.get('/api/projects')
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    project_ids = [p['id'] for p in data]
+    
+    # Verify archived project appears in list
+    assert project_id in project_ids
+
+
+@pytest.mark.integration
+def test_archive_nonexistent_project_returns_404(client):
+    """Test archiving non-existent project returns 404."""
+    response = client.put('/api/projects/9999/archive',
+                         content_type='application/json')
+    
+    assert response.status_code == 404
+    # Route doesn't exist yet, so response may not be JSON in RED phase
+    # Once implemented, this will return JSON with error message
+
