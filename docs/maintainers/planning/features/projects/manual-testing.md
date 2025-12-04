@@ -9,6 +9,7 @@
 ## ⚠️ Important Notes
 
 **Run scenarios in order!** Some scenarios depend on data created by previous scenarios:
+
 - Scenario 6 (duplicate path) requires Scenario 2 (full project creation) to be run first
 - Scenario 8 (CLI update) requires Scenario 7 (CLI create) to be run first
 
@@ -53,6 +54,7 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 201 Created
 - Response includes:
   - `id` (auto-generated)
@@ -62,6 +64,7 @@ curl -X POST http://localhost:5000/api/projects \
   - All other fields null
 
 **Verify:**
+
 - [ ] Status code is 201
 - [ ] Project has an ID
 - [ ] Default status is "active"
@@ -87,10 +90,12 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 201 Created
 - All fields populated as provided
 
 **Verify:**
+
 - [ ] All fields match input
 - [ ] Timestamps are present
 - [ ] ID is auto-generated
@@ -108,12 +113,14 @@ curl -X PATCH http://localhost:5000/api/projects/1 \
 ```
 
 **Expected Result:**
+
 - Status: 200 OK
 - Only `status` and `description` changed
 - Other fields unchanged
 - `updated_at` timestamp updated
 
 **Verify:**
+
 - [ ] Status changed to "completed"
 - [ ] Description updated
 - [ ] Other fields unchanged
@@ -132,10 +139,12 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 400 Bad Request
 - Error message mentions valid classification values
 
 **Verify:**
+
 - [ ] Status code is 400
 - [ ] Error message is clear
 - [ ] Lists valid values: primary, secondary, archive, maintenance
@@ -153,10 +162,12 @@ curl -X PATCH http://localhost:5000/api/projects/1 \
 ```
 
 **Expected Result:**
+
 - Status: 400 Bad Request
 - Error message mentions valid status values
 
 **Verify:**
+
 - [ ] Status code is 400
 - [ ] Error message lists valid values: active, paused, completed, cancelled
 
@@ -177,12 +188,14 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 409 Conflict
 - Error message about duplicate path
 
 **If you get 201 Created:** Scenario 2 wasn't run. Run Scenario 2 first, then run this scenario again.
 
 **Verify:**
+
 - [ ] Status code is 409
 - [ ] Error message mentions path already exists
 
@@ -202,11 +215,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Green checkmark with success message
 - Beautiful table showing project details
 - All fields displayed correctly
 
 **Verify:**
+
 - [ ] Success message shows ✓
 - [ ] Project details in formatted table
 - [ ] Fields match input
@@ -224,11 +239,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Green checkmark with success message
 - Table showing "Before" and "After" values
 - Only changed fields displayed
 
 **Verify:**
+
 - [ ] Success message shows ✓
 - [ ] Before/After comparison table
 - [ ] Only status and description shown (changed fields)
@@ -244,11 +261,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Beautiful table with all projects
 - Shows: ID, Name, Path, Created date
 - All previously created projects visible
 
 **Verify:**
+
 - [ ] Table displays correctly
 - [ ] All test projects are listed
 - [ ] Formatting is clean and readable
@@ -264,10 +283,12 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Project details in panel/box format
 - All fields displayed
 
 **Verify:**
+
 - [ ] Details show correctly
 - [ ] All fields present
 - [ ] Formatting is clean
@@ -296,6 +317,7 @@ curl -X DELETE http://localhost:5000/api/projects/1 -v
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is deleted
 curl http://localhost:5000/api/projects/1
@@ -351,6 +373,7 @@ curl -X PUT http://localhost:5000/api/projects/2/archive | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is archived
 curl http://localhost:5000/api/projects/2 | jq '.classification, .status'
@@ -386,6 +409,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Test with --yes flag:**
+
 ```bash
 ./proj delete 4 --yes
 
@@ -395,6 +419,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is deleted
 ./proj get 3
@@ -421,7 +446,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 # Expected Output:
 # ✓ Archived project #5: Project Name
-#          Archived Project         
+#          Archived Project
 # ┌────────────────┬──────────────────┐
 # │             ID │ 5                │
 # │           Name │ Project Name      │
@@ -432,6 +457,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is archived
 ./proj get 5
@@ -447,6 +473,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 Mark these as complete after testing:
 
 ### API Functionality
+
 - [ ] POST /api/projects creates projects with minimal data
 - [ ] POST /api/projects creates projects with full data
 - [ ] PATCH /api/projects/<id> updates projects (partial updates work)
@@ -458,6 +485,7 @@ Mark these as complete after testing:
 - [ ] 404 returned for non-existent projects
 
 ### CLI Functionality
+
 - [ ] `proj create` command works with all options
 - [ ] `proj update` command works with partial updates
 - [ ] `proj delete` command works with confirmation
@@ -468,6 +496,7 @@ Mark these as complete after testing:
 - [ ] Rich formatting displays correctly
 
 ### Data Integrity
+
 - [ ] Created projects have auto-generated IDs
 - [ ] Default status is "active" when not specified
 - [ ] Timestamps (created_at, updated_at) are set correctly
@@ -475,6 +504,7 @@ Mark these as complete after testing:
 - [ ] Path uniqueness is enforced
 
 ### User Experience
+
 - [ ] All error messages are clear
 - [ ] CLI output is beautiful and readable
 - [ ] Tables format correctly
@@ -487,7 +517,7 @@ Mark these as complete after testing:
 **Document any issues here:**
 
 | Issue # | Description | Severity | Status |
-|---------|-------------|----------|--------|
+| ------- | ----------- | -------- | ------ |
 | 1       |             |          |        |
 | 2       |             |          |        |
 
@@ -496,10 +526,11 @@ Mark these as complete after testing:
 ## 📝 Test Results Summary
 
 **Testing Completed:** [ ] Yes / [ ] No  
-**Date Tested:** ___________  
-**Tester:** ___________
+**Date Tested:** \***\*\_\_\_\*\***  
+**Tester:** \***\*\_\_\_\*\***
 
 **Overall Result:**
+
 - [ ] ✅ All tests passed - Ready for PR
 - [ ] ⚠️ Minor issues found - Fix before PR
 - [ ] ❌ Major issues found - Requires rework
@@ -511,13 +542,14 @@ Mark these as complete after testing:
 ## 🔄 Post-Testing Actions
 
 If all tests pass:
+
 1. Stop the backend server (Ctrl+C in Terminal 1)
 2. Inform the developer that manual testing is complete
 3. Proceed with PR creation
 
 If issues are found:
+
 1. Document issues in table above
 2. Stop the backend server
 3. Discuss issues with developer
 4. Retest after fixes
-

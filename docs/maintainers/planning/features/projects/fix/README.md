@@ -240,7 +240,27 @@ git commit -m "fix(critical): add FLASK_ENV fallback and fix logging config"
 
 1. **Short-term (opportunistic):** Fix style improvements when touching related code
 2. **Medium-term (dedicated PR):** Test improvements bundle (2-3 hours)
-3. **Long-term (Phase 3+):** Code quality refactoring (extract helpers, reduce duplication)
+3. **Long-term (Phase 4+):** Code quality refactoring (extract helpers, reduce duplication)
+
+---
+
+## Deferred from PR #10 (Phase 3)
+
+**Date:** 2025-12-04  
+**Review:** PR #10 (Phase 3) Sourcery feedback  
+**Status:** 🟡 **DEFERRED to Phase 4**
+
+**Issues to handle opportunistically in Phase 4:**
+
+- **PR10-#1:** Test assertion improvement - tighten 404 assertions (MEDIUM, LOW effort)
+- **PR10-#3:** Bare except in archive_cmd.py (MEDIUM, LOW effort)
+- **PR10-#4:** Bare except in delete_cmd.py (MEDIUM, LOW effort)
+- **PR10-Overall-1:** Use Enum values instead of raw strings (MEDIUM, MEDIUM effort)
+- **PR10-Overall-2:** Extract error handling helper for CLI commands (MEDIUM, MEDIUM effort)
+
+**Total:** 5 MEDIUM priority issues, estimated 2-3 hours
+
+**Plan:** Address these during Phase 4 implementation when touching related code (CLI commands, test improvements).
 
 ---
 
