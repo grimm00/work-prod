@@ -612,8 +612,11 @@ def test_archive_project_sets_classification_and_status(client, app):
     with app.app_context():
         archived_project = Project.query.get(project_id)
         assert archived_project is not None
-        assert archived_project.classification.value == 'archive'
-        assert archived_project.status.value == 'completed'
+        # Handle both Enum objects and string values from SQLAlchemy
+        classification_value = archived_project.classification.value if hasattr(archived_project.classification, 'value') else archived_project.classification
+        status_value = archived_project.status.value if hasattr(archived_project.status, 'value') else archived_project.status
+        assert classification_value == 'archive'
+        assert status_value == 'completed'
 
 
 @pytest.mark.integration

@@ -258,6 +258,31 @@ def delete_project(project_id):
         return jsonify({'error': 'Internal server error'}), 500
 
 
+@projects_bp.route('/projects/<int:project_id>/archive', methods=['PUT'])
+def archive_project(project_id):
+    """
+    Archive a project by setting classification to 'archive' and status to 'completed'.
+    
+    Returns:
+        200: Project archived successfully (returns updated project)
+        404: Project not found
+    """
+    project = db.session.get(Project, project_id)
+    
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+    
+    try:
+        project.classification = 'archive'
+        project.status = 'completed'
+        db.session.commit()
+        return jsonify(project.to_dict()), 200
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in archive_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
 @projects_bp.route('/projects/<project_id>', methods=['GET'])
 def get_project_invalid(project_id):
     """
