@@ -116,18 +116,21 @@ def create_project():
         return jsonify({'error': 'Internal server error'}), 500
 
 
-@projects_bp.route('/projects/<int:project_id>', methods=['GET', 'PATCH'])
+@projects_bp.route('/projects/<int:project_id>', methods=['GET', 'PATCH', 'DELETE'])
 def project_detail(project_id):
     """
-    Handle GET and PATCH requests for a specific project.
+    Handle GET, PATCH, and DELETE requests for a specific project.
     
     GET: Retrieve project details
     PATCH: Update project fields
+    DELETE: Permanently delete project
     """
     if request.method == 'GET':
         return get_project(project_id)
     elif request.method == 'PATCH':
         return update_project(project_id)
+    elif request.method == 'DELETE':
+        return delete_project(project_id)
 
 
 def get_project(project_id):
@@ -229,6 +232,29 @@ def update_project(project_id):
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error in update_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
+def delete_project(project_id):
+    """
+    Delete a project permanently.
+    
+    Returns:
+        204: Project deleted successfully (No Content)
+        404: Project not found
+    """
+    project = db.session.get(Project, project_id)
+    
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+    
+    try:
+        db.session.delete(project)
+        db.session.commit()
+        return '', 204
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in delete_project: {e}", exc_info=True)
         return jsonify({'error': 'Internal server error'}), 500
 
 
