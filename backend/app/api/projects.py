@@ -65,6 +65,18 @@ def list_projects():
             query = query.filter_by(classification=classification)
         # If invalid classification, ignore filter (return all projects)
     
+    # Text search in name and description
+    if 'search' in request.args:
+        search_term = request.args['search']
+        if search_term:  # Non-empty search term
+            search_pattern = f"%{search_term}%"
+            query = query.filter(
+                or_(
+                    Project.name.ilike(search_pattern),
+                    Project.description.ilike(search_pattern)
+                )
+            )
+    
     projects = query.order_by(Project.id).all()
     return jsonify([project.to_dict() for project in projects]), 200
 
