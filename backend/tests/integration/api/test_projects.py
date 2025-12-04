@@ -414,3 +414,101 @@ def test_update_project_duplicate_path(client, app):
     data = json.loads(response.data)
     assert 'error' in data
 
+
+# Security and Validation Fix Tests (PR08-#1, PR08-#2)
+
+@pytest.mark.integration
+def test_create_project_null_status_rejected(client):
+    """Test that POST with null status returns 400 (PR08-#2)."""
+    response = client.post('/api/projects',
+                          json={'name': 'Test Project', 'status': None},
+                          content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+    assert 'null' in data['error'].lower()
+
+
+@pytest.mark.integration
+def test_update_project_null_status_rejected(client, app):
+    """Test that PATCH with null status returns 400 (PR08-#2)."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project", status="active")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Try to update with null status
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={'status': None},
+                           content_type='application/json')
+    
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+    assert 'null' in data['error'].lower()
+
+
+@pytest.mark.integration
+def test_create_project_exception_not_leaked(client, app, monkeypatch):
+    """Test that unexpected exceptions return generic 500 message (PR08-#1)."""
+    # Mock db.session.commit to raise an unexpected exception
+    original_commit = db.session.commit
+    
+    def mock_commit():
+        # Simulate an unexpected error that's not IntegrityError
+        raise RuntimeError("Database connection lost - internal error details")
+    
+    monkeypatch.setattr(db.session, 'commit', mock_commit)
+    
+    response = client.post('/api/projects',
+                          json={'name': 'Test Project'},
+                          content_type='application/json')
+    
+    assert response.status_code == 500
+    data = json.loads(response.data)
+    assert data['error'] == 'Internal server error'
+    # Verify internal details are NOT exposed
+    assert 'RuntimeError' not in data['error']
+    assert 'Database connection' not in data['error']
+    assert 'internal error details' not in data['error']
+    
+    # Restore original commit
+    monkeypatch.setattr(db.session, 'commit', original_commit)
+
+
+@pytest.mark.integration
+def test_update_project_exception_not_leaked(client, app, monkeypatch):
+    """Test that unexpected exceptions return generic 500 message in PATCH (PR08-#1)."""
+    # Create a project first
+    with app.app_context():
+        project = Project(name="Test Project")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+    
+    # Mock db.session.commit to raise an unexpected exception
+    original_commit = db.session.commit
+    
+    def mock_commit():
+        raise RuntimeError("SQL injection detected - internal security error")
+    
+    monkeypatch.setattr(db.session, 'commit', mock_commit)
+    
+    response = client.patch(f'/api/projects/{project_id}',
+                           json={'name': 'Updated Name'},
+                           content_type='application/json')
+    
+    assert response.status_code == 500
+    data = json.loads(response.data)
+    assert data['error'] == 'Internal server error'
+    # Verify internal details are NOT exposed
+    assert 'RuntimeError' not in data['error']
+    assert 'SQL injection' not in data['error']
+    assert 'security error' not in data['error']
+    
+    # Restore original commit
+    monkeypatch.setattr(db.session, 'commit', original_commit)
+
