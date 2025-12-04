@@ -11,7 +11,7 @@ Use this command after a PR is merged to update all relevant documentation. This
 - Before starting next phase
 - To ensure documentation stays in sync with code
 
-**Key principle:** Documentation updates happen in a separate `docs` branch, then merged to `develop`.
+**Key principle:** Documentation updates happen in a separate `docs` branch, then merged directly to `develop` (no PR needed for docs-only changes).
 
 ---
 
