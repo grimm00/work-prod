@@ -18,6 +18,7 @@
 - **[PR #16](pr16/README.md)** - Phase 5: Import Projects from JSON (✅ Complete - 1 HIGH fixed, 11 deferred)
 - **[PR #18](pr18/README.md)** - CLI table display improvements (✅ Complete - 2 issues fixed, 2 deferred)
 - **[PR #19](pr19/README.md)** - Fix Batch: pr12-batch-medium-low-01 (✅ Complete - 1 issue fixed, 1 deferred)
+- **[PR #20](pr20/README.md)** - Fix Batch: test-quality-medium-low-01 (✅ Complete - 9 issues fixed, 5 deferred)
 
 ### User-Reported Issues
 
