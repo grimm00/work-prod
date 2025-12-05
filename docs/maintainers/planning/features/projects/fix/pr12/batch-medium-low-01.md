@@ -4,18 +4,19 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** 🟡 Partial (1/2 issues complete)  
 **Created:** 2025-12-04  
-**Issues:** 2 issues
+**Last Updated:** 2025-12-05  
+**Issues:** 2 issues (PR12-#1 fixed via PR #18)
 
 ---
 
 ## Issues in This Batch
 
-| Issue | Priority | Impact | Effort | Description |
-|-------|----------|--------|--------|-------------|
-| PR12-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use `click.Choice` for CLI validation |
-| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status |
+| Issue | Priority | Impact | Effort | Description | Status |
+|-------|----------|--------|--------|-------------|--------|
+| PR12-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use `click.Choice` for CLI validation | ✅ Fixed (PR #18) |
+| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status | 🔴 Not Started |
 
 ---
 
@@ -97,11 +98,11 @@ def test_filter_projects_invalid_status_value(client):
 
 ## Implementation Steps
 
-1. **Issue PR12-#1: CLI Validation**
-   - [ ] Update `list_cmd.py` to use `click.Choice` for `--status` option
-   - [ ] Update `list_cmd.py` to use `click.Choice` for `--classification` option
-   - [ ] Test CLI with invalid values to verify error messages
-   - [ ] Verify valid values still work correctly
+1. **Issue PR12-#1: CLI Validation** ✅ Complete (PR #18)
+   - [x] Update `list_cmd.py` to use `click.Choice` for `--status` option
+   - [x] Update `list_cmd.py` to use `click.Choice` for `--classification` option
+   - [x] Test CLI with invalid values to verify error messages
+   - [x] Verify valid values still work correctly
 
 2. **Issue PR12-#2: Test Expectations**
    - [ ] Update `test_filter_projects_invalid_status_value` to assert status_code == 200
@@ -130,8 +131,8 @@ def test_filter_projects_invalid_status_value(client):
 
 ## Definition of Done
 
-- [ ] CLI validates status and classification at input (PR12-#1)
-- [ ] Invalid values show clear error messages
+- [x] CLI validates status and classification at input (PR12-#1) ✅ Fixed (PR #18)
+- [x] Invalid values show clear error messages ✅ Fixed (PR #18)
 - [ ] Test expectations match documented behavior (PR12-#2)
 - [ ] All tests passing
 - [ ] Code reviewed

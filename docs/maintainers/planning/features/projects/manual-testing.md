@@ -2,9 +2,12 @@
 
 **Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
 **Phase 5 (PR #16):** Import functionality - Scenarios 29-33  
-**Fixes:** PR #17 - Request body validation improvements (Scenarios 34-37)  
-**Last Updated:** 2025-12-05  
-**Tester:** User verification before PR merge
+**Fixes:**
+
+- PR #17 - Request body validation improvements (Scenarios 34-37)
+- PR #18 - CLI table display improvements (Scenario 24 updated, Scenario 27a added)  
+  **Last Updated:** 2025-12-05  
+  **Tester:** User verification before PR merge
 
 ---
 
@@ -765,22 +768,43 @@ curl "http://localhost:5000/api/projects?search=productivity&status=active&organ
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by active status
+# Filter by active status (Status column auto-shown - 5 columns)
 ./proj list --status active
 
 # Expected Output:
 # Shows only projects with status="active" in table format
+# Table uses full terminal width (expand=True)
+# Columns: ID, Name, Status, Path, Created
+# Note: Status column automatically visible when filtering by status
+
+# Filter by active status with --wide flag (7 columns)
+./proj list --status active --wide
+
+# Expected Output:
+# Shows only projects with status="active" in table format
+# Table uses full terminal width (expand=True)
+# Columns: ID, Name, Status, Org, Classification, Path, Created
+# Note: --wide flag shows all columns regardless of filters
 ```
 
 **Verification:**
 
 ```bash
-# Verify filtered results
+# Verify filtered results (Status column auto-shown)
 ./proj list --status active
 # Check that all displayed projects have status="active"
+# Verify Status column is visible (auto-shown when filtering)
+# Verify Status column shows "active" for all projects
+# Verify table uses full width and columns don't truncate
+
+# Verify filtered results (wide view)
+./proj list --status active --wide
+# Check that all displayed projects have status="active"
+# Verify all 7 columns are visible (--wide shows all)
+# Verify Status column shows "active" for all projects
 ```
 
-**Expected Result:** ✅ CLI filter flag works correctly
+**Expected Result:** ✅ CLI filter flag works correctly, Status column auto-shown when filtering, table uses full width, --wide flag shows all columns
 
 ---
 
@@ -793,11 +817,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by work organization
+# Filter by work organization (Org column auto-shown - 5 columns)
 ./proj list --org work
 
 # Expected Output:
 # Shows only projects with organization="work" in table format
+# Columns: ID, Name, Org, Path, Created
+# Note: Org column automatically visible when filtering by organization
 ```
 
 **Verification:**
@@ -806,9 +832,11 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify filtered results
 ./proj list --org work
 # Check that all displayed projects have organization="work"
+# Verify Org column is visible (auto-shown when filtering)
+# Verify Org column shows "work" for all projects
 ```
 
-**Expected Result:** ✅ CLI organization filter works correctly
+**Expected Result:** ✅ CLI organization filter works correctly, Org column auto-shown when filtering
 
 ---
 
@@ -821,11 +849,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by primary classification
+# Filter by primary classification (Classification column auto-shown - 5 columns)
 ./proj list --classification primary
 
 # Expected Output:
 # Shows only projects with classification="primary" in table format
+# Columns: ID, Name, Classification, Path, Created
+# Note: Classification column automatically visible when filtering by classification
 ```
 
 **Verification:**
@@ -834,9 +864,116 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify filtered results
 ./proj list --classification primary
 # Check that all displayed projects have classification="primary"
+# Verify Classification column is visible (auto-shown when filtering)
+# Verify Classification column shows "primary" for all projects
 ```
 
-**Expected Result:** ✅ CLI classification filter works correctly
+**Expected Result:** ✅ CLI classification filter works correctly, Classification column auto-shown when filtering
+
+---
+
+### Scenario 27a: CLI - Wide View
+
+**Test:** Use CLI with --wide flag to show all columns
+
+**Prerequisites:** Projects with various attributes
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# List all projects with --wide flag
+./proj list --wide
+
+# Expected Output:
+# Table with 7 columns: ID, Name, Status, Org, Classification, Path, Created
+# Table uses full terminal width
+# Columns wrap instead of truncate
+```
+
+**Verification:**
+
+```bash
+# Verify wide view shows all columns
+./proj list --wide
+# Check that Status, Org, and Classification columns are visible
+# Verify table uses full terminal width
+# Verify long names/paths wrap instead of truncate
+
+# Compare with default view
+./proj list
+# Verify default view shows only 4 columns (ID, Name, Path, Created)
+# Verify both views use full terminal width
+```
+
+**Expected Result:** ✅ --wide flag shows all 7 columns, default view shows 4 columns, filtered columns auto-shown, both use full width
+
+---
+
+### Scenario 27b: CLI - Invalid Status Value (click.Choice Validation)
+
+**Test:** Verify that invalid status values are rejected at CLI level with clear error message
+
+**Prerequisites:** Backend server running
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Try to use invalid status value
+./proj list --status invalid_status
+
+# Expected Output:
+# Error: Invalid value for '--status' / '-s': 'invalid_status' is not one of 'active', 'paused', 'completed', 'cancelled'.
+# Usage: proj list [OPTIONS]
+# Try 'proj list --help' for help.
+```
+
+**Verification:**
+
+```bash
+# Test with invalid status
+./proj list --status invalid_status
+# Expected: Error message showing valid choices, exit code != 0
+
+# Test with valid status (should still work)
+./proj list --status active
+# Expected: Works correctly, shows filtered results
+```
+
+**Expected Result:** ✅ Invalid status values rejected at CLI with clear error message showing valid choices
+
+---
+
+### Scenario 27c: CLI - Invalid Classification Value (click.Choice Validation)
+
+**Test:** Verify that invalid classification values are rejected at CLI level with clear error message
+
+**Prerequisites:** Backend server running
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Try to use invalid classification value
+./proj list --classification invalid_class
+
+# Expected Output:
+# Error: Invalid value for '--classification' / '-c': 'invalid_class' is not one of 'primary', 'secondary', 'archive', 'maintenance'.
+# Usage: proj list [OPTIONS]
+# Try 'proj list --help' for help.
+```
+
+**Verification:**
+
+```bash
+# Test with invalid classification
+./proj list --classification invalid_class
+# Expected: Error message showing valid choices, exit code != 0
+
+# Test with valid classification (should still work)
+./proj list --classification primary
+# Expected: Works correctly, shows filtered results
+```
+
+**Expected Result:** ✅ Invalid classification values rejected at CLI with clear error message showing valid choices
 
 ---
 
@@ -849,11 +986,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Search for "productivity"
+# Search for "productivity" (Description column auto-shown - 5 columns)
 ./proj list --search productivity
 
 # Expected Output:
 # Shows only projects with "productivity" in name or description
+# Columns: ID, Name, Path, Description, Created
+# Note: Description column automatically visible when searching to show where match occurred
 ```
 
 **Verification:**
@@ -862,9 +1001,11 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify search results
 ./proj list --search productivity
 # Check that all displayed projects have "productivity" in name or description
+# Verify Description column is visible (auto-shown when searching)
+# Verify you can see where "productivity" appears (in name or description)
 ```
 
-**Expected Result:** ✅ CLI search flag works correctly
+**Expected Result:** ✅ CLI search flag works correctly, Description column auto-shown when searching to provide context for matches
 
 ---
 
@@ -1259,6 +1400,15 @@ Mark these as complete after testing:
 - [ ] `proj archive` command works
 - [ ] `proj import` command works with JSON files
 - [ ] `proj list` shows all projects in table format
+- [ ] `proj list --wide` shows all columns including Description (Status, Org, Classification, Description)
+- [ ] `proj list --status X` auto-shows Status column (5 columns)
+- [ ] `proj list --org X` auto-shows Org column (5 columns)
+- [ ] `proj list --classification X` auto-shows Classification column (5 columns)
+- [ ] `proj list --search X` auto-shows Description column (5 columns) to show where match occurred
+- [ ] `proj list` table uses full terminal width (no truncation)
+- [ ] `proj list` columns wrap instead of truncate
+- [ ] CLI validates status values (click.Choice - rejects invalid)
+- [ ] CLI validates classification values (click.Choice - rejects invalid)
 - [ ] `proj get` shows project details
 - [ ] Error messages are clear and helpful
 - [ ] Rich formatting displays correctly

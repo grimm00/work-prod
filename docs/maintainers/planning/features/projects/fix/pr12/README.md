@@ -21,7 +21,7 @@
 
 **Total Issues:** 5  
 **Batches:** 3 (1 complete, 2 remaining)  
-**Status:** 🟡 Partial - 1 batch complete via PR #13
+**Status:** 🟡 Partial - 1 batch complete via PR #13, 1 issue fixed via PR #18
 
 **Priority Breakdown:**
 - 🟡 MEDIUM: 3 issues (2 batches)
@@ -32,9 +32,9 @@
 ## 🟡 Planned Batches
 
 ### Batch 1: MEDIUM/LOW (2 issues)
-- **PR12-#1:** Use `click.Choice` for CLI validation
-- **PR12-#2:** Tighten test expectations for invalid status
-- **Status:** 🔴 Not Started
+- **PR12-#1:** Use `click.Choice` for CLI validation ✅ Fixed (PR #18)
+- **PR12-#2:** Tighten test expectations for invalid status 🔴 Not Started
+- **Status:** 🟡 Partial (1/2 complete)
 - **File:** [batch-medium-low-01.md](batch-medium-low-01.md)
 
 ### Batch 2: MEDIUM/MEDIUM (1 issue)

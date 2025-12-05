@@ -316,6 +316,90 @@ def test_import_with_errors(client):
 
 
 @pytest.mark.integration
+def test_import_invalid_classification(client):
+    """Test that projects with invalid classification are reported as errors."""
+    import_data = {
+        'projects': [
+            {
+                'name': 'Valid Project',
+                'remote_url': 'https://github.com/test/valid',
+                'classification': 'primary',
+                'status': 'active'
+            },
+            {
+                'name': 'Invalid Project',
+                'classification': 'invalid_classification',
+                'status': 'active'
+            }
+        ]
+    }
+    
+    response = client.post(
+        '/api/projects/import',
+        data=json.dumps(import_data),
+        content_type='application/json'
+    )
+    
+    assert response.status_code == 201
+    data = json.loads(response.data)
+    
+    # Should import valid project and report error for invalid one
+    assert data['imported'] == 1
+    assert data['skipped'] == 1
+    assert len(data['errors']) == 1
+    assert data['errors'][0]['project'] == 'Invalid Project'
+    assert 'Invalid classification' in data['errors'][0]['error']
+    
+    # Verify only valid project was imported
+    valid_project = Project.query.filter_by(name='Valid Project').first()
+    assert valid_project is not None
+    
+    invalid_project = Project.query.filter_by(name='Invalid Project').first()
+    assert invalid_project is None
+
+
+@pytest.mark.integration
+def test_import_invalid_status(client):
+    """Test that projects with invalid status are reported as errors."""
+    import_data = {
+        'projects': [
+            {
+                'name': 'Valid Project',
+                'remote_url': 'https://github.com/test/valid',
+                'status': 'active'
+            },
+            {
+                'name': 'Invalid Project',
+                'status': 'invalid_status'
+            }
+        ]
+    }
+    
+    response = client.post(
+        '/api/projects/import',
+        data=json.dumps(import_data),
+        content_type='application/json'
+    )
+    
+    assert response.status_code == 201
+    data = json.loads(response.data)
+    
+    # Should import valid project and report error for invalid one
+    assert data['imported'] == 1
+    assert data['skipped'] == 1
+    assert len(data['errors']) == 1
+    assert data['errors'][0]['project'] == 'Invalid Project'
+    assert 'Invalid status' in data['errors'][0]['error']
+    
+    # Verify only valid project was imported
+    valid_project = Project.query.filter_by(name='Valid Project').first()
+    assert valid_project is not None
+    
+    invalid_project = Project.query.filter_by(name='Invalid Project').first()
+    assert invalid_project is None
+
+
+@pytest.mark.integration
 def test_import_default_status(client):
     """Test that projects without status default to 'active'."""
     import_data = {
