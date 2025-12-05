@@ -546,6 +546,16 @@ Create ADRs in `docs/maintainers/decisions/` for:
 4. Update relevant README files
 5. Consider if ADR is needed for significant decisions
 
+### When Handling Fixes
+
+1. **After PR Merge:** Use `/fix-plan` to create fix batches from Sourcery review
+2. **Batch Creation:** Group issues by priority/effort, support cross-PR batches
+3. **Implementation:** Use `/fix-implement` with TDD workflow
+4. **PR Creation:** Use `/pr --fix [batch-name]` for fix PRs
+5. **Post-Merge:** Use `/post-pr` to update fix tracking and clean up branches
+6. **Fix Tracking:** Use hub-and-spoke organization (`fix/pr##/`, `fix/cross-pr/`)
+7. **Review Old Issues:** Use `/fix-review` to identify deferred issues across PRs
+
 ### Response Style
 
 - Be clear and actionable
@@ -736,6 +746,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-**Last Updated:** 2025-12-03  
+**Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Implement Sourcery feedback fixes before Phase 2
+**Next:** Continue Phase 5 implementation
