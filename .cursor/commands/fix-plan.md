@@ -176,11 +176,18 @@ ls docs/maintainers/feedback/sourcery/pr##.md
 
 ### 5. Create Fix Plan Files
 
-**Location:** `docs/maintainers/planning/features/projects/fix/`
+**Location:** `docs/maintainers/planning/features/projects/fix/pr##/`
+
+**Directory structure:**
+- Create PR directory if it doesn't exist: `pr##/`
+- Create README.md hub for PR directory
+- Fix plan files go in PR directory
 
 **File naming:**
-- Format: `pr##-batch-[priority]-[effort]-[batch-number].md`
-- Example: `pr12-batch-medium-low-01.md`
+- Format: `batch-[priority]-[effort]-[batch-number].md` (for batches)
+- Format: `issue-[number]-[short-name].md` (for individual issues)
+- Example: `pr12/batch-medium-low-01.md`
+- Example: `pr02/issue-03-cli-imports.md`
 
 **Fix Plan Template:**
 
@@ -289,38 +296,70 @@ These issues are batched together because they:
 
 ---
 
-### 6. Update Fix Tracking
+### 6. Create PR Directory Hub
 
-**File:** `docs/maintainers/planning/features/projects/fix/README.md`
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/README.md`
 
-**Add batch tracking section:**
+**Create PR hub file:**
 
 ```markdown
-## 📋 PR ## Fix Batches
+# PR ## Fix Tracking
 
+**PR:** ## - [PR Title]  
 **Date:** YYYY-MM-DD  
-**Review:** PR ## Sourcery feedback  
-**Status:** 🟡 **PLANNED** - Fix plans created, ready for implementation
-
-**Batches:**
-
-| Batch | Priority | Effort | Issues | Status | File |
-|-------|----------|--------|--------|--------|------|
-| pr##-batch-medium-low-01 | 🟡 MEDIUM | 🟢 LOW | 2 | 🔴 Not Started | [pr##-batch-medium-low-01.md](pr##-batch-medium-low-01.md) |
-| pr##-batch-medium-medium-01 | 🟡 MEDIUM | 🟡 MEDIUM | 1 | 🔴 Not Started | [pr##-batch-medium-medium-01.md](pr##-batch-medium-medium-01.md) |
-| pr##-batch-low-low-01 | 🟢 LOW | 🟢 LOW | 2 | 🔴 Not Started | [pr##-batch-low-low-01.md](pr##-batch-low-low-01.md) |
-
-**Total:** [N] batches, [M] issues
-```
-
-**Checklist:**
-- [ ] Fix tracking updated with batch information
-- [ ] Batch table added
-- [ ] Status tracking initialized
+**Status:** 🟡 Planned  
+**Last Updated:** YYYY-MM-DD
 
 ---
 
-### 7. Summary Report
+## 📋 Quick Links
+
+### Fix Batches
+
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - [Description] ([Priority], [Effort], [N] issues)
+- **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - [Description] ([Priority], [Effort], [N] issues)
+
+---
+
+## 📊 Summary
+
+**Total Issues:** [N]  
+**Batches:** [M]  
+**Status:** 🟡 Planned
+
+**Priority Breakdown:**
+- 🟡 MEDIUM: [X] issues
+- 🟢 LOW: [Y] issues
+```
+
+**Checklist:**
+- [ ] PR directory created (if needed)
+- [ ] PR hub README.md created
+- [ ] All batches linked in hub
+- [ ] Summary information added
+
+---
+
+### 7. Update Main Fix Tracking
+
+**File:** `docs/maintainers/planning/features/projects/fix/README.md`
+
+**Add PR to active PRs section:**
+
+```markdown
+### Active PRs
+
+- **[PR ##](pr##/README.md)** - [PR Title] ([Status])
+```
+
+**Checklist:**
+- [ ] Main README updated with PR link
+- [ ] PR added to active PRs list
+- [ ] Status indicator correct
+
+---
+
+### 8. Summary Report
 
 **Present to user:**
 
@@ -447,10 +486,12 @@ These issues are batched together because they:
 - `docs/maintainers/feedback/sourcery/pr##.md`
 
 **Fix Plans:**
-- `docs/maintainers/planning/features/projects/fix/pr##-batch-*.md`
+- `docs/maintainers/planning/features/projects/fix/pr##/batch-*.md` (batches)
+- `docs/maintainers/planning/features/projects/fix/pr##/issue-*.md` (individual issues)
 
 **Fix Tracking:**
-- `docs/maintainers/planning/features/projects/fix/README.md`
+- `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
+- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hub)
 
 **Related Commands:**
 - `/fix-implement` - Implement fixes from a batch

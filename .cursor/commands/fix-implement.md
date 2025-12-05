@@ -19,6 +19,11 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 **Command:** `@fix-implement [batch-name] [options]`
 
+**Batch Name Format:**
+- Format: `pr##-batch-[priority]-[effort]-[batch-number]`
+- Example: `pr12-batch-medium-low-01`
+- File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
+
 **Examples:**
 - `@fix-implement pr12-batch-medium-low-01` - Implement specific batch
 - `@fix-implement pr12-batch-medium-low-01 --skip-tests` - Skip test writing (not recommended)
@@ -35,10 +40,20 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 ### 1. Load Fix Plan
 
-**File:** `docs/maintainers/planning/features/projects/fix/[batch-name].md`
+**Parse batch name:**
+- Extract PR number from batch name (e.g., `pr12-batch-medium-low-01` → PR #12)
+- Extract batch file name (remove `pr##-` prefix: `batch-medium-low-01`)
+- Construct file path: `docs/maintainers/planning/features/projects/fix/pr##/batch-[priority]-[effort]-[batch-number].md`
+
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/batch-[priority]-[effort]-[batch-number].md`
+
+**Example:**
+- Batch name: `pr12-batch-medium-low-01`
+- PR number: 12
+- File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
 
 **Extract information:**
-- PR number
+- PR number (from batch name or file)
 - Issues in batch
 - Priority and effort levels
 - File locations
@@ -61,7 +76,7 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 ### 2. Create Fix Branch
 
 **Branch naming:**
-- Format: `fix/[batch-name]`
+- Format: `fix/[batch-name]` (keep full batch name)
 - Example: `fix/pr12-batch-medium-low-01`
 
 **Steps:**
@@ -226,7 +241,7 @@ Part of: pr12-batch-medium-low-01"
 
 ### 6. Update Fix Plan Status
 
-**File:** `docs/maintainers/planning/features/projects/fix/[batch-name].md`
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
 
 **Update status:**
 ```markdown
@@ -262,14 +277,18 @@ Part of: pr12-batch-medium-low-01"
 
 ### 7. Update Fix Tracking
 
-**File:** `docs/maintainers/planning/features/projects/fix/README.md`
+**Update PR Hub:**
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/README.md`
 
 **Update batch status:**
 ```markdown
 | Batch | Priority | Effort | Issues | Status | File |
 |-------|----------|--------|--------|--------|------|
-| pr##-batch-medium-low-01 | 🟡 MEDIUM | 🟢 LOW | 2 | ✅ Complete | [pr##-batch-medium-low-01.md](pr##-batch-medium-low-01.md) |
+| batch-medium-low-01 | 🟡 MEDIUM | 🟢 LOW | 2 | ✅ Complete | [batch-medium-low-01.md](batch-medium-low-01.md) |
 ```
+
+**Update main hub:**
+**File:** `docs/maintainers/planning/features/projects/fix/README.md`
 
 **Add completion note:**
 ```markdown
@@ -277,9 +296,11 @@ Part of: pr12-batch-medium-low-01"
 ```
 
 **Checklist:**
+- [ ] PR hub updated with batch status
 - [ ] Batch status updated to "Complete"
 - [ ] PR number added
 - [ ] Completion date added
+- [ ] Main hub updated if PR is complete
 
 ---
 
@@ -450,10 +471,11 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 ## Reference
 
 **Fix Plans:**
-- `docs/maintainers/planning/features/projects/fix/[batch-name].md`
+- `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
 
 **Fix Tracking:**
-- `docs/maintainers/planning/features/projects/fix/README.md`
+- `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
+- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hub)
 
 **Sourcery Reviews:**
 - `docs/maintainers/feedback/sourcery/pr##.md`

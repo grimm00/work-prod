@@ -43,9 +43,11 @@ Review old deferred issues to identify candidates for addressing. Helps prioriti
 ### 1. Scan All Deferred Issues
 
 **Sources:**
-- Fix tracking document: `docs/maintainers/planning/features/projects/fix/README.md`
+- Fix tracking document: `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
+- PR hub files: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
 - Sourcery review files: `docs/maintainers/feedback/sourcery/pr##.md`
-- Individual fix plans: `docs/maintainers/planning/features/projects/fix/pr##-*.md`
+- Individual fix plans: `docs/maintainers/planning/features/projects/fix/pr##/batch-*.md` or `pr##/issue-*.md`
+- Archived fixes: `docs/maintainers/planning/features/projects/fix/archived/pr##/`
 
 **Extract:**
 - Issue ID (PR##-#N)
@@ -308,7 +310,9 @@ Review old deferred issues to identify candidates for addressing. Helps prioriti
 ## Reference
 
 **Fix Tracking:**
-- `docs/maintainers/planning/features/projects/fix/README.md`
+- `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
+- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hubs)
+- `docs/maintainers/planning/features/projects/fix/archived/README.md` (archive hub)
 
 **Sourcery Reviews:**
 - `docs/maintainers/feedback/sourcery/pr##.md`
