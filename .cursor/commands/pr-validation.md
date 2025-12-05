@@ -86,15 +86,61 @@ gh pr view [pr-number] --json state,title,headRefName
 
 ---
 
-### 2. Update Manual Testing Guide (If Needed)
+### 2. Update Manual Testing Guide (MANDATORY)
 
 **File:** `docs/maintainers/planning/features/projects/manual-testing.md`
 
-**Check if scenarios need to be added:**
+**IMPORTANT:** This step is MANDATORY for all PRs. Always check and update the manual testing guide, even if scenarios already exist.
 
-- Review PR changes to identify new features
-- Check if manual testing guide has scenarios for new features
-- If missing, add scenarios using template from `/phase-pr` command (section 3a)
+**Process:**
+
+1. **Review PR changes to identify new features:**
+   - Check what endpoints/commands were added/modified
+   - Identify all user-facing functionality
+   - Note any validation or error handling changes
+
+2. **Check if scenarios exist:**
+   - Search manual testing guide for relevant scenarios
+   - Check if all new features are covered
+   - Verify scenarios match current implementation
+
+3. **Add missing scenarios:**
+   - If scenarios are missing, add them using the template below
+   - For phase PRs: Add scenarios for all new functionality
+   - For fix PRs: Add scenarios if validation/error handling changed
+   - Use consistent format and numbering
+
+4. **Update header if needed:**
+   - Add PR number to header if not already listed
+   - Update "Last Updated" date
+   - Note which scenarios were added for this PR
+
+5. **Update acceptance criteria:**
+   - Add checkboxes for new functionality
+   - Ensure all new features are covered
+
+**Scenario Template:**
+```markdown
+### Scenario N: [Feature Name] - [Test Type]
+
+**Test:** [Brief description]
+
+**Prerequisites:** [Any setup needed]
+
+**[API/CLI] Test:**
+```bash
+[Command or curl example]
+# Expected: [Expected result]
+```
+
+**Verification:**
+```bash
+[Verification command]
+# Expected: [What to verify]
+```
+
+**Expected Result:** ✅ [Success criteria]
+```
 
 **Common scenarios to add:**
 
@@ -121,7 +167,10 @@ gh pr view [pr-number] --json state,title,headRefName
 - CLI equivalent (if applicable)
 
 **After updating:**
-- [ ] Commit manual testing guide updates
+- [ ] Scenarios added for all new functionality
+- [ ] Header updated with PR number
+- [ ] Acceptance criteria updated
+- [ ] Scenarios committed to PR branch
 - [ ] Note which scenarios were added
 
 ---

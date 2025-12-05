@@ -1,7 +1,8 @@
 # Projects Feature Manual Testing Guide
 
 **Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
-**Fixes:** PR #17 - Request body validation improvements  
+**Phase 5 (PR #16):** Import functionality - Scenarios 29-33  
+**Fixes:** PR #17 - Request body validation improvements (Scenarios 34-37)  
 **Last Updated:** 2025-12-05  
 **Tester:** User verification before PR merge
 
@@ -10,6 +11,7 @@
 ## ⚠️ Important Notes
 
 **Run scenarios in order!** Some scenarios depend on data created by previous scenarios:
+
 - Scenario 6 (duplicate path) requires Scenario 2 (full project creation) to be run first
 - Scenario 8 (CLI update) requires Scenario 7 (CLI create) to be run first
 
@@ -54,6 +56,7 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 201 Created
 - Response includes:
   - `id` (auto-generated)
@@ -63,6 +66,7 @@ curl -X POST http://localhost:5000/api/projects \
   - All other fields null
 
 **Verify:**
+
 - [ ] Status code is 201
 - [ ] Project has an ID
 - [ ] Default status is "active"
@@ -88,10 +92,12 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 201 Created
 - All fields populated as provided
 
 **Verify:**
+
 - [ ] All fields match input
 - [ ] Timestamps are present
 - [ ] ID is auto-generated
@@ -109,12 +115,14 @@ curl -X PATCH http://localhost:5000/api/projects/1 \
 ```
 
 **Expected Result:**
+
 - Status: 200 OK
 - Only `status` and `description` changed
 - Other fields unchanged
 - `updated_at` timestamp updated
 
 **Verify:**
+
 - [ ] Status changed to "completed"
 - [ ] Description updated
 - [ ] Other fields unchanged
@@ -133,10 +141,12 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 400 Bad Request
 - Error message mentions valid classification values
 
 **Verify:**
+
 - [ ] Status code is 400
 - [ ] Error message is clear
 - [ ] Lists valid values: primary, secondary, archive, maintenance
@@ -154,10 +164,12 @@ curl -X PATCH http://localhost:5000/api/projects/1 \
 ```
 
 **Expected Result:**
+
 - Status: 400 Bad Request
 - Error message mentions valid status values
 
 **Verify:**
+
 - [ ] Status code is 400
 - [ ] Error message lists valid values: active, paused, completed, cancelled
 
@@ -178,12 +190,14 @@ curl -X POST http://localhost:5000/api/projects \
 ```
 
 **Expected Result:**
+
 - Status: 409 Conflict
 - Error message about duplicate path
 
 **If you get 201 Created:** Scenario 2 wasn't run. Run Scenario 2 first, then run this scenario again.
 
 **Verify:**
+
 - [ ] Status code is 409
 - [ ] Error message mentions path already exists
 
@@ -203,11 +217,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Green checkmark with success message
 - Beautiful table showing project details
 - All fields displayed correctly
 
 **Verify:**
+
 - [ ] Success message shows ✓
 - [ ] Project details in formatted table
 - [ ] Fields match input
@@ -225,11 +241,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Green checkmark with success message
 - Table showing "Before" and "After" values
 - Only changed fields displayed
 
 **Verify:**
+
 - [ ] Success message shows ✓
 - [ ] Before/After comparison table
 - [ ] Only status and description shown (changed fields)
@@ -245,11 +263,13 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Beautiful table with all projects
 - Shows: ID, Name, Path, Created date
 - All previously created projects visible
 
 **Verify:**
+
 - [ ] Table displays correctly
 - [ ] All test projects are listed
 - [ ] Formatting is clean and readable
@@ -265,10 +285,12 @@ cd /Users/cdwilson/Projects/work-prod
 ```
 
 **Expected Result:**
+
 - Project details in panel/box format
 - All fields displayed
 
 **Verify:**
+
 - [ ] Details show correctly
 - [ ] All fields present
 - [ ] Formatting is clean
@@ -297,6 +319,7 @@ curl -X DELETE http://localhost:5000/api/projects/1 -v
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is deleted
 curl http://localhost:5000/api/projects/1
@@ -352,6 +375,7 @@ curl -X PUT http://localhost:5000/api/projects/2/archive | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is archived
 curl http://localhost:5000/api/projects/2 | jq '.classification, .status'
@@ -387,6 +411,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Test with --yes flag:**
+
 ```bash
 ./proj delete 4 --yes
 
@@ -396,6 +421,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is deleted
 ./proj get 3
@@ -422,7 +448,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 # Expected Output:
 # ✓ Archived project #5: Project Name
-#          Archived Project         
+#          Archived Project
 # ┌────────────────┬──────────────────┐
 # │             ID │ 5                │
 # │           Name │ Project Name      │
@@ -433,6 +459,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify project is archived
 ./proj get 5
@@ -467,6 +494,7 @@ curl "http://localhost:5000/api/projects?status=active" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify only active projects returned
 curl "http://localhost:5000/api/projects?status=active" | jq '.[] | .status'
@@ -499,6 +527,7 @@ curl "http://localhost:5000/api/projects?organization=work" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify only work projects returned
 curl "http://localhost:5000/api/projects?organization=work" | jq '.[] | .organization'
@@ -531,6 +560,7 @@ curl "http://localhost:5000/api/projects?classification=primary" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify only primary projects returned
 curl "http://localhost:5000/api/projects?classification=primary" | jq '.[] | .classification'
@@ -567,6 +597,7 @@ curl "http://localhost:5000/api/projects?status=active&organization=work&classif
 ```
 
 **Verification:**
+
 ```bash
 # Verify all filters applied
 curl "http://localhost:5000/api/projects?status=active&organization=work&classification=primary" | jq '.[] | {status, organization, classification}'
@@ -603,6 +634,7 @@ curl "http://localhost:5000/api/projects?search=product" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify search results
 curl "http://localhost:5000/api/projects?search=product" | jq '.[] | .name'
@@ -639,6 +671,7 @@ curl "http://localhost:5000/api/projects?search=work" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify search results include description matches
 curl "http://localhost:5000/api/projects?search=work" | jq '.[] | {name, description}'
@@ -675,6 +708,7 @@ curl "http://localhost:5000/api/projects?search=PRODUCTIVITY" | jq
 ```
 
 **Verification:**
+
 ```bash
 # Verify case-insensitive matching
 curl "http://localhost:5000/api/projects?search=PRODUCTIVITY" | jq '.[] | .name'
@@ -711,6 +745,7 @@ curl "http://localhost:5000/api/projects?search=productivity&status=active&organ
 ```
 
 **Verification:**
+
 ```bash
 # Verify combined search and filters
 curl "http://localhost:5000/api/projects?search=productivity&status=active&organization=work" | jq '.[] | {name, status, organization}'
@@ -738,6 +773,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify filtered results
 ./proj list --status active
@@ -765,6 +801,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify filtered results
 ./proj list --org work
@@ -792,6 +829,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify filtered results
 ./proj list --classification primary
@@ -819,6 +857,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify search results
 ./proj list --search productivity
@@ -846,6 +885,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Verification:**
+
 ```bash
 # Verify combined filters
 ./proj list --status active --org work --search work
@@ -856,6 +896,8 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 ---
 
+## Phase 5: Import Projects Scenarios
+
 ### Scenario 29: API - Import Single Project
 
 **Test:** Import a single project via the API.
@@ -863,6 +905,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -881,6 +924,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Imported Project A")'
 # Check that "Imported Project A" is in the list
@@ -897,6 +941,7 @@ curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Imported Pr
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -920,6 +965,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 curl http://localhost:5000/api/projects | jq '.[] | select(.name | startswith("Imported Project"))'
 # Check that both projects are in the list
@@ -936,6 +982,7 @@ curl http://localhost:5000/api/projects | jq '.[] | select(.name | startswith("I
 **Prerequisites:** Backend server running. Project with remote_url "http://github.com/imported/duplicate" already exists.
 
 **API Test:**
+
 ```bash
 # First, create a project manually
 curl -X POST http://localhost:5000/api/projects \
@@ -964,6 +1011,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 curl http://localhost:5000/api/projects | jq '.[] | select(.remote_url == "http://github.com/imported/duplicate")'
 # Check that only one project with this remote_url exists
@@ -980,6 +1028,7 @@ curl http://localhost:5000/api/projects | jq '.[] | select(.remote_url == "http:
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -1002,6 +1051,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Valid Project")'
 # Check that only the valid project was imported
@@ -1018,6 +1068,7 @@ curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Valid Proje
 **Prerequisites:** Backend server running. JSON file with projects data exists.
 
 **CLI Test:**
+
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
@@ -1045,6 +1096,7 @@ EOF
 ```
 
 **Verification:**
+
 ```bash
 ./proj list | grep "CLI Imported Project"
 # Check that the imported project appears in the list
@@ -1061,6 +1113,7 @@ EOF
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -1073,6 +1126,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 # Check response status and error message
 curl -X POST http://localhost:5000/api/projects/import \
@@ -1092,6 +1146,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -1100,6 +1155,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 # Check response status and error message
 curl -X POST http://localhost:5000/api/projects/import \
@@ -1119,6 +1175,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: application/json" \
@@ -1129,6 +1186,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 # Check response status and error message
 curl -X POST http://localhost:5000/api/projects/import \
@@ -1148,6 +1206,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 **Prerequisites:** Backend server running.
 
 **API Test:**
+
 ```bash
 curl -X POST http://localhost:5000/api/projects/import \
   -H "Content-Type: text/plain" \
@@ -1156,6 +1215,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 # Check response status and error message
 curl -X POST http://localhost:5000/api/projects/import \
@@ -1173,6 +1233,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 Mark these as complete after testing:
 
 ### API Functionality
+
 - [ ] POST /api/projects creates projects with minimal data
 - [ ] POST /api/projects creates projects with full data
 - [ ] PATCH /api/projects/<id> updates projects (partial updates work)
@@ -1191,6 +1252,7 @@ Mark these as complete after testing:
 - [ ] Import validation rejects non-JSON Content-Type (400)
 
 ### CLI Functionality
+
 - [ ] `proj create` command works with all options
 - [ ] `proj update` command works with partial updates
 - [ ] `proj delete` command works with confirmation
@@ -1202,6 +1264,7 @@ Mark these as complete after testing:
 - [ ] Rich formatting displays correctly
 
 ### Data Integrity
+
 - [ ] Created projects have auto-generated IDs
 - [ ] Default status is "active" when not specified
 - [ ] Timestamps (created_at, updated_at) are set correctly
@@ -1209,6 +1272,7 @@ Mark these as complete after testing:
 - [ ] Path uniqueness is enforced
 
 ### User Experience
+
 - [ ] All error messages are clear
 - [ ] CLI output is beautiful and readable
 - [ ] Tables format correctly
@@ -1221,7 +1285,7 @@ Mark these as complete after testing:
 **Document any issues here:**
 
 | Issue # | Description | Severity | Status |
-|---------|-------------|----------|--------|
+| ------- | ----------- | -------- | ------ |
 | 1       |             |          |        |
 | 2       |             |          |        |
 
@@ -1234,11 +1298,13 @@ Mark these as complete after testing:
 **Tester:** Automated validation
 
 **Overall Result:**
+
 - [x] ✅ All tests passed - Ready for PR
 - [ ] ⚠️ Minor issues found - Fix before PR
 - [ ] ❌ Major issues found - Requires rework
 
 **Notes:**
+
 - Phase 5 scenarios (29-33) all tested and verified
 - Import endpoint working correctly
 - Duplicate detection working (skips by remote_url)
@@ -1251,13 +1317,14 @@ Mark these as complete after testing:
 ## 🔄 Post-Testing Actions
 
 If all tests pass:
+
 1. Stop the backend server (Ctrl+C in Terminal 1)
 2. Inform the developer that manual testing is complete
 3. Proceed with PR creation
 
 If issues are found:
+
 1. Document issues in table above
 2. Stop the backend server
 3. Discuss issues with developer
 4. Retest after fixes
-
