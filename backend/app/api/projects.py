@@ -321,7 +321,7 @@ def import_projects():
     
     Returns:
         201: Import completed with statistics
-        400: Invalid JSON
+        400: Invalid JSON or invalid payload
     """
     if not request.is_json:
         return jsonify({'error': 'Content-Type must be application/json'}), 400
@@ -331,11 +331,19 @@ def import_projects():
     except Exception:
         return jsonify({'error': 'Invalid JSON'}), 400
     
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Request body must be a JSON object'}), 400
+    
+    if 'projects' not in data:
+        return jsonify({'error': "Missing 'projects' field"}), 400
+    
+    projects_data = data['projects']
+    if not isinstance(projects_data, list):
+        return jsonify({'error': "'projects' field must be a list"}), 400
+    
     imported = 0
     skipped = 0
     errors = []
-    
-    projects_data = data.get('projects', [])
     
     for project_data in projects_data:
         try:
