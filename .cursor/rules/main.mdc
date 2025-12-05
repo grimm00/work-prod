@@ -136,13 +136,15 @@ Always use: `YYYY-MM-DD` format (e.g., 2025-11-26)
 
 **CRITICAL:** Do NOT merge pull requests automatically. Always follow this workflow:
 
-1. **Create PR** - Use GitHub CLI or UI to create the pull request
+1. **Create PR** - Use `/pr --phase [N]` or `/pr --fix [batch]` command
 2. **Stop and Wait** - Present PR link to user, do NOT proceed to merge
-3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit`
+3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit` (or use `/pr-validation`)
 4. **Sourcery Feedback** - Reviews saved to `docs/maintainers/feedback/sourcery/pr##.md`
-5. **Priority Assessment** - Fill out priority matrix in Sourcery review file
-6. **Fix Planning** - Create fix plans in feature's `fix/` subdirectory
+   - **Note:** Missing reviews are acceptable - workflow continues without review
+5. **Priority Assessment** - Fill out priority matrix in Sourcery review file (if review available)
+6. **Fix Planning** - Use `/fix-plan` to create fix plans in feature's `fix/` subdirectory
 7. **User Approval** - Only merge after user explicitly approves
+8. **Post-Merge** - Use `/post-pr` to update documentation and clean up branches
 
 ### Priority Matrix Assessment
 
