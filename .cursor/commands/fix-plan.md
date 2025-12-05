@@ -53,6 +53,7 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 **Two modes of operation:**
 
 1. **PR Mode (default):** Analyze single PR's Sourcery review
+
    - Use: `@fix-plan [pr-number]`
    - Reads: `docs/maintainers/feedback/sourcery/pr##.md`
    - Creates: Batches for that PR's issues
@@ -450,6 +451,7 @@ These issues are batched together because they:
 ## From Review Report Mode
 
 **When to use:**
+
 - After running `/fix-review` and identifying batches to create
 - To create batches from accumulated issues across multiple PRs
 - To implement recommended batches from review report
@@ -461,26 +463,30 @@ These issues are batched together because they:
 ### 1. Load Review Report
 
 **File location:**
+
 - Default: Latest report in `docs/maintainers/planning/features/projects/fix/fix-review-report-*.md`
 - Manual: `--from-review-report fix-review-report-2025-12-05.md`
 
 **Extract from report:**
+
 - Recommended batches (Quick Wins, Test Quality, etc.)
 - Issue IDs for each batch (PR##-#N format)
 - Batch descriptions and recommendations
 - Priority and effort levels
 
 **Example report sections:**
+
 ```markdown
 ## Quick Wins
 
-| Issue | Priority | Effort | Age | Description |
-|-------|----------|--------|-----|-------------|
-| PR01-#5 | 🟢 LOW | 🟢 LOW | 3 days | Test improvements |
-| PR02-#5 | 🟢 LOW | 🟢 LOW | 2 days | Test error message content |
+| Issue   | Priority | Effort | Age    | Description                |
+| ------- | -------- | ------ | ------ | -------------------------- |
+| PR01-#5 | 🟢 LOW   | 🟢 LOW | 3 days | Test improvements          |
+| PR02-#5 | 🟢 LOW   | 🟢 LOW | 2 days | Test error message content |
 ```
 
 **Checklist:**
+
 - [ ] Review report file found
 - [ ] Report is readable and well-formatted
 - [ ] Recommended batches identified
@@ -493,11 +499,13 @@ These issues are batched together because they:
 **For each issue ID (PR##-#N):**
 
 1. **Find source PR:**
+
    - Extract PR number from issue ID (e.g., PR02-#5 → PR #2)
    - Locate PR hub: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
    - Check if archived: `docs/maintainers/planning/features/projects/fix/archived/pr##/README.md`
 
 2. **Get issue details:**
+
    - Read Sourcery review: `docs/maintainers/feedback/sourcery/pr##.md`
    - Extract comment details (location, description, code context)
    - Get priority/impact/effort from priority matrix
@@ -509,6 +517,7 @@ These issues are batched together because they:
    - Verify issue is still deferred
 
 **Checklist:**
+
 - [ ] All issue IDs resolved to source PRs
 - [ ] Issue details extracted from Sourcery reviews
 - [ ] Issue status verified (not already fixed)
@@ -519,6 +528,7 @@ These issues are batched together because they:
 ### 3. Create Cross-PR Batches
 
 **Batch naming for cross-PR batches:**
+
 - Format: `cross-pr-[batch-name]-[priority]-[effort]-[batch-number]`
 - Examples:
   - `cross-pr-quick-wins-low-low-01` - Quick Wins batch, LOW/LOW
@@ -526,11 +536,13 @@ These issues are batched together because they:
   - `cross-pr-error-handling-low-low-01` - Error handling batch, LOW/LOW
 
 **Batch location:**
+
 - Create directory: `docs/maintainers/planning/features/projects/fix/cross-pr/`
 - Create hub: `docs/maintainers/planning/features/projects/fix/cross-pr/README.md`
 - Fix plans: `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
 
 **Batching logic:**
+
 - Group issues by recommended batch name from report
 - Within batch, group by priority and effort
 - Create batches following same size guidelines as PR mode
@@ -538,6 +550,7 @@ These issues are batched together because they:
 **Example batches from report:**
 
 **Quick Wins Batch:**
+
 - PR01-#5: Test improvements (LOW, LOW)
 - PR01-#6: README typo (LOW, LOW)
 - PR02-#5: Test error message content (LOW, LOW)
@@ -547,12 +560,14 @@ These issues are batched together because they:
 - PR12-#5: Raise from previous error (LOW, LOW)
 
 **Test Quality Batch:**
+
 - PR02-#4: Test null path serialization (MEDIUM, LOW)
 - PR02-#8: Test updated_at changes (MEDIUM, LOW)
 - PR08-#3: Missing test: empty JSON body (MEDIUM, LOW)
 - PR13-#1: Strengthen test assertions (MEDIUM, LOW)
 
 **Checklist:**
+
 - [ ] Batches created based on report recommendations
 - [ ] Batch names follow cross-PR convention
 - [ ] Issues grouped logically
@@ -565,6 +580,7 @@ These issues are batched together because they:
 **Location:** `docs/maintainers/planning/features/projects/fix/cross-pr/`
 
 **File naming:**
+
 - Format: `[batch-name]-[priority]-[effort]-[batch-number].md`
 - Example: `quick-wins-low-low-01.md`
 - Example: `test-quality-medium-low-01.md`
@@ -586,9 +602,9 @@ These issues are batched together because they:
 
 ## Issues in This Batch
 
-| Issue   | PR   | Priority   | Impact   | Effort   | Description   |
-| ------- | ---- | ---------- | -------- | -------- | ------------- |
-| PR##-#N | ##   | [Priority] | [Impact] | [Effort] | [Description] |
+| Issue   | PR  | Priority   | Impact   | Effort   | Description   |
+| ------- | --- | ---------- | -------- | -------- | ------------- |
+| PR##-#N | ##  | [Priority] | [Impact] | [Effort] | [Description] |
 
 ---
 
@@ -600,6 +616,7 @@ This batch contains [N] [priority] priority issues with [effort] effort from [M]
 **Files Affected:** [list of files from all PRs]
 
 **Source PRs:**
+
 - PR ##: [PR Title]
 - PR ##: [PR Title]
 
@@ -627,6 +644,7 @@ This batch contains [N] [priority] priority issues with [effort] effort from [M]
 [Solution description or code]
 
 **Related Files:**
+
 - `[file1]` - [reason]
 - `[file2]` - [reason]
 
@@ -635,6 +653,7 @@ This batch contains [N] [priority] priority issues with [effort] effort from [M]
 ## Implementation Steps
 
 1. **Issue PR##-#N**
+
    - [ ] Step 1
    - [ ] Step 2
    - [ ] Step 3
@@ -673,6 +692,7 @@ This batch contains [N] [priority] priority issues with [effort] effort from [M]
 
 **Batch Rationale:**
 This batch was created from fix-review report recommendations. These issues are batched together because they:
+
 - Share similar priority and effort levels
 - Address related code quality improvements
 - Can be implemented together efficiently
@@ -680,6 +700,7 @@ This batch was created from fix-review report recommendations. These issues are 
 ````
 
 **Checklist:**
+
 - [ ] Cross-PR directory created
 - [ ] Fix plan file created for each batch
 - [ ] All issues documented with source PR references
@@ -719,6 +740,7 @@ This batch was created from fix-review report recommendations. These issues are 
 **Source PRs:** [List of PR numbers]
 
 **Priority Breakdown:**
+
 - 🟡 MEDIUM: [X] issues
 - 🟢 LOW: [Y] issues
 
@@ -727,12 +749,14 @@ This batch was created from fix-review report recommendations. These issues are 
 ## 🟡 Active Batches
 
 ### Quick Wins Batch
+
 - **Status:** 🔴 Not Started
 - **Issues:** 7 LOW/LOW issues
 - **File:** [quick-wins-low-low-01.md](quick-wins-low-low-01.md)
 - **Estimated:** 2-3 hours
 
 ### Test Quality Batch
+
 - **Status:** 🔴 Not Started
 - **Issues:** 4 MEDIUM/LOW issues
 - **File:** [test-quality-medium-low-01.md](test-quality-medium-low-01.md)
@@ -744,6 +768,7 @@ This batch was created from fix-review report recommendations. These issues are 
 ```
 
 **Checklist:**
+
 - [ ] Cross-PR hub created
 - [ ] All batches linked in hub
 - [ ] Summary information added
@@ -764,6 +789,7 @@ This batch was created from fix-review report recommendations. These issues are 
 ```
 
 **Checklist:**
+
 - [ ] Main README updated with cross-PR link
 - [ ] Cross-PR batches section added
 - [ ] Status indicator correct
