@@ -264,13 +264,15 @@ gh pr view [pr-number] --json state,title,headRefName
 
 3. **Run review with custom path:**
    ```bash
-   ~/Projects/dev-toolkit/bin/dt-review [pr-number] docs/maintainers/feedback/sourcery/pr##.md
+   dt-review [pr-number] docs/maintainers/feedback/sourcery/pr##.md
    ```
 
    **Example:**
    ```bash
-   ~/Projects/dev-toolkit/bin/dt-review 12 docs/maintainers/feedback/sourcery/pr12.md
+   dt-review 19 docs/maintainers/feedback/sourcery/pr19.md
    ```
+
+   **Note:** The `dt-review` command is available in PATH at `/usr/local/bin/dt-review`, so it can be called directly without the full path.
 
    **If review fails or is not available:**
    - This is acceptable - some PRs may not have reviews available
@@ -475,10 +477,10 @@ curl http://localhost:5000/api/health
 ### Issue: dt-review Not Found
 
 **Solution:**
-- Use full path: `~/Projects/dev-toolkit/bin/dt-review [pr-number]`
-- Ensure dev-toolkit is installed: `cd ~/Projects/dev-toolkit`
-- Check if `bin/dt-review` exists
-- May need to install dev-toolkit dependencies
+- The `dt-review` command should be available in PATH at `/usr/local/bin/dt-review`
+- Try calling it directly: `dt-review [pr-number] [output-path]`
+- Verify it's in PATH: `which dt-review` (should show `/usr/local/bin/dt-review`)
+- If not found, check if dev-toolkit is installed and `dt-review` is symlinked to `/usr/local/bin/`
 
 ### Issue: Sourcery Review File Not Created
 
