@@ -1,9 +1,9 @@
 # Project Management CLI Tool
 
 **Purpose:** Command-line interface for managing projects via the Projects API  
-**Status:** ✅ Phase 4 Complete - Search & Filter  
+**Status:** ✅ Phase 5 Complete - Import Projects  
 **Created:** 2025-12-02  
-**Updated:** 2025-12-04
+**Updated:** 2025-12-05
 
 ---
 
@@ -11,7 +11,7 @@
 
 The `proj` CLI tool provides a user-friendly command-line interface for managing your projects. It's the primary way to interact with the Projects API during the backend MVP phase (Phases 1-7).
 
-**Phase 1-4 Status:** ✅ Complete
+**Phase 1-5 Status:** ✅ Complete
 - ✅ List all projects (with filtering and search)
 - ✅ Get project by ID
 - ✅ Create new projects
@@ -20,6 +20,7 @@ The `proj` CLI tool provides a user-friendly command-line interface for managing
 - ✅ Archive projects
 - ✅ Filter by status, organization, classification
 - ✅ Search in names and descriptions
+- ✅ Import projects from JSON file
 - ✅ Beautiful Rich formatting
 - ✅ Comprehensive error handling
 - ✅ Before/after change comparison

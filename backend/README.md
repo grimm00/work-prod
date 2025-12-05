@@ -1,8 +1,8 @@
 # Backend
 
 **Purpose:** Flask API backend for project management  
-**Status:** ✅ Phase 4 Complete - Search & Filter API + CLI  
-**Last Updated:** 2025-12-04
+**Status:** ✅ Phase 5 Complete - Import Projects API + CLI  
+**Last Updated:** 2025-12-05
 
 ---
 
@@ -29,7 +29,7 @@ python run.py
 ### Health Check
 - `GET /api/health` - Server health status
 
-### Projects API (Phase 1-4 Complete)
+### Projects API (Phase 1-5 Complete)
 - `GET /api/projects` - List all projects (with filtering and search)
 - `GET /api/projects?status=active&organization=work&search=term` - Filter and search projects
 - `GET /api/projects/<id>` - Get project by ID
@@ -37,6 +37,7 @@ python run.py
 - `PATCH /api/projects/<id>` - Update project
 - `DELETE /api/projects/<id>` - Delete project permanently
 - `PUT /api/projects/<id>/archive` - Archive project
+- `POST /api/projects/import` - Bulk import projects from JSON
 
 ### Request/Response Examples
 
@@ -70,6 +71,24 @@ curl -X PUT http://localhost:5000/api/projects/1/archive
 ```bash
 curl -X DELETE http://localhost:5000/api/projects/1
 # Returns 204 No Content on success
+```
+
+**Import Projects:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {
+        "name": "Project 1",
+        "path": "/path/1",
+        "remote_url": "https://github.com/user/project1",
+        "classification": "primary",
+        "status": "active"
+      }
+    ]
+  }'
+# Returns 201 with statistics: {"imported": 1, "skipped": 0, "errors": []}
 ```
 
 ### Validation Rules
