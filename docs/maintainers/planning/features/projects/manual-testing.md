@@ -1,6 +1,7 @@
 # Projects Feature Manual Testing Guide
 
 **Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
+**Fixes:** PR #17 - Request body validation improvements  
 **Last Updated:** 2025-12-05  
 **Tester:** User verification before PR merge
 
@@ -855,6 +856,318 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 ---
 
+### Scenario 29: API - Import Single Project
+
+**Test:** Import a single project via the API.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {
+        "name": "Imported Project A",
+        "path": "/imported/project/a",
+        "remote_url": "http://github.com/imported/project-a",
+        "classification": "primary",
+        "status": "active"
+      }
+    ]
+  }'
+# Expected: {"imported": 1, "skipped": 0, "errors": []}
+```
+
+**Verification:**
+```bash
+curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Imported Project A")'
+# Check that "Imported Project A" is in the list
+```
+
+**Expected Result:** ✅ API import endpoint successfully imports a single project.
+
+---
+
+### Scenario 30: API - Import Multiple Projects
+
+**Test:** Import multiple projects via the API.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {
+        "name": "Imported Project B",
+        "remote_url": "http://github.com/imported/project-b",
+        "classification": "primary",
+        "status": "active"
+      },
+      {
+        "name": "Imported Project C",
+        "remote_url": "http://github.com/imported/project-c",
+        "classification": "secondary",
+        "status": "paused"
+      }
+    ]
+  }'
+# Expected: {"imported": 2, "skipped": 0, "errors": []}
+```
+
+**Verification:**
+```bash
+curl http://localhost:5000/api/projects | jq '.[] | select(.name | startswith("Imported Project"))'
+# Check that both projects are in the list
+```
+
+**Expected Result:** ✅ API import endpoint successfully imports multiple projects.
+
+---
+
+### Scenario 31: API - Import Duplicate Handling
+
+**Test:** Import projects with duplicates (same remote_url).
+
+**Prerequisites:** Backend server running. Project with remote_url "http://github.com/imported/duplicate" already exists.
+
+**API Test:**
+```bash
+# First, create a project manually
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Existing Project",
+    "remote_url": "http://github.com/imported/duplicate",
+    "classification": "primary",
+    "status": "active"
+  }'
+
+# Then try to import the same project
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {
+        "name": "Duplicate Project",
+        "remote_url": "http://github.com/imported/duplicate",
+        "classification": "primary",
+        "status": "active"
+      }
+    ]
+  }'
+# Expected: {"imported": 0, "skipped": 1, "errors": []}
+```
+
+**Verification:**
+```bash
+curl http://localhost:5000/api/projects | jq '.[] | select(.remote_url == "http://github.com/imported/duplicate")'
+# Check that only one project with this remote_url exists
+```
+
+**Expected Result:** ✅ Duplicate projects are skipped (not re-imported).
+
+---
+
+### Scenario 32: API - Import Error Handling
+
+**Test:** Import projects with some invalid data.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {
+        "name": "Valid Project",
+        "remote_url": "http://github.com/valid/project",
+        "classification": "primary",
+        "status": "active"
+      },
+      {
+        "name": "Invalid Project",
+        "classification": "invalid_classification",
+        "status": "active"
+      }
+    ]
+  }'
+# Expected: {"imported": 1, "skipped": 0, "errors": [{"project": "Invalid Project", "error": "..."}]}
+```
+
+**Verification:**
+```bash
+curl http://localhost:5000/api/projects | jq '.[] | select(.name == "Valid Project")'
+# Check that only the valid project was imported
+```
+
+**Expected Result:** ✅ Valid projects imported, errors reported but import continues.
+
+---
+
+### Scenario 33: CLI - Import Projects
+
+**Test:** Import projects using CLI command.
+
+**Prerequisites:** Backend server running. JSON file with projects data exists.
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Create a test JSON file
+cat > /tmp/test-projects.json << 'EOF'
+{
+  "projects": [
+    {
+      "name": "CLI Imported Project",
+      "remote_url": "http://github.com/cli/imported",
+      "classification": "primary",
+      "status": "active"
+    }
+  ]
+}
+EOF
+
+# Import using CLI
+./proj import /tmp/test-projects.json
+
+# Expected Output:
+# Importing 1 project(s) from /tmp/test-projects.json...
+# [Rich formatted table showing import statistics]
+# ✓ Successfully imported project(s)
+```
+
+**Verification:**
+```bash
+./proj list | grep "CLI Imported Project"
+# Check that the imported project appears in the list
+```
+
+**Expected Result:** ✅ CLI import command works correctly with Rich formatting.
+
+---
+
+### Scenario 34: API - Import Validation: Missing 'projects' Field
+
+**Test:** Validate that missing 'projects' field returns 400 Bad Request.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "wrong_key": [
+      {"name": "Test Project"}
+    ]
+  }'
+# Expected: 400 Bad Request with {"error": "Missing 'projects' field"}
+```
+
+**Verification:**
+```bash
+# Check response status and error message
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{"wrong_key": []}' -w "\nHTTP Status: %{http_code}\n"
+# Expected: HTTP Status: 400
+```
+
+**Expected Result:** ✅ Missing 'projects' field returns 400 with clear error message.
+
+---
+
+### Scenario 35: API - Import Validation: Non-Dict Request Body
+
+**Test:** Validate that non-dict request body returns 400 Bad Request.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '["not", "a", "dict"]'
+# Expected: 400 Bad Request with {"error": "Request body must be a JSON object"}
+```
+
+**Verification:**
+```bash
+# Check response status and error message
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '["not", "a", "dict"]' -w "\nHTTP Status: %{http_code}\n"
+# Expected: HTTP Status: 400
+```
+
+**Expected Result:** ✅ Non-dict request body returns 400 with clear error message.
+
+---
+
+### Scenario 36: API - Import Validation: Non-List 'projects' Field
+
+**Test:** Validate that non-list 'projects' field returns 400 Bad Request.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": "not a list"
+  }'
+# Expected: 400 Bad Request with {"error": "'projects' field must be a list"}
+```
+
+**Verification:**
+```bash
+# Check response status and error message
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{"projects": "not a list"}' -w "\nHTTP Status: %{http_code}\n"
+# Expected: HTTP Status: 400
+```
+
+**Expected Result:** ✅ Non-list 'projects' field returns 400 with clear error message.
+
+---
+
+### Scenario 37: API - Import Validation: Non-JSON Content-Type
+
+**Test:** Validate that non-JSON Content-Type returns 400 Bad Request.
+
+**Prerequisites:** Backend server running.
+
+**API Test:**
+```bash
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: text/plain" \
+  -d 'not json'
+# Expected: 400 Bad Request with {"error": "Content-Type must be application/json"}
+```
+
+**Verification:**
+```bash
+# Check response status and error message
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: text/plain" \
+  -d 'not json' -w "\nHTTP Status: %{http_code}\n"
+# Expected: HTTP Status: 400
+```
+
+**Expected Result:** ✅ Non-JSON Content-Type returns 400 with clear error message.
+
+---
+
 ## ✅ Acceptance Criteria
 
 Mark these as complete after testing:
@@ -869,12 +1182,20 @@ Mark these as complete after testing:
 - [ ] Validation rejects invalid status values
 - [ ] Duplicate path detection works (409 Conflict)
 - [ ] 404 returned for non-existent projects
+- [ ] POST /api/projects/import imports projects successfully
+- [ ] Import duplicate detection works (skips duplicates)
+- [ ] Import error handling works (reports errors but continues)
+- [ ] Import validation rejects missing 'projects' field (400)
+- [ ] Import validation rejects non-dict request body (400)
+- [ ] Import validation rejects non-list 'projects' field (400)
+- [ ] Import validation rejects non-JSON Content-Type (400)
 
 ### CLI Functionality
 - [ ] `proj create` command works with all options
 - [ ] `proj update` command works with partial updates
 - [ ] `proj delete` command works with confirmation
 - [ ] `proj archive` command works
+- [ ] `proj import` command works with JSON files
 - [ ] `proj list` shows all projects in table format
 - [ ] `proj get` shows project details
 - [ ] Error messages are clear and helpful
