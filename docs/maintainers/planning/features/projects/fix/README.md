@@ -14,7 +14,7 @@
 ### Active PRs
 
 - **[PR #2](pr02/README.md)** - Phase 1: List & Get Projects (🟡 Partial - 4 MEDIUM issues planned)
-- **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 1/3 batches complete via PR #13)
+- **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 2/3 batches complete via PR #13, #19)
 - **[PR #16](pr16/README.md)** - Phase 5: Import Projects from JSON (✅ Complete - 1 HIGH fixed, 11 deferred)
 - **[PR #18](pr18/README.md)** - CLI table display improvements (✅ Complete - 2 issues fixed, 2 deferred)
 
@@ -106,7 +106,7 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 
 #### PR #12 (Phase 4)
 - **Status:** 🟡 Partial
-- **Batches:** 1/3 batches complete via PR #13
+- **Batches:** 2/3 batches complete via PR #13, #19
 - **Hub:** [pr12/README.md](pr12/README.md)
 
 ### Cross-PR Batches
@@ -139,12 +139,12 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 
 ## 📈 Summary Statistics
 
-**Total Issues:** 25 across 7 PRs (including PR #13, #18)  
+**Total Issues:** 25 across 7 PRs (including PR #13, #18, #19)  
 **Status Breakdown:**
-- ✅ Complete/Fixed: 11 (PRs #1, #4, #8, PR12-#3 via PR #13, PR18 user-reported + PR12-#1)
+- ✅ Complete/Fixed: 12 (PRs #1, #4, #8, PR12-#3 via PR #13, PR12-#1 via PR #18, PR12-#2 via PR #19, PR18 user-reported)
 - ✅ Resolved: 2 (PR #2 - fixed in Phase 2)
 - 🔴 Not Fixed: 1 (PR #2 - HIGH priority)
-- 🟡 Planned: 4 (PR #12 - remaining batches)
+- 🟡 Planned: 2 (PR #12 - remaining batch)
 - 🟡 Deferred: 9 (Various PRs, including PR #13, PR #18)
 
 **Priority Breakdown:**
@@ -189,10 +189,10 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 
 ### 🟡 Next: PR #12 Batches
 
-**Batch 1: MEDIUM/LOW** (2 issues)
+**Batch 1: MEDIUM/LOW** (2 issues) ✅ Complete
 - **File:** [pr12/batch-medium-low-01.md](pr12/batch-medium-low-01.md)
 - **Issues:** CLI validation, test expectations
-- **Estimated:** 1-2 hours
+- **Completed:** PR #19 (2025-12-05)
 
 **Batch 2: MEDIUM/MEDIUM** (1 issue)
 - **File:** [pr12/batch-medium-medium-01.md](pr12/batch-medium-medium-01.md)
@@ -241,5 +241,6 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 
 ### PR #18 (2025-12-05)
 - ✅ CLI table display improvements (user-reported)
-- ✅ click.Choice validation (PR12-#1)
-- 🟡 2 deferred issues (LOW/MEDIUM priority)
+- ✅ click.Choice validation (PR12-#1 via PR #18)
+- ✅ Test expectations tightened (PR12-#2 via PR #19)
+- 🟡 1 remaining batch (LOW/LOW priority)
