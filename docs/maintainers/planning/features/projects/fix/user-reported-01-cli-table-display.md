@@ -290,8 +290,17 @@ def list_projects(status, organization, classification, search, wide):
 - User-reported issue (table display)
 - **User Feedback:** Auto-show filtered columns (see `docs/maintainers/feedback/user/pr18-table-column-visibility.md`)
 
+## Scope Note
+
+**During PR #18 development, additional issues were discovered:**
+
+- **Import Endpoint Validation:** During Scenario 32 testing, discovered that import endpoint didn't validate classification/status values. This was fixed in PR #18 but is outside original scope.
+- **Database Enum Handling:** Discovered projects with invalid enum values in database (from Scenario 32 testing). Fixed database directly and simplified error handling.
+
+**See:** `docs/maintainers/planning/features/projects/fix/pr18-scope-analysis.md` for full scope analysis.
+
 ---
 
 **Last Updated:** 2025-12-05  
-**Next:** Implement Option 3 (--wide flag) for best user experience
+**Status:** ✅ Complete (includes discovered fixes from testing)
 
