@@ -174,19 +174,20 @@ Backend-first development focuses on API and CLI tools, deferring frontend (Reac
 
 ---
 
-### Phase 6: GitHub Integration (2 days)
+### Phase 6: CLI Enhancement & Daily Use Tools (1 day)
 
-**Goal:** Sync repository metadata automatically
+**Goal:** Polish CLI tool for daily use
 
 **Key Deliverables:**
-- GitHub API client
-- POST /api/projects/{id}/sync endpoint
-- Sync button on project detail view
-- Fetch description, stars, last_updated, languages
-- Rate limit handling
-- Error handling for private/missing repos
+- Rich formatting with `rich` library (tables, colors, progress bars)
+- Configuration file support (`~/.projrc`)
+- Better error handling with clear messages
+- Additional convenience commands (`stats`, `recent`, `active`)
+- Comprehensive help system
 
 **Phase Document:** [phase-6.md](phase-6.md)
+
+**Note:** GitHub Integration originally planned but deferred. CLI enhancement prioritized for MVP.
 
 ---
 

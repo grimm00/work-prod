@@ -23,7 +23,7 @@
 - **[Phase 3: Update/Delete CRUD](phase-3.md)** - Complete CRUD operations (🔴 Not Started)
 - **[Phase 4: Import Projects](phase-4.md)** - Import 59 existing projects (🔴 Not Started)
 - **[Phase 5: Search and Filtering](phase-5.md)** - Find projects quickly (🔴 Not Started)
-- **[Phase 6: GitHub Integration](phase-6.md)** - Sync repo metadata (🔴 Not Started)
+- **[Phase 6: CLI Enhancement & Daily Use Tools](phase-6.md)** - Polish CLI for daily use (🔴 Not Started)
 - **[Phase 7: Polish and MVP](phase-7.md)** - Production-ready MVP (🔴 Not Started)
 
 ### Planning Outputs
