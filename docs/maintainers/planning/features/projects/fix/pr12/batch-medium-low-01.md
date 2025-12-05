@@ -30,7 +30,7 @@ This batch contains 2 MEDIUM priority issues with LOW effort. These issues impro
 
 ---
 
-## Issues Details
+## Issue Details
 
 ### Issue PR12-#1: Use click.Choice for CLI Validation
 

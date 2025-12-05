@@ -30,7 +30,7 @@ This batch contains 1 MEDIUM priority issue with MEDIUM effort. This issue requi
 
 ---
 
-## Issues Details
+## Issue Details
 
 ### Issue PR12-#3: Avoid Conditionals in Tests
 

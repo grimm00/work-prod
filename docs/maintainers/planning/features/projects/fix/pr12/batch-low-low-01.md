@@ -30,7 +30,7 @@ This batch contains 2 LOW priority issues with LOW effort. These are minor code 
 
 ---
 
-## Issues Details
+## Issue Details
 
 ### Issue PR12-#4: Use Named Expression
 
