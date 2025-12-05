@@ -817,11 +817,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by work organization
+# Filter by work organization (Org column auto-shown - 5 columns)
 ./proj list --org work
 
 # Expected Output:
 # Shows only projects with organization="work" in table format
+# Columns: ID, Name, Org, Path, Created
+# Note: Org column automatically visible when filtering by organization
 ```
 
 **Verification:**
@@ -830,9 +832,11 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify filtered results
 ./proj list --org work
 # Check that all displayed projects have organization="work"
+# Verify Org column is visible (auto-shown when filtering)
+# Verify Org column shows "work" for all projects
 ```
 
-**Expected Result:** ✅ CLI organization filter works correctly
+**Expected Result:** ✅ CLI organization filter works correctly, Org column auto-shown when filtering
 
 ---
 
@@ -845,11 +849,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by primary classification
+# Filter by primary classification (Classification column auto-shown - 5 columns)
 ./proj list --classification primary
 
 # Expected Output:
 # Shows only projects with classification="primary" in table format
+# Columns: ID, Name, Classification, Path, Created
+# Note: Classification column automatically visible when filtering by classification
 ```
 
 **Verification:**
@@ -858,9 +864,11 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify filtered results
 ./proj list --classification primary
 # Check that all displayed projects have classification="primary"
+# Verify Classification column is visible (auto-shown when filtering)
+# Verify Classification column shows "primary" for all projects
 ```
 
-**Expected Result:** ✅ CLI classification filter works correctly
+**Expected Result:** ✅ CLI classification filter works correctly, Classification column auto-shown when filtering
 
 ---
 
