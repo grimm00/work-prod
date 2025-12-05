@@ -47,31 +47,14 @@ class Project(db.Model):
         
         Returns:
             dict: Project data as dictionary
-            
-        Raises:
-            LookupError: If enum values in database are invalid (should be caught by caller)
         """
-        # Safely access enum fields - if they're invalid, SQLAlchemy will raise LookupError
-        # which we catch in the API layer
-        try:
-            classification = self.classification
-        except LookupError:
-            # Invalid enum value in database - re-raise to be handled by caller
-            raise
-        
-        try:
-            status = self.status
-        except LookupError:
-            # Invalid enum value in database - re-raise to be handled by caller
-            raise
-        
         return {
             'id': self.id,
             'name': self.name,
             'path': self.path,
             'organization': self.organization,
-            'classification': classification,
-            'status': status,
+            'classification': self.classification,
+            'status': self.status,
             'description': self.description,
             'remote_url': self.remote_url,
             'created_at': self.created_at.isoformat() if self.created_at else None,

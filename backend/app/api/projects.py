@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request, current_app
 from app.models.project import Project
 from app import db
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import or_, text
+from sqlalchemy import or_
 
 projects_bp = Blueprint('projects', __name__)
 
@@ -78,125 +78,9 @@ def list_projects():
                 )
             )
     
-    # Execute query and convert to dict, handling any projects with invalid enum values
-    try:
-        projects = query.order_by(Project.id).all()
-        projects_list = []
-        
-        for project in projects:
-            try:
-                projects_list.append(project.to_dict())
-            except LookupError as e:
-                # Handle invalid enum values in database (e.g., from before validation was added)
-                # This happens when SQLAlchemy tries to convert database values to enum types
-                current_app.logger.warning(
-                    f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
-                    "Skipping this project. Consider fixing the database value."
-                )
-                # Skip this project - it has invalid data
-                continue
-        
-        return jsonify(projects_list), 200
-    
-    except LookupError as e:
-        # Error occurred during query execution - SQLAlchemy couldn't convert enum values
-        # Fall back to raw SQL query to bypass enum type conversion
-        current_app.logger.warning(
-            f"LookupError during query execution: {e}. "
-            "Falling back to raw SQL query to handle invalid enum values."
-        )
-        
-        # Build raw SQL query with filters
-        sql = "SELECT id, name, path, organization, classification, status, description, remote_url, created_at, updated_at FROM projects WHERE 1=1"
-        params = {}
-        
-        # Add filters
-        if 'status' in request.args:
-            status = request.args['status']
-            if status in VALID_STATUSES:
-                sql += " AND status = :status"
-                params['status'] = status
-        
-        if 'organization' in request.args:
-            organization = request.args['organization']
-            if organization:
-                sql += " AND organization = :organization"
-                params['organization'] = organization
-        
-        if 'classification' in request.args:
-            classification = request.args['classification']
-            if classification in VALID_CLASSIFICATIONS:
-                sql += " AND classification = :classification"
-                params['classification'] = classification
-        
-        if 'search' in request.args:
-            search_term = request.args['search']
-            if search_term:
-                sql += " AND (name LIKE :search OR description LIKE :search)"
-                params['search'] = f"%{search_term}%"
-        
-        sql += " ORDER BY id"
-        
-        # Execute raw SQL query
-        result = db.session.execute(text(sql), params)
-        rows = result.fetchall()
-        
-        # Convert rows to dictionaries, skipping invalid enum values
-        # SQLAlchemy Row objects support both index and attribute access
-        projects_list = []
-        for row in rows:
-            try:
-                # Access row columns - try attribute access first, fall back to index
-                # Row objects from text() queries support both methods
-                try:
-                    # Try attribute access (works if columns are named)
-                    row_id = row.id
-                    row_name = row.name
-                    row_path = row.path
-                    row_org = row.organization
-                    row_classification = row.classification
-                    row_status = row.status
-                    row_description = row.description
-                    row_remote_url = row.remote_url
-                    row_created_at = row.created_at
-                    row_updated_at = row.updated_at
-                except (AttributeError, KeyError):
-                    # Fall back to index access (for tuple-like rows)
-                    row_id = row[0]
-                    row_name = row[1]
-                    row_path = row[2]
-                    row_org = row[3]
-                    row_classification = row[4]
-                    row_status = row[5]
-                    row_description = row[6]
-                    row_remote_url = row[7]
-                    row_created_at = row[8]
-                    row_updated_at = row[9]
-                
-                # Validate enum values and convert invalid ones
-                classification = row_classification if row_classification in VALID_CLASSIFICATIONS else None
-                status = row_status if row_status in VALID_STATUSES else 'active'
-                
-                project_dict = {
-                    'id': row_id,
-                    'name': row_name,
-                    'path': row_path,
-                    'organization': row_org,
-                    'classification': classification,
-                    'status': status,
-                    'description': row_description,
-                    'remote_url': row_remote_url,
-                    'created_at': row_created_at.isoformat() if row_created_at else None,
-                    'updated_at': row_updated_at.isoformat() if row_updated_at else None,
-                }
-                projects_list.append(project_dict)
-            except Exception as e:
-                current_app.logger.warning(
-                    f"Skipping project row due to error: {e}"
-                )
-                continue
-        
-        return jsonify(projects_list), 200
+    # Execute query and return results
+    projects = query.order_by(Project.id).all()
+    return jsonify([project.to_dict() for project in projects]), 200
 
 
 def create_project():
@@ -260,19 +144,9 @@ def create_project():
         db.session.add(project)
         db.session.commit()
         
-        try:
-            return jsonify(project.to_dict()), 201, {
-                'Location': f'/api/projects/{project.id}'
-            }
-        except LookupError as e:
-            # Handle invalid enum values in database (shouldn't happen after create, but be safe)
-            current_app.logger.error(
-                f"Project {project.id} has invalid enum value after create: {e}. "
-                "This should not happen - check validation logic."
-            )
-            return jsonify({
-                'error': 'Error creating project. Please contact administrator.'
-            }), 500
+        return jsonify(project.to_dict()), 201, {
+            'Location': f'/api/projects/{project.id}'
+        }
     
     except IntegrityError:
         db.session.rollback()
@@ -319,17 +193,7 @@ def get_project(project_id):
     if project is None:
         return jsonify({'error': 'Project not found'}), 404
     
-    try:
-        return jsonify(project.to_dict()), 200
-    except LookupError as e:
-        # Handle invalid enum values in database
-        current_app.logger.error(
-            f"Project {project_id} has invalid enum value: {e}. "
-            "Consider fixing the database value."
-        )
-        return jsonify({
-            'error': f'Project {project_id} has invalid data. Please contact administrator.'
-        }), 500
+    return jsonify(project.to_dict()), 200
 
 
 def update_project(project_id):
@@ -359,17 +223,7 @@ def update_project(project_id):
     data = request.get_json()
     if not data:
         # No updates provided - return current project
-        try:
-            return jsonify(project.to_dict()), 200
-        except LookupError as e:
-            # Handle invalid enum values in database
-            current_app.logger.error(
-                f"Project {project_id} has invalid enum value: {e}. "
-                "Consider fixing the database value."
-            )
-            return jsonify({
-                'error': f'Project {project_id} has invalid data. Please contact administrator.'
-            }), 500
+        return jsonify(project.to_dict()), 200
     
     # Validate classification if provided
     if 'classification' in data and data['classification'] is not None:
@@ -412,17 +266,7 @@ def update_project(project_id):
         
         db.session.commit()
         
-        try:
-            return jsonify(project.to_dict()), 200
-        except LookupError as e:
-            # Handle invalid enum values in database (shouldn't happen after update, but be safe)
-            current_app.logger.error(
-                f"Project {project_id} has invalid enum value after update: {e}. "
-                "Consider fixing the database value."
-            )
-            return jsonify({
-                'error': f'Project {project_id} has invalid data. Please contact administrator.'
-            }), 500
+        return jsonify(project.to_dict()), 200
     
     except IntegrityError:
         db.session.rollback()
@@ -598,17 +442,7 @@ def archive_project(project_id):
         project.classification = 'archive'
         project.status = 'completed'
         db.session.commit()
-        try:
-            return jsonify(project.to_dict()), 200
-        except LookupError as e:
-            # Handle invalid enum values in database (shouldn't happen after archive, but be safe)
-            current_app.logger.error(
-                f"Project {project_id} has invalid enum value after archive: {e}. "
-                "Consider fixing the database value."
-            )
-            return jsonify({
-                'error': f'Project {project_id} has invalid data. Please contact administrator.'
-            }), 500
+        return jsonify(project.to_dict()), 200
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error in archive_project: {e}", exc_info=True)
