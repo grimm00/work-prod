@@ -361,6 +361,27 @@ def import_projects():
                     'project': project_data.get('name', 'Unknown'),
                     'error': 'Name is required'
                 })
+                skipped += 1
+                continue
+            
+            # Validate classification if provided
+            classification = project_data.get('classification')
+            if classification is not None and classification not in VALID_CLASSIFICATIONS:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': f"Invalid classification '{classification}'. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
+                })
+                skipped += 1
+                continue
+            
+            # Validate status if provided
+            status = project_data.get('status', 'active')
+            if status not in VALID_STATUSES:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': f"Invalid status '{status}'. Must be one of: {', '.join(VALID_STATUSES)}"
+                })
+                skipped += 1
                 continue
             
             # Create new project
@@ -368,8 +389,8 @@ def import_projects():
                 name=project_data['name'],
                 path=project_data.get('path'),
                 organization=project_data.get('organization'),
-                classification=project_data.get('classification'),
-                status=project_data.get('status', 'active'),
+                classification=classification,
+                status=status,
                 description=project_data.get('description'),
                 remote_url=project_data.get('remote_url')
             )
@@ -385,6 +406,7 @@ def import_projects():
                 'project': project_data.get('name', 'Unknown'),
                 'error': 'Failed to import project'
             })
+            skipped += 1
     
     try:
         db.session.commit()
