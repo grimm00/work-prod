@@ -8,7 +8,7 @@
 **Created:** 2025-12-04  
 **Last Updated:** 2025-12-05  
 **Completed:** 2025-12-05  
-**PR:** #19  
+**PR:** [#19](https://github.com/grimm00/work-prod/pull/19)  
 **Issues:** 2 issues (PR12-#1 fixed via PR #18, PR12-#2 fixed via PR #19)
 
 ---
