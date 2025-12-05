@@ -18,7 +18,7 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 
 ## Usage
 
-**Command:** `@fix-plan [pr-number] [options]`
+**Command:** `@fix-plan [pr-number|--from-review-report] [options]`
 
 **Examples:**
 
@@ -26,6 +26,9 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 - `@fix-plan 12` - Analyze PR #12
 - `@fix-plan 12 --max-batch-size 3` - Custom batch size
 - `@fix-plan 12 --priority MEDIUM` - Only plan MEDIUM priority issues
+- `@fix-plan --from-review-report fix-review-report-2025-12-05.md` - Create batches from review report
+- `@fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"` - Create specific batch from report
+- `@fix-plan --from-review-report --quick-wins` - Create only Quick Wins batch from latest report
 - `@fix-plan --review-old` - Review and plan old deferred issues
 - `@fix-plan --archive-completed` - Archive completed fix plans
 
@@ -35,6 +38,9 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 - `--priority LEVEL` - Only plan issues of this priority (CRITICAL, HIGH, MEDIUM, LOW)
 - `--min-effort LEVEL` - Only plan issues with at least this effort (LOW, MEDIUM, HIGH)
 - `--dry-run` - Show batching plan without creating fix plan files
+- `--from-review-report [file]` - Create batches from fix-review report (see "From Review Report" section)
+- `--batch NAME` - Create specific batch from report (e.g., "Quick Wins", "Test Quality")
+- `--quick-wins` - Create only Quick Wins batch from report
 - `--review-old` - Review old deferred issues (see "Reviewing Old Issues" section)
 - `--archive-completed` - Archive completed fix plans to `fix/archived/`
 
@@ -42,7 +48,25 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 
 ## Step-by-Step Process
 
-### 1. Identify PR and Review File
+### Mode Selection
+
+**Two modes of operation:**
+
+1. **PR Mode (default):** Analyze single PR's Sourcery review
+   - Use: `@fix-plan [pr-number]`
+   - Reads: `docs/maintainers/feedback/sourcery/pr##.md`
+   - Creates: Batches for that PR's issues
+
+2. **Review Report Mode:** Create batches from fix-review report
+   - Use: `@fix-plan --from-review-report [file]`
+   - Reads: `docs/maintainers/planning/features/projects/fix/fix-review-report-*.md`
+   - Creates: Batches for recommended issues across multiple PRs
+
+**If `--from-review-report` is specified, skip to "From Review Report" section below.**
+
+---
+
+### 1. Identify PR and Review File (PR Mode)
 
 **Default behavior:**
 
@@ -390,7 +414,391 @@ These issues are batched together because they:
 
 ---
 
-### 8. Summary Report
+### 8. Summary Report (PR Mode)
+
+**Present to user:**
+
+```markdown
+## Fix Plan Complete
+
+**PR:** #N - [PR Title]
+
+### Issues Analyzed
+
+- Total issues: [N]
+- Deferred issues: [M]
+- Already fixed: [K]
+
+### Batches Created
+
+- [N] batches created
+- Priority breakdown:
+  - CRITICAL: [X] batches
+  - HIGH: [Y] batches
+  - MEDIUM: [Z] batches
+  - LOW: [W] batches
+
+### Next Steps
+
+1. Review fix plans in `docs/maintainers/planning/features/projects/fix/`
+2. Use `/fix-implement` command to implement batches
+3. Start with CRITICAL/HIGH batches first
+```
+
+---
+
+## From Review Report Mode
+
+**When to use:**
+- After running `/fix-review` and identifying batches to create
+- To create batches from accumulated issues across multiple PRs
+- To implement recommended batches from review report
+
+**Key principle:** Parse review report recommendations and create fix plans for cross-PR batches.
+
+---
+
+### 1. Load Review Report
+
+**File location:**
+- Default: Latest report in `docs/maintainers/planning/features/projects/fix/fix-review-report-*.md`
+- Manual: `--from-review-report fix-review-report-2025-12-05.md`
+
+**Extract from report:**
+- Recommended batches (Quick Wins, Test Quality, etc.)
+- Issue IDs for each batch (PR##-#N format)
+- Batch descriptions and recommendations
+- Priority and effort levels
+
+**Example report sections:**
+```markdown
+## Quick Wins
+
+| Issue | Priority | Effort | Age | Description |
+|-------|----------|--------|-----|-------------|
+| PR01-#5 | 🟢 LOW | 🟢 LOW | 3 days | Test improvements |
+| PR02-#5 | 🟢 LOW | 🟢 LOW | 2 days | Test error message content |
+```
+
+**Checklist:**
+- [ ] Review report file found
+- [ ] Report is readable and well-formatted
+- [ ] Recommended batches identified
+- [ ] Issue IDs extracted
+
+---
+
+### 2. Resolve Issue Details
+
+**For each issue ID (PR##-#N):**
+
+1. **Find source PR:**
+   - Extract PR number from issue ID (e.g., PR02-#5 → PR #2)
+   - Locate PR hub: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+   - Check if archived: `docs/maintainers/planning/features/projects/fix/archived/pr##/README.md`
+
+2. **Get issue details:**
+   - Read Sourcery review: `docs/maintainers/feedback/sourcery/pr##.md`
+   - Extract comment details (location, description, code context)
+   - Get priority/impact/effort from priority matrix
+   - Check if issue already has fix plan
+
+3. **Verify issue status:**
+   - Check if already fixed (marked as "✅ Fixed" in review)
+   - Check if fix plan already exists
+   - Verify issue is still deferred
+
+**Checklist:**
+- [ ] All issue IDs resolved to source PRs
+- [ ] Issue details extracted from Sourcery reviews
+- [ ] Issue status verified (not already fixed)
+- [ ] Missing details noted
+
+---
+
+### 3. Create Cross-PR Batches
+
+**Batch naming for cross-PR batches:**
+- Format: `cross-pr-[batch-name]-[priority]-[effort]-[batch-number]`
+- Examples:
+  - `cross-pr-quick-wins-low-low-01` - Quick Wins batch, LOW/LOW
+  - `cross-pr-test-quality-medium-low-01` - Test Quality batch, MEDIUM/LOW
+  - `cross-pr-error-handling-low-low-01` - Error handling batch, LOW/LOW
+
+**Batch location:**
+- Create directory: `docs/maintainers/planning/features/projects/fix/cross-pr/`
+- Create hub: `docs/maintainers/planning/features/projects/fix/cross-pr/README.md`
+- Fix plans: `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
+
+**Batching logic:**
+- Group issues by recommended batch name from report
+- Within batch, group by priority and effort
+- Create batches following same size guidelines as PR mode
+
+**Example batches from report:**
+
+**Quick Wins Batch:**
+- PR01-#5: Test improvements (LOW, LOW)
+- PR01-#6: README typo (LOW, LOW)
+- PR02-#5: Test error message content (LOW, LOW)
+- PR02-#9: Avoid loop in tests (LOW, LOW)
+- PR02-#10: Raise from previous error (get) (LOW, LOW)
+- PR02-#11: Raise from previous error (list) (LOW, LOW)
+- PR12-#5: Raise from previous error (LOW, LOW)
+
+**Test Quality Batch:**
+- PR02-#4: Test null path serialization (MEDIUM, LOW)
+- PR02-#8: Test updated_at changes (MEDIUM, LOW)
+- PR08-#3: Missing test: empty JSON body (MEDIUM, LOW)
+- PR13-#1: Strengthen test assertions (MEDIUM, LOW)
+
+**Checklist:**
+- [ ] Batches created based on report recommendations
+- [ ] Batch names follow cross-PR convention
+- [ ] Issues grouped logically
+- [ ] Batch sizes appropriate
+
+---
+
+### 4. Create Fix Plan Files (Cross-PR Mode)
+
+**Location:** `docs/maintainers/planning/features/projects/fix/cross-pr/`
+
+**File naming:**
+- Format: `[batch-name]-[priority]-[effort]-[batch-number].md`
+- Example: `quick-wins-low-low-01.md`
+- Example: `test-quality-medium-low-01.md`
+
+**Fix Plan Template (Cross-PR):**
+
+````markdown
+# Fix Plan: Cross-PR Batch [Batch Name] - [Priority] [Effort]
+
+**Batch:** [batch-name]-[priority]-[effort]-[batch-number]  
+**Priority:** [Priority Level]  
+**Effort:** [Effort Level]  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
+**Source:** fix-review-report-YYYY-MM-DD.md  
+**Issues:** [N] issues from [M] PRs
+
+---
+
+## Issues in This Batch
+
+| Issue   | PR   | Priority   | Impact   | Effort   | Description   |
+| ------- | ---- | ---------- | -------- | -------- | ------------- |
+| PR##-#N | ##   | [Priority] | [Impact] | [Effort] | [Description] |
+
+---
+
+## Overview
+
+This batch contains [N] [priority] priority issues with [effort] effort from [M] PRs. These issues are related to [common theme].
+
+**Estimated Time:** [X] hours  
+**Files Affected:** [list of files from all PRs]
+
+**Source PRs:**
+- PR ##: [PR Title]
+- PR ##: [PR Title]
+
+---
+
+## Issue Details
+
+### Issue PR##-#N: [Short Description]
+
+**Source PR:** ## - [PR Title]  
+**Location:** `[file]:[line]`  
+**Sourcery Comment:** Comment #N  
+**Priority:** [Priority] | **Impact:** [Impact] | **Effort:** [Effort]
+
+**Description:**
+[Full description from Sourcery review]
+
+**Current Code:**
+
+```[language]
+[code snippet]
+```
+
+**Proposed Solution:**
+[Solution description or code]
+
+**Related Files:**
+- `[file1]` - [reason]
+- `[file2]` - [reason]
+
+---
+
+## Implementation Steps
+
+1. **Issue PR##-#N**
+   - [ ] Step 1
+   - [ ] Step 2
+   - [ ] Step 3
+
+2. **Issue PR##-#M**
+   - [ ] Step 1
+   - [ ] Step 2
+
+---
+
+## Testing
+
+- [ ] All existing tests pass
+- [ ] New tests added (if applicable)
+- [ ] Manual testing completed
+- [ ] No regressions introduced
+
+---
+
+## Files to Modify
+
+- `[file1]` - [reason, PR ##]
+- `[file2]` - [reason, PR ##]
+
+---
+
+## Definition of Done
+
+- [ ] All issues in batch fixed
+- [ ] Tests passing
+- [ ] Code reviewed
+- [ ] Documentation updated (if needed)
+- [ ] Ready for PR
+
+---
+
+**Batch Rationale:**
+This batch was created from fix-review report recommendations. These issues are batched together because they:
+- Share similar priority and effort levels
+- Address related code quality improvements
+- Can be implemented together efficiently
+- Were identified as [batch type] in review report
+````
+
+**Checklist:**
+- [ ] Cross-PR directory created
+- [ ] Fix plan file created for each batch
+- [ ] All issues documented with source PR references
+- [ ] Implementation steps outlined
+- [ ] Testing requirements specified
+
+---
+
+### 5. Create Cross-PR Hub
+
+**File:** `docs/maintainers/planning/features/projects/fix/cross-pr/README.md`
+
+**Create hub file:**
+
+```markdown
+# Cross-PR Fix Batches
+
+**Purpose:** Fix batches created from fix-review reports across multiple PRs  
+**Status:** ✅ Active  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Quick Links
+
+### Active Batches
+
+- **[quick-wins-low-low-01.md](quick-wins-low-low-01.md)** - Quick Wins (🟢 LOW, 🟢 LOW, 7 issues)
+- **[test-quality-medium-low-01.md](test-quality-medium-low-01.md)** - Test Quality (🟡 MEDIUM, 🟢 LOW, 4 issues)
+
+---
+
+## 📊 Summary
+
+**Total Batches:** [N]  
+**Total Issues:** [M]  
+**Source PRs:** [List of PR numbers]
+
+**Priority Breakdown:**
+- 🟡 MEDIUM: [X] issues
+- 🟢 LOW: [Y] issues
+
+---
+
+## 🟡 Active Batches
+
+### Quick Wins Batch
+- **Status:** 🔴 Not Started
+- **Issues:** 7 LOW/LOW issues
+- **File:** [quick-wins-low-low-01.md](quick-wins-low-low-01.md)
+- **Estimated:** 2-3 hours
+
+### Test Quality Batch
+- **Status:** 🔴 Not Started
+- **Issues:** 4 MEDIUM/LOW issues
+- **File:** [test-quality-medium-low-01.md](test-quality-medium-low-01.md)
+- **Estimated:** 2-3 hours
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**Checklist:**
+- [ ] Cross-PR hub created
+- [ ] All batches linked in hub
+- [ ] Summary information added
+- [ ] Source PRs documented
+
+---
+
+### 6. Update Main Fix Tracking (Cross-PR Mode)
+
+**File:** `docs/maintainers/planning/features/projects/fix/README.md`
+
+**Add cross-PR batches section:**
+
+```markdown
+### Cross-PR Batches
+
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports ([N] batches)
+```
+
+**Checklist:**
+- [ ] Main README updated with cross-PR link
+- [ ] Cross-PR batches section added
+- [ ] Status indicator correct
+
+---
+
+### 7. Summary Report (Cross-PR Mode)
+
+**Present to user:**
+
+```markdown
+## Fix Plan Complete (From Review Report)
+
+**Report:** fix-review-report-YYYY-MM-DD.md
+
+### Batches Created
+
+- [N] batches created from review report
+- Batch breakdown:
+  - Quick Wins: [X] issues
+  - Test Quality: [Y] issues
+  - [Other batches]: [Z] issues
+
+### Source PRs
+
+- PR ##: [X] issues
+- PR ##: [Y] issues
+- PR ##: [Z] issues
+
+### Next Steps
+
+1. Review fix plans in `docs/maintainers/planning/features/projects/fix/cross-pr/`
+2. Use `/fix-implement` command to implement batches
+3. Start with recommended priority order
+```
 
 **Present to user:**
 
@@ -544,11 +952,12 @@ These issues are batched together because they:
 **Related Commands:**
 
 - `/fix-implement` - Implement fixes from a batch
-- `/fix-review` - Review old deferred issues for addressing
+- `/fix-review` - Review old deferred issues and generate report
+- `/fix-plan --from-review-report` - Create batches from fix-review report (this command)
 - `/pr-validation` - Run Sourcery review and fill priority matrix
 
 ---
 
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Use `/fix-implement` to implement batches or `/fix-review` to review old issues
+**Next:** Use `/fix-implement` to implement batches, `/fix-review` to review old issues, or `--from-review-report` to create batches from review reports

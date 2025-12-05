@@ -211,23 +211,32 @@ Review old deferred issues to identify candidates for addressing. Helps prioriti
 
 **If issues are worth addressing:**
 
-1. **Use `/fix-plan` command:**
+1. **Use `/fix-plan --from-review-report` command:**
    ```bash
-   @fix-plan --review-old --priority MEDIUM
+   # Create batches from latest review report
+   @fix-plan --from-review-report fix-review-report-2025-12-05.md
+   
+   # Create specific batch from report
+   @fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"
+   
+   # Create only Quick Wins batch
+   @fix-plan --from-review-report --quick-wins
    ```
 
-2. **Or manually create batches:**
+2. **The command will:**
+   - Parse review report recommendations
+   - Resolve issue details from source PRs
+   - Create cross-PR batches
+   - Update fix tracking
+
+3. **Or manually create batches:**
    - Group accumulated issues
    - Create quick-wins batch
    - Address blocking issues first
 
-3. **Update fix tracking:**
-   - Mark issues as "🟡 Planned" (not just deferred)
-   - Create fix plan files
-   - Set target date if applicable
-
 **Checklist:**
-- [ ] Fix plans created (if addressing)
+- [ ] Review report saved
+- [ ] Fix plans created using `/fix-plan --from-review-report` (if addressing)
 - [ ] Fix tracking updated
 - [ ] Issues marked as planned
 
