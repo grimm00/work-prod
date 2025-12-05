@@ -425,7 +425,7 @@ This session identified numerous improvements for the dev-infra template:
 13. Phase planning templates
 14. Status tracking templates
 
-**Reference:** See [dev-infra-improvements.md](opportunities/internal/dev-infra-improvements.md) for complete checklist.
+**Reference:** See [dev-infra-improvements.md](../opportunities/internal/dev-infra/dev-infra-improvements.md) for complete checklist.
 
 ---
 
@@ -440,8 +440,8 @@ This session identified numerous improvements for the dev-infra template:
 ### Opportunities
 - [Internal Opportunities Hub](opportunities/internal/README.md)
 - [External Opportunities Hub](opportunities/external/README.md)
-- [Phase 1 Learnings](opportunities/internal/phase-1-learnings.md)
-- [Dev-Infra Improvements](opportunities/internal/dev-infra-improvements.md)
+- [Phase 1 Learnings](../opportunities/internal/work-prod/phase-1-learnings.md)
+- [Dev-Infra Improvements](../opportunities/internal/dev-infra/dev-infra-improvements.md)
 
 ### Fix Tracking
 - [Fix Tracking Hub](../features/projects/fix/README.md)

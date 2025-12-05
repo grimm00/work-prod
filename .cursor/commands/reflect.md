@@ -521,8 +521,8 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 **Learnings:**
 
-- `docs/maintainers/planning/notes/opportunities/internal/phase-*-learnings.md`
-- `docs/maintainers/planning/notes/opportunities/internal/dev-infra-improvements-*.md`
+- `docs/maintainers/planning/notes/opportunities/internal/work-prod/phase-*-learnings.md`
+- `docs/maintainers/planning/notes/opportunities/internal/dev-infra/dev-infra-improvements-*.md`
 
 **Related Commands:**
 

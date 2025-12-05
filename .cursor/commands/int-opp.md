@@ -4,15 +4,15 @@ After completing a phase, use this command to capture learnings for improving de
 
 ## Instructions
 
-1. Create phase learnings document in `docs/maintainers/planning/notes/opportunities/internal/`
-2. Document actionable template improvements
+1. Create phase learnings document in `docs/maintainers/planning/notes/opportunities/internal/work-prod/`
+2. Document actionable template improvements in `docs/maintainers/planning/notes/opportunities/internal/dev-infra/`
 3. Update the internal opportunities README
 
 ---
 
 ## Phase Learnings Template
 
-**File:** `docs/maintainers/planning/notes/opportunities/internal/phase-N-learnings.md`
+**File:** `docs/maintainers/planning/notes/opportunities/internal/work-prod/phase-N-learnings.md`
 
 ### Structure to include:
 
@@ -82,7 +82,7 @@ Categories to consider:
 
 ## Dev-Infra Improvements Template
 
-**File:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra-improvements-phaseN.md`
+**File:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/dev-infra-improvements-phaseN.md`
 
 ### Structure to include:
 
@@ -154,16 +154,18 @@ Organize by category (adjust as needed):
 After creating documents:
 
 1. Update `internal/README.md` completion tracking table
-2. Add new phase row with status
-3. Update "Last Updated" date
-4. Link to new documents in Quick Links
+2. Update `work-prod/README.md` with new learnings document
+3. Update `dev-infra/README.md` with new improvements document
+4. Add new phase row with status
+5. Update "Last Updated" date
+6. Link to new documents in Quick Links
 
 Example update:
 
 ```markdown
 | Phase | Learnings Doc | Status | Applied to dev-infra |
 |-------|--------------|--------|---------------------|
-| Phase N | phase-N-learnings.md | ✅ Complete | 🟡 Pending |
+| Phase N | [work-prod/phase-N-learnings.md](work-prod/phase-N-learnings.md) | ✅ Complete | 🟡 Pending |
 ```
 
 ---
@@ -193,8 +195,19 @@ Example update:
 
 ## Reference Examples
 
-- **Comprehensive:** `phase-1-learnings.md` - 880 lines covering everything
-- **Actionable:** `dev-infra-improvements.md` - Specific checklist with file locations
+- **Comprehensive:** `work-prod/phase-1-learnings.md` - 880 lines covering everything
+- **Actionable:** `dev-infra/dev-infra-improvements.md` - Specific checklist with file locations
 
 Follow these as models for structure and level of detail.
+
+---
+
+## Directory Structure
+
+**Learnings:** `docs/maintainers/planning/notes/opportunities/internal/work-prod/`  
+**Improvements:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/`
+
+This structure separates:
+- **Work-prod learnings** (what we learned FROM work-prod)
+- **Dev-infra improvements** (what TO DO in dev-infra template)
 

@@ -9,21 +9,17 @@
 
 ## 📋 Quick Links
 
-### Phase Learnings
-- **[Phase 1 Learnings](phase-1-learnings.md)** - List & Get Projects (Backend API + CLI)
-- **[Phase 2 Learnings](phase-2-learnings.md)** - Create & Update Projects + Security Fixes
-- **[Phase 3 Learnings](phase-3-learnings.md)** - Delete & Archive Projects + Workflow Automation
-- **[Phase 4 Learnings](phase-4-learnings.md)** - Search & Filter Projects + Fix Batch System
-- **[Phase 5 Learnings](phase-5-learnings.md)** - Import Projects from JSON + Validation Improvements
-- **[Fix Management Learnings](fix-management-learnings.md)** - Fix batch system, cross-PR fixes, workflow improvements
+### Work-Prod Learnings
+- **[Work-Prod Learnings Hub](work-prod/README.md)** - Comprehensive learnings from work-prod implementation
+  - Phase 1-5 learnings documents
+  - Fix management learnings
+  - Process improvements and patterns
 
-### Template Improvements
-- **[Dev-Infra Improvements](dev-infra-improvements.md)** - Actionable checklist for template updates (Phase 1)
-- **[Dev-Infra Improvements Phase 2](dev-infra-improvements-phase2.md)** - Security review, testing, workflow improvements
-- **[Dev-Infra Improvements Phase 3](dev-infra-improvements-phase3.md)** - CLI patterns, archive strategies, workflow automation
-- **[Dev-Infra Improvements Phase 4](dev-infra-improvements-phase4.md)** - Fix batch system, PR validation, query filtering patterns
-- **[Dev-Infra Improvements Phase 5](dev-infra-improvements-phase5.md)** - Bulk import patterns, data mapping scripts, validation improvements
-- **[Dev-Infra Improvements Fix Management](dev-infra-improvements-fix-management.md)** - Fix tracking, cross-PR batches, workflow commands
+### Dev-Infra Improvements
+- **[Dev-Infra Improvements Hub](dev-infra/README.md)** - Actionable checklists for template updates
+  - Phase 1-5 improvement checklists
+  - Fix management improvements
+  - Template pattern documentation
 
 ---
 
@@ -37,16 +33,30 @@ This directory captures knowledge gained from work-prod implementation to:
 
 ---
 
+## 📁 Directory Structure
+
+```
+internal/
+├── README.md                    # 📍 HUB - This file
+├── work-prod/                    # Work-prod learnings
+│   ├── README.md                # Work-prod hub
+│   ├── phase-*-learnings.md     # Phase learnings documents
+│   └── fix-management-learnings.md
+└── dev-infra/                    # Dev-infra improvements
+    ├── README.md                # Dev-infra hub
+    └── dev-infra-improvements*.md  # Improvement checklists
+```
+
 ## 📝 Documentation Types
 
-### Phase Learnings
+### Work-Prod Learnings (`work-prod/`)
 Comprehensive reviews after each major phase:
 - What worked well (to template)
 - What needs improvement (to fix in template)
 - Unexpected discoveries (to document)
 - Time-saving patterns (to automate)
 
-### Template Improvements
+### Dev-Infra Improvements (`dev-infra/`)
 Actionable checklists for updating dev-infra:
 - Specific file changes needed
 - New patterns to add
@@ -68,12 +78,12 @@ Actionable checklists for updating dev-infra:
 | Phase | Learnings Doc | Status | Applied to dev-infra |
 |-------|--------------|--------|---------------------|
 | Phase 0 | (Included in Phase 1) | ✅ Complete | 🟡 Pending |
-| Phase 1 | phase-1-learnings.md | ✅ Complete | 🟡 Pending |
-| Phase 2 | phase-2-learnings.md | ✅ Complete | 🟡 Pending |
-| Phase 3 | phase-3-learnings.md | ✅ Complete | 🟡 Pending |
-| Phase 4 | phase-4-learnings.md | ✅ Complete | 🟡 Pending |
-| Fix Management | fix-management-learnings.md | ✅ Complete | 🟡 Pending |
-| Phase 5 | phase-5-learnings.md | ✅ Complete | 🟡 Pending |
+| Phase 1 | [work-prod/phase-1-learnings.md](work-prod/phase-1-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 2 | [work-prod/phase-2-learnings.md](work-prod/phase-2-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 3 | [work-prod/phase-3-learnings.md](work-prod/phase-3-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 4 | [work-prod/phase-4-learnings.md](work-prod/phase-4-learnings.md) | ✅ Complete | 🟡 Pending |
+| Fix Management | [work-prod/fix-management-learnings.md](work-prod/fix-management-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 5 | [work-prod/phase-5-learnings.md](work-prod/phase-5-learnings.md) | ✅ Complete | 🟡 Pending |
 | Phase 6+ | TBD | 🔴 Not Started | - |
 
 ---

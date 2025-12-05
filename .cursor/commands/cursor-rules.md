@@ -575,8 +575,8 @@ git commit -m "docs(cursor-rules): [description]"
 
 **Documentation:**
 
-- Phase learnings: `docs/maintainers/planning/notes/opportunities/internal/`
-- Dev-infra improvements: `docs/maintainers/planning/notes/opportunities/internal/dev-infra-improvements-*.md`
+- Phase learnings: `docs/maintainers/planning/notes/opportunities/internal/work-prod/`
+- Dev-infra improvements: `docs/maintainers/planning/notes/opportunities/internal/dev-infra/dev-infra-improvements-*.md`
 
 ---
 

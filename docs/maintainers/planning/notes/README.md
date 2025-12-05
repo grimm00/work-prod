@@ -36,7 +36,9 @@
 notes/
 ├── README.md                    # 📍 HUB - This file
 ├── opportunities/               # Template improvements
-│   ├── internal/               # Dev-infra improvements
+│   ├── internal/               # Internal opportunities
+│   │   ├── work-prod/         # Work-prod learnings
+│   │   └── dev-infra/         # Dev-infra improvements
 │   └── external/               # External project adaptations
 ├── reflections/                 # Reflection reports
 │   ├── reflection-*.md         # Project-wide reflections
