@@ -2,7 +2,7 @@
 
 **Phase:** 5 - Projects API - Import from JSON (Backend + CLI)  
 **Duration:** 1 day  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Prerequisites:** Phase 4 complete
 
 ---
@@ -30,14 +30,14 @@ Phase 5 implements bulk import functionality to load the 59 existing projects fr
 ### TDD Flow
 
 #### 1. Write Import Tests (TDD - RED)
-- [ ] Test import single project from JSON
-- [ ] Test import multiple projects
-- [ ] Test duplicate handling (skip existing)
-- [ ] Test invalid JSON returns 400
-- [ ] Test import statistics in response
+- [x] Test import single project from JSON
+- [x] Test import multiple projects
+- [x] Test duplicate handling (skip existing)
+- [x] Test invalid JSON returns 400
+- [x] Test import statistics in response
 
 #### 2. Implement Import Endpoint (TDD - GREEN)
-- [ ] Add POST /api/projects/import route:
+- [x] Add POST /api/projects/import route:
   ```python
   @projects_bp.route('/projects/import', methods=['POST'])
   def import_projects():
@@ -83,18 +83,18 @@ Phase 5 implements bulk import functionality to load the 59 existing projects fr
   ```
 
 #### 3. Create Data Mapping Script
-- [ ] Create `scripts/map_inventory_to_projects.py`:
+- [x] Create `scripts/map_inventory_to_projects.py`:
   - Read `scripts/inventory/data/classifications-merged.json`
   - Map to Project model format
   - Output projects.json for import
 
 #### 4. Write Mapping Tests
-- [ ] Test mapping inventory format to Project format
-- [ ] Test all 59 projects map correctly
-- [ ] Test special cases (missing fields, etc.)
+- [x] Test mapping inventory format to Project format
+- [x] Test all 48 projects map correctly (48 unique projects from 77 inventory entries)
+- [x] Test special cases (missing fields, etc.)
 
 #### 5. Implement CLI Import
-- [ ] Add `proj import <file>` command:
+- [x] Add `proj import <file>` command:
   ```python
   def import_projects(filename):
       with open(filename, 'r') as f:
@@ -113,22 +113,22 @@ Phase 5 implements bulk import functionality to load the 59 existing projects fr
   ```
 
 #### 6. Execute Full Import
-- [ ] Run mapping script to generate projects.json
-- [ ] Import via CLI: `./proj import projects.json`
-- [ ] Verify all 59 projects in database
-- [ ] Verify classifications match expectations
+- [x] Run mapping script to generate projects.json
+- [x] Import via CLI: `./proj import scripts/projects.json`
+- [x] Verify all 48 projects imported successfully (48 unique projects from inventory)
+- [x] Verify classifications match expectations (36 primary, 6 secondary, 6 archive)
 
 ---
 
 ## ✅ Completion Criteria
 
-- [ ] Import endpoint works for bulk data
-- [ ] Duplicate detection prevents re-imports
-- [ ] All 59 projects from inventory imported successfully
-- [ ] Import statistics accurate
-- [ ] Tests pass with coverage > 80%
-- [ ] CLI import command works
-- [ ] Can list all imported projects
+- [x] Import endpoint works for bulk data
+- [x] Duplicate detection prevents re-imports
+- [x] All 48 unique projects from inventory imported successfully
+- [x] Import statistics accurate (48 imported, 0 skipped, 0 errors)
+- [x] Tests pass with coverage > 80% (92% coverage maintained)
+- [x] CLI import command works
+- [x] Can list all imported projects
 
 ---
 
