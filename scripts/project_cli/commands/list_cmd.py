@@ -11,9 +11,17 @@ from ..api_client import APIClient
 
 
 @click.command()
-@click.option('--status', '-s', help='Filter by status (active, paused, completed, cancelled)')
+@click.option(
+    '--status', '-s',
+    type=click.Choice(['active', 'paused', 'completed', 'cancelled'], case_sensitive=False),
+    help='Filter by status (active, paused, completed, cancelled)'
+)
 @click.option('--org', '-o', 'organization', help='Filter by organization name')
-@click.option('--classification', '-c', help='Filter by classification (primary, secondary, archive, maintenance)')
+@click.option(
+    '--classification', '-c',
+    type=click.Choice(['primary', 'secondary', 'archive', 'maintenance'], case_sensitive=False),
+    help='Filter by classification (primary, secondary, archive, maintenance)'
+)
 @click.option('--search', help='Search in project names and descriptions')
 @click.option('--wide', is_flag=True, help='Show all columns (status, organization, classification)')
 def list_projects(status, organization, classification, search, wide):
