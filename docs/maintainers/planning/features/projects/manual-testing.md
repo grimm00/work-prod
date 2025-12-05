@@ -1400,7 +1400,11 @@ Mark these as complete after testing:
 - [ ] `proj archive` command works
 - [ ] `proj import` command works with JSON files
 - [ ] `proj list` shows all projects in table format
-- [ ] `proj list --wide` shows all 7 columns (Status, Org, Classification)
+- [ ] `proj list --wide` shows all columns including Description (Status, Org, Classification, Description)
+- [ ] `proj list --status X` auto-shows Status column (5 columns)
+- [ ] `proj list --org X` auto-shows Org column (5 columns)
+- [ ] `proj list --classification X` auto-shows Classification column (5 columns)
+- [ ] `proj list --search X` auto-shows Description column (5 columns) to show where match occurred
 - [ ] `proj list` table uses full terminal width (no truncation)
 - [ ] `proj list` columns wrap instead of truncate
 - [ ] CLI validates status values (click.Choice - rejects invalid)
