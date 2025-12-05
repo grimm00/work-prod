@@ -2,7 +2,9 @@
 
 **Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
 **Phase 5 (PR #16):** Import functionality - Scenarios 29-33  
-**Fixes:** PR #17 - Request body validation improvements (Scenarios 34-37)  
+**Fixes:** 
+- PR #17 - Request body validation improvements (Scenarios 34-37)
+- PR #18 - CLI table display improvements (Scenario 24 updated, Scenario 27a added)  
 **Last Updated:** 2025-12-05  
 **Tester:** User verification before PR merge
 
