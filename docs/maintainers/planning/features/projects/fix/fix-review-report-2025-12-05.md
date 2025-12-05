@@ -1,235 +1,307 @@
 # Fix Review Report
 
 **Date:** 2025-12-05  
-**Total Deferred Issues:** 17  
-**Candidates for Addressing:** 8
+**Total Deferred Issues:** 18  
+**Candidates for Addressing:** 12 (excluding HIGH effort)
 
 ---
 
 ## Summary
 
-- **Accumulated Issues:** 3 types (CLI validation, raise from error, test improvements)
-- **Quick Wins:** 7 issues (LOW/LOW effort)
-- **Blocking Issues:** 1 issue (HIGH priority - CLI imports)
-- **Old Issues:** 2 issues (from PR #1, ~3 days old)
+- **Accumulated Issues:** 5 (test quality improvements, code quality quick wins)
+- **Quick Wins:** 7 (LOW/LOW issues, can fix quickly)
+- **Blocking Issues:** 0 (no blocking issues identified)
+- **Old Issues:** 0 (all issues from recent PRs, < 2 days old)
 
 ---
 
 ## Accumulated Issues
 
-### Issue Type: CLI Validation Improvements
+### Issue Type: Test Quality Improvements (Parametrize Tests)
 
-**Occurrences:** 1 time (but similar pattern exists)  
-**PRs:** #12  
-**Total Effort:** 🟢 LOW
+**Occurrences:** 2 times  
+**PRs:** #16, #19  
+**Total Effort:** LOW
 
 **Issues:**
-- **PR12-#1:** Use `click.Choice` for CLI validation (MEDIUM priority, LOW effort) - Improves UX by catching invalid values early
+- PR16-#4, #5, #6, #7: Avoid loops in tests (4 instances, LOW/MEDIUM)
+- PR19-Overall-#1: Use @pytest.mark.parametrize for invalid status/classification tests (MEDIUM/LOW)
 
-**Related Pattern:**
-- Similar validation improvements could be applied to other CLI commands
-- Pattern: Replace free-form input with `click.Choice` for constrained values
+**Pattern:** Multiple suggestions to use `@pytest.mark.parametrize` to improve test quality and reduce duplication.
 
-**Recommendation:** Implement as part of PR #12 batch-medium-low-01 (already planned)
+**Recommendation:** Batch together in single "Test Quality Improvements" batch
+
+**Benefits:**
+- Consistent test patterns across codebase
+- Better test failure diagnosis
+- Reduced test duplication
+- Can be done in single PR
 
 ---
 
-### Issue Type: Raise from Previous Error
+### Issue Type: Code Quality Quick Wins (LOW/LOW)
 
-**Occurrences:** 4 times  
-**PRs:** #2 (2 places), #12 (1 place), #13 (1 place)  
-**Total Effort:** 🟢 LOW
+**Occurrences:** 2 batches  
+**PRs:** #12, #16  
+**Total Effort:** LOW
 
 **Issues:**
-- **PR02-#10:** Raise from previous error in get command (LOW priority, LOW effort)
-- **PR02-#11:** Raise from previous error in list command (LOW priority, LOW effort)
-- **PR12-#5:** Raise from previous error (LOW priority, LOW effort)
-- **PR13-#1:** Related - Strengthen test assertions (MEDIUM priority, LOW effort)
+- PR12-#4, #5: Named expression, raise from error (2 issues, LOW/LOW)
+- PR16-#8, #9, #12: Swap if expression, remove duplicate key, raise from error (3 issues, LOW/LOW)
 
-**Pattern:** All involve error handling improvements - using `raise ... from e` instead of bare `raise`
+**Pattern:** Minor code quality improvements that can be fixed quickly.
 
-**Recommendation:** Create single batch "Error handling improvements" combining all 4 issues
+**Recommendation:** Batch together in "Code Quality Quick Wins" batch
+
+**Benefits:**
+- Quick cleanup of technical debt
+- Consistent error handling patterns
+- Better code readability
+- Can be done in single PR (< 1 hour)
 
 ---
 
-### Issue Type: Test Quality Improvements
+### Issue Type: Test Improvements (MEDIUM/LOW)
 
-**Occurrences:** 6 times  
-**PRs:** #1, #2 (multiple), #8, #12, #13  
-**Total Effort:** 🟡 MEDIUM (mix of LOW and MEDIUM)
+**Occurrences:** 2 batches  
+**PRs:** #2, #13  
+**Total Effort:** MEDIUM/LOW
 
 **Issues:**
-- **PR01-#5:** Test improvements (LOW priority, LOW effort)
-- **PR02-#4:** Test null path serialization (MEDIUM priority, LOW effort)
-- **PR02-#5:** Test error message content (LOW priority, LOW effort)
-- **PR02-#8:** Test updated_at changes (MEDIUM priority, LOW effort)
-- **PR08-#3:** Missing test: empty JSON body (MEDIUM priority, LOW effort)
-- **PR13-#1:** Strengthen test assertions (MEDIUM priority, LOW effort)
+- PR02-#4, #6, #7, #8: Test improvements batch (4 issues, MEDIUM/LOW)
+- PR13-#1: Strengthen test assertions (1 issue, MEDIUM/LOW)
 
-**Pattern:** Various test quality improvements - missing tests, better assertions, edge cases
+**Pattern:** Test quality improvements that strengthen assertions and improve test coverage.
 
-**Recommendation:** Create batch "Test quality improvements" with 3-4 issues per batch
+**Recommendation:** Batch together in "Test Quality Improvements" batch
+
+**Benefits:**
+- Better test coverage
+- Stronger test assertions
+- Guards against edge cases
+- Can be done in single PR (1-2 hours)
 
 ---
 
 ## Quick Wins
 
-| Issue | Priority | Effort | Age | Description | File |
-|-------|----------|--------|-----|-------------|------|
-| PR01-#5 | 🟢 LOW | 🟢 LOW | 3 days | Test improvements | archived/pr01/ |
-| PR01-#6 | 🟢 LOW | 🟢 LOW | 3 days | README typo | archived/pr01/ |
-| PR02-#5 | 🟢 LOW | 🟢 LOW | 2 days | Test error message content | pr02/ |
-| PR02-#9 | 🟢 LOW | 🟢 LOW | 2 days | Avoid loop in tests | pr02/ |
-| PR02-#10 | 🟢 LOW | 🟢 LOW | 2 days | Raise from previous error (get) | pr02/ |
-| PR02-#11 | 🟢 LOW | 🟢 LOW | 2 days | Raise from previous error (list) | pr02/ |
-| PR12-#5 | 🟢 LOW | 🟢 LOW | 1 day | Raise from previous error | pr12/batch-low-low-01.md |
+| Issue | PR | Priority | Effort | Age | Description |
+|-------|----|----------|--------|-----|-------------|
+| PR12-#4 | #12 | 🟢 LOW | 🟢 LOW | 1 day | Use named expression |
+| PR12-#5 | #12 | 🟢 LOW | 🟢 LOW | 1 day | Raise from previous error |
+| PR16-#8 | #16 | 🟢 LOW | 🟢 LOW | 0 days | Swap if expression |
+| PR16-#9 | #16 | 🟢 LOW | 🟢 LOW | 0 days | Remove duplicate dict key |
+| PR16-#12 | #16 | 🟢 LOW | 🟢 LOW | 0 days | Raise from previous error (3 instances) |
+| PR18-Overall-#1 | #18 | 🟢 LOW | 🟢 LOW | 0 days | Consistency of missing-value handling |
+| PR19-Overall-#1 | #19 | 🟡 MEDIUM | 🟢 LOW | 0 days | Use @pytest.mark.parametrize |
 
-**Total:** 7 quick wins (all LOW/LOW)
+**Recommendation:** Create "Quick Wins Batch 2" with 7 issues (5 LOW/LOW + 2 MEDIUM/LOW)
 
-**Recommendation:** Create "Quick Wins Batch" with all 7 issues. Estimated time: 2-3 hours total.
+**Estimated Time:** 1-2 hours  
+**Files Affected:** 4 files  
+**Benefits:**
+- Quick cleanup of technical debt
+- Consistent patterns
+- Better code quality
+- Builds momentum
 
 ---
 
 ## Blocking Issues
 
-| Issue | Priority | Effort | Blocks | Description | File |
-|-------|----------|--------|--------|-------------|------|
-| PR02-#3 | 🟠 HIGH | 🟢 LOW | CLI improvements | CLI import ambiguity | pr02/issue-03-cli-imports.md |
-
-**Recommendation:** Address before any major CLI refactoring or new CLI features. Should be fixed soon.
+**None identified** - All deferred issues are non-blocking quality improvements.
 
 ---
 
-## Old Issues (3+ days)
+## Old Issues (30+ days)
 
-| Issue | Priority | Effort | Age | Description | File |
-|-------|----------|--------|-----|-------------|------|
-| PR01-#5 | 🟢 LOW | 🟢 LOW | 3 days | Test improvements | archived/pr01/ |
-| PR01-#6 | 🟢 LOW | 🟢 LOW | 3 days | README typo | archived/pr01/ |
-
-**Recommendation:** Review if still relevant. Both are LOW/LOW quick wins, can be included in quick wins batch.
+**None** - All issues are from recent PRs (< 2 days old).
 
 ---
 
-## Planned Batches (Already Created)
+## Medium Priority Issues
 
-### PR #12 Batches
+### Test Quality Improvements
 
-**Batch 1: MEDIUM/LOW** (2 issues)
-- PR12-#1: Use `click.Choice` for CLI validation
-- PR12-#2: Tighten test expectations for invalid status
-- **Status:** 🔴 Not Started
-- **File:** pr12/batch-medium-low-01.md
+| Issue | PR | Priority | Effort | Age | Description |
+|-------|----|----------|--------|-----|-------------|
+| PR02-#4, #6, #7, #8 | #2 | 🟡 MEDIUM | 🟢 LOW | 2 days | Test improvements batch (4 issues) |
+| PR13-#1 | #13 | 🟡 MEDIUM | 🟢 LOW | 0 days | Strengthen test assertions |
+| PR16-#4, #5, #6, #7 | #16 | 🟢 LOW | 🟡 MEDIUM | 0 days | Avoid loops in tests (4 instances) |
 
-**Batch 3: LOW/LOW** (2 issues)
-- PR12-#4: Use named expression
-- PR12-#5: Raise from previous error
-- **Status:** 🔴 Not Started
-- **File:** pr12/batch-low-low-01.md
+**Recommendation:** Batch together in "Test Quality Improvements" batch
 
-**Recommendation:** Continue with planned batches as scheduled.
+**Estimated Time:** 2-3 hours  
+**Files Affected:** 2 test files  
+**Benefits:**
+- Better test quality
+- Consistent test patterns
+- Improved test failure diagnosis
+
+---
+
+### Code Refactoring
+
+| Issue | PR | Priority | Effort | Age | Description |
+|-------|----|----------|--------|-----|-------------|
+| PR16-#10 | #16 | 🟡 MEDIUM | 🟡 MEDIUM | 0 days | Extract duplicate code into method |
+| PR18-Overall-#2 | #18 | 🟡 MEDIUM | 🟡 MEDIUM | 0 days | Factor column configuration into helper |
+| PR16-#11 | #16 | 🟡 MEDIUM | 🟠 HIGH | 0 days | Refactor mapping function (complex) |
+
+**Recommendation:** 
+- PR16-#10 and PR18-Overall-#2 can be batched together (both MEDIUM/MEDIUM)
+- PR16-#11 should be deferred (HIGH effort, complex refactoring)
+
+**Estimated Time:** 2-3 hours for batch  
+**Files Affected:** 2 files  
+**Benefits:**
+- Better code organization
+- Reduced duplication
+- Improved maintainability
 
 ---
 
 ## Recommendations
 
-### 1. Immediate: Fix HIGH Priority Issue
+### 1. Immediate: Quick Wins Batch 2
 
-**PR02-#3: CLI import ambiguity**
-- **Priority:** 🟠 HIGH
-- **Effort:** 🟢 LOW
-- **Blocks:** Future CLI improvements
-- **Action:** Create fix branch and implement before next CLI work
+**Create "Quick Wins Batch 2" with 7 issues:**
 
-**Estimated Time:** 30 minutes
-
----
-
-### 2. Next: Quick Wins Batch
-
-**Create "Quick Wins Batch" with 7 LOW/LOW issues:**
-
-1. PR01-#5: Test improvements
-2. PR01-#6: README typo
-3. PR02-#5: Test error message content
-4. PR02-#9: Avoid loop in tests
-5. PR02-#10: Raise from previous error (get)
-6. PR02-#11: Raise from previous error (list)
-7. PR12-#5: Raise from previous error
+1. PR12-#4: Use named expression (LOW/LOW)
+2. PR12-#5: Raise from previous error (LOW/LOW)
+3. PR16-#8: Swap if expression (LOW/LOW)
+4. PR16-#9: Remove duplicate dict key (LOW/LOW)
+5. PR16-#12: Raise from previous error (3 instances) (LOW/LOW)
+6. PR18-Overall-#1: Consistency of missing-value handling (LOW/LOW)
+7. PR19-Overall-#1: Use @pytest.mark.parametrize (MEDIUM/LOW)
 
 **Benefits:**
 - Cleans up technical debt quickly
 - Builds momentum
-- Low risk (all LOW priority)
-- Can be done in single PR
+- Low risk (all LOW/LOW or MEDIUM/LOW)
+- Can be done in single PR (< 2 hours)
 
-**Estimated Time:** 2-3 hours
+**Next Steps:**
+1. Use `/fix-plan --from-review-report` to create batch
+2. Use `/fix-implement` to implement fixes
+3. Create PR with all 7 issues
 
 ---
 
-### 3. Future: Test Quality Improvements Batch
+### 2. Next: Test Quality Improvements Batch
 
-**Create "Test Quality Improvements Batch" with 4-5 issues:**
+**Create "Test Quality Improvements" batch with 9 issues:**
 
-1. PR02-#4: Test null path serialization (MEDIUM, LOW)
-2. PR02-#8: Test updated_at changes (MEDIUM, LOW)
-3. PR08-#3: Missing test: empty JSON body (MEDIUM, LOW)
-4. PR13-#1: Strengthen test assertions (MEDIUM, LOW)
-5. (Optional) PR01-#5: Test improvements (LOW, LOW)
+1. PR02-#4, #6, #7, #8: Test improvements (4 issues, MEDIUM/LOW)
+2. PR13-#1: Strengthen test assertions (MEDIUM/LOW)
+3. PR16-#4, #5, #6, #7: Avoid loops in tests (4 issues, LOW/MEDIUM)
 
 **Benefits:**
-- Improves test coverage and quality
-- Catches edge cases
-- Better test assertions
+- Better test quality across codebase
+- Consistent test patterns
+- Improved test failure diagnosis
+- Guards against edge cases
 
-**Estimated Time:** 2-3 hours
-
----
-
-### 4. Future: Continue Planned Batches
-
-**PR #12 Remaining Batches:**
-- Batch 1: MEDIUM/LOW (2 issues) - CLI validation & test expectations
-- Batch 3: LOW/LOW (2 issues) - Named expression & raise from error
-
-**Note:** PR12-#5 (raise from error) could be moved to Quick Wins batch instead.
+**Estimated Time:** 2-3 hours  
+**Next Steps:**
+1. Create batch plan
+2. Implement test improvements
+3. Verify all tests still pass
+4. Create PR
 
 ---
 
-## Priority Summary
+### 3. Future: Code Refactoring Batch
 
-### 🔴 High Priority (Fix Soon)
-1. **PR02-#3:** CLI import ambiguity (HIGH, LOW) - Blocks CLI work
+**Create "Code Refactoring" batch with 2 issues:**
 
-### 🟡 Medium Priority (Next)
-2. **Quick Wins Batch:** 7 LOW/LOW issues - Clean up technical debt
-3. **PR #12 Batch 1:** MEDIUM/LOW - CLI validation & test expectations
-4. **Test Quality Batch:** 4-5 MEDIUM/LOW issues - Improve test coverage
+1. PR16-#10: Extract duplicate code into method (MEDIUM/MEDIUM)
+2. PR18-Overall-#2: Factor column configuration into helper (MEDIUM/MEDIUM)
 
-### 🟢 Low Priority (Future)
-5. **PR #12 Batch 3:** LOW/LOW - Named expression & raise from error
-6. **PR08 deferred:** Code duplication, bare except, style improvements
+**Benefits:**
+- Better code organization
+- Reduced duplication
+- Improved maintainability
+
+**Estimated Time:** 2-3 hours  
+**Next Steps:**
+1. Review both issues together
+2. Create batch plan
+3. Implement refactoring
+4. Create PR
+
+---
+
+### 4. Defer: Complex Refactoring
+
+**PR16-#11: Refactor mapping function (MEDIUM/HIGH)**
+
+**Reason:** HIGH effort, complex refactoring. Function works correctly, this is quality improvement only.
+
+**Recommendation:** Defer to dedicated refactoring session or when touching this code for other reasons.
+
+---
+
+## Summary Statistics
+
+**Total Deferred Issues:** 18
+
+**By Priority:**
+- 🔴 CRITICAL: 0
+- 🟠 HIGH: 0
+- 🟡 MEDIUM: 8
+- 🟢 LOW: 10
+
+**By Effort:**
+- 🟢 LOW: 7
+- 🟡 MEDIUM: 9
+- 🟠 HIGH: 1
+- 🔴 VERY_HIGH: 0
+
+**By Age:**
+- 0 days: 15 issues
+- 1 day: 2 issues
+- 2 days: 4 issues
+- 30+ days: 0 issues
+
+**Batching Opportunities:**
+- Quick Wins: 7 issues (can batch together)
+- Test Quality: 9 issues (can batch together)
+- Code Refactoring: 2 issues (can batch together)
+- Complex: 1 issue (defer)
 
 ---
 
 ## Action Plan
 
-### This Week
-- [ ] Fix PR02-#3 (HIGH priority CLI imports)
-- [ ] Create Quick Wins batch with 7 issues
-- [ ] Implement Quick Wins batch
+### Immediate (This Week)
 
-### Next Week
-- [ ] Implement PR #12 Batch 1 (MEDIUM/LOW)
-- [ ] Create Test Quality batch
-- [ ] Implement Test Quality batch
+1. **Create Quick Wins Batch 2**
+   - Use `/fix-plan --from-review-report` with this report
+   - Batch 7 LOW/LOW and MEDIUM/LOW issues
+   - Implement fixes
+   - Create PR
 
-### Future
-- [ ] Continue with PR #12 Batch 3
-- [ ] Address PR08 deferred issues (code duplication, etc.)
+### Short-term (Next 2 Weeks)
+
+2. **Create Test Quality Improvements Batch**
+   - Batch 9 test-related issues
+   - Implement test improvements
+   - Create PR
+
+3. **Create Code Refactoring Batch**
+   - Batch 2 MEDIUM/MEDIUM refactoring issues
+   - Implement refactoring
+   - Create PR
+
+### Long-term (Future)
+
+4. **Review Complex Refactoring**
+   - PR16-#11: Refactor mapping function
+   - Defer until dedicated refactoring session
+   - Or implement when touching this code for other reasons
 
 ---
 
 **Last Updated:** 2025-12-05  
-**Next Review:** After Quick Wins batch completion
-
+**Next Review:** After Quick Wins Batch 2 completion
