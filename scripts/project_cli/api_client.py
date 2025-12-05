@@ -138,4 +138,21 @@ class APIClient:
         response = self.session.put(f'{self.base_url}/projects/{project_id}/archive')
         response.raise_for_status()
         return response.json()
+    
+    def import_projects(self, projects_data: Dict) -> Dict:
+        """
+        Import multiple projects from JSON data.
+        
+        Args:
+            projects_data: Dictionary with 'projects' key containing list of project data
+            
+        Returns:
+            Dictionary with import statistics: imported, skipped, errors
+            
+        Raises:
+            requests.RequestException: If API request fails
+        """
+        response = self.session.post(f'{self.base_url}/projects/import', json=projects_data)
+        response.raise_for_status()
+        return response.json()
 
