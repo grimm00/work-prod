@@ -14,15 +14,15 @@
 
 ## Issues in This Batch
 
-| Issue   | PR  | Priority   | Impact   | Effort   | Description                |
-| ------- | --- | ---------- | -------- | -------- | -------------------------- |
-| PR01-#5 | 1   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Test improvements          |
-| PR01-#6 | 1   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | README typo                |
-| PR02-#5 | 2   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Test error message content |
-| PR02-#9 | 2   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Avoid loop in tests        |
-| PR02-#10 | 2   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Raise from previous error (get) |
-| PR02-#11 | 2   | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Raise from previous error (list) |
-| PR12-#5 | 12  | 🟢 LOW     | 🟢 LOW   | 🟢 LOW   | Raise from previous error  |
+| Issue    | PR  | Priority | Impact | Effort | Description                      |
+| -------- | --- | -------- | ------ | ------ | -------------------------------- |
+| PR01-#5  | 1   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Test improvements                |
+| PR01-#6  | 1   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | README typo                      |
+| PR02-#5  | 2   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Test error message content       |
+| PR02-#9  | 2   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Avoid loop in tests              |
+| PR02-#10 | 2   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Raise from previous error (get)  |
+| PR02-#11 | 2   | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Raise from previous error (list) |
+| PR12-#5  | 12  | 🟢 LOW   | 🟢 LOW | 🟢 LOW | Raise from previous error        |
 
 ---
 
@@ -31,7 +31,8 @@
 This batch contains 7 LOW priority issues with LOW effort from 3 PRs. These are quick wins that clean up technical debt, improve code quality, and can be implemented together efficiently.
 
 **Estimated Time:** 2-3 hours  
-**Files Affected:** 
+**Files Affected:**
+
 - `backend/tests/integration/api/test_health.py` (PR01-#5)
 - `README.md` (PR01-#6)
 - `backend/tests/integration/api/test_projects.py` (PR02-#5, PR02-#9)
@@ -68,7 +69,7 @@ def test_health_check_response_structure(client):
     """Test that health check response has correct structure."""
     response = client.get('/api/health')
     data = json.loads(response.data)
-    
+
     assert 'status' in data
 ```
 
@@ -81,7 +82,7 @@ def test_health_check_response_structure(client):
     response = client.get('/api/health')
     assert response.mimetype == 'application/json'
     data = response.get_json()
-    
+
     assert 'status' in data
 ```
 
@@ -254,27 +255,33 @@ except Exception as e:
 ## Implementation Steps
 
 1. **Issue PR01-#5: Test Improvements**
+
    - [x] Already fixed - `test_health.py` uses `response.get_json()` and `response.mimetype`
    - [x] Verified tests pass
 
 2. **Issue PR01-#6: README Typo**
+
    - [x] Checked README - line not found, likely already fixed
 
 3. **Issue PR02-#5: Test Error Message Content**
+
    - [x] Updated test to assert full error message `'Name is required'`
    - [x] Updated null status tests to assert `'Status cannot be null'`
    - [x] Tests passing
 
 4. **Issue PR02-#9: Avoid Loop in Tests**
+
    - [x] Refactored `test_list_projects_ordering` to use explicit project creation
    - [x] Tests passing
 
 5. **Issue PR02-#10: Raise from Previous Error (get)**
+
    - [x] Updated `get_cmd.py` exception handler
    - [x] Changed to `raise click.Abort() from e`
    - [x] Verified error handling
 
 6. **Issue PR02-#11: Raise from Previous Error (list)**
+
    - [x] Updated `list_cmd.py` exception handler
    - [x] Changed to `raise click.Abort() from e`
    - [x] Verified error handling
@@ -324,4 +331,3 @@ This batch was created from fix-review report recommendations. These issues are 
 - Were identified as "Quick Wins" in review report
 - Clean up technical debt quickly
 - Build momentum with low-risk changes
-

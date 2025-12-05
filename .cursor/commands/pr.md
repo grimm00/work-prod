@@ -62,7 +62,138 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 ## Phase PR Mode (`--phase`)
 
-### 1. Load Phase Information
+### 1. Pre-PR Validation Checklist
+
+**Run these checks before proceeding:**
+
+#### Automated Testing
+- [ ] Run full test suite: `pytest tests/ -v`
+- [ ] All tests passing (no failures)
+- [ ] Coverage maintained or improved
+- [ ] Check coverage report: `pytest --cov --cov-report=html`
+- [ ] No test warnings (except known deprecations)
+
+#### Code Quality
+- [ ] Run linter: `pylint backend/` or `flake8 backend/`
+- [ ] No linter errors
+- [ ] Code follows project patterns
+- [ ] No TODO/FIXME comments left behind
+
+#### Manual Testing
+- [ ] Check if manual testing guide exists: `docs/maintainers/planning/features/[feature]/manual-testing.md`
+- [ ] **REQUIRED:** Add new scenarios for phase features (see step 1a)
+- [ ] If guide exists, run ALL scenarios in order
+- [ ] Document any issues found during manual testing
+- [ ] Fix any bugs found before proceeding
+- [ ] Update manual testing guide if scenarios need adjustment
+
+**Manual Testing Location:**
+- Feature-specific: `docs/maintainers/planning/features/[feature]/manual-testing.md`
+- Run scenarios in order (some may depend on previous state)
+- Note database state requirements
+
+#### Documentation
+- [ ] Phase document updated (all tasks marked complete: `- [x]`)
+- [ ] README files updated (API docs, CLI docs)
+- [ ] No broken links in documentation
+- [ ] Code comments added where needed
+
+#### Git State
+- [ ] All changes committed to feature branch
+- [ ] Feature branch is up-to-date with `develop`
+- [ ] No uncommitted changes
+- [ ] Commit messages follow conventional format
+
+---
+
+### 1a. Add Manual Testing Scenarios
+
+**File:** `docs/maintainers/planning/features/[feature]/manual-testing.md`
+
+**When to add scenarios:**
+- New API endpoints added
+- New CLI commands added
+- New features that need user verification
+- Filtering/search capabilities
+- Any user-facing functionality
+
+**Checklist:**
+- [ ] Review phase features and identify what needs manual testing
+- [ ] Check current scenario count (last scenario number)
+- [ ] Add scenarios for each new feature
+- [ ] Number scenarios sequentially (continue from last number)
+- [ ] Include both curl and CLI examples (if applicable)
+- [ ] Add verification steps
+- [ ] Note any prerequisites or dependencies
+- [ ] Update "Phases" field in document header if needed
+
+**Scenario Template:**
+
+```markdown
+### Scenario N: [Feature Name] - [Method]
+
+**Test:** [What this scenario tests]
+
+**Prerequisites:** [Any required setup or previous scenarios]
+
+**API Test (if applicable):**
+```bash
+# curl command
+curl [endpoint] [options]
+# Expected: [expected response]
+```
+
+**CLI Test (if applicable):**
+```bash
+# CLI command
+./proj [command] [options]
+# Expected Output:
+# [example output]
+```
+
+**Verification:**
+```bash
+# Commands to verify the result
+# Expected: [expected result]
+```
+
+**Expected Result:** ✅ [Success criteria]
+```
+
+**Common Scenario Types:**
+
+**For Filtering Features:**
+- Filter by each filter type (status, organization, classification)
+- Multiple filters combined
+- Invalid filter values
+- Empty results
+- CLI filter flags
+
+**For Search Features:**
+- Search by name
+- Search by description
+- Case-insensitive search
+- Partial match
+- No results found
+- Combined with filters
+- CLI search flag
+
+**For New Endpoints:**
+- Basic functionality (happy path)
+- Error cases (404, 400, validation)
+- Edge cases
+- CLI equivalent (if applicable)
+
+**After adding scenarios:**
+- [ ] Update scenario count in document header if needed
+- [ ] Verify scenarios are numbered sequentially
+- [ ] Check that prerequisites are clear
+- [ ] Ensure scenarios can be run in order (or note dependencies)
+- [ ] Test at least one scenario manually to verify format
+
+---
+
+### 2. Load Phase Information
 
 **Parse phase number:**
 
@@ -90,6 +221,7 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 - [ ] Phase document found
 - [ ] Phase marked complete
 - [ ] Current branch is phase branch
+- [ ] Pre-PR validation checklist complete
 
 ---
 
@@ -170,13 +302,61 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 ---
 
-### 3. Create Phase PR
+### 3. Update Feature Documentation
+
+**Files to check:**
+
+**API Documentation:**
+- `backend/README.md` - Add new endpoints
+- Update endpoint list
+- Add request/response examples
+
+**CLI Documentation:**
+- `scripts/project_cli/README.md` - Add new commands
+- Update command examples
+- Add usage notes
+
+**Manual Testing Guide:**
+- `docs/maintainers/planning/features/[feature]/manual-testing.md`
+- **REQUIRED:** Add new scenarios for phase features (see step 1a)
+- Update scenario numbering
+- Add prerequisites/notes
+
+---
+
+### 4. Final Test Run
+
+**Before creating PR, run:**
+
+```bash
+# Full test suite
+cd backend && pytest tests/ -v
+
+# Coverage check
+pytest --cov --cov-report=term-missing
+
+# Linter check
+pylint backend/ || flake8 backend/
+```
+
+**Expected:**
+- All tests pass
+- Coverage maintained/improved
+- No linter errors
+
+---
+
+### 5. Create Phase PR
 
 **PR Title:**
 
 ```
-feat: Phase [N] - [Phase Name]
+feat: [Phase N Description] (Phase N)
 ```
+
+**Examples:**
+- `feat: Delete & Archive Projects (Phase 3)`
+- `feat: Create & Update Projects (Phase 2)`
 
 **Steps:**
 
@@ -187,12 +367,30 @@ git branch --show-current
 # Push branch (if not already pushed)
 git push origin feat/phase-[N]-[name]
 
-# Create PR
-gh pr create --title "feat: Phase [N] - [Phase Name]" \
+# Create PR using GitHub CLI
+# Option A: Use temporary file (auto-cleaned)
+cat > /tmp/pr-description-phase[N].md << 'EOF'
+[paste PR description content]
+EOF
+
+gh pr create --title "feat: [Phase N Description] (Phase N)" \
              --body-file /tmp/pr-description-phase[N].md \
              --base develop \
              --head feat/phase-[N]-[name]
+
+# Clean up
+rm /tmp/pr-description-phase[N].md
 ```
+
+**Note:** PR description files are gitignored (`pr-description*.md`) to prevent accidental commits.
+
+**After PR creation:**
+
+1. **Get PR number from output** (e.g., `#12`)
+2. **STOP HERE - Present PR link to user**
+   - DO NOT auto-merge
+   - DO NOT proceed to Sourcery review yet
+   - Wait for user acknowledgment
 
 **Checklist:**
 
@@ -201,6 +399,88 @@ gh pr create --title "feat: Phase [N] - [Phase Name]" \
 - [ ] Description includes all tasks
 - [ ] Related docs linked
 - [ ] PR link presented to user
+- [ ] User acknowledges PR creation
+
+---
+
+### 6. Sourcery Review Workflow (After PR Created)
+
+**After PR is created and user acknowledges:**
+
+1. **Run Sourcery review:**
+   ```bash
+   cd ~/Projects/dev-toolkit
+   dt-review [pr-number]
+   ```
+
+2. **Review feedback saved to:**
+   `docs/maintainers/feedback/sourcery/pr##.md`
+
+3. **Fill out priority matrix:**
+   - For each Sourcery comment, assess:
+     - **Priority:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
+     - **Impact:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
+     - **Effort:** LOW 🟢 / MEDIUM 🟡 / HIGH 🟠 / VERY_HIGH 🔴
+
+4. **Identify critical issues:**
+   - Review all CRITICAL 🔴 items
+   - Review all HIGH 🟠 items
+   - Determine if fixes needed before merge
+
+5. **Create fix plans (if needed):**
+   - Use `/fix-plan` command to create batches
+   - Fix plans created in: `docs/maintainers/planning/features/[feature]/fix/pr##/`
+
+6. **Update fix tracking:**
+   - Update PR hub: `docs/maintainers/planning/features/[feature]/fix/pr##/README.md`
+   - Update main hub: `docs/maintainers/planning/features/[feature]/fix/README.md`
+
+**Note:** Use `/pr-validation` command if PR is already open to combine manual testing updates, execution, and Sourcery review.
+
+---
+
+### 7. Address Critical Issues (If Any)
+
+**If CRITICAL/HIGH issues found:**
+
+1. **Create fix branch:**
+   ```bash
+   git checkout -b fix/pr##-critical-issues
+   ```
+
+2. **Implement fixes:**
+   - Use `/fix-implement` command with fix batch name
+   - Follow fix plans
+   - Write tests for fixes
+   - Run full test suite
+   - Commit fixes
+
+3. **Update PR:**
+   - Push fix branch
+   - Update PR description with fixes
+   - Re-run Sourcery review if needed
+
+**If only LOW/MEDIUM issues:**
+- Document in fix tracking
+- Can be deferred to future PR
+- Proceed with merge approval
+
+---
+
+### 8. Get User Approval
+
+**Before merging:**
+
+- [ ] PR created and link presented to user
+- [ ] Sourcery review completed
+- [ ] Priority matrix filled out
+- [ ] CRITICAL/HIGH issues addressed (if any)
+- [ ] User explicitly approves merge
+
+**DO NOT auto-merge** - Always wait for explicit user approval.
+
+**After merge:**
+- Use `/post-pr` command to update documentation
 
 ---
 
@@ -575,6 +855,95 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
+## Common Issues
+
+### Issue: Manual Testing Guide Doesn't Exist
+
+**Solution:**
+- Create manual testing guide for this phase
+- Add scenarios for all new features
+- Document prerequisites and execution order
+- Location: `docs/maintainers/planning/features/[feature]/manual-testing.md`
+
+### Issue: Tests Fail After Manual Testing
+
+**Solution:**
+- Manual testing may have changed database state
+- Reset test database: `rm backend/instance/*.db`
+- Re-run migrations: `flask db upgrade`
+- Re-run tests
+
+### Issue: Coverage Dropped
+
+**Solution:**
+- Check which files have lower coverage
+- Add tests for uncovered code paths
+- May need to add edge case tests
+- Don't proceed until coverage maintained
+
+### Issue: Sourcery Review Not Available
+
+**Solution:**
+- Check if `dt-review` is installed
+- May need to run from `~/Projects/dev-toolkit`
+- Can proceed with PR creation, review later
+- Document in PR description that review pending
+
+---
+
+## Pre-PR Checklist Summary
+
+**Before creating PR, ensure:**
+
+- [ ] All tasks completed
+- [ ] All automated tests passing
+- [ ] Coverage maintained/improved
+- [ ] **Manual testing complete** (if applicable)
+- [ ] Manual testing scenarios added for new features
+- [ ] Phase document updated (tasks marked complete)
+- [ ] README/docs updated
+- [ ] No linter errors
+- [ ] All changes committed
+- [ ] Feature branch pushed
+
+**After PR created:**
+
+- [ ] PR link presented to user
+- [ ] Sourcery review run (dt-review)
+- [ ] Priority matrix filled out
+- [ ] CRITICAL/HIGH issues addressed
+- [ ] User approval obtained
+- [ ] PR merged
+- [ ] Post-merge cleanup done (use `/post-pr`)
+
+---
+
+## Tips
+
+**Before PR:**
+- **Don't skip adding manual testing scenarios** - Required for new features
+- Don't skip manual testing - it catches real bugs
+- Run full test suite one more time before PR
+- Review all changes in diff view
+- Ensure commit messages are clear
+- Check that documentation is accurate
+- Verify manual testing scenarios are complete and numbered correctly
+
+**During PR:**
+- Present PR link clearly to user
+- Don't auto-merge without approval
+- Fill out Sourcery matrix thoroughly
+- Be honest about issues found
+- Prioritize fixes appropriately
+
+**After PR:**
+- Use `/post-pr` command for documentation updates
+- Clean up branches promptly
+- Capture learnings while fresh
+- Celebrate completion! 🎉
+
+---
+
 ## Reference
 
 **Phase Documents:**
@@ -586,12 +955,29 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 - PR-Specific: `docs/maintainers/planning/features/[feature]/fix/pr##/[batch-name].md`
 - Cross-PR: `docs/maintainers/planning/features/[feature]/fix/cross-pr/[batch-name].md`
 
+**Feature Planning:**
+
+- `docs/maintainers/planning/features/[feature]/feature-plan.md`
+- `docs/maintainers/planning/features/[feature]/status-and-next-steps.md`
+
+**Testing:**
+
+- `docs/maintainers/planning/features/[feature]/manual-testing.md`
+
+**Review Workflow:**
+
+- `docs/maintainers/feedback/sourcery/pr##.md`
+- `docs/maintainers/planning/features/[feature]/fix/README.md` (main hub)
+- `docs/maintainers/planning/features/[feature]/fix/pr##/README.md` (PR hub)
+
 **Related Commands:**
 
 - `/phase-task` - Implement phase tasks
-- `/phase-pr` - Legacy phase PR command (use `/pr --phase` instead)
 - `/fix-implement` - Implement fix batches
+- `/fix-plan` - Create fix plans from Sourcery reviews
+- `/pr-validation` - Validate PR (manual testing + Sourcery review)
 - `/post-pr` - Post-merge documentation updates
+- `/int-opp` - Document phase learnings
 
 ---
 

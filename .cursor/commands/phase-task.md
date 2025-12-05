@@ -12,7 +12,7 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 3. Implement the task group completely (RED → GREEN → REFACTOR)
 4. Commit the work
 5. Stop and wait for user to invoke command again for next task group
-6. Create PR only after completing ALL tasks in phase (use `/phase-pr` command)
+6. Create PR only after completing ALL tasks in phase (use `/pr --phase [N]` command)
 
 **Task Grouping Rules:**
 - **Group together:** RED test task + GREEN implementation task (e.g., Task 1 + Task 2)
@@ -26,7 +26,7 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 **When to create PR:**
 - After completing the LAST task in the phase
-- Use `/phase-pr` command for complete PR workflow
+- Use `/pr --phase [N]` command for complete PR workflow
 - Before marking phase as complete
 - After all tests pass
 - After manual testing (if applicable)
@@ -53,7 +53,7 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 - This command handles **one task group at a time** (typically RED+GREEN pair)
 - After completing a task group, stop and wait for user to invoke again for next group
 - Do NOT continue to next task group automatically
-- Use `/phase-pr` command when all tasks are complete to create PR
+- Use `/pr --phase [N]` command when all tasks are complete to create PR
 
 ---
 
@@ -409,7 +409,7 @@ Tasks are typically numbered in phase documents:
 - One task group per invocation (typically RED+GREEN pair)
 - Complete task group fully before stopping
 - Don't proceed to next task group automatically
-- Use `/phase-pr` when all tasks done
+- Use `/pr --phase [N]` when all tasks done
 
 ---
 
