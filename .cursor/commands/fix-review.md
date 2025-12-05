@@ -214,13 +214,13 @@ Review old deferred issues to identify candidates for addressing. Helps prioriti
 1. **Use `/fix-plan --from-review-report` command:**
    ```bash
    # Create batches from latest review report
-   @fix-plan --from-review-report fix-review-report-2025-12-05.md
+   /fix-plan --from-review-report fix-review-report-2025-12-05.md
    
    # Create specific batch from report
-   @fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"
+   /fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"
    
    # Create only Quick Wins batch
-   @fix-plan --from-review-report --quick-wins
+   /fix-plan --from-review-report --quick-wins
    ```
 
 2. **The command will:**

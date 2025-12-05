@@ -18,19 +18,19 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 
 ## Usage
 
-**Command:** `@fix-plan [pr-number|--from-review-report] [options]`
+**Command:** `/fix-plan [pr-number|--from-review-report] [options]`
 
 **Examples:**
 
-- `@fix-plan` - Analyze last merged PR (default)
-- `@fix-plan 12` - Analyze PR #12
-- `@fix-plan 12 --max-batch-size 3` - Custom batch size
-- `@fix-plan 12 --priority MEDIUM` - Only plan MEDIUM priority issues
-- `@fix-plan --from-review-report fix-review-report-2025-12-05.md` - Create batches from review report
-- `@fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"` - Create specific batch from report
-- `@fix-plan --from-review-report --quick-wins` - Create only Quick Wins batch from latest report
-- `@fix-plan --review-old` - Review and plan old deferred issues
-- `@fix-plan --archive-completed` - Archive completed fix plans
+- `/fix-plan` - Analyze last merged PR (default)
+- `/fix-plan 12` - Analyze PR #12
+- `/fix-plan 12 --max-batch-size 3` - Custom batch size
+- `/fix-plan 12 --priority MEDIUM` - Only plan MEDIUM priority issues
+- `/fix-plan --from-review-report fix-review-report-2025-12-05.md` - Create batches from review report
+- `/fix-plan --from-review-report fix-review-report-2025-12-05.md --batch "Quick Wins"` - Create specific batch from report
+- `/fix-plan --from-review-report --quick-wins` - Create only Quick Wins batch from latest report
+- `/fix-plan --review-old` - Review and plan old deferred issues
+- `/fix-plan --archive-completed` - Archive completed fix plans
 
 **Options:**
 
@@ -54,12 +54,12 @@ Analyzes Sourcery review for a PR, batches issues by priority and effort, and cr
 
 1. **PR Mode (default):** Analyze single PR's Sourcery review
 
-   - Use: `@fix-plan [pr-number]`
+   - Use: `/fix-plan [pr-number]`
    - Reads: `docs/maintainers/feedback/sourcery/pr##.md`
    - Creates: Batches for that PR's issues
 
 2. **Review Report Mode:** Create batches from fix-review report
-   - Use: `@fix-plan --from-review-report [file]`
+   - Use: `/fix-plan --from-review-report [file]`
    - Reads: `docs/maintainers/planning/features/projects/fix/fix-review-report-*.md`
    - Creates: Batches for recommended issues across multiple PRs
 

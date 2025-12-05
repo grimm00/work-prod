@@ -18,11 +18,11 @@ Use this command when a PR is already open to run manual testing, update documen
 
 ## Usage
 
-**Command:** `@pr-validation [pr-number] [phase-number]`
+**Command:** `/pr-validation [pr-number] [phase-number]`
 
 **Examples:**
-- `@pr-validation 12 4` - Validate PR #12 for Phase 4
-- `@pr-validation 10 3` - Validate PR #10 for Phase 3
+- `/pr-validation 12 4` - Validate PR #12 for Phase 4
+- `/pr-validation 10 3` - Validate PR #10 for Phase 3
 
 ---
 

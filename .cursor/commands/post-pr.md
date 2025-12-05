@@ -17,11 +17,11 @@ Use this command after a PR is merged to update all relevant documentation. This
 
 ## Usage
 
-**Command:** `@post-pr [pr-number] [phase-number]`
+**Command:** `/post-pr [pr-number] [phase-number]`
 
 **Examples:**
-- `@post-pr 10 3` - Update docs after PR #10 (Phase 3) merge
-- `@post-pr 11 4` - Update docs after PR #11 (Phase 4) merge
+- `/post-pr 10 3` - Update docs after PR #10 (Phase 3) merge
+- `/post-pr 11 4` - Update docs after PR #11 (Phase 4) merge
 
 ---
 

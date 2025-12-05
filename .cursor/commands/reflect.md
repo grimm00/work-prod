@@ -20,17 +20,17 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 ## Usage
 
-**Command:** `@reflect [scope] [options]`
+**Command:** `/reflect [scope] [options]`
 
 **Examples:**
 
-- `@reflect` - Full project reflection (default)
-- `@reflect --recent` - Focus on recent work (last 7 days)
-- `@reflect --phase` - Reflect on current phase
-- `@reflect --workflow` - Analyze workflow efficiency
-- `@reflect --code-quality` - Focus on code quality patterns
-- `@reflect --documentation` - Review documentation completeness
-- `@reflect --technical-debt` - Identify technical debt
+- `/reflect` - Full project reflection (default)
+- `/reflect --recent` - Focus on recent work (last 7 days)
+- `/reflect --phase` - Reflect on current phase
+- `/reflect --workflow` - Analyze workflow efficiency
+- `/reflect --code-quality` - Focus on code quality patterns
+- `/reflect --documentation` - Review documentation completeness
+- `/reflect --technical-debt` - Identify technical debt
 
 **Options:**
 
@@ -418,7 +418,7 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 **Action:**
 ```bash
-@reflect --phase --include-learnings
+/reflect --phase --include-learnings
 ```
 
 **Output:**
@@ -436,7 +436,7 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 **Action:**
 ```bash
-@reflect --workflow --recent 14
+/reflect --workflow --recent 14
 ```
 
 **Output:**
@@ -453,7 +453,7 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 **Action:**
 ```bash
-@reflect --technical-debt --include-fixes
+/reflect --technical-debt --include-fixes
 ```
 
 **Output:**
@@ -470,7 +470,7 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 **Action:**
 ```bash
-@reflect
+/reflect
 ```
 
 **Output:**

@@ -19,14 +19,14 @@ Review and align phase documentation before starting a new phase. Ensures scope 
 
 ## Usage
 
-**Command:** `@pre-phase-review [phase-number] [options]`
+**Command:** `/pre-phase-review [phase-number] [options]`
 
 **Examples:**
 
-- `@pre-phase-review 6` - Review Phase 6 before starting
-- `@pre-phase-review 6 --fix` - Review Phase 6 and fix inconsistencies
-- `@pre-phase-review --current` - Review current phase (from status doc)
-- `@pre-phase-review --all` - Review all remaining phases
+- `/pre-phase-review 6` - Review Phase 6 before starting
+- `/pre-phase-review 6 --fix` - Review Phase 6 and fix inconsistencies
+- `/pre-phase-review --current` - Review current phase (from status doc)
+- `/pre-phase-review --all` - Review all remaining phases
 
 **Options:**
 
@@ -369,7 +369,7 @@ git commit -m "docs(phase-[N]): align phase scope across documentation
 **Situation:** Phase document says "CLI Enhancement" but status says "Relationships"
 
 **Action:**
-1. Run `@pre-phase-review 6 --fix`
+1. Run `/pre-phase-review 6 --fix`
 2. Review inconsistencies found
 3. Apply fixes to align documentation
 4. Commit changes
@@ -383,7 +383,7 @@ git commit -m "docs(phase-[N]): align phase scope across documentation
 **Situation:** Phase 6 requires Phase 5 complete, but Phase 5 not marked complete
 
 **Action:**
-1. Run `@pre-phase-review 6 --check-prerequisites`
+1. Run `/pre-phase-review 6 --check-prerequisites`
 2. Verify Phase 5 actually complete
 3. Update status if needed
 4. Proceed if prerequisites met
@@ -397,10 +397,10 @@ git commit -m "docs(phase-[N]): align phase scope across documentation
 **Situation:** Phase scope inconsistent across 3+ documents
 
 **Action:**
-1. Run `@pre-phase-review 6 --dry-run`
+1. Run `/pre-phase-review 6 --dry-run`
 2. Review all inconsistencies
 3. Determine source of truth (usually phase document)
-4. Run `@pre-phase-review 6 --fix` to apply fixes
+4. Run `/pre-phase-review 6 --fix` to apply fixes
 
 **Result:** All documentation aligned
 

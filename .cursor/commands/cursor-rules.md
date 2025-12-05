@@ -19,16 +19,16 @@ Manage and organize Cursor rules files. Helps split large main.mdc files, create
 
 ## Usage
 
-**Command:** `@cursor-rules [action] [options]`
+**Command:** `/cursor-rules [action] [options]`
 
 **Examples:**
 
-- `@cursor-rules check` - Check if main.mdc needs splitting
-- `@cursor-rules split` - Split main.mdc into organized sections
-- `@cursor-rules add-backend` - Create backend-specific rules file
-- `@cursor-rules add-frontend` - Create frontend-specific rules file
-- `@cursor-rules update-from-learnings` - Update rules based on phase learnings
-- `@cursor-rules list` - List all rules files and their purposes
+- `/cursor-rules check` - Check if main.mdc needs splitting
+- `/cursor-rules split` - Split main.mdc into organized sections
+- `/cursor-rules add-backend` - Create backend-specific rules file
+- `/cursor-rules add-frontend` - Create frontend-specific rules file
+- `/cursor-rules update-from-learnings` - Update rules based on phase learnings
+- `/cursor-rules list` - List all rules files and their purposes
 
 **Options:**
 
@@ -490,8 +490,8 @@ git commit -m "docs(cursor-rules): [description]"
 **Situation:** main.mdc is 700+ lines, hard to navigate
 
 **Action:**
-1. Run `@cursor-rules check` to confirm
-2. Run `@cursor-rules split` to split into sections
+1. Run `/cursor-rules check` to confirm
+2. Run `/cursor-rules split` to split into sections
 3. Update main.mdc with references
 4. Verify all files work
 
@@ -504,7 +504,7 @@ git commit -m "docs(cursor-rules): [description]"
 **Situation:** Starting backend development, need backend-specific rules
 
 **Action:**
-1. Run `@cursor-rules add-backend`
+1. Run `/cursor-rules add-backend`
 2. Extract backend sections from main.mdc
 3. Add backend-specific patterns
 4. Update main.mdc to reference backend.mdc
@@ -519,7 +519,7 @@ git commit -m "docs(cursor-rules): [description]"
 
 **Action:**
 1. Run `/int-opp` to capture learnings
-2. Run `@cursor-rules update-from-learnings`
+2. Run `/cursor-rules update-from-learnings`
 3. Review suggested updates
 4. Apply updates to appropriate files
 

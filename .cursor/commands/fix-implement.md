@@ -18,7 +18,7 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 ## Usage
 
-**Command:** `@fix-implement [batch-name] [options]`
+**Command:** `/fix-implement [batch-name] [options]`
 
 **Batch Name Formats:**
 
@@ -35,10 +35,10 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 **Examples:**
 
-- `@fix-implement pr12-batch-medium-low-01` - Implement PR-specific batch
-- `@fix-implement quick-wins-low-low-01` - Implement cross-PR batch
-- `@fix-implement pr12-batch-medium-low-01 --skip-tests` - Skip test writing (not recommended)
-- `@fix-implement quick-wins-low-low-01 --dry-run` - Show implementation plan without executing
+- `/fix-implement pr12-batch-medium-low-01` - Implement PR-specific batch
+- `/fix-implement quick-wins-low-low-01` - Implement cross-PR batch
+- `/fix-implement pr12-batch-medium-low-01 --skip-tests` - Skip test writing (not recommended)
+- `/fix-implement quick-wins-low-low-01 --dry-run` - Show implementation plan without executing
 
 **Options:**
 
