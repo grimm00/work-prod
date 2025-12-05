@@ -347,12 +347,15 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 
 4. **Delete local branch (if exists):**
    ```bash
-   # Only delete if merged into develop
+   # Try normal delete first (only works if merged locally)
    git branch -d [branch-name]
    
-   # Force delete if needed (shouldn't be necessary if merged)
-   # git branch -D [branch-name]
+   # If that fails (branch merged via GitHub, not locally), force delete
+   # This is safe if PR is confirmed merged on GitHub
+   git branch -D [branch-name]
    ```
+   
+   **Note:** If branch was merged via GitHub PR (not locally), `git branch -d` may fail even though the branch is merged. Use `git branch -D` in this case, but only after confirming PR is merged on GitHub.
 
 5. **Delete remote branch (if exists):**
    ```bash
@@ -446,6 +449,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 - [ ] Progress percentage is accurate
 - [ ] Next phase is correct
 - [ ] Commit message is proper
+- [ ] Merged PR branch cleaned up (local and remote)
 
 ---
 
@@ -591,6 +595,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 - Review PR description before creating
 - Verify all files updated correctly
 - Check that next phase is ready to start
+- Clean up merged PR branch (local and remote)
 - Consider running `/int-opp` to capture learnings
 
 ---
