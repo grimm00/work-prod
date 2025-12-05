@@ -201,18 +201,36 @@ Are you sure you want to delete this project? [y/N]: y
 └────────────────┴──────────────────┘
 ```
 
-### Future Commands (Phase 4+)
-
-#### `search` - Search Projects
+#### `import` - Import Projects from JSON
 
 ```bash
-./proj search "keyword"
+./proj import <file>
 ```
 
-#### `import` - Import Projects (Phase 5)
+**Example:**
+```bash
+# Import projects from generated mapping file
+./proj import ../../scripts/projects.json
+
+# Output shows import statistics:
+# - Total projects
+# - Imported count
+# - Skipped count (duplicates)
+# - Errors (if any)
+```
+
+**Features:**
+- Validates JSON file structure
+- Shows import statistics with Rich formatting
+- Displays error details if import fails
+- Handles duplicate detection gracefully
+
+### Future Commands
+
+#### `search` - Search Projects (Integrated into `list` command)
 
 ```bash
-./proj import ../inventory/data/classifications.json
+./proj list --search "keyword"
 ```
 
 ---
@@ -437,6 +455,6 @@ cli.add_command(new_command, name='new')
 
 ---
 
-**Last Updated:** 2025-12-03  
-**Status:** ✅ Phase 1 Complete  
-**Next:** Phase 2 - Create & Update commands
+**Last Updated:** 2025-12-05  
+**Status:** ✅ Phase 5 Complete  
+**Next:** Phase 6 - GitHub Integration
