@@ -298,6 +298,100 @@ def delete_project(project_id):
         return jsonify({'error': 'Internal server error'}), 500
 
 
+@projects_bp.route('/projects/import', methods=['POST'])
+def import_projects():
+    """
+    Bulk import projects from JSON data.
+    
+    Expected JSON format:
+    {
+        "projects": [
+            {
+                "name": "Project Name",
+                "path": "/optional/path",
+                "organization": "Optional Org",
+                "classification": "primary|secondary|archive|maintenance",
+                "status": "active|paused|completed|cancelled",
+                "description": "Optional description",
+                "remote_url": "https://github.com/user/repo"
+            },
+            ...
+        ]
+    }
+    
+    Returns:
+        201: Import completed with statistics
+        400: Invalid JSON
+    """
+    if not request.is_json:
+        return jsonify({'error': 'Content-Type must be application/json'}), 400
+    
+    try:
+        data = request.get_json()
+    except Exception:
+        return jsonify({'error': 'Invalid JSON'}), 400
+    
+    imported = 0
+    skipped = 0
+    errors = []
+    
+    projects_data = data.get('projects', [])
+    
+    for project_data in projects_data:
+        try:
+            # Check if project already exists by remote_url
+            remote_url = project_data.get('remote_url')
+            if remote_url:
+                existing = Project.query.filter_by(remote_url=remote_url).first()
+                if existing:
+                    skipped += 1
+                    continue
+            
+            # Validate required field
+            if 'name' not in project_data or not project_data['name']:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': 'Name is required'
+                })
+                continue
+            
+            # Create new project
+            project = Project(
+                name=project_data['name'],
+                path=project_data.get('path'),
+                organization=project_data.get('organization'),
+                classification=project_data.get('classification'),
+                status=project_data.get('status', 'active'),
+                description=project_data.get('description'),
+                remote_url=project_data.get('remote_url')
+            )
+            
+            db.session.add(project)
+            imported += 1
+            
+        except Exception as e:
+            # Log full exception for debugging
+            current_app.logger.error(f"Error importing project {project_data.get('name', 'Unknown')}: {e}", exc_info=True)
+            # Return generic error message to client (don't leak internals)
+            errors.append({
+                'project': project_data.get('name', 'Unknown'),
+                'error': 'Failed to import project'
+            })
+    
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Error committing import: {e}", exc_info=True)
+        return jsonify({'error': 'Failed to import projects'}), 500
+    
+    return jsonify({
+        'imported': imported,
+        'skipped': skipped,
+        'errors': errors
+    }), 201
+
+
 @projects_bp.route('/projects/<int:project_id>/archive', methods=['PUT'])
 def archive_project(project_id):
     """

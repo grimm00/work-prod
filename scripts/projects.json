@@ -1,0 +1,322 @@
+{
+  "projects": [
+    {
+      "name": "todolist-repo",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/todolist-repo",
+      "remote_url": "https://github.com/grimm00/todolist-repo"
+    },
+    {
+      "name": "music-app",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/music-app-drw",
+      "remote_url": "https://github.com/grimm00/music-app",
+      "organization": "DRW"
+    },
+    {
+      "name": "REPO-Magic",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/REPO-Magic",
+      "remote_url": "https://github.com/grimm00/REPO-Magic"
+    },
+    {
+      "name": "dev-toolkit",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/dev-toolkit",
+      "remote_url": "https://github.com/grimm00/dev-toolkit"
+    },
+    {
+      "name": "dev-infra",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/dev-infra",
+      "remote_url": "https://github.com/grimm00/dev-infra"
+    },
+    {
+      "name": "work-prod",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/work-prod",
+      "remote_url": "https://github.com/grimm00/work-prod"
+    },
+    {
+      "name": "pokeeditor",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/pokeeditor",
+      "remote_url": "https://github.com/grimm00/pokeeditor"
+    },
+    {
+      "name": "networking-learning",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/networking",
+      "remote_url": "https://github.com/grimm00/networking-learning"
+    },
+    {
+      "name": "vscode-learn",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/vscode-learn",
+      "remote_url": "https://github.com/grimm00/vscode-learn"
+    },
+    {
+      "name": "containers-learning-path",
+      "status": "active",
+      "classification": "secondary",
+      "path": "/Users/cdwilson/Learning/containers",
+      "remote_url": "https://github.com/grimm00/containers-learning-path"
+    },
+    {
+      "name": "javascript-learn",
+      "status": "active",
+      "classification": "secondary",
+      "path": "/Users/cdwilson/Learning/javascript",
+      "remote_url": "https://github.com/grimm00/javascript-learn"
+    },
+    {
+      "name": "nodejs-learn",
+      "status": "active",
+      "classification": "secondary",
+      "path": "/Users/cdwilson/Learning/nodejs",
+      "remote_url": "https://github.com/grimm00/nodejs-learn"
+    },
+    {
+      "name": "finance",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/finance"
+    },
+    {
+      "name": "pokehub",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/pokehub"
+    },
+    {
+      "name": "OurFileServer",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/OurFileServer"
+    },
+    {
+      "name": "steam-config-analyzer",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/steam-config-analyzer"
+    },
+    {
+      "name": "SteamDeck-Recording-Fix",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/SteamDeck-Recording-Fix"
+    },
+    {
+      "name": "MangoPeel_Steam_OS_Fixes",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/MangoPeel_Steam_OS_Fixes"
+    },
+    {
+      "name": "B-IT",
+      "status": "cancelled",
+      "classification": "archive",
+      "remote_url": "https://github.com/grimm00/B-IT"
+    },
+    {
+      "name": "blackjacky",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/blackjacky"
+    },
+    {
+      "name": "NewPC",
+      "status": "cancelled",
+      "classification": "archive",
+      "remote_url": "https://github.com/grimm00/NewPC"
+    },
+    {
+      "name": "d197repo",
+      "status": "cancelled",
+      "classification": "archive",
+      "remote_url": "https://github.com/grimm00/d197repo"
+    },
+    {
+      "name": "learnwebdev",
+      "status": "active",
+      "classification": "secondary",
+      "remote_url": "https://github.com/grimm00/learnwebdev"
+    },
+    {
+      "name": "Ally",
+      "status": "active",
+      "classification": "primary",
+      "remote_url": "https://github.com/grimm00/Ally"
+    },
+    {
+      "name": "testrepo",
+      "status": "cancelled",
+      "classification": "archive",
+      "remote_url": "https://github.com/grimm00/testrepo"
+    },
+    {
+      "name": "pokedex",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/pokedex"
+    },
+    {
+      "name": "pylearn",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/pylearn"
+    },
+    {
+      "name": "NBGC-CRM",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/NBGC-CRM",
+      "organization": "DRW"
+    },
+    {
+      "name": "nerd-seti-app",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Projects/nerd-seti-app",
+      "organization": "DRW"
+    },
+    {
+      "name": "mock-trading",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/mock-trading",
+      "organization": "DRW"
+    },
+    {
+      "name": "terraform",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/terraform",
+      "organization": "DRW"
+    },
+    {
+      "name": "quickkube",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/quickkube",
+      "organization": "DRW"
+    },
+    {
+      "name": "py101",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/py101",
+      "organization": "DRW"
+    },
+    {
+      "name": "kubenetes",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/kubenetes",
+      "organization": "DRW"
+    },
+    {
+      "name": "class-handouts",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/class-handouts",
+      "organization": "DRW"
+    },
+    {
+      "name": "group",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/group",
+      "organization": "DRW"
+    },
+    {
+      "name": "Iac-GitOps-cdwilson",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/Iac-GitOps-cdwilson",
+      "organization": "DRW"
+    },
+    {
+      "name": "networking-john",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/networking-john",
+      "organization": "DRW"
+    },
+    {
+      "name": "IaC-gitops",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/IaC-gitops",
+      "organization": "DRW"
+    },
+    {
+      "name": "helm-example",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/helm-example",
+      "organization": "DRW"
+    },
+    {
+      "name": "helm-redo",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/helm-redo",
+      "organization": "DRW"
+    },
+    {
+      "name": "Gitops-IAC",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/Gitops-IAC",
+      "organization": "DRW"
+    },
+    {
+      "name": "request-auth",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/request-auth",
+      "organization": "DRW"
+    },
+    {
+      "name": "sql",
+      "status": "active",
+      "classification": "primary",
+      "path": "/Users/cdwilson/Learning/sql",
+      "organization": "DRW"
+    },
+    {
+      "name": "docker",
+      "status": "active",
+      "classification": "secondary",
+      "path": "/Users/cdwilson/Learning/docker"
+    },
+    {
+      "name": "yq-explorarion",
+      "status": "active",
+      "classification": "secondary",
+      "path": "/Users/cdwilson/Learning/yq-explorarion"
+    },
+    {
+      "name": "admin",
+      "status": "cancelled",
+      "classification": "archive",
+      "path": "/Users/cdwilson/Projects/admin"
+    },
+    {
+      "name": "newdex",
+      "status": "cancelled",
+      "classification": "archive",
+      "path": "/Users/cdwilson/Projects/newdex"
+    }
+  ]
+}
