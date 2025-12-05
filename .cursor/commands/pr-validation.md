@@ -410,6 +410,8 @@ Update PR description to include:
 **Manual Testing:**
 - Scenarios tested: [N]
 - All scenarios passed: ✅
+- Checkboxes checked off: ✅ (all passing scenarios marked)
+- Expected Result lines marked: ✅ (all passing scenarios)
 - Issues found: [None / List issues]
 ```
 
@@ -427,6 +429,8 @@ Update PR description to include:
 ### Manual Testing
 - ✅ Scenarios tested: [N]
 - ✅ All scenarios passed
+- ✅ Checkboxes checked off for passing scenarios
+- ✅ Expected Result lines marked with ✅
 - ⚠️ Issues found: [None / List]
 
 ### Code Review
@@ -509,6 +513,8 @@ curl http://localhost:5000/api/health
 **During execution:**
 - [ ] Manual testing guide updated with scenarios (MANDATORY)
 - [ ] All scenarios tested and passed
+- [ ] Checkboxes checked off (`- [ ]` → `- [x]`) for passing scenarios
+- [ ] Expected Result lines marked with ✅ for passing scenarios
 - [ ] Sourcery review completed
 - [ ] Priority matrix filled out
 - [ ] Critical issues addressed (if any)
