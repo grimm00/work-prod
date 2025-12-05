@@ -288,6 +288,7 @@ def list_projects(status, organization, classification, search, wide):
 
 - **PR12-#1:** Use `click.Choice` for CLI validation (batched together - same file)
 - User-reported issue (table display)
+- **User Feedback:** Auto-show filtered columns (see `docs/maintainers/feedback/user/pr18-table-column-visibility.md`)
 
 ---
 
