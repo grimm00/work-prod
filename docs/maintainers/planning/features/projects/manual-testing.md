@@ -1384,6 +1384,11 @@ Mark these as complete after testing:
 - [ ] `proj archive` command works
 - [ ] `proj import` command works with JSON files
 - [ ] `proj list` shows all projects in table format
+- [ ] `proj list --wide` shows all 7 columns (Status, Org, Classification)
+- [ ] `proj list` table uses full terminal width (no truncation)
+- [ ] `proj list` columns wrap instead of truncate
+- [ ] CLI validates status values (click.Choice - rejects invalid)
+- [ ] CLI validates classification values (click.Choice - rejects invalid)
 - [ ] `proj get` shows project details
 - [ ] Error messages are clear and helpful
 - [ ] Rich formatting displays correctly
