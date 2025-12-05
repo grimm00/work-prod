@@ -16,10 +16,11 @@
 - **[PR #2](pr02/README.md)** - Phase 1: List & Get Projects (🟡 Partial - 4 MEDIUM issues planned)
 - **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 1/3 batches complete via PR #13)
 - **[PR #16](pr16/README.md)** - Phase 5: Import Projects from JSON (✅ Complete - 1 HIGH fixed, 11 deferred)
+- **[PR #18](pr18/README.md)** - CLI table display improvements (✅ Complete - 2 issues fixed, 2 deferred)
 
 ### User-Reported Issues
 
-- **[CLI Table Display Issue](user-reported-01-cli-table-display.md)** - Table columns truncate, missing `--wide` flag (✅ Complete - 2025-12-05)
+- **[CLI Table Display Issue](user-reported-01-cli-table-display.md)** - Table columns truncate, missing `--wide` flag (✅ Complete - 2025-12-05, PR #18)
 
 ### Cross-PR Batches
 
@@ -149,9 +150,9 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 **Priority Breakdown:**
 - 🔴 CRITICAL: 0 (all fixed!)
 - 🟠 HIGH: 1 (PR02-#3 - CLI imports, can defer)
-- 🟡 MEDIUM: 7 (can defer, including PR13-#1)
-- 🟢 LOW: 5 (can defer)
-- ✅ Complete/Resolved/Fixed: 9
+- 🟡 MEDIUM: 8 (can defer, including PR13-#1, PR18-Overall-#2)
+- 🟢 LOW: 6 (can defer, including PR18-Overall-#1)
+- ✅ Complete/Resolved/Fixed: 11
 
 ---
 
@@ -233,3 +234,12 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 **Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
 **Next:** Review cross-PR batches, implement Quick Wins batch, then Test Quality batch
+
+---
+
+## Recent Completions
+
+### PR #18 (2025-12-05)
+- ✅ CLI table display improvements (user-reported)
+- ✅ click.Choice validation (PR12-#1)
+- 🟡 2 deferred issues (LOW/MEDIUM priority)
