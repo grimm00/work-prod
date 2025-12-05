@@ -986,11 +986,13 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Search for "productivity"
+# Search for "productivity" (Description column auto-shown - 5 columns)
 ./proj list --search productivity
 
 # Expected Output:
 # Shows only projects with "productivity" in name or description
+# Columns: ID, Name, Path, Description, Created
+# Note: Description column automatically visible when searching to show where match occurred
 ```
 
 **Verification:**
@@ -999,9 +1001,11 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify search results
 ./proj list --search productivity
 # Check that all displayed projects have "productivity" in name or description
+# Verify Description column is visible (auto-shown when searching)
+# Verify you can see where "productivity" appears (in name or description)
 ```
 
-**Expected Result:** ✅ CLI search flag works correctly
+**Expected Result:** ✅ CLI search flag works correctly, Description column auto-shown when searching to provide context for matches
 
 ---
 

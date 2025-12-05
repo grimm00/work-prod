@@ -51,9 +51,11 @@ def list_projects(status, organization, classification, search, wide):
         # - Show Status if --wide flag OR --status filter is used
         # - Show Org if --wide flag OR --org filter is used
         # - Show Classification if --wide flag OR --classification filter is used
+        # - Show Description if --wide flag OR --search filter is used (to show where match occurred)
         show_status = wide or status is not None
         show_org = wide or organization is not None
         show_classification = wide or classification is not None
+        show_description = wide or search is not None
         
         # Add columns based on filters and --wide flag
         if show_status:
@@ -64,6 +66,11 @@ def list_projects(status, organization, classification, search, wide):
             table.add_column("Classification", style="magenta")
         
         table.add_column("Path", style="blue", no_wrap=False)  # Allow wrapping
+        
+        # Add Description column if searching or using --wide
+        if show_description:
+            table.add_column("Description", style="dim", no_wrap=False)  # Allow wrapping
+        
         table.add_column("Created", style="magenta")
         
         # Add rows conditionally based on visible columns
@@ -78,10 +85,15 @@ def list_projects(status, organization, classification, search, wide):
                 row_data.append(project.get('organization', 'N/A'))
             if show_classification:
                 row_data.append(project.get('classification', 'N/A'))
-            row_data.extend([
-                project['path'] or "[dim]No path[/dim]",
-                project['created_at'][:10]  # Just the date
-            ])
+            
+            row_data.append(project['path'] or "[dim]No path[/dim]")
+            
+            # Add Description column if searching or using --wide
+            if show_description:
+                description = project.get('description', '')
+                row_data.append(description or "[dim]No description[/dim]")
+            
+            row_data.append(project['created_at'][:10])  # Just the date
             table.add_row(*row_data)
         
         console.print(table)
