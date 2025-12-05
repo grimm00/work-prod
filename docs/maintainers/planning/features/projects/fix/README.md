@@ -17,6 +17,10 @@
 - **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 1/3 batches complete via PR #13)
 - **[PR #16](pr16/README.md)** - Phase 5: Import Projects from JSON (✅ Complete - 1 HIGH fixed, 11 deferred)
 
+### User-Reported Issues
+
+- **[CLI Table Display Issue](user-reported-01-cli-table-display.md)** - Table columns truncate, missing `--wide` flag (🟡 MEDIUM, 🟢 LOW effort)
+
 ### Cross-PR Batches
 
 - **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (1 complete, 1 pending, 11 issues)
