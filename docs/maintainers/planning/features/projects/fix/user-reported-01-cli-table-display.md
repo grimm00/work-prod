@@ -4,8 +4,9 @@
 **Priority:** 🟡 MEDIUM  
 **Impact:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-12-05  
+**Completed:** 2025-12-05  
 **Reported By:** User during manual testing (Scenario 24)
 
 ---
@@ -194,28 +195,28 @@ def list_projects(status, organization, classification, search, wide):
 ## Implementation Steps
 
 1. **Add `--wide` flag to command:**
-   - [ ] Add `@click.option('--wide', is_flag=True, help='...')` decorator
-   - [ ] Add `wide` parameter to function signature
+   - [x] Add `@click.option('--wide', is_flag=True, help='...')` decorator
+   - [x] Add `wide` parameter to function signature
 
 2. **Update table creation:**
-   - [ ] Add `expand=True` to Table constructor
-   - [ ] Add `no_wrap=False` to Name and Path columns
-   - [ ] Conditionally add Status, Org, Classification columns based on `wide` flag
+   - [x] Add `expand=True` to Table constructor
+   - [x] Add `no_wrap=False` to Name and Path columns
+   - [x] Conditionally add Status, Org, Classification columns based on `wide` flag
 
 3. **Update row creation:**
-   - [ ] Conditionally include Status, Org, Classification in row data
-   - [ ] Handle missing values with 'N/A' or empty string
+   - [x] Conditionally include Status, Org, Classification in row data
+   - [x] Handle missing values with 'N/A' or empty string
 
 4. **Test:**
-   - [ ] Test default view (4 columns)
-   - [ ] Test `--wide` view (7 columns)
-   - [ ] Test with filters (status, org, classification)
-   - [ ] Test with long project names/paths (verify wrapping)
-   - [ ] Test with empty/null values
+   - [x] Test default view (4 columns)
+   - [x] Test `--wide` view (7 columns)
+   - [x] Test with filters (status, org, classification)
+   - [x] Test with long project names/paths (verify wrapping)
+   - [x] Test with empty/null values
 
 5. **Update manual testing guide:**
-   - [ ] Update Scenario 24 to mention `--wide` flag
-   - [ ] Add scenario for `--wide` flag usage
+   - [x] Update Scenario 24 to mention `--wide` flag
+   - [x] Add scenario for `--wide` flag usage (Scenario 27a)
 
 ---
 
@@ -270,14 +271,14 @@ def list_projects(status, organization, classification, search, wide):
 
 ## Definition of Done
 
-- [ ] `--wide` flag added to `list` command
-- [ ] Table uses `expand=True` to use full terminal width
-- [ ] Default view shows 4 columns (backward compatible)
-- [ ] `--wide` view shows 7 columns (ID, Name, Status, Org, Classification, Path, Created)
-- [ ] Columns wrap instead of truncate (`no_wrap=False`)
-- [ ] All tests pass
-- [ ] Manual testing completed (Scenario 24 updated)
-- [ ] Documentation updated
+- [x] `--wide` flag added to `list` command
+- [x] Table uses `expand=True` to use full terminal width
+- [x] Default view shows 4 columns (backward compatible)
+- [x] `--wide` view shows 7 columns (ID, Name, Status, Org, Classification, Path, Created)
+- [x] Columns wrap instead of truncate (`no_wrap=False`)
+- [x] All tests pass (manual testing completed)
+- [x] Manual testing completed (Scenario 24 updated, Scenario 27a added)
+- [x] Documentation updated
 
 ---
 

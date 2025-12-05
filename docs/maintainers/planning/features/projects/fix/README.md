@@ -19,7 +19,7 @@
 
 ### User-Reported Issues
 
-- **[CLI Table Display Issue](user-reported-01-cli-table-display.md)** - Table columns truncate, missing `--wide` flag (🟡 MEDIUM, 🟢 LOW effort)
+- **[CLI Table Display Issue](user-reported-01-cli-table-display.md)** - Table columns truncate, missing `--wide` flag (✅ Complete - 2025-12-05)
 
 ### Cross-PR Batches
 
