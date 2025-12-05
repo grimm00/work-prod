@@ -66,13 +66,19 @@ alwaysApply: true
 
 1. **Create PR** - Use `/pr --phase [N]` or `/pr --fix [batch]` command
 2. **Stop and Wait** - Present PR link to user, do NOT proceed to merge
-3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit` (or use `/pr-validation`)
+3. **External Review** - User will run `dt-review` (or use `/pr-validation`)
+   - **Note:** Missing reviews are acceptable - workflow continues without review
 4. **Sourcery Feedback** - Reviews saved to `docs/maintainers/feedback/sourcery/pr##.md`
    - **Note:** Missing reviews are acceptable - workflow continues without review
 5. **Priority Assessment** - Fill out priority matrix in Sourcery review file (if review available)
 6. **Fix Planning** - Use `/fix-plan` to create fix plans in feature's `fix/` subdirectory
-7. **User Approval** - Only merge after user explicitly approves
-8. **Post-Merge** - Use `/post-pr` to update documentation and clean up branches
+7. **Manual Testing Guide Updates** - **MANDATORY:** Update manual testing guide with new scenarios
+   - Add scenarios for all new functionality
+   - Check off scenarios after testing (`- [ ]` to `- [x]`)
+   - Mark "Expected Result:" lines with ✅ after successful testing
+   - Update header with PR number and acceptance criteria
+8. **User Approval** - Only merge after user explicitly approves
+9. **Post-Merge** - Use `/post-pr` to update documentation and clean up branches
 
 ### Priority Matrix Assessment
 
@@ -258,4 +264,5 @@ fix/
 ---
 
 **Last Updated:** 2025-12-05  
-**Status:** ✅ Active
+**Status:** ✅ Active  
+**Next:** Update from latest phase learnings

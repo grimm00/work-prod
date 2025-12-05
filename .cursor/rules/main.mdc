@@ -186,6 +186,63 @@ When writing code:
 - **Backend:** See [backend.mdc](backend.mdc) (when created)
 - **Frontend:** See [frontend.mdc](frontend.mdc) (when created)
 
+### Backend Patterns (From Phase 5 Learnings)
+
+**Bulk Import Pattern:**
+
+When implementing bulk import endpoints:
+
+- Return statistics (`imported`, `skipped`, `errors`) in response
+- Handle per-item errors gracefully (don't fail entire import)
+- Use duplicate detection by unique field (e.g., `remote_url`)
+- Validate request body shape strictly before processing
+
+**Request Body Validation:**
+
+Always validate request body shape explicitly:
+
+```python
+# Validate Content-Type
+if not request.is_json:
+    return jsonify({'error': 'Content-Type must be application/json'}), 400
+
+# Validate JSON
+try:
+    data = request.get_json()
+except Exception:
+    return jsonify({'error': 'Invalid JSON'}), 400
+
+# Validate request body shape
+if not isinstance(data, dict):
+    return jsonify({'error': 'Request body must be a JSON object'}), 400
+
+if 'field_name' not in data:
+    return jsonify({'error': "Missing 'field_name' field"}), 400
+
+field_data = data['field_name']
+if not isinstance(field_data, list):
+    return jsonify({'error': "'field_name' field must be a list"}), 400
+```
+
+**Enum Validation:**
+
+Validate enum values before database operations:
+
+- Check enum values before inserting/updating
+- Return clear error messages for invalid values
+- Add validation to mapping scripts and API endpoints
+- Prevents database enum errors and API crashes
+
+**Data Mapping Scripts:**
+
+When creating data mapping scripts:
+
+- Place in `scripts/` directory (outside main codebase)
+- Make scripts testable independently
+- Include comprehensive unit tests
+- Handle deduplication logic explicitly
+- Separate mapping logic from import logic
+
 ---
 
 ## 📝 Research & Decision Documentation
@@ -549,4 +606,4 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 **Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Continue Phase 5 implementation
+**Next:** Continue Phase 6 implementation
