@@ -11,7 +11,11 @@
 
 ### Fix Plans
 
-- **[Deferred Issues](#-deferred-issues)** - Issues deferred from Sourcery review
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Request body validation & test coverage (🟡 MEDIUM, 🟢 LOW, 2 issues)
+- **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Extract duplicate code (🟡 MEDIUM, 🟡 MEDIUM, 1 issue)
+- **[batch-medium-high-01.md](batch-medium-high-01.md)** - Refactor mapping function (🟡 MEDIUM, 🟠 HIGH, 1 issue)
+- **[batch-low-medium-01.md](batch-low-medium-01.md)** - Avoid loops in tests (🟢 LOW, 🟡 MEDIUM, 4 issues)
+- **[batch-low-low-01.md](batch-low-low-01.md)** - Quick code quality improvements (🟢 LOW, 🟢 LOW, 3 issues)
 
 ### Related Documentation
 
@@ -25,14 +29,23 @@
 
 **Total Issues:** 12  
 **Fixed in PR:** 1 (HIGH priority security issue)  
-**Deferred:** 11 (MEDIUM/LOW priority)
+**Deferred:** 11 (MEDIUM/LOW priority)  
+**Batches:** 5 batches created
 
 ### Priority Breakdown
 
 - 🔴 **CRITICAL:** 0
 - 🟠 **HIGH:** 1 (fixed)
-- 🟡 **MEDIUM:** 4 (deferred)
-- 🟢 **LOW:** 7 (deferred)
+- 🟡 **MEDIUM:** 4 (deferred, 3 batches)
+- 🟢 **LOW:** 7 (deferred, 2 batches)
+
+### Batch Summary
+
+- **MEDIUM/LOW:** 1 batch (2 issues) - Request validation & test coverage
+- **MEDIUM/MEDIUM:** 1 batch (1 issue) - Extract duplicate code
+- **MEDIUM/HIGH:** 1 batch (1 issue) - Refactor mapping function
+- **LOW/MEDIUM:** 1 batch (4 issues) - Avoid loops in tests
+- **LOW/LOW:** 1 batch (3 issues) - Quick improvements
 
 ---
 
@@ -59,6 +72,13 @@
 - **PR16-#12:** Raise from previous error (LOW priority, LOW effort) - Error context improvement (3 instances)
 
 **Action Plan:** These can be handled opportunistically during future phases or in a dedicated code quality improvement PR. The HIGH priority security issue (#2) was fixed before merge.
+
+**Fix Plans Created:**
+- `batch-medium-low-01.md` - Request validation & test coverage (quick wins)
+- `batch-medium-medium-01.md` - Extract duplicate code (refactoring)
+- `batch-medium-high-01.md` - Refactor mapping function (complex refactoring)
+- `batch-low-medium-01.md` - Avoid loops in tests (test quality)
+- `batch-low-low-01.md` - Quick improvements (code quality)
 
 ---
 
