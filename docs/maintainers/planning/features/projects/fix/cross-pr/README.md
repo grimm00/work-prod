@@ -12,20 +12,21 @@
 
 - **[quick-wins-low-low-01.md](quick-wins-low-low-01.md)** - Quick Wins Batch 1 (✅ Complete, PR #14)
 - **[quick-wins-low-low-02.md](quick-wins-low-low-02.md)** - Quick Wins Batch 2 (🔴 Not Started, 7 issues)
-- **[test-quality-medium-low-01.md](test-quality-medium-low-01.md)** - Test Quality (🟡 MEDIUM, 🟢 LOW, 4 issues)
+- **[test-quality-medium-low-01.md](test-quality-medium-low-01.md)** - Test Quality Improvements (🔴 Not Started, 9 issues)
+- **[code-refactoring-medium-medium-01.md](code-refactoring-medium-medium-01.md)** - Code Refactoring (🔴 Not Started, 2 issues)
 
 ---
 
 ## 📊 Summary
 
-**Total Batches:** 3 (1 complete, 2 active)  
-**Total Issues:** 18 (7 complete, 11 active)  
+**Total Batches:** 4 (1 complete, 3 active)  
+**Total Issues:** 20 (7 complete, 13 active)  
 **Source PRs:** #1, #2, #8, #12, #13, #16, #18, #19
 
 **Priority Breakdown:**
 
-- 🟡 MEDIUM: 5 issues (1 MEDIUM/LOW batch + 1 in Quick Wins Batch 2)
-- 🟢 LOW: 13 issues (2 Quick Wins batches)
+- 🟡 MEDIUM: 11 issues (Test Quality batch + Code Refactoring batch + 1 in Quick Wins Batch 2)
+- 🟢 LOW: 9 issues (2 Quick Wins batches)
 
 ---
 
@@ -68,19 +69,33 @@
 
 ---
 
-### Test Quality Batch
+### Test Quality Improvements Batch
 
 - **Status:** 🔴 Not Started
-- **Issues:** 4 MEDIUM/LOW issues
+- **Issues:** 9 issues (5 MEDIUM/LOW + 4 LOW/MEDIUM)
 - **File:** [test-quality-medium-low-01.md](test-quality-medium-low-01.md)
 - **Estimated:** 2-3 hours
-- **Source PRs:** #2 (2 issues), #8 (1 issue), #13 (1 issue)
+- **Source PRs:** #2 (4 issues), #13 (1 issue), #16 (4 issues)
 
 **Issues:**
 - PR02-#4: Test null path serialization
+- PR02-#6: Use IntegrityError in name test
+- PR02-#7: Use IntegrityError in path test
 - PR02-#8: Test updated_at changes
-- PR08-#3: Missing test: empty JSON body
 - PR13-#1: Strengthen test assertions
+- PR16-#4, #5, #6, #7: Avoid loops in tests (4 instances, use parametrize)
+
+### Code Refactoring Batch
+
+- **Status:** 🔴 Not Started
+- **Issues:** 2 MEDIUM/MEDIUM issues
+- **File:** [code-refactoring-medium-medium-01.md](code-refactoring-medium-medium-01.md)
+- **Estimated:** 2-3 hours
+- **Source PRs:** #16 (1 issue), #18 (1 issue)
+
+**Issues:**
+- PR16-#10: Extract duplicate code into method (validation logic)
+- PR18-Overall-#2: Factor column configuration into helper (table building)
 
 ---
 
@@ -88,8 +103,9 @@
 
 1. Review fix plans in this directory
 2. Use `/fix-implement` command to implement batches
-3. Start with Quick Wins batch (lower priority, builds momentum)
-4. Then implement Test Quality batch (improves test coverage)
+3. Start with Quick Wins Batch 2 (lower priority, builds momentum)
+4. Then implement Test Quality Improvements batch (improves test coverage)
+5. Finally implement Code Refactoring batch (improves code organization)
 
 ---
 

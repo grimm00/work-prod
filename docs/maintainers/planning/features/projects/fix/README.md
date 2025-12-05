@@ -25,10 +25,11 @@
 
 ### Cross-PR Batches
 
-- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (1 complete, 2 active, 15 issues)
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (1 complete, 3 active, 18 issues)
   - ✅ **Quick Wins Batch 1** (PR #14) - 7 LOW/LOW issues fixed
   - 🔴 **Quick Wins Batch 2** - 7 issues pending (5 LOW/LOW + 2 MEDIUM/LOW)
-  - 🟡 **Test Quality Batch** - 4 MEDIUM/LOW issues pending
+  - 🔴 **Test Quality Improvements Batch** - 9 issues pending (5 MEDIUM/LOW + 4 LOW/MEDIUM)
+  - 🔴 **Code Refactoring Batch** - 2 MEDIUM/MEDIUM issues pending
 
 ### Archived PRs
 
