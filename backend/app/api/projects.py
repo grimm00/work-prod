@@ -370,9 +370,12 @@ def import_projects():
             imported += 1
             
         except Exception as e:
+            # Log full exception for debugging
+            current_app.logger.error(f"Error importing project {project_data.get('name', 'Unknown')}: {e}", exc_info=True)
+            # Return generic error message to client (don't leak internals)
             errors.append({
                 'project': project_data.get('name', 'Unknown'),
-                'error': str(e)
+                'error': 'Failed to import project'
             })
     
     try:
