@@ -218,10 +218,12 @@ gh pr view [pr-number] --json state,title,headRefName
    # Check formatting, values, error messages
    ```
 
-4. **Document results:**
-   - Mark scenarios as tested in guide
-   - Note any failures or issues
-   - Update acceptance criteria checklist
+4. **Document results and check off scenarios:**
+   - For each scenario that passes, check off its checkboxes in the manual testing guide
+   - Change `- [ ]` to `- [x]` for each verification item that passes
+   - Mark "Expected Result:" line with ✅ if all checks pass
+   - Note any failures or issues (keep checkboxes unchecked if scenario fails)
+   - Update acceptance criteria checklist at the end of the guide
 
 **Common Issues:**
 
@@ -232,7 +234,9 @@ gh pr view [pr-number] --json state,title,headRefName
 
 **After manual testing:**
 - [ ] All scenarios passed
-- [ ] Any failures documented
+- [ ] Checkboxes checked off (`- [ ]` → `- [x]`) for passing scenarios
+- [ ] Expected Result lines marked with ✅ for passing scenarios
+- [ ] Any failures documented (keep checkboxes unchecked)
 - [ ] Acceptance criteria updated
 - [ ] Results committed to PR branch
 
