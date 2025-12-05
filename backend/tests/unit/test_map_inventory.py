@@ -264,35 +264,43 @@ class TestMapClassificationToProject:
 class TestClassificationMaps:
     """Test classification and status mapping constants."""
     
-    def test_classification_map_completeness(self):
+    @pytest.mark.parametrize("classification", [
+        'Personal', 'Work (DRW)', 'Apprenti', 'Learning', 'Inactive/Archived', 'Skip'
+    ])
+    def test_classification_map_completeness(self, classification):
         """Test that all expected classifications are mapped."""
-        expected_classifications = [
-            'Personal', 'Work (DRW)', 'Apprenti', 'Learning', 'Inactive/Archived', 'Skip'
-        ]
-        
-        for cls in expected_classifications:
-            assert cls in CLASSIFICATION_MAP
+        assert classification in CLASSIFICATION_MAP
     
-    def test_status_map_completeness(self):
+    @pytest.mark.parametrize("classification", [
+        'Personal', 'Work (DRW)', 'Apprenti', 'Learning', 'Inactive/Archived', 'Skip'
+    ])
+    def test_status_map_completeness(self, classification):
         """Test that all expected classifications have status mappings."""
-        expected_classifications = [
-            'Personal', 'Work (DRW)', 'Apprenti', 'Learning', 'Inactive/Archived', 'Skip'
-        ]
-        
-        for cls in expected_classifications:
-            assert cls in STATUS_MAP
+        assert classification in STATUS_MAP
     
-    def test_classification_map_values(self):
+    @pytest.mark.parametrize("classification,mapped_value", [
+        ('Personal', 'primary'),
+        ('Work (DRW)', 'primary'),
+        ('Apprenti', 'primary'),
+        ('Learning', 'secondary'),
+        ('Inactive/Archived', 'archive'),
+        ('Skip', None),
+    ])
+    def test_classification_map_values(self, classification, mapped_value):
         """Test that classification map values are valid Project enum values."""
-        valid_classifications = {'primary', 'secondary', 'archive', 'maintenance', None}
-        
-        for cls, mapped in CLASSIFICATION_MAP.items():
-            assert mapped in valid_classifications, f"Invalid classification mapping: {cls} -> {mapped}"
+        assert CLASSIFICATION_MAP[classification] == mapped_value
+        assert mapped_value in {'primary', 'secondary', 'archive', 'maintenance', None}
     
-    def test_status_map_values(self):
+    @pytest.mark.parametrize("classification,status_value", [
+        ('Personal', 'active'),
+        ('Work (DRW)', 'active'),
+        ('Apprenti', 'active'),
+        ('Learning', 'active'),
+        ('Inactive/Archived', 'cancelled'),
+        ('Skip', None),
+    ])
+    def test_status_map_values(self, classification, status_value):
         """Test that status map values are valid Project enum values."""
-        valid_statuses = {'active', 'paused', 'completed', 'cancelled', None}
-        
-        for cls, mapped in STATUS_MAP.items():
-            assert mapped in valid_statuses, f"Invalid status mapping: {cls} -> {mapped}"
+        assert STATUS_MAP[classification] == status_value
+        assert status_value in {'active', 'paused', 'completed', 'cancelled', None}
 

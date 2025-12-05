@@ -1,0 +1,268 @@
+---
+alwaysApply: true
+---
+
+# Workflow Rules
+
+**Purpose:** Development workflow processes and commands  
+**Last Updated:** 2025-12-05  
+**Status:** ✅ Active
+
+---
+
+## 📋 Quick Links
+
+- **[Main Rules](main.mdc)** - Core project rules and standards
+- **[Backend Rules](backend.mdc)** - Backend-specific patterns (when created)
+- **[Frontend Rules](frontend.mdc)** - Frontend-specific patterns (when created)
+
+---
+
+## 🚀 Git Flow Workflow
+
+### Branch Strategy
+
+**ALWAYS follow this branching model:**
+
+- `main` - Production releases ONLY (protected)
+- `develop` - Ongoing development (protected)
+- `feat/*` - Feature branches (e.g., `feat/time-tracking`)
+- `fix/*` - Bug fixes (e.g., `fix/login-error`)
+- `docs/*` - Documentation updates
+- `chore/*` - Maintenance tasks
+
+### Commit Requirements
+
+1. **Feature/Fix Branches**
+
+   - REQUIRE pull requests to develop/main
+   - Full testing and linting required
+   - External reviews on release branches
+   - Use conventional commits format
+
+2. **Documentation/Chore Branches**
+
+   - CAN push directly to develop/main
+   - Minimal validation required
+   - Focus on clarity and accuracy
+
+3. **Commit Message Format**
+
+   ```
+   type(scope): brief description
+
+   Longer explanation if needed
+   ```
+
+   Types: feat, fix, docs, chore, test, refactor
+
+---
+
+## 🔍 Pull Request Review Workflow
+
+### NEVER Merge Without Review
+
+**CRITICAL:** Do NOT merge pull requests automatically. Always follow this workflow:
+
+1. **Create PR** - Use `/pr --phase [N]` or `/pr --fix [batch]` command
+2. **Stop and Wait** - Present PR link to user, do NOT proceed to merge
+3. **External Review** - User will run `dt-review` (or use `/pr-validation`)
+   - **Note:** Missing reviews are acceptable - workflow continues without review
+4. **Sourcery Feedback** - Reviews saved to `docs/maintainers/feedback/sourcery/pr##.md`
+   - **Note:** Missing reviews are acceptable - workflow continues without review
+5. **Priority Assessment** - Fill out priority matrix in Sourcery review file (if review available)
+6. **Fix Planning** - Use `/fix-plan` to create fix plans in feature's `fix/` subdirectory
+7. **Manual Testing Guide Updates** - **MANDATORY:** Update manual testing guide with new scenarios
+   - Add scenarios for all new functionality
+   - Check off scenarios after testing (`- [ ]` to `- [x]`)
+   - Mark "Expected Result:" lines with ✅ after successful testing
+   - Update header with PR number and acceptance criteria
+8. **User Approval** - Only merge after user explicitly approves
+9. **Post-Merge** - Use `/post-pr` to update documentation and clean up branches
+
+### Priority Matrix Assessment
+
+For each Sourcery comment, assess:
+- **Priority:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
+- **Impact:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢  
+- **Effort:** LOW 🟢 / MEDIUM 🟡 / HIGH 🟠 / VERY_HIGH 🔴
+
+### Fix Plan Structure
+
+**Hub-and-Spoke Organization:**
+
+Fix tracking uses hub-and-spoke pattern for scalability:
+
+```
+fix/
+├── README.md                    # Main hub - overview and quick links
+├── pr##/                        # PR-specific fixes
+│   ├── README.md                # PR hub - links to fix plans
+│   ├── issue-[number]-[short-name].md  # Individual fix plan
+│   └── batch-[priority]-[effort]-[batch-number].md  # Fix batch plan
+├── cross-pr/                    # Cross-PR batches
+│   ├── README.md                # Cross-PR hub
+│   └── [batch-name]-[priority]-[effort]-[batch-number].md  # Cross-PR batch
+└── archived/                    # Completed PRs
+    └── README.md                # Archive hub
+```
+
+**Fix Plan Types:**
+
+1. **Individual Fix Plans:**
+   - Format: `issue-[number]-[short-name].md`
+   - For single HIGH/CRITICAL priority issues
+   - Include priority, impact, effort assessment
+   - Provide implementation steps
+   - Link to related ADRs if architectural changes needed
+
+2. **Fix Batch Plans (PR-Specific):**
+   - Format: `batch-[priority]-[effort]-[batch-number].md`
+   - Groups related fixes from same PR
+   - Batched by priority and effort (e.g., `batch-medium-low-01`)
+   - Includes all issues in batch with details
+   - Single implementation workflow
+
+3. **Cross-PR Batch Plans:**
+   - Format: `[batch-name]-[priority]-[effort]-[batch-number].md`
+   - Groups fixes from multiple PRs (e.g., `quick-wins-low-low-01`)
+   - Created from `/fix-review` recommendations
+   - Enables efficient deferred issue handling
+   - Includes source PR references for each issue
+
+**Fix Management Commands:**
+
+- `/fix-plan` - Create fix plans from Sourcery reviews or fix-review reports
+- `/fix-implement` - Implement fixes from batches (supports PR-specific and cross-PR)
+- `/fix-review` - Review old deferred issues and generate batch recommendations
+- `/pr-validation` - Validate PRs (handles missing reviews gracefully)
+- `/post-pr` - Update documentation after PR merge (supports fix PRs)
+
+---
+
+## 📊 Feature Planning Process
+
+### Creating New Features
+
+**ALWAYS follow this structure when creating features:**
+
+1. **Create Feature Directory**
+
+   ```
+   docs/maintainers/planning/features/[feature-name]/
+   ```
+
+2. **Required Files**
+
+   - `README.md` - Feature hub with quick links
+   - `feature-plan.md` - High-level overview and phases
+   - `status-and-next-steps.md` - Current progress tracking
+   - `phase-1.md` - First phase details (additional phases as needed: `phase-2.md`, `phase-3.md`, etc.)
+   - `deliverables/README.md` - Hub for planning outputs (templates, guides, documentation)
+   - `fix/README.md` - Fix tracking hub (hub-and-spoke organization)
+     - `pr##/` - PR-specific fixes (with README.md hub)
+     - `cross-pr/` - Cross-PR fix batches (with README.md hub)
+     - `archived/` - Completed PRs (with README.md hub)
+
+3. **Feature Plan Structure**
+
+   ```markdown
+   # [Feature Name] - Feature Plan
+
+   **Status:** [Status Indicator]
+   **Created:** [YYYY-MM-DD]
+   **Priority:** [High/Medium/Low]
+
+   ## 📋 Overview
+
+   [User-facing description]
+
+   ## 🎯 Success Criteria
+
+   - [ ] Measurable criterion 1
+   - [ ] Measurable criterion 2
+
+   ## 📅 Implementation Phases
+
+   ### Phase 1: [Name]
+
+   - [ ] Task 1
+   - [ ] Task 2
+
+   ## 🚀 Next Steps
+
+   [Immediate next actions]
+   ```
+
+4. **Phase Document Structure**
+
+   ```markdown
+   # [Feature Name] - Phase [N]: [Name]
+
+   **Status:** [Status]
+   **Duration:** [Estimate]
+
+   ## 📋 Overview
+
+   [Phase purpose]
+
+   ## 🎯 Goals
+
+   - Goal 1
+   - Goal 2
+
+   ## 📝 Tasks
+
+   - [ ] Task 1
+   - [ ] Task 2
+
+   ## ✅ Completion Criteria
+
+   - [ ] Criterion 1
+   ```
+
+### Feature Development Lifecycle
+
+1. **Discovery** - Identify opportunity, create directory
+2. **Planning** - Write feature-plan.md, break into phases
+3. **Implementation** - Execute phases, update status documents
+4. **Completion** - Document results, archive superseded docs
+
+---
+
+## 🔄 CI/CD Integration
+
+### Testing Requirements
+
+- **Feature branches:** Full test suite, linting, type checking
+- **Documentation branches:** Markdown validation only
+- **Release branches:** Full validation + external reviews
+
+### Tool Integrations
+
+**Currently Active:**
+
+- ✅ Sourcery AI for code review
+- ✅ GitHub CLI for repo management
+- ✅ Cursor IDE with AI rules
+- ✅ Fix management workflow commands (`/fix-plan`, `/fix-implement`, `/fix-review`)
+- ✅ Cross-PR fix batch system
+- ✅ Automated fix tracking with hub-and-spoke organization
+
+**Planned:**
+
+- 🟡 Bugbot for bug detection
+- 🟡 Dev-toolkit integration
+
+---
+
+## 🔗 Related
+
+- **Main Rules:** [main.mdc](main.mdc) - Core project rules and standards
+- **Command Documentation:** `.cursor/commands/` - Detailed command workflows
+
+---
+
+**Last Updated:** 2025-12-05  
+**Status:** ✅ Active  
+**Next:** Update from latest phase learnings
