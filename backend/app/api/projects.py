@@ -78,27 +78,24 @@ def list_projects():
                 )
             )
     
-    try:
-        projects = query.order_by(Project.id).all()
-        # Convert to dict, handling any projects with invalid enum values
-        projects_list = []
-        for project in projects:
-            try:
-                projects_list.append(project.to_dict())
-            except LookupError as e:
-                # Handle invalid enum values in database (e.g., from before validation was added)
-                current_app.logger.warning(
-                    f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
-                    "Skipping this project. Consider fixing the database value."
-                )
-                # Skip this project - it has invalid data
-                continue
-        
-        return jsonify(projects_list), 200
-    except LookupError as e:
-        # If the error occurs during query execution itself, log and return error
-        current_app.logger.error(f"Error reading projects from database: {e}", exc_info=True)
-        return jsonify({'error': 'Error reading projects. Some projects may have invalid data.'}), 500
+    # Execute query and convert to dict, handling any projects with invalid enum values
+    projects = query.order_by(Project.id).all()
+    projects_list = []
+    
+    for project in projects:
+        try:
+            projects_list.append(project.to_dict())
+        except LookupError as e:
+            # Handle invalid enum values in database (e.g., from before validation was added)
+            # This happens when SQLAlchemy tries to convert database values to enum types
+            current_app.logger.warning(
+                f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
+                "Skipping this project. Consider fixing the database value."
+            )
+            # Skip this project - it has invalid data
+            continue
+    
+    return jsonify(projects_list), 200
 
 
 def create_project():
