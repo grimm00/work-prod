@@ -23,7 +23,7 @@ from ..api_client import APIClient
     help='Filter by classification (primary, secondary, archive, maintenance)'
 )
 @click.option('--search', help='Search in project names and descriptions')
-@click.option('--wide', is_flag=True, help='Show all columns (status, organization, classification)')
+@click.option('--wide', is_flag=True, help='Show all columns (status, organization, classification) and use full-width layout')
 def list_projects(status, organization, classification, search, wide):
     """List all projects with optional filtering."""
     console = Console()
