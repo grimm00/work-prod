@@ -195,6 +195,7 @@ gh pr view [pr-number] --json state,title,headRefName
 - Run from the work-prod directory to ensure review is for the correct repository
 - Use the path parameter to save directly to the project's documentation structure
 - This avoids creating an `admin/` directory at the root level
+- **Note:** If review is not available or fails, that's okay - continue without review
 
 **Process:**
 
@@ -218,21 +219,35 @@ gh pr view [pr-number] --json state,title,headRefName
    ~/Projects/dev-toolkit/bin/dt-review 12 docs/maintainers/feedback/sourcery/pr12.md
    ```
 
+   **If review fails or is not available:**
+   - This is acceptable - some PRs may not have reviews available
+   - Continue with validation workflow
+   - Note in summary that review was skipped
+   - Can run review manually later if needed
+
 4. **Review will be saved directly to:**
    `docs/maintainers/feedback/sourcery/pr##.md`
 
 **Note:** The `dt-review` command accepts a second argument for the output path. This saves directly to the project's documentation structure instead of creating an `admin/` directory at the root level. The dev-toolkit will be updated in the future to use the new docs structure by default.
 
 **Expected:**
-- Review file created/updated
-- Contains Sourcery comments and suggestions
+- Review file created/updated (if available)
+- Contains Sourcery comments and suggestions (if review succeeded)
 - Organized by file/line number
+- **If review not available:** Continue without review - this is acceptable
 
 ---
 
-### 5. Fill Out Priority Matrix
+### 5. Fill Out Priority Matrix (If Review Available)
 
 **File:** `docs/maintainers/feedback/sourcery/pr##.md`
+
+**Skip this step if:**
+- Sourcery review file doesn't exist
+- Review failed to generate
+- No comments in review file
+
+**If review is available:**
 
 **For each Sourcery comment:**
 
@@ -271,11 +286,15 @@ Add priority assessment after the comment:
 - Minor readability improvements
 - Optional enhancements
 
-**After priority matrix:**
+**After priority matrix (if review available):**
 - [ ] All comments assessed
 - [ ] CRITICAL/HIGH items identified
 - [ ] Action plan documented
 - [ ] Matrix committed to PR branch
+
+**If review not available:**
+- [ ] Note in summary that review was skipped
+- [ ] Continue with validation workflow
 
 ---
 
@@ -358,10 +377,10 @@ Update PR description to include:
 - ⚠️ Issues found: [None / List]
 
 ### Code Review
-- ✅ Sourcery review complete
-- ✅ Priority matrix filled out
-- ⚠️ Critical issues: [N] (all addressed)
-- ⚠️ Deferred issues: [N]
+- ✅ Sourcery review complete (or ⚠️ Review not available - skipped)
+- ✅ Priority matrix filled out (or ⚠️ Skipped - no review)
+- ⚠️ Critical issues: [N] (all addressed) or [None - no review]
+- ⚠️ Deferred issues: [N] or [None - no review]
 
 ### Next Steps
 - [ ] User review PR changes
@@ -407,11 +426,13 @@ curl http://localhost:5000/api/health
 ### Issue: Sourcery Review File Not Created
 
 **Solution:**
+- **This is acceptable** - some PRs may not have reviews available
 - Check if review completed successfully
 - Verify PR number is correct
 - Ensure output directory exists: `mkdir -p docs/maintainers/feedback/sourcery`
 - Verify the path parameter is correct: `docs/maintainers/feedback/sourcery/pr##.md`
 - Check that you're running from the work-prod directory
+- **If review is not available:** Continue without review - this is acceptable for the workflow
 
 ### Issue: Manual Testing Fails
 

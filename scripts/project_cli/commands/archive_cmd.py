@@ -7,7 +7,7 @@ Archives a project by setting classification to 'archive' and status to 'complet
 import click
 from rich.console import Console
 from rich.table import Table
-from project_cli.api_client import APIClient
+from ..api_client import APIClient
 
 
 @click.command()
