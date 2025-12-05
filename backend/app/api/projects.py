@@ -78,8 +78,27 @@ def list_projects():
                 )
             )
     
-    projects = query.order_by(Project.id).all()
-    return jsonify([project.to_dict() for project in projects]), 200
+    try:
+        projects = query.order_by(Project.id).all()
+        # Convert to dict, handling any projects with invalid enum values
+        projects_list = []
+        for project in projects:
+            try:
+                projects_list.append(project.to_dict())
+            except LookupError as e:
+                # Handle invalid enum values in database (e.g., from before validation was added)
+                current_app.logger.warning(
+                    f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
+                    "Skipping this project. Consider fixing the database value."
+                )
+                # Skip this project - it has invalid data
+                continue
+        
+        return jsonify(projects_list), 200
+    except LookupError as e:
+        # If the error occurs during query execution itself, log and return error
+        current_app.logger.error(f"Error reading projects from database: {e}", exc_info=True)
+        return jsonify({'error': 'Error reading projects. Some projects may have invalid data.'}), 500
 
 
 def create_project():
@@ -143,9 +162,19 @@ def create_project():
         db.session.add(project)
         db.session.commit()
         
-        return jsonify(project.to_dict()), 201, {
-            'Location': f'/api/projects/{project.id}'
-        }
+        try:
+            return jsonify(project.to_dict()), 201, {
+                'Location': f'/api/projects/{project.id}'
+            }
+        except LookupError as e:
+            # Handle invalid enum values in database (shouldn't happen after create, but be safe)
+            current_app.logger.error(
+                f"Project {project.id} has invalid enum value after create: {e}. "
+                "This should not happen - check validation logic."
+            )
+            return jsonify({
+                'error': 'Error creating project. Please contact administrator.'
+            }), 500
     
     except IntegrityError:
         db.session.rollback()
@@ -185,13 +214,24 @@ def get_project(project_id):
         
     Raises:
         404: Project not found
+        500: Invalid enum values in database
     """
     project = db.session.get(Project, project_id)
     
     if project is None:
         return jsonify({'error': 'Project not found'}), 404
     
-    return jsonify(project.to_dict()), 200
+    try:
+        return jsonify(project.to_dict()), 200
+    except LookupError as e:
+        # Handle invalid enum values in database
+        current_app.logger.error(
+            f"Project {project_id} has invalid enum value: {e}. "
+            "Consider fixing the database value."
+        )
+        return jsonify({
+            'error': f'Project {project_id} has invalid data. Please contact administrator.'
+        }), 500
 
 
 def update_project(project_id):
@@ -221,7 +261,17 @@ def update_project(project_id):
     data = request.get_json()
     if not data:
         # No updates provided - return current project
-        return jsonify(project.to_dict()), 200
+        try:
+            return jsonify(project.to_dict()), 200
+        except LookupError as e:
+            # Handle invalid enum values in database
+            current_app.logger.error(
+                f"Project {project_id} has invalid enum value: {e}. "
+                "Consider fixing the database value."
+            )
+            return jsonify({
+                'error': f'Project {project_id} has invalid data. Please contact administrator.'
+            }), 500
     
     # Validate classification if provided
     if 'classification' in data and data['classification'] is not None:
@@ -264,7 +314,17 @@ def update_project(project_id):
         
         db.session.commit()
         
-        return jsonify(project.to_dict()), 200
+        try:
+            return jsonify(project.to_dict()), 200
+        except LookupError as e:
+            # Handle invalid enum values in database (shouldn't happen after update, but be safe)
+            current_app.logger.error(
+                f"Project {project_id} has invalid enum value after update: {e}. "
+                "Consider fixing the database value."
+            )
+            return jsonify({
+                'error': f'Project {project_id} has invalid data. Please contact administrator.'
+            }), 500
     
     except IntegrityError:
         db.session.rollback()
@@ -440,7 +500,17 @@ def archive_project(project_id):
         project.classification = 'archive'
         project.status = 'completed'
         db.session.commit()
-        return jsonify(project.to_dict()), 200
+        try:
+            return jsonify(project.to_dict()), 200
+        except LookupError as e:
+            # Handle invalid enum values in database (shouldn't happen after archive, but be safe)
+            current_app.logger.error(
+                f"Project {project_id} has invalid enum value after archive: {e}. "
+                "Consider fixing the database value."
+            )
+            return jsonify({
+                'error': f'Project {project_id} has invalid data. Please contact administrator.'
+            }), 500
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error in archive_project: {e}", exc_info=True)
