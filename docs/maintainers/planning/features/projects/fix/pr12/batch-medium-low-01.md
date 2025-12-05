@@ -4,18 +4,19 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** 🟡 Partial (1/2 issues complete)  
 **Created:** 2025-12-04  
-**Issues:** 2 issues
+**Last Updated:** 2025-12-05  
+**Issues:** 2 issues (PR12-#1 fixed via PR #18)
 
 ---
 
 ## Issues in This Batch
 
-| Issue | Priority | Impact | Effort | Description |
-|-------|----------|--------|--------|-------------|
-| PR12-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use `click.Choice` for CLI validation |
-| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status |
+| Issue | Priority | Impact | Effort | Description | Status |
+|-------|----------|--------|--------|-------------|--------|
+| PR12-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use `click.Choice` for CLI validation | ✅ Fixed (PR #18) |
+| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status | 🔴 Not Started |
 
 ---
 
