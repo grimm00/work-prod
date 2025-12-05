@@ -108,6 +108,8 @@ def test_list_projects_ordering(client, app):
         project5 = Project(name="Project 5", path="/path/5")
         db.session.add_all([project1, project2, project3, project4, project5])
         db.session.commit()
+        # Capture IDs before context exits
+        project_ids = [project1.id, project2.id, project3.id, project4.id, project5.id]
     
     response = client.get('/api/projects')
     data = json.loads(response.data)
@@ -117,9 +119,9 @@ def test_list_projects_ordering(client, app):
     assert ids == sorted(ids)
     
     # Verify ordering matches created projects (more robust assertion)
-    project_ids = [project1.id, project2.id, project3.id, project4.id, project5.id]
     returned_ids = [p['id'] for p in data if p['id'] in project_ids]
     assert returned_ids == sorted(returned_ids)
+    assert len(returned_ids) == 5  # All 5 projects should be returned
 
 
 # POST /api/projects tests (Phase 2)
