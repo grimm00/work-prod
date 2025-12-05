@@ -2,11 +2,12 @@
 
 **Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
 **Phase 5 (PR #16):** Import functionality - Scenarios 29-33  
-**Fixes:** 
+**Fixes:**
+
 - PR #17 - Request body validation improvements (Scenarios 34-37)
 - PR #18 - CLI table display improvements (Scenario 24 updated, Scenario 27a added)  
-**Last Updated:** 2025-12-05  
-**Tester:** User verification before PR merge
+  **Last Updated:** 2025-12-05  
+  **Tester:** User verification before PR merge
 
 ---
 
@@ -893,6 +894,74 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```
 
 **Expected Result:** ✅ --wide flag shows all 7 columns, default view shows 4 columns, both use full width
+
+---
+
+### Scenario 27b: CLI - Invalid Status Value (click.Choice Validation)
+
+**Test:** Verify that invalid status values are rejected at CLI level with clear error message
+
+**Prerequisites:** Backend server running
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Try to use invalid status value
+./proj list --status invalid_status
+
+# Expected Output:
+# Error: Invalid value for '--status' / '-s': 'invalid_status' is not one of 'active', 'paused', 'completed', 'cancelled'.
+# Usage: proj list [OPTIONS]
+# Try 'proj list --help' for help.
+```
+
+**Verification:**
+
+```bash
+# Test with invalid status
+./proj list --status invalid_status
+# Expected: Error message showing valid choices, exit code != 0
+
+# Test with valid status (should still work)
+./proj list --status active
+# Expected: Works correctly, shows filtered results
+```
+
+**Expected Result:** ✅ Invalid status values rejected at CLI with clear error message showing valid choices
+
+---
+
+### Scenario 27c: CLI - Invalid Classification Value (click.Choice Validation)
+
+**Test:** Verify that invalid classification values are rejected at CLI level with clear error message
+
+**Prerequisites:** Backend server running
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Try to use invalid classification value
+./proj list --classification invalid_class
+
+# Expected Output:
+# Error: Invalid value for '--classification' / '-c': 'invalid_class' is not one of 'primary', 'secondary', 'archive', 'maintenance'.
+# Usage: proj list [OPTIONS]
+# Try 'proj list --help' for help.
+```
+
+**Verification:**
+
+```bash
+# Test with invalid classification
+./proj list --classification invalid_class
+# Expected: Error message showing valid choices, exit code != 0
+
+# Test with valid classification (should still work)
+./proj list --classification primary
+# Expected: Works correctly, shows filtered results
+```
+
+**Expected Result:** ✅ Invalid classification values rejected at CLI with clear error message showing valid choices
 
 ---
 
