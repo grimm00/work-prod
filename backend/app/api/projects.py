@@ -142,26 +142,43 @@ def list_projects():
         rows = result.fetchall()
         
         # Convert rows to dictionaries, skipping invalid enum values
+        # SQLAlchemy returns Row objects that can be accessed by index or attribute name
         projects_list = []
         for row in rows:
             try:
-                # Try to create a Project object to validate enum values
+                # Access row columns - SQLAlchemy Row objects support both index and attribute access
+                # Use getattr with index fallback for compatibility
+                row_id = row[0] if hasattr(row, '__getitem__') else getattr(row, 'id', None)
+                row_name = row[1] if hasattr(row, '__getitem__') else getattr(row, 'name', None)
+                row_path = row[2] if hasattr(row, '__getitem__') else getattr(row, 'path', None)
+                row_org = row[3] if hasattr(row, '__getitem__') else getattr(row, 'organization', None)
+                row_classification = row[4] if hasattr(row, '__getitem__') else getattr(row, 'classification', None)
+                row_status = row[5] if hasattr(row, '__getitem__') else getattr(row, 'status', None)
+                row_description = row[6] if hasattr(row, '__getitem__') else getattr(row, 'description', None)
+                row_remote_url = row[7] if hasattr(row, '__getitem__') else getattr(row, 'remote_url', None)
+                row_created_at = row[8] if hasattr(row, '__getitem__') else getattr(row, 'created_at', None)
+                row_updated_at = row[9] if hasattr(row, '__getitem__') else getattr(row, 'updated_at', None)
+                
+                # Validate enum values and convert invalid ones
+                classification = row_classification if row_classification in VALID_CLASSIFICATIONS else None
+                status = row_status if row_status in VALID_STATUSES else 'active'
+                
                 project_dict = {
-                    'id': row.id,
-                    'name': row.name,
-                    'path': row.path,
-                    'organization': row.organization,
-                    'classification': row.classification if row.classification in VALID_CLASSIFICATIONS else None,
-                    'status': row.status if row.status in VALID_STATUSES else 'active',
-                    'description': row.description,
-                    'remote_url': row.remote_url,
-                    'created_at': row.created_at.isoformat() if row.created_at else None,
-                    'updated_at': row.updated_at.isoformat() if row.updated_at else None,
+                    'id': row_id,
+                    'name': row_name,
+                    'path': row_path,
+                    'organization': row_org,
+                    'classification': classification,
+                    'status': status,
+                    'description': row_description,
+                    'remote_url': row_remote_url,
+                    'created_at': row_created_at.isoformat() if row_created_at else None,
+                    'updated_at': row_updated_at.isoformat() if row_updated_at else None,
                 }
                 projects_list.append(project_dict)
             except Exception as e:
                 current_app.logger.warning(
-                    f"Skipping project {row.id} ({row.name}) due to error: {e}"
+                    f"Skipping project row due to error: {e}"
                 )
                 continue
         
