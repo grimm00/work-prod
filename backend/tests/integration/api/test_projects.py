@@ -49,6 +49,12 @@ def test_list_projects_with_data(client, app):
     assert 'path' in data[0]
     assert 'created_at' in data[0]
     assert 'updated_at' in data[0]
+    
+    # Check project with no path is serialized with path=None (null in JSON)
+    project_without_path = next((p for p in data if p.get("name") == "Project 3"), None)
+    assert project_without_path is not None
+    assert "path" in project_without_path
+    assert project_without_path["path"] is None
 
 
 @pytest.mark.integration
