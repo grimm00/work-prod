@@ -4,8 +4,9 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-12-05  
+**Completed:** 2025-12-05  
 **Issues:** 2 issues
 
 ---
@@ -134,29 +135,29 @@ def test_import_non_json_content_type(client):
 ## Implementation Steps
 
 1. **Issue PR16-#1: Request Body Validation**
-   - [ ] Add `isinstance(data, dict)` check after JSON parsing
-   - [ ] Add check for 'projects' key presence
-   - [ ] Add `isinstance(projects_data, list)` check
-   - [ ] Return 400 with clear error messages for each validation failure
-   - [ ] Update docstring to reflect new error cases
-   - [ ] Test validation with invalid request bodies
+   - [x] Add `isinstance(data, dict)` check after JSON parsing
+   - [x] Add check for 'projects' key presence
+   - [x] Add `isinstance(projects_data, list)` check
+   - [x] Return 400 with clear error messages for each validation failure
+   - [x] Update docstring to reflect new error cases
+   - [x] Test validation with invalid request bodies
 
 2. **Issue PR16-#3: Non-JSON Test**
-   - [ ] Add new test `test_import_non_json_content_type`
-   - [ ] Send request with non-JSON Content-Type (e.g., `text/plain`)
-   - [ ] Assert 400 status code
-   - [ ] Assert error message matches expected
-   - [ ] Verify test passes with current implementation
+   - [x] Add new test `test_import_non_json_content_type`
+   - [x] Send request with non-JSON Content-Type (e.g., `text/plain`)
+   - [x] Assert 400 status code
+   - [x] Assert error message matches expected
+   - [x] Verify test passes with current implementation
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] New test added for non-JSON Content-Type
-- [ ] Tests added for invalid request body shapes (non-dict, missing 'projects', non-list 'projects')
-- [ ] Manual testing completed (if needed)
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] New test added for non-JSON Content-Type
+- [x] Tests added for invalid request body shapes (non-dict, missing 'projects', non-list 'projects')
+- [x] Manual testing completed (if needed)
+- [x] No regressions introduced
 
 ---
 
@@ -169,11 +170,11 @@ def test_import_non_json_content_type(client):
 
 ## Definition of Done
 
-- [ ] Request body validation added (PR16-#1)
-- [ ] Non-JSON Content-Type test added (PR16-#3)
-- [ ] All tests passing
+- [x] Request body validation added (PR16-#1)
+- [x] Non-JSON Content-Type test added (PR16-#3)
+- [x] All tests passing
 - [ ] Code reviewed
-- [ ] Documentation updated (if needed)
+- [x] Documentation updated (docstring updated)
 - [ ] Ready for PR
 
 ---

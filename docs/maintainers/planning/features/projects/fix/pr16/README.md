@@ -11,7 +11,7 @@
 
 ### Fix Plans
 
-- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Request body validation & test coverage (🟡 MEDIUM, 🟢 LOW, 2 issues)
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Request body validation & test coverage (✅ Complete, PR #17)
 - **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Extract duplicate code (🟡 MEDIUM, 🟡 MEDIUM, 1 issue)
 - **[batch-medium-high-01.md](batch-medium-high-01.md)** - Refactor mapping function (🟡 MEDIUM, 🟠 HIGH, 1 issue)
 - **[batch-low-medium-01.md](batch-low-medium-01.md)** - Avoid loops in tests (🟢 LOW, 🟡 MEDIUM, 4 issues)
@@ -35,13 +35,13 @@
 ### Priority Breakdown
 
 - 🔴 **CRITICAL:** 0
-- 🟠 **HIGH:** 1 (fixed)
-- 🟡 **MEDIUM:** 4 (deferred, 3 batches)
+- 🟠 **HIGH:** 1 (fixed in PR #16)
+- 🟡 **MEDIUM:** 4 (2 fixed in PR #17, 2 deferred)
 - 🟢 **LOW:** 7 (deferred, 2 batches)
 
 ### Batch Summary
 
-- **MEDIUM/LOW:** 1 batch (2 issues) - Request validation & test coverage
+- **MEDIUM/LOW:** 1 batch (2 issues) - ✅ Complete via PR #17
 - **MEDIUM/MEDIUM:** 1 batch (1 issue) - Extract duplicate code
 - **MEDIUM/HIGH:** 1 batch (1 issue) - Refactor mapping function
 - **LOW/MEDIUM:** 1 batch (4 issues) - Avoid loops in tests
