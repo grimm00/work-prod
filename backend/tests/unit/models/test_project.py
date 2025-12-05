@@ -21,12 +21,16 @@ def test_project_creation(app):
 
 def test_project_name_required(app):
     """Test that name field is required."""
-    with pytest.raises(Exception):  # Should raise validation error
+    from app import db
+    from sqlalchemy.exc import IntegrityError
+    
+    with pytest.raises(IntegrityError):
         project = Project(path="/test/path")
-        # Attempting to commit without name should fail
-        from app import db
         db.session.add(project)
         db.session.commit()
+    
+    # Roll back to leave session clean
+    db.session.rollback()
 
 
 def test_project_path_can_be_null(app):
@@ -58,15 +62,33 @@ def test_project_to_dict(app):
 def test_project_timestamps(app):
     """Test that created_at and updated_at are set automatically."""
     from app import db
+    from datetime import datetime
+    import time
     
     project = Project(name="Test Project")
     db.session.add(project)
     db.session.commit()
     
+    # Verify initial timestamps
     assert project.created_at is not None
     assert project.updated_at is not None
     assert isinstance(project.created_at, datetime)
     assert isinstance(project.updated_at, datetime)
+    
+    # Store original timestamps
+    original_created_at = project.created_at
+    original_updated_at = project.updated_at
+    
+    # Wait a moment to ensure timestamp difference (SQLite may have second-level precision)
+    time.sleep(1.1)
+    
+    # Update project
+    project.name = "Updated Project"
+    db.session.commit()
+    
+    # Verify updated_at changed but created_at didn't
+    assert project.created_at == original_created_at
+    assert project.updated_at > original_updated_at
 
 
 def test_project_repr(app):
@@ -82,6 +104,7 @@ def test_project_repr(app):
 def test_project_path_unique(app):
     """Test that path must be unique."""
     from app import db
+    from sqlalchemy.exc import IntegrityError
     
     project1 = Project(name="Project 1", path="/same/path")
     db.session.add(project1)
@@ -90,8 +113,11 @@ def test_project_path_unique(app):
     project2 = Project(name="Project 2", path="/same/path")
     db.session.add(project2)
     
-    with pytest.raises(Exception):  # Should raise IntegrityError
+    with pytest.raises(IntegrityError):
         db.session.commit()
+    
+    # Roll back to leave session clean
+    db.session.rollback()
 
 
 # Extended Model Fields Tests (Phase 2)
