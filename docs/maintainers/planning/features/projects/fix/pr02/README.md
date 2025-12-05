@@ -2,7 +2,7 @@
 
 **PR:** #2 - Phase 1: List & Get Projects  
 **Date:** 2025-12-03  
-**Status:** 🟡 Partial (2/11 resolved, 5 fixed, 1 not fixed, 4 planned)  
+**Status:** 🟡 Partial (2/11 resolved, 6 fixed, 4 planned)  
 **Last Updated:** 2025-12-05
 
 ---
@@ -11,7 +11,7 @@
 
 ### Issues
 
-- **[issue-03-cli-imports.md](issue-03-cli-imports.md)** - CLI import ambiguity (🟠 HIGH, 🔴 Not Fixed)
+- **[issue-03-cli-imports.md](issue-03-cli-imports.md)** - CLI import ambiguity (🟠 HIGH, ✅ Fixed via PR #15)
 
 ### Batches
 
@@ -23,21 +23,25 @@
 
 **Total Issues:** 11  
 **Resolved:** 2 (fixed in Phase 2)  
-**Fixed:** 5 (1 HIGH via quick-wins, 4 LOW via quick-wins)  
-**Not Fixed:** 1 (HIGH priority)  
+**Fixed:** 6 (1 HIGH via PR #15, 4 LOW via PR #14 quick-wins batch)  
 **Planned:** 4 (MEDIUM priority, batched)
 
 **Status Breakdown:**
 - ✅ Resolved: 2 issues (fixed in Phase 2)
-- ✅ Fixed: 5 issues (1 HIGH + 4 LOW via PR #14 quick-wins batch)
-- 🔴 Not Fixed: 1 issue (HIGH priority - CLI imports)
+- ✅ Fixed: 6 issues (1 HIGH via PR #15, 4 LOW via PR #14 quick-wins batch)
 - 🟡 Planned: 4 issues (MEDIUM priority - test improvements batch)
 
 ---
 
-## 🔴 Not Fixed
+## ✅ Fixed
 
-- **PR02-#3:** CLI import ambiguity (HIGH) - Needs relative imports
+### Via PR #15
+- **PR02-#3:** CLI import ambiguity (HIGH) ✅
+
+### Via PR #14 Quick Wins Batch
+- **PR02-#5:** Test error message content (LOW) ✅
+- **PR02-#9:** Avoid loop in tests (LOW) ✅
+- **PR02-#10-#11:** Raise from previous error (LOW, 2 places) ✅
 
 ---
 
@@ -60,13 +64,6 @@
   - PR02-#8: Test updated_at changes
 - **Estimated:** 1-2 hours
 
-## ✅ Fixed (via PR #14 Quick Wins Batch)
-
-- **PR02-#5:** Test error message content (LOW) ✅
-- **PR02-#9:** Avoid loop in tests (LOW) ✅
-- **PR02-#10-#11:** Raise from previous error (LOW, 2 places) ✅
-
 ---
 
-**Last Updated:** 2025-12-04
-
+**Last Updated:** 2025-12-05
