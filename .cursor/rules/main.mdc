@@ -136,13 +136,15 @@ Always use: `YYYY-MM-DD` format (e.g., 2025-11-26)
 
 **CRITICAL:** Do NOT merge pull requests automatically. Always follow this workflow:
 
-1. **Create PR** - Use GitHub CLI or UI to create the pull request
+1. **Create PR** - Use `/pr --phase [N]` or `/pr --fix [batch]` command
 2. **Stop and Wait** - Present PR link to user, do NOT proceed to merge
-3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit`
+3. **External Review** - User will run `dt-review` from `~/Projects/dev-toolkit` (or use `/pr-validation`)
 4. **Sourcery Feedback** - Reviews saved to `docs/maintainers/feedback/sourcery/pr##.md`
-5. **Priority Assessment** - Fill out priority matrix in Sourcery review file
-6. **Fix Planning** - Create fix plans in feature's `fix/` subdirectory
+   - **Note:** Missing reviews are acceptable - workflow continues without review
+5. **Priority Assessment** - Fill out priority matrix in Sourcery review file (if review available)
+6. **Fix Planning** - Use `/fix-plan` to create fix plans in feature's `fix/` subdirectory
 7. **User Approval** - Only merge after user explicitly approves
+8. **Post-Merge** - Use `/post-pr` to update documentation and clean up branches
 
 ### Priority Matrix Assessment
 
@@ -153,12 +155,54 @@ For each Sourcery comment, assess:
 
 ### Fix Plan Structure
 
-Create fix plans in `docs/maintainers/planning/features/[feature]/fix/`:
-- `issue-[number]-[short-name].md` - Individual fix plan
-- Reference Sourcery review comment number
-- Include priority, impact, effort assessment
-- Provide implementation steps
-- Link to related ADRs if architectural changes needed
+**Hub-and-Spoke Organization:**
+
+Fix tracking uses hub-and-spoke pattern for scalability:
+
+```
+fix/
+├── README.md                    # Main hub - overview and quick links
+├── pr##/                        # PR-specific fixes
+│   ├── README.md                # PR hub - links to fix plans
+│   ├── issue-[number]-[short-name].md  # Individual fix plan
+│   └── batch-[priority]-[effort]-[batch-number].md  # Fix batch plan
+├── cross-pr/                    # Cross-PR batches
+│   ├── README.md                # Cross-PR hub
+│   └── [batch-name]-[priority]-[effort]-[batch-number].md  # Cross-PR batch
+└── archived/                    # Completed PRs
+    └── README.md                # Archive hub
+```
+
+**Fix Plan Types:**
+
+1. **Individual Fix Plans:**
+   - Format: `issue-[number]-[short-name].md`
+   - For single HIGH/CRITICAL priority issues
+   - Include priority, impact, effort assessment
+   - Provide implementation steps
+   - Link to related ADRs if architectural changes needed
+
+2. **Fix Batch Plans (PR-Specific):**
+   - Format: `batch-[priority]-[effort]-[batch-number].md`
+   - Groups related fixes from same PR
+   - Batched by priority and effort (e.g., `batch-medium-low-01`)
+   - Includes all issues in batch with details
+   - Single implementation workflow
+
+3. **Cross-PR Batch Plans:**
+   - Format: `[batch-name]-[priority]-[effort]-[batch-number].md`
+   - Groups fixes from multiple PRs (e.g., `quick-wins-low-low-01`)
+   - Created from `/fix-review` recommendations
+   - Enables efficient deferred issue handling
+   - Includes source PR references for each issue
+
+**Fix Management Commands:**
+
+- `/fix-plan` - Create fix plans from Sourcery reviews or fix-review reports
+- `/fix-implement` - Implement fixes from batches (supports PR-specific and cross-PR)
+- `/fix-review` - Review old deferred issues and generate batch recommendations
+- `/pr-validation` - Validate PRs (handles missing reviews gracefully)
+- `/post-pr` - Update documentation after PR merge (supports fix PRs)
 
 ---
 
@@ -181,7 +225,10 @@ Create fix plans in `docs/maintainers/planning/features/[feature]/fix/`:
    - `status-and-next-steps.md` - Current progress tracking
    - `phase-1.md` - First phase details (additional phases as needed: `phase-2.md`, `phase-3.md`, etc.)
    - `deliverables/README.md` - Hub for planning outputs (templates, guides, documentation)
-   - `fix/README.md` - Troubleshooting hub (create as needed)
+   - `fix/README.md` - Fix tracking hub (hub-and-spoke organization)
+     - `pr##/` - PR-specific fixes (with README.md hub)
+     - `cross-pr/` - Cross-PR fix batches (with README.md hub)
+     - `archived/` - Completed PRs (with README.md hub)
 
 3. **Feature Plan Structure**
 
@@ -461,6 +508,9 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - ✅ Sourcery AI for code review
 - ✅ GitHub CLI for repo management
 - ✅ Cursor IDE with AI rules
+- ✅ Fix management workflow commands (`/fix-plan`, `/fix-implement`, `/fix-review`)
+- ✅ Cross-PR fix batch system
+- ✅ Automated fix tracking with hub-and-spoke organization
 
 **Planned:**
 
@@ -495,6 +545,16 @@ Create ADRs in `docs/maintainers/decisions/` for:
 3. Write tests for new functionality
 4. Update relevant README files
 5. Consider if ADR is needed for significant decisions
+
+### When Handling Fixes
+
+1. **After PR Merge:** Use `/fix-plan` to create fix batches from Sourcery review
+2. **Batch Creation:** Group issues by priority/effort, support cross-PR batches
+3. **Implementation:** Use `/fix-implement` with TDD workflow
+4. **PR Creation:** Use `/pr --fix [batch-name]` for fix PRs
+5. **Post-Merge:** Use `/post-pr` to update fix tracking and clean up branches
+6. **Fix Tracking:** Use hub-and-spoke organization (`fix/pr##/`, `fix/cross-pr/`)
+7. **Review Old Issues:** Use `/fix-review` to identify deferred issues across PRs
 
 ### Response Style
 
@@ -686,6 +746,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-**Last Updated:** 2025-12-03  
+**Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Implement Sourcery feedback fixes before Phase 2
+**Next:** Continue Phase 5 implementation
