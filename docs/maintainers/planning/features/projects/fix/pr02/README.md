@@ -2,7 +2,7 @@
 
 **PR:** #2 - Phase 1: List & Get Projects  
 **Date:** 2025-12-03  
-**Status:** 🟡 Partial (2/11 resolved, 5 fixed, 1 not fixed, 4 planned)  
+**Status:** 🟡 Partial (2/11 resolved, 6 fixed, 4 planned)  
 **Last Updated:** 2025-12-05
 
 ---
@@ -59,8 +59,12 @@
   - PR02-#8: Test updated_at changes
 - **Estimated:** 1-2 hours
 
-## ✅ Fixed (via PR #14 Quick Wins Batch)
+## ✅ Fixed
 
+### Via PR #15
+- **PR02-#3:** CLI import ambiguity (HIGH) ✅
+
+### Via PR #14 Quick Wins Batch
 - **PR02-#5:** Test error message content (LOW) ✅
 - **PR02-#9:** Avoid loop in tests (LOW) ✅
 - **PR02-#10-#11:** Raise from previous error (LOW, 2 places) ✅
