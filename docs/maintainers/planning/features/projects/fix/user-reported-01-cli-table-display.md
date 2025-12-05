@@ -1,6 +1,6 @@
 # Fix Plan: CLI List Table Display Issue
 
-**Issue:** User-reported  
+**Issue:** User-reported + PR12-#1 (batched)  
 **Priority:** 🟡 MEDIUM  
 **Impact:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
@@ -8,6 +8,8 @@
 **Created:** 2025-12-05  
 **Completed:** 2025-12-05  
 **Reported By:** User during manual testing (Scenario 24)
+
+**Note:** This fix plan also includes PR12-#1 (click.Choice validation) which was batched together since both fixes modify the same file (`list_cmd.py`).
 
 ---
 
@@ -284,7 +286,8 @@ def list_projects(status, organization, classification, search, wide):
 
 ## Related Issues
 
-- None (user-reported, not from Sourcery review)
+- **PR12-#1:** Use `click.Choice` for CLI validation (batched together - same file)
+- User-reported issue (table display)
 
 ---
 
