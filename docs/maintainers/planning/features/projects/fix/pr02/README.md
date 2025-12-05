@@ -11,7 +11,7 @@
 
 ### Issues
 
-- **[issue-03-cli-imports.md](issue-03-cli-imports.md)** - CLI import ambiguity (🟠 HIGH, 🔴 Not Fixed)
+- **[issue-03-cli-imports.md](issue-03-cli-imports.md)** - CLI import ambiguity (🟠 HIGH, ✅ Fixed via PR #15)
 
 ### Batches
 
@@ -29,15 +29,14 @@
 
 **Status Breakdown:**
 - ✅ Resolved: 2 issues (fixed in Phase 2)
-- ✅ Fixed: 5 issues (1 HIGH + 4 LOW via PR #14 quick-wins batch)
-- 🔴 Not Fixed: 1 issue (HIGH priority - CLI imports)
+- ✅ Fixed: 6 issues (1 HIGH via PR #15, 4 LOW via PR #14 quick-wins batch)
 - 🟡 Planned: 4 issues (MEDIUM priority - test improvements batch)
 
 ---
 
-## 🔴 Not Fixed
+## ✅ Fixed
 
-- **PR02-#3:** CLI import ambiguity (HIGH) - Needs relative imports
+- **PR02-#3:** CLI import ambiguity (HIGH) - Fixed via PR #15 (relative imports)
 
 ---
 
