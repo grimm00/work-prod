@@ -2,7 +2,7 @@
 
 **PR:** #12 - Phase 4: Search & Filter Projects  
 **Date:** 2025-12-04  
-**Status:** 🟡 Partial (1/3 batches complete)  
+**Status:** 🟡 Partial (2/3 batches complete)  
 **Last Updated:** 2025-12-05
 
 ---
@@ -20,8 +20,8 @@
 ## 📊 Summary
 
 **Total Issues:** 5  
-**Batches:** 3 (1 complete, 2 remaining)  
-**Status:** 🟡 Partial - 1 batch complete via PR #13, 1 issue fixed via PR #18
+**Batches:** 3 (2 complete, 1 remaining)  
+**Status:** 🟡 Partial - 1 batch complete via PR #13, 1 batch complete via PR #19
 
 **Priority Breakdown:**
 - 🟡 MEDIUM: 3 issues (2 batches)
@@ -33,9 +33,10 @@
 
 ### Batch 1: MEDIUM/LOW (2 issues)
 - **PR12-#1:** Use `click.Choice` for CLI validation ✅ Fixed (PR #18)
-- **PR12-#2:** Tighten test expectations for invalid status 🔴 Not Started
-- **Status:** 🟡 Partial (1/2 complete)
+- **PR12-#2:** Tighten test expectations for invalid status ✅ Fixed (PR #19)
+- **Status:** ✅ Complete
 - **File:** [batch-medium-low-01.md](batch-medium-low-01.md)
+- **PR:** #19
 
 ### Batch 2: MEDIUM/MEDIUM (1 issue)
 - **PR12-#3:** Avoid conditionals in tests

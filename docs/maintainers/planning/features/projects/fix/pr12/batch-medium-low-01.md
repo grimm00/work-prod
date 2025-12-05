@@ -4,10 +4,12 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🟡 Partial (1/2 issues complete)  
+**Status:** ✅ Complete  
 **Created:** 2025-12-04  
 **Last Updated:** 2025-12-05  
-**Issues:** 2 issues (PR12-#1 fixed via PR #18)
+**Completed:** 2025-12-05  
+**PR:** [#19](https://github.com/grimm00/work-prod/pull/19)  
+**Issues:** 2 issues (PR12-#1 fixed via PR #18, PR12-#2 fixed via PR #19)
 
 ---
 
@@ -16,7 +18,7 @@
 | Issue | Priority | Impact | Effort | Description | Status |
 |-------|----------|--------|--------|-------------|--------|
 | PR12-#1 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use `click.Choice` for CLI validation | ✅ Fixed (PR #18) |
-| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status | 🔴 Not Started |
+| PR12-#2 | 🟡 MEDIUM | 🟢 LOW | 🟢 LOW | Tighten test expectations for invalid status | ✅ Fixed (PR #19) |
 
 ---
 
@@ -104,21 +106,23 @@ def test_filter_projects_invalid_status_value(client):
    - [x] Test CLI with invalid values to verify error messages
    - [x] Verify valid values still work correctly
 
-2. **Issue PR12-#2: Test Expectations**
-   - [ ] Update `test_filter_projects_invalid_status_value` to assert status_code == 200
-   - [ ] Verify test passes with current implementation
-   - [ ] Check if similar tests need updating (invalid classification, etc.)
+2. **Issue PR12-#2: Test Expectations** ✅ Complete
+   - [x] Update `test_filter_projects_invalid_status_value_ignored` to assert status_code == 200
+   - [x] Improve test to verify returned projects match created projects (not just count)
+   - [x] Add test for invalid classification being ignored
+   - [x] Verify test passes with current implementation
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] CLI validation tested with invalid status values
-- [ ] CLI validation tested with invalid classification values
-- [ ] CLI validation tested with valid values (still works)
-- [ ] Test for invalid status asserts correct behavior (200, all projects)
-- [ ] No regressions introduced
+- [x] All existing tests pass
+- [x] CLI validation tested with invalid status values (PR #18)
+- [x] CLI validation tested with invalid classification values (PR #18)
+- [x] CLI validation tested with valid values (still works) (PR #18)
+- [x] Test for invalid status asserts correct behavior (200, all projects)
+- [x] Test for invalid classification asserts correct behavior (200, all projects)
+- [x] No regressions introduced
 
 ---
 
@@ -133,10 +137,10 @@ def test_filter_projects_invalid_status_value(client):
 
 - [x] CLI validates status and classification at input (PR12-#1) ✅ Fixed (PR #18)
 - [x] Invalid values show clear error messages ✅ Fixed (PR #18)
-- [ ] Test expectations match documented behavior (PR12-#2)
-- [ ] All tests passing
-- [ ] Code reviewed
-- [ ] Ready for PR
+- [x] Test expectations match documented behavior (PR12-#2) ✅ Fixed (PR #19)
+- [x] All tests passing
+- [x] Code reviewed
+- [x] Ready for PR ✅ Complete
 
 ---
 

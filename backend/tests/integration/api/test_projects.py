@@ -778,15 +778,47 @@ def test_filter_projects_invalid_status_value_ignored(client, app):
         project2 = Project(name="Project 2", status="paused")
         db.session.add_all([project1, project2])
         db.session.commit()
+        project1_id = project1.id
+        project2_id = project2.id
     
     # Try to filter by invalid status
     response = client.get('/api/projects?status=invalid')
     
     # Invalid status values are ignored, so all projects should be returned
     assert response.status_code == 200
-    data = json.loads(response.data)
+    data = response.get_json()
     assert isinstance(data, list)
     assert len(data) == 2
+    
+    # Verify that the returned projects are exactly the ones created in this test
+    returned_ids = {project["id"] for project in data}
+    assert returned_ids == {project1_id, project2_id}
+
+
+@pytest.mark.integration
+def test_filter_projects_invalid_classification_value_ignored(client, app):
+    """Test GET /api/projects?classification=invalid ignores invalid filter and returns all projects."""
+    # Create some projects
+    with app.app_context():
+        project1 = Project(name="Project 1", classification="primary")
+        project2 = Project(name="Project 2", classification="secondary")
+        db.session.add_all([project1, project2])
+        db.session.commit()
+        project1_id = project1.id
+        project2_id = project2.id
+    
+    # Try to filter by invalid classification
+    response = client.get('/api/projects?classification=invalid')
+    
+    # Invalid classification values are ignored, so all projects should be returned
+    assert response.status_code == 200
+    data = response.get_json()
+    assert isinstance(data, list)
+    assert len(data) == 2
+    
+    # Verify that the returned projects are exactly the ones created in this test
+    returned_ids = {project["id"] for project in data}
+    assert returned_ids == {project1_id, project2_id}
 
 
 # Phase 4: Search Tests
