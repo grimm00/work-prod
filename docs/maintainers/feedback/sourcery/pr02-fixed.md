@@ -493,7 +493,7 @@ def list_projects():
 |---------|----------|--------|--------|-------|
 | #1 | ✅ RESOLVED | - | - | Fixed in Phase 2 - Combined routes (GET/POST/PATCH on same routes) |
 | #2 | ✅ RESOLVED | - | - | Fixed in Phase 2 - ValueError handler removed with route consolidation |
-| #3 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | CLI import ambiguity - use relative imports. Could cause import errors |
+| #3 | 🟠 HIGH | 🟠 HIGH | 🟢 LOW | ✅ Fixed | Fixed in PR #15 (pr02-issue-03-cli-imports) |
 | #4 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Test should assert null path serialization - good test coverage |
 | #5 | 🟢 LOW | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in quick-wins-low-low-01 |
 | #6 | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | Use IntegrityError not Exception in test - better test precision |

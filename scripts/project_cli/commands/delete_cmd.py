@@ -7,7 +7,7 @@ Deletes a project permanently with confirmation.
 import click
 from rich.console import Console
 from rich.prompt import Confirm
-from project_cli.api_client import APIClient
+from ..api_client import APIClient
 
 
 @click.command()
