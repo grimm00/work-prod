@@ -16,6 +16,10 @@
 - **[PR #2](pr02/README.md)** - Phase 1: List & Get Projects (🟡 Partial - 1 HIGH issue not fixed)
 - **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 1/3 batches complete via PR #13)
 
+### Cross-PR Batches
+
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (2 batches, 11 issues)
+
 ### Archived PRs
 
 - **[Archived](archived/README.md)** - Completed PRs (PR #1, #4, #8)
@@ -45,6 +49,9 @@ fix/
 ├── pr12/                        # PR #12 fixes
 │   ├── README.md                # PR #12 hub
 │   └── batch-*.md               # Fix batch plans
+├── cross-pr/                    # Cross-PR batches
+│   ├── README.md                # Cross-PR hub
+│   └── *.md                     # Batch fix plans
 └── archived/                    # Completed PRs
     ├── README.md                # Archive hub
     ├── pr01/                    # Archived PR #1
@@ -90,9 +97,21 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 - **Hub:** [pr02/README.md](pr02/README.md)
 
 #### PR #12 (Phase 4)
-- **Status:** 🟡 Planned
-- **Batches:** 3 batches ready for implementation
+- **Status:** 🟡 Partial
+- **Batches:** 1/3 batches complete via PR #13
 - **Hub:** [pr12/README.md](pr12/README.md)
+
+### Cross-PR Batches
+
+#### Quick Wins Batch
+- **Status:** 🔴 Not Started
+- **Issues:** 7 LOW/LOW issues
+- **Hub:** [cross-pr/README.md](cross-pr/README.md)
+
+#### Test Quality Batch
+- **Status:** 🔴 Not Started
+- **Issues:** 4 MEDIUM/LOW issues
+- **Hub:** [cross-pr/README.md](cross-pr/README.md)
 
 ### Archived PRs
 
@@ -204,6 +223,6 @@ git commit -m "fix(cli): use click.Choice for validation (PR12-#1, #2)"
 
 ---
 
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Fix PR #2 HIGH priority issue, then implement PR #12 batches
+**Next:** Review cross-PR batches, implement Quick Wins batch, then Test Quality batch

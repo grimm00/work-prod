@@ -20,17 +20,25 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 **Command:** `@fix-implement [batch-name] [options]`
 
-**Batch Name Format:**
+**Batch Name Formats:**
 
-- Format: `pr##-batch-[priority]-[effort]-[batch-number]`
-- Example: `pr12-batch-medium-low-01`
-- File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
+1. **PR-Specific Batch:**
+
+   - Format: `pr##-batch-[priority]-[effort]-[batch-number]`
+   - Example: `pr12-batch-medium-low-01`
+   - File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
+
+2. **Cross-PR Batch (from fix-review):**
+   - Format: `[batch-name]-[priority]-[effort]-[batch-number]`
+   - Example: `quick-wins-low-low-01`
+   - File path: `docs/maintainers/planning/features/projects/fix/cross-pr/quick-wins-low-low-01.md`
 
 **Examples:**
 
-- `@fix-implement pr12-batch-medium-low-01` - Implement specific batch
+- `@fix-implement pr12-batch-medium-low-01` - Implement PR-specific batch
+- `@fix-implement quick-wins-low-low-01` - Implement cross-PR batch
 - `@fix-implement pr12-batch-medium-low-01 --skip-tests` - Skip test writing (not recommended)
-- `@fix-implement pr12-batch-medium-low-01 --dry-run` - Show implementation plan without executing
+- `@fix-implement quick-wins-low-low-01 --dry-run` - Show implementation plan without executing
 
 **Options:**
 
@@ -44,23 +52,44 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 
 ### 1. Load Fix Plan
 
+**Determine batch type:**
+
+- **PR-Specific Batch:** Starts with `pr##-batch-`
+  - Example: `pr12-batch-medium-low-01`
+  - Location: `docs/maintainers/planning/features/projects/fix/pr##/batch-[priority]-[effort]-[batch-number].md`
+- **Cross-PR Batch:** Does NOT start with `pr##-batch-`
+  - Example: `quick-wins-low-low-01`
+  - Location: `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name]-[priority]-[effort]-[batch-number].md`
+
 **Parse batch name:**
+
+**For PR-Specific Batches:**
 
 - Extract PR number from batch name (e.g., `pr12-batch-medium-low-01` → PR #12)
 - Extract batch file name (remove `pr##-` prefix: `batch-medium-low-01`)
 - Construct file path: `docs/maintainers/planning/features/projects/fix/pr##/batch-[priority]-[effort]-[batch-number].md`
 
-**File:** `docs/maintainers/planning/features/projects/fix/pr##/batch-[priority]-[effort]-[batch-number].md`
+**For Cross-PR Batches:**
 
-**Example:**
+- Use batch name as-is (e.g., `quick-wins-low-low-01`)
+- Construct file path: `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
+
+**Examples:**
 
 - Batch name: `pr12-batch-medium-low-01`
-- PR number: 12
-- File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
+
+  - Type: PR-Specific
+  - PR number: 12
+  - File path: `docs/maintainers/planning/features/projects/fix/pr12/batch-medium-low-01.md`
+
+- Batch name: `quick-wins-low-low-01`
+  - Type: Cross-PR
+  - File path: `docs/maintainers/planning/features/projects/fix/cross-pr/quick-wins-low-low-01.md`
 
 **Extract information:**
 
-- PR number (from batch name or file)
+- Batch type (PR-specific or cross-PR)
+- Source PR number(s) (single PR for PR-specific, multiple PRs for cross-PR)
 - Issues in batch
 - Priority and effort levels
 - File locations
@@ -72,11 +101,14 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 - Fix plan exists and is readable
 - All issues are documented
 - Implementation steps are clear
+- Source PRs identified (for cross-PR batches)
 
 **Checklist:**
 
+- [ ] Batch type determined
 - [ ] Fix plan file found
 - [ ] All issues identified
+- [ ] Source PRs identified (for cross-PR batches)
 - [ ] Implementation steps reviewed
 - [ ] Testing requirements understood
 
@@ -87,7 +119,8 @@ Implements fixes from a fix plan batch. Handles TDD workflow, testing, and PR cr
 **Branch naming:**
 
 - Format: `fix/[batch-name]` (keep full batch name)
-- Example: `fix/pr12-batch-medium-low-01`
+- PR-Specific Example: `fix/pr12-batch-medium-low-01`
+- Cross-PR Example: `fix/quick-wins-low-low-01`
 
 **Steps:**
 
@@ -199,6 +232,8 @@ pytest --cov --cov-report=term-missing
 
 **Commit message format:**
 
+**For PR-Specific Batches:**
+
 ```
 fix(scope): [brief description] (PR##-#N)
 
@@ -208,7 +243,21 @@ Fixes: PR##-#N
 Part of: [batch-name]
 ```
 
-**Example:**
+**For Cross-PR Batches:**
+
+```
+fix(scope): [brief description] (PR##-#N)
+
+[Longer description if needed]
+
+Fixes: PR##-#N
+Part of: [batch-name] (cross-PR batch)
+Source PRs: PR##, PR##, ...
+```
+
+**Examples:**
+
+**PR-Specific:**
 
 ```bash
 git commit -m "fix(cli): use click.Choice for status validation (PR12-#1)
@@ -221,11 +270,25 @@ Fixes: PR12-#1
 Part of: pr12-batch-medium-low-01"
 ```
 
+**Cross-PR:**
+
+```bash
+git commit -m "fix(tests): use response.get_json() instead of json.loads (PR01-#5)
+
+Replace manual JSON parsing with Flask's built-in get_json()
+method for better error handling and consistency.
+
+Fixes: PR01-#5
+Part of: quick-wins-low-low-01 (cross-PR batch)
+Source PRs: PR #1, PR #2, PR #12"
+```
+
 **Checklist:**
 
 - [ ] Commit message follows format
 - [ ] Issue number referenced
 - [ ] Batch name included
+- [ ] Source PRs listed (for cross-PR batches)
 - [ ] Changes committed
 
 ---
@@ -269,7 +332,11 @@ Part of: pr12-batch-medium-low-01"
 
 ### 6. Update Fix Plan Status
 
+**For PR-Specific Batches:**
 **File:** `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
+
+**For Cross-PR Batches:**
+**File:** `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
 
 **Update status:**
 
@@ -286,11 +353,22 @@ Part of: pr12-batch-medium-low-01"
 
 **Mark individual issues in Sourcery review:**
 
-- Update review file: `docs/maintainers/feedback/sourcery/pr##.md`
+**For PR-Specific Batches:**
+
+- Update single review file: `docs/maintainers/feedback/sourcery/pr##.md`
 - Mark each issue as "✅ Fixed" in priority matrix
 - Add PR number reference
 
-**Example:**
+**For Cross-PR Batches:**
+
+- Update multiple review files (one per source PR)
+- For each issue, find its source PR and update that review file
+- Mark each issue as "✅ Fixed" in priority matrix
+- Add PR number reference
+
+**Examples:**
+
+**PR-Specific:**
 
 ```markdown
 | Comment | Priority  | Impact    | Effort | Status   | Notes                                      |
@@ -298,17 +376,41 @@ Part of: pr12-batch-medium-low-01"
 | #1      | 🟡 MEDIUM | 🟡 MEDIUM | 🟢 LOW | ✅ Fixed | Fixed in PR #15 (pr12-batch-medium-low-01) |
 ```
 
+**Cross-PR (PR #1 review file):**
+
+```markdown
+| Comment | Priority | Impact | Effort | Status   | Notes                                   |
+| ------- | -------- | ------ | ------ | -------- | --------------------------------------- |
+| #5      | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+| #6      | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+```
+
+**Cross-PR (PR #2 review file):**
+
+```markdown
+| Comment | Priority | Impact | Effort | Status   | Notes                                   |
+| ------- | -------- | ------ | ------ | -------- | --------------------------------------- |
+| #5      | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+| #9      | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+| #10     | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+| #11     | 🟢 LOW   | 🟢 LOW | 🟢 LOW | ✅ Fixed | Fixed in PR #16 (quick-wins-low-low-01) |
+```
+
 **Checklist:**
 
 - [ ] Fix plan status updated
 - [ ] Definition of Done marked complete
 - [ ] Completion date added
-- [ ] Individual issues marked in Sourcery review
+- [ ] Individual issues marked in Sourcery review(s)
+  - [ ] Single review file updated (PR-specific)
+  - [ ] Multiple review files updated (cross-PR)
 - [ ] PR number referenced
 
 ---
 
 ### 7. Update Fix Tracking
+
+**For PR-Specific Batches:**
 
 **Update PR Hub:**
 **File:** `docs/maintainers/planning/features/projects/fix/pr##/README.md`
@@ -321,22 +423,46 @@ Part of: pr12-batch-medium-low-01"
 | batch-medium-low-01 | 🟡 MEDIUM | 🟢 LOW | 2      | ✅ Complete | [batch-medium-low-01.md](batch-medium-low-01.md) |
 ```
 
+**For Cross-PR Batches:**
+
+**Update Cross-PR Hub:**
+**File:** `docs/maintainers/planning/features/projects/fix/cross-pr/README.md`
+
+**Update batch status:**
+
+```markdown
+### Quick Wins Batch
+
+- **Status:** ✅ Complete
+- **Issues:** 7 LOW/LOW issues
+- **File:** [quick-wins-low-low-01.md](quick-wins-low-low-01.md)
+- **Completed:** YYYY-MM-DD via PR #[number]
+```
+
 **Update main hub:**
 **File:** `docs/maintainers/planning/features/projects/fix/README.md`
 
-**Add completion note:**
+**For PR-Specific Batches:**
 
 ```markdown
 **Completed:** YYYY-MM-DD via PR #[number]
 ```
 
+**For Cross-PR Batches:**
+
+```markdown
+**Cross-PR Batches:**
+
+- Quick Wins batch completed via PR #[number]
+```
+
 **Checklist:**
 
-- [ ] PR hub updated with batch status
+- [ ] Hub updated (PR hub for PR-specific, cross-PR hub for cross-PR batches)
 - [ ] Batch status updated to "Complete"
 - [ ] PR number added
 - [ ] Completion date added
-- [ ] Main hub updated if PR is complete
+- [ ] Main hub updated
 
 ---
 
@@ -344,17 +470,28 @@ Part of: pr12-batch-medium-low-01"
 
 **PR Title Format:**
 
+**For PR-Specific Batches:**
+
 ```
 fix: [Batch Description] ([batch-name])
 ```
 
-**Example:**
+**For Cross-PR Batches:**
+
+```
+fix: [Batch Description] ([batch-name], cross-PR batch)
+```
+
+**Examples:**
 
 ```
 fix: CLI validation and test improvements (pr12-batch-medium-low-01)
+fix: Quick wins - test improvements and error handling (quick-wins-low-low-01, cross-PR batch)
 ```
 
 **PR Description Template:**
+
+**For PR-Specific Batches:**
 
 ```markdown
 ## Fix Batch: [batch-name]
@@ -400,9 +537,65 @@ Fixes [N] issues from PR #[number] Sourcery review.
 
 ## Related
 
-- **Fix Plan:** `docs/maintainers/planning/features/projects/fix/[batch-name].md`
+- **Fix Plan:** `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
 - **Sourcery Review:** `docs/maintainers/feedback/sourcery/pr##.md`
 - **Original PR:** #[number]
+```
+
+**For Cross-PR Batches:**
+
+```markdown
+## Fix Batch: [batch-name] (Cross-PR)
+
+Fixes [N] issues from multiple PRs' Sourcery reviews.
+
+**Source PRs:** PR #[number], PR #[number], ...
+
+---
+
+## Issues Fixed
+
+- **PR##-#N:** [Description] ([Priority], [Effort]) - Source: PR #[number]
+- **PR##-#M:** [Description] ([Priority], [Effort]) - Source: PR #[number]
+
+---
+
+## Changes
+
+### [Issue PR##-#N] (from PR #[number])
+
+**File:** `[file]`
+
+[Description of changes]
+
+**Tests:**
+
+- [Test file] - [What was tested]
+
+### [Issue PR##-#M] (from PR #[number])
+
+[Similar format]
+
+---
+
+## Testing
+
+- [x] All existing tests passing
+- [x] New tests added for fixes
+- [x] Coverage maintained/improved ([X]%)
+- [x] Manual testing completed (if applicable)
+- [x] No regressions introduced
+
+---
+
+## Related
+
+- **Fix Plan:** `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
+- **Fix Review Report:** `docs/maintainers/planning/features/projects/fix/fix-review-report-YYYY-MM-DD.md`
+- **Source PRs:** PR #[number], PR #[number], ...
+- **Sourcery Reviews:**
+  - `docs/maintainers/feedback/sourcery/pr##.md`
+  - `docs/maintainers/feedback/sourcery/pr##.md`
 ```
 
 **Create PR:**
@@ -519,25 +712,31 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 **Fix Plans:**
 
-- `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
+- PR-Specific: `docs/maintainers/planning/features/projects/fix/pr##/[batch-name].md`
+- Cross-PR: `docs/maintainers/planning/features/projects/fix/cross-pr/[batch-name].md`
 
 **Fix Tracking:**
 
 - `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
-- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hub)
+- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hub - PR-specific batches)
+- `docs/maintainers/planning/features/projects/fix/cross-pr/README.md` (cross-PR hub - cross-PR batches)
 
 **Sourcery Reviews:**
 
-- `docs/maintainers/feedback/sourcery/pr##.md`
+- `docs/maintainers/feedback/sourcery/pr##.md` (one per source PR for cross-PR batches)
+
+**Fix Review Reports:**
+
+- `docs/maintainers/planning/features/projects/fix/fix-review-report-YYYY-MM-DD.md` (source for cross-PR batches)
 
 **Related Commands:**
 
-- `/fix-plan` - Create fix plans from PR review
-- `/fix-review` - Review old deferred issues
+- `/fix-plan` - Create fix plans from PR review or fix-review report
+- `/fix-review` - Review old deferred issues and generate report
 - `/phase-task` - Individual task implementation (similar workflow)
 
 ---
 
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2025-12-05  
 **Status:** ✅ Active  
-**Next:** Use after `/fix-plan` to implement batches
+**Next:** Use after `/fix-plan` to implement batches (supports both PR-specific and cross-PR batches)
