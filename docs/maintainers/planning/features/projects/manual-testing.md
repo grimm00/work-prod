@@ -857,6 +857,43 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 ---
 
+### Scenario 27a: CLI - Wide View
+
+**Test:** Use CLI with --wide flag to show all columns
+
+**Prerequisites:** Projects with various attributes
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# List all projects with --wide flag
+./proj list --wide
+
+# Expected Output:
+# Table with 7 columns: ID, Name, Status, Org, Classification, Path, Created
+# Table uses full terminal width
+# Columns wrap instead of truncate
+```
+
+**Verification:**
+
+```bash
+# Verify wide view shows all columns
+./proj list --wide
+# Check that Status, Org, and Classification columns are visible
+# Verify table uses full terminal width
+# Verify long names/paths wrap instead of truncate
+
+# Compare with default view
+./proj list
+# Verify default view shows only 4 columns (ID, Name, Path, Created)
+# Verify both views use full terminal width
+```
+
+**Expected Result:** ✅ --wide flag shows all 7 columns, default view shows 4 columns, both use full width
+
+---
+
 ### Scenario 27: CLI - Text Search
 
 **Test:** Use CLI to search projects by name/description
