@@ -323,6 +323,72 @@ git push origin --delete docs/post-pr[##]-phase[##]-complete
 
 ---
 
+### 8. Clean Up Merged PR Branch
+
+**IMPORTANT:** Clean up the merged PR branch (both local and remote) to keep repository clean.
+
+**Process:**
+
+1. **Verify PR is merged:**
+   ```bash
+   gh pr view [pr-number] --json state,mergedAt
+   ```
+   - Should show `state: "MERGED"` and `mergedAt` timestamp
+
+2. **Check if branch exists locally:**
+   ```bash
+   git branch --list [branch-name]
+   ```
+
+3. **Check if branch exists remotely:**
+   ```bash
+   git branch -r --list origin/[branch-name]
+   ```
+
+4. **Delete local branch (if exists):**
+   ```bash
+   # Only delete if merged into develop
+   git branch -d [branch-name]
+   
+   # Force delete if needed (shouldn't be necessary if merged)
+   # git branch -D [branch-name]
+   ```
+
+5. **Delete remote branch (if exists):**
+   ```bash
+   git push origin --delete [branch-name]
+   ```
+
+**Branch naming patterns:**
+- Feature branches: `feat/phase-N-[description]`
+- Fix branches: `fix/[description]` or `fix/pr##-[description]`
+- Docs branches: `docs/[description]`
+
+**Example cleanup:**
+```bash
+# For PR #12 (feat/phase-4-search-filter)
+git branch -d feat/phase-4-search-filter
+git push origin --delete feat/phase-4-search-filter
+
+# For PR #13 (fix/pr12-batch-medium-medium-01)
+git branch -d fix/pr12-batch-medium-medium-01
+git push origin --delete fix/pr12-batch-medium-medium-01
+```
+
+**Safety checks:**
+- Only delete branches that are merged
+- Verify branch name matches PR head branch
+- Check that branch is not currently checked out
+- Confirm deletion before proceeding
+
+**Checklist:**
+- [ ] PR verified as merged
+- [ ] Local branch deleted (if existed)
+- [ ] Remote branch deleted (if existed)
+- [ ] No errors during cleanup
+
+---
+
 ## Auto-Detection Features
 
 ### Detect Next Phase
