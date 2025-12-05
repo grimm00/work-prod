@@ -760,8 +760,8 @@ def test_filter_projects_multiple_filters(client, app):
 
 
 @pytest.mark.integration
-def test_filter_projects_invalid_status_value(client, app):
-    """Test GET /api/projects?status=invalid returns all projects or 400."""
+def test_filter_projects_invalid_status_value_ignored(client, app):
+    """Test GET /api/projects?status=invalid ignores invalid filter and returns all projects."""
     # Create some projects
     with app.app_context():
         project1 = Project(name="Project 1", status="active")
@@ -772,19 +772,11 @@ def test_filter_projects_invalid_status_value(client, app):
     # Try to filter by invalid status
     response = client.get('/api/projects?status=invalid')
     
-    # Should either return 400 Bad Request or return all projects (ignore invalid filter)
-    # For now, we'll test that it doesn't crash and returns a valid response
-    assert response.status_code in [200, 400]
-    
-    if response.status_code == 200:
-        # If returning all projects, should have both
-        data = json.loads(response.data)
-        assert isinstance(data, list)
-        assert len(data) == 2
-    elif response.status_code == 400:
-        # If returning error, should have error message
-        data = json.loads(response.data)
-        assert 'error' in data
+    # Invalid status values are ignored, so all projects should be returned
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert isinstance(data, list)
+    assert len(data) == 2
 
 
 # Phase 4: Search Tests
