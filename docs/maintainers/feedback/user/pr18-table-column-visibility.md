@@ -133,6 +133,7 @@ Add a flag to show filtered columns:
 
 ---
 
-**Status:** 🟡 Under Consideration  
-**Next:** Evaluate implementation effort, decide if this should be part of PR #18 or deferred to future PR
+**Status:** ✅ Implemented (PR #18)  
+**Implemented:** 2025-12-05  
+**Next:** Test implementation and verify behavior
 

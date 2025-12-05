@@ -768,13 +768,14 @@ curl "http://localhost:5000/api/projects?search=productivity&status=active&organ
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by active status (default view - 4 columns)
+# Filter by active status (Status column auto-shown - 5 columns)
 ./proj list --status active
 
 # Expected Output:
 # Shows only projects with status="active" in table format
 # Table uses full terminal width (expand=True)
-# Columns: ID, Name, Path, Created
+# Columns: ID, Name, Status, Path, Created
+# Note: Status column automatically visible when filtering by status
 
 # Filter by active status with --wide flag (7 columns)
 ./proj list --status active --wide
@@ -783,24 +784,27 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Shows only projects with status="active" in table format
 # Table uses full terminal width (expand=True)
 # Columns: ID, Name, Status, Org, Classification, Path, Created
+# Note: --wide flag shows all columns regardless of filters
 ```
 
 **Verification:**
 
 ```bash
-# Verify filtered results (default view)
+# Verify filtered results (Status column auto-shown)
 ./proj list --status active
 # Check that all displayed projects have status="active"
+# Verify Status column is visible (auto-shown when filtering)
+# Verify Status column shows "active" for all projects
 # Verify table uses full width and columns don't truncate
 
 # Verify filtered results (wide view)
 ./proj list --status active --wide
 # Check that all displayed projects have status="active"
-# Verify all 7 columns are visible
+# Verify all 7 columns are visible (--wide shows all)
 # Verify Status column shows "active" for all projects
 ```
 
-**Expected Result:** ✅ CLI filter flag works correctly, table uses full width, --wide flag shows additional columns
+**Expected Result:** ✅ CLI filter flag works correctly, Status column auto-shown when filtering, table uses full width, --wide flag shows all columns
 
 ---
 
@@ -893,7 +897,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 # Verify both views use full terminal width
 ```
 
-**Expected Result:** ✅ --wide flag shows all 7 columns, default view shows 4 columns, both use full width
+**Expected Result:** ✅ --wide flag shows all 7 columns, default view shows 4 columns, filtered columns auto-shown, both use full width
 
 ---
 

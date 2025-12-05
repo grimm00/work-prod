@@ -47,27 +47,37 @@ def list_projects(status, organization, classification, search, wide):
         table.add_column("ID", style="cyan", justify="right")
         table.add_column("Name", style="green", no_wrap=False)  # Allow wrapping
         
-        # Add additional columns if --wide flag is set
-        if wide:
+        # Determine which columns to show:
+        # - Show Status if --wide flag OR --status filter is used
+        # - Show Org if --wide flag OR --org filter is used
+        # - Show Classification if --wide flag OR --classification filter is used
+        show_status = wide or status is not None
+        show_org = wide or organization is not None
+        show_classification = wide or classification is not None
+        
+        # Add columns based on filters and --wide flag
+        if show_status:
             table.add_column("Status", style="yellow")
+        if show_org:
             table.add_column("Org", style="blue")
+        if show_classification:
             table.add_column("Classification", style="magenta")
         
         table.add_column("Path", style="blue", no_wrap=False)  # Allow wrapping
         table.add_column("Created", style="magenta")
         
-        # Add rows conditionally based on --wide flag
+        # Add rows conditionally based on visible columns
         for project in projects:
             row_data = [
                 str(project['id']),
                 project['name'],
             ]
-            if wide:
-                row_data.extend([
-                    project.get('status', 'N/A'),
-                    project.get('organization', 'N/A'),
-                    project.get('classification', 'N/A'),
-                ])
+            if show_status:
+                row_data.append(project.get('status', 'N/A'))
+            if show_org:
+                row_data.append(project.get('organization', 'N/A'))
+            if show_classification:
+                row_data.append(project.get('classification', 'N/A'))
             row_data.extend([
                 project['path'] or "[dim]No path[/dim]",
                 project['created_at'][:10]  # Just the date
