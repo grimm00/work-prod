@@ -36,7 +36,7 @@
 - **Issues:** 7 LOW/LOW issues (6 fixed, 1 already fixed)
 - **File:** [quick-wins-low-low-01.md](quick-wins-low-low-01.md)
 - **Completed:** 2025-12-05
-- **PR:** TBD (will be created)
+- **PR:** #14
 - **Source PRs:** #1 (2 issues), #2 (4 issues), #12 (1 issue)
 
 **Issues:**
