@@ -6,7 +6,7 @@
 **Effort:** 🟡 MEDIUM  
 **Status:** ✅ Complete  
 **Completed:** 2025-12-05  
-**PR:** TBD  
+**PR:** #13  
 **Created:** 2025-12-04  
 **Issues:** 1 issue
 

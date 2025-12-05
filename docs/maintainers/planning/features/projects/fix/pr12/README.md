@@ -41,7 +41,7 @@
 - **PR12-#3:** Avoid conditionals in tests
 - **Status:** ✅ Complete
 - **File:** [batch-medium-medium-01.md](batch-medium-medium-01.md)
-- **PR:** TBD
+- **PR:** #13
 
 ### Batch 3: LOW/LOW (2 issues)
 - **PR12-#4:** Use named expression
