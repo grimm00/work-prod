@@ -765,22 +765,39 @@ curl "http://localhost:5000/api/projects?search=productivity&status=active&organ
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Filter by active status
+# Filter by active status (default view - 4 columns)
 ./proj list --status active
 
 # Expected Output:
 # Shows only projects with status="active" in table format
+# Table uses full terminal width (expand=True)
+# Columns: ID, Name, Path, Created
+
+# Filter by active status with --wide flag (7 columns)
+./proj list --status active --wide
+
+# Expected Output:
+# Shows only projects with status="active" in table format
+# Table uses full terminal width (expand=True)
+# Columns: ID, Name, Status, Org, Classification, Path, Created
 ```
 
 **Verification:**
 
 ```bash
-# Verify filtered results
+# Verify filtered results (default view)
 ./proj list --status active
 # Check that all displayed projects have status="active"
+# Verify table uses full width and columns don't truncate
+
+# Verify filtered results (wide view)
+./proj list --status active --wide
+# Check that all displayed projects have status="active"
+# Verify all 7 columns are visible
+# Verify Status column shows "active" for all projects
 ```
 
-**Expected Result:** ✅ CLI filter flag works correctly
+**Expected Result:** ✅ CLI filter flag works correctly, table uses full width, --wide flag shows additional columns
 
 ---
 
