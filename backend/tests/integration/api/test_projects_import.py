@@ -157,7 +157,7 @@ def test_import_invalid_json(client):
 
 @pytest.mark.integration
 def test_import_missing_projects_key(client):
-    """Test that missing 'projects' key returns appropriate error."""
+    """Test that missing 'projects' key returns 400 Bad Request."""
     import_data = {
         'wrong_key': [
             {'name': 'Test Project'}
@@ -170,12 +170,57 @@ def test_import_missing_projects_key(client):
         content_type='application/json'
     )
     
-    assert response.status_code == 201
-    data = json.loads(response.data)
-    
-    # Should handle gracefully - no projects to import
-    assert data['imported'] == 0
-    assert data['skipped'] == 0
+    assert response.status_code == 400
+    assert response.get_json()['error'] == "Missing 'projects' field"
+
+
+@pytest.mark.integration
+def test_import_non_json_content_type(client):
+    """Test that non-JSON Content-Type returns 400 Bad Request."""
+    response = client.post(
+        '/api/projects/import',
+        data='not json',
+        content_type='text/plain'
+    )
+    assert response.status_code == 400
+    assert response.get_json()['error'] == 'Content-Type must be application/json'
+
+
+@pytest.mark.integration
+def test_import_non_dict_request_body(client):
+    """Test that non-dict request body returns 400 Bad Request."""
+    # Send a list instead of dict
+    response = client.post(
+        '/api/projects/import',
+        data=json.dumps(['not', 'a', 'dict']),
+        content_type='application/json'
+    )
+    assert response.status_code == 400
+    assert response.get_json()['error'] == 'Request body must be a JSON object'
+
+
+@pytest.mark.integration
+def test_import_missing_projects_field(client):
+    """Test that missing 'projects' field returns 400 Bad Request."""
+    response = client.post(
+        '/api/projects/import',
+        data=json.dumps({'not_projects': []}),
+        content_type='application/json'
+    )
+    assert response.status_code == 400
+    assert response.get_json()['error'] == "Missing 'projects' field"
+
+
+@pytest.mark.integration
+def test_import_non_list_projects_field(client):
+    """Test that non-list 'projects' field returns 400 Bad Request."""
+    response = client.post(
+        '/api/projects/import',
+        data=json.dumps({'projects': 'not a list'}),
+        content_type='application/json'
+    )
+    assert response.status_code == 400
+    assert response.get_json()['error'] == "'projects' field must be a list"
 
 
 @pytest.mark.integration
