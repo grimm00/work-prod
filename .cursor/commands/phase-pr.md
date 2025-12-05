@@ -427,14 +427,16 @@ feat: [Phase N Description] (Phase N)
    - Determine if fixes needed before merge
 
 5. **Create fix plans (if needed):**
-   - Location: `docs/maintainers/planning/features/projects/fix/`
-   - Format: `pr##-issue-##-[short-name].md`
+   - Create PR directory if needed: `docs/maintainers/planning/features/projects/fix/pr##/`
+   - Create PR hub: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+   - Fix plan format: `pr##/issue-##-[short-name].md` or `pr##/batch-[priority]-[effort]-[batch-number].md`
    - Reference Sourcery comment number
    - Include priority, impact, effort assessment
 
 6. **Update fix tracking:**
-   - Update `docs/maintainers/planning/features/projects/fix/README.md`
-   - Add new issues to tracking table
+   - Update PR hub: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+   - Update main hub: `docs/maintainers/planning/features/projects/fix/README.md`
+   - Add PR to active PRs list if not already there
 
 ---
 
@@ -446,6 +448,8 @@ feat: [Phase N Description] (Phase N)
    ```bash
    git checkout -b fix/pr##-critical-issues
    ```
+   
+   **Note:** Fix plans should be created in `docs/maintainers/planning/features/projects/fix/pr##/` directory
 
 2. **Implement fixes:**
    - Follow fix plans
@@ -609,7 +613,8 @@ feat: [Phase N Description] (Phase N)
 
 **Review Workflow:**
 - `docs/maintainers/feedback/sourcery/pr##.md`
-- `docs/maintainers/planning/features/projects/fix/README.md`
+- `docs/maintainers/planning/features/projects/fix/README.md` (main hub)
+- `docs/maintainers/planning/features/projects/fix/pr##/README.md` (PR hub)
 
 **Related Commands:**
 - `/phase-task` - Individual task implementation

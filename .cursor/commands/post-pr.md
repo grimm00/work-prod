@@ -169,8 +169,6 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 
 ### 5. Document Deferred Issues
 
-**File:** `docs/maintainers/planning/features/projects/fix/README.md`
-
 **IMPORTANT:** Always check for deferred issues, even if none exist. This ensures tracking is complete.
 
 **Process:**
@@ -180,22 +178,30 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
    - Review priority matrix for all comments
    - Identify MEDIUM/LOW priority issues that were deferred
 
-2. **If Deferred Issues Exist:**
-   - Add new section: `## 📋 PR #N Deferred Issues (Phase N)`
+2. **Create/Update PR Directory**
+   - Create PR directory if it doesn't exist: `docs/maintainers/planning/features/projects/fix/pr##/`
+   - Create or update PR hub: `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+
+3. **If Deferred Issues Exist:**
+   - Add deferred issues section to PR hub README.md
    - Include date, review source, and status
    - List each deferred issue with:
      - Comment number (e.g., PR12-#1)
      - Brief description
      - Priority and effort levels
      - Action plan (deferred to next phase, future PR, etc.)
+   - Update main fix tracking README.md to link to PR hub
 
-3. **If No Deferred Issues:**
-   - Note in checklist that review was checked
+4. **If No Deferred Issues:**
+   - Note in PR hub that review was checked
    - All issues were CRITICAL/HIGH and addressed, or no issues found
+   - Update main fix tracking README.md
 
-**Example entry (with deferred issues):**
+**PR Hub Entry (with deferred issues):**
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+
 ```markdown
-## 📋 PR #12 Deferred Issues (Phase 4)
+## 📋 Deferred Issues
 
 **Date:** 2025-12-04  
 **Review:** PR #12 (Phase 4) Sourcery feedback  
@@ -212,21 +218,35 @@ git checkout -b docs/post-pr[##]-phase[##]-complete
 **Action Plan:** These can be handled opportunistically during future phases or in a dedicated code quality improvement PR.
 ```
 
-**Example entry (no deferred issues):**
+**PR Hub Entry (no deferred issues):**
+**File:** `docs/maintainers/planning/features/projects/fix/pr##/README.md`
+
 ```markdown
-## 📋 PR #N Deferred Issues (Phase N)
+## 📋 Deferred Issues
 
 **Date:** YYYY-MM-DD  
 **Review:** PR #N (Phase N) Sourcery feedback  
 **Status:** ✅ **NONE** - All issues were CRITICAL/HIGH priority and addressed in PR, or no issues found
 ```
 
+**Update Main Fix Tracking:**
+**File:** `docs/maintainers/planning/features/projects/fix/README.md`
+
+Add PR to active PRs section (if not already there):
+```markdown
+### Active PRs
+
+- **[PR ##](pr##/README.md)** - [PR Title] ([Status])
+```
+
 **Checklist:**
+- [ ] PR directory created (if needed)
+- [ ] PR hub README.md created/updated
 - [ ] Sourcery review file checked for deferred issues
-- [ ] Deferred issues section added (if issues exist)
+- [ ] Deferred issues section added to PR hub (if issues exist)
 - [ ] Each issue documented with priority, effort, and action plan
-- [ ] No deferred issues noted (if none exist)
-- [ ] Fix tracking hub updated
+- [ ] No deferred issues noted in PR hub (if none exist)
+- [ ] Main fix tracking README.md updated with PR link
 
 ---
 
