@@ -2,7 +2,9 @@
 
 **⚠️ DEPRECATED: This command has been consolidated into `/pr --phase [N]`**
 
-**Please use:** `@pr --phase [N]` instead of `@phase-pr [N]`
+**Please use:** `/pr --phase [N]` instead of `/phase-pr [N]`
+
+**Note:** Both `/pr` and `@pr` refer to the same command - `/` is the standard prefix for Cursor commands.
 
 This file is kept for reference only. All functionality has been merged into the centralized `/pr` command.
 

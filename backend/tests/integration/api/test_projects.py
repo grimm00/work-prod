@@ -115,6 +115,11 @@ def test_list_projects_ordering(client, app):
     # Check that IDs are in ascending order
     ids = [p['id'] for p in data]
     assert ids == sorted(ids)
+    
+    # Verify ordering matches created projects (more robust assertion)
+    project_ids = [project1.id, project2.id, project3.id, project4.id, project5.id]
+    returned_ids = [p['id'] for p in data if p['id'] in project_ids]
+    assert returned_ids == sorted(returned_ids)
 
 
 # POST /api/projects tests (Phase 2)
