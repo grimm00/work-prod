@@ -503,7 +503,7 @@ curl http://localhost:5000/api/health
 - [ ] dev-toolkit is available
 
 **During execution:**
-- [ ] Manual testing scenarios updated (if needed)
+- [ ] Manual testing guide updated with scenarios (MANDATORY)
 - [ ] All scenarios tested and passed
 - [ ] Sourcery review completed
 - [ ] Priority matrix filled out
