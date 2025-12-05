@@ -2,8 +2,8 @@
 
 **PR:** #2 - Phase 1: List & Get Projects  
 **Date:** 2025-12-03  
-**Status:** 🟡 Partial (2/11 resolved, 1 fixed, 8 deferred)  
-**Last Updated:** 2025-12-04
+**Status:** 🟡 Partial (2/11 resolved, 5 fixed, 1 not fixed, 4 planned)  
+**Last Updated:** 2025-12-05
 
 ---
 
@@ -13,19 +13,25 @@
 
 - **[issue-03-cli-imports.md](issue-03-cli-imports.md)** - CLI import ambiguity (🟠 HIGH, 🔴 Not Fixed)
 
+### Batches
+
+- **[batch-medium-low-01.md](batch-medium-low-01.md)** - Test improvements batch (🟡 MEDIUM, 🟢 LOW, 4 issues)
+
 ---
 
 ## 📊 Summary
 
 **Total Issues:** 11  
 **Resolved:** 2 (fixed in Phase 2)  
-**Fixed:** 1 (HIGH priority)  
-**Deferred:** 8 (MEDIUM/LOW priority)
+**Fixed:** 5 (1 HIGH via quick-wins, 4 LOW via quick-wins)  
+**Not Fixed:** 1 (HIGH priority)  
+**Planned:** 4 (MEDIUM priority, batched)
 
 **Status Breakdown:**
 - ✅ Resolved: 2 issues (fixed in Phase 2)
-- 🔴 Not Fixed: 1 issue (HIGH priority)
-- 🟡 Deferred: 8 issues
+- ✅ Fixed: 5 issues (1 HIGH + 4 LOW via PR #14 quick-wins batch)
+- 🔴 Not Fixed: 1 issue (HIGH priority - CLI imports)
+- 🟡 Planned: 4 issues (MEDIUM priority - test improvements batch)
 
 ---
 
@@ -42,14 +48,23 @@
 
 ---
 
-## 🟡 Deferred Issues
+## 🟡 Planned Batches
 
-- **PR02-#4:** Test null path serialization (MEDIUM)
-- **PR02-#5:** Test error message content (LOW)
-- **PR02-#6-#7:** Use IntegrityError in tests (MEDIUM, 2 places)
-- **PR02-#8:** Test updated_at changes (MEDIUM)
-- **PR02-#9:** Avoid loop in tests (LOW)
-- **PR02-#10-#11:** Raise from previous error (LOW, 2 places)
+### Batch 1: Test Improvements (MEDIUM/LOW)
+- **File:** [batch-medium-low-01.md](batch-medium-low-01.md)
+- **Status:** 🔴 Not Started
+- **Issues:** 4 MEDIUM/LOW issues
+  - PR02-#4: Test null path serialization
+  - PR02-#6: Use IntegrityError in name test
+  - PR02-#7: Use IntegrityError in path test
+  - PR02-#8: Test updated_at changes
+- **Estimated:** 1-2 hours
+
+## ✅ Fixed (via PR #14 Quick Wins Batch)
+
+- **PR02-#5:** Test error message content (LOW) ✅
+- **PR02-#9:** Avoid loop in tests (LOW) ✅
+- **PR02-#10-#11:** Raise from previous error (LOW, 2 places) ✅
 
 ---
 
