@@ -43,5 +43,5 @@ def get_project(project_id):
         
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
-        raise click.Abort()
+        raise click.Abort() from e
 
