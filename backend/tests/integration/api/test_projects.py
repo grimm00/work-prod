@@ -101,10 +101,15 @@ def test_list_projects_ordering(client, app):
     """Test that projects are returned in consistent order (by ID)."""
     # Create test projects
     with app.app_context():
-        for i in range(5):
-            project = Project(name=f"Project {i}", path=f"/path/{i}")
-            db.session.add(project)
+        project1 = Project(name="Project 1", path="/path/1")
+        project2 = Project(name="Project 2", path="/path/2")
+        project3 = Project(name="Project 3", path="/path/3")
+        project4 = Project(name="Project 4", path="/path/4")
+        project5 = Project(name="Project 5", path="/path/5")
+        db.session.add_all([project1, project2, project3, project4, project5])
         db.session.commit()
+        # Capture IDs before context exits
+        project_ids = [project1.id, project2.id, project3.id, project4.id, project5.id]
     
     response = client.get('/api/projects')
     data = json.loads(response.data)
@@ -112,6 +117,11 @@ def test_list_projects_ordering(client, app):
     # Check that IDs are in ascending order
     ids = [p['id'] for p in data]
     assert ids == sorted(ids)
+    
+    # Verify ordering matches created projects (more robust assertion)
+    returned_ids = [p['id'] for p in data if p['id'] in project_ids]
+    assert returned_ids == sorted(returned_ids)
+    assert len(returned_ids) == 5  # All 5 projects should be returned
 
 
 # POST /api/projects tests (Phase 2)
@@ -190,7 +200,7 @@ def test_create_project_missing_name(client):
     assert response.status_code == 400
     data = json.loads(response.data)
     assert 'error' in data
-    assert 'name' in data['error'].lower()
+    assert data['error'] == 'Name is required'
 
 
 @pytest.mark.integration
@@ -427,7 +437,7 @@ def test_create_project_null_status_rejected(client):
     assert response.status_code == 400
     data = json.loads(response.data)
     assert 'error' in data
-    assert 'null' in data['error'].lower()
+    assert data['error'] == 'Status cannot be null'
 
 
 @pytest.mark.integration
@@ -448,7 +458,7 @@ def test_update_project_null_status_rejected(client, app):
     assert response.status_code == 400
     data = json.loads(response.data)
     assert 'error' in data
-    assert 'null' in data['error'].lower()
+    assert data['error'] == 'Status cannot be null'
 
 
 @pytest.mark.integration

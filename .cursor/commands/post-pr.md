@@ -495,7 +495,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 **Complete workflow:**
 1. `/phase-task` - Implement individual tasks
-2. `/phase-pr` - Complete phase and create PR
+2. `/pr --phase [N]` - Complete phase and create PR
 3. PR merged (manual GitHub action)
 4. `/post-pr` - Update documentation ← **You are here**
 5. `/int-opp` - Capture phase learnings (optional)
@@ -503,7 +503,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 ### Related Commands
 
 - **`/phase-task`** - Individual task implementation
-- **`/phase-pr`** - Phase completion and PR workflow
+- **`/pr --phase [N]`** - Phase completion and PR workflow
 - **`/post-pr`** - Post-merge documentation updates (this command)
 - **`/int-opp`** - Document phase learnings (run after post-pr)
 
@@ -614,7 +614,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 **Related Commands:**
 - `/phase-task` - Individual task implementation
-- `/phase-pr` - Phase completion and PR workflow
+- `/pr --phase [N]` - Phase completion and PR workflow
 - `/int-opp` - Document phase learnings
 
 **Workflow:**

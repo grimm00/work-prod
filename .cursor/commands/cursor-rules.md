@@ -570,7 +570,7 @@ git commit -m "docs(cursor-rules): [description]"
 **Related Commands:**
 
 - `/int-opp` - Capture phase learnings (run before updating rules)
-- `/phase-pr` - Phase completion workflow
+- `/pr --phase [N]` - Phase completion and PR workflow
 - `/post-pr` - Post-merge documentation
 
 **Documentation:**

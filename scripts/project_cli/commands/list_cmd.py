@@ -53,5 +53,5 @@ def list_projects(status, organization, classification, search):
         
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
-        raise click.Abort()
+        raise click.Abort() from e
 

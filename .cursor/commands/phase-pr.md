@@ -1,5 +1,37 @@
 # Phase PR Creation Command
 
+**⚠️ DEPRECATED: This command has been consolidated into `/pr --phase [N]`**
+
+**Please use:** `/pr --phase [N]` instead of `/phase-pr [N]`
+
+**Note:** Both `/pr` and `@pr` refer to the same command - `/` is the standard prefix for Cursor commands.
+
+This file is kept for reference only. All functionality has been merged into the centralized `/pr` command.
+
+---
+
+## Migration
+
+**Old command:**
+```bash
+@phase-pr 4
+```
+
+**New command:**
+```bash
+@pr --phase 4
+```
+
+**Benefits of new command:**
+- Single command for all PR creation (phases and fixes)
+- Consistent workflow and validation
+- Better integration with related commands
+- Easier maintenance
+
+---
+
+## Original Documentation (Deprecated)
+
 Use this command after completing ALL tasks in a phase, before creating the PR. This ensures proper pre-PR validation, manual testing, documentation updates, and Sourcery review workflow.
 
 ---
