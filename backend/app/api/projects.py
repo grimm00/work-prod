@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request, current_app
 from app.models.project import Project
 from app import db
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import or_
+from sqlalchemy import or_, text
 
 projects_bp = Blueprint('projects', __name__)
 
@@ -79,23 +79,93 @@ def list_projects():
             )
     
     # Execute query and convert to dict, handling any projects with invalid enum values
-    projects = query.order_by(Project.id).all()
-    projects_list = []
+    try:
+        projects = query.order_by(Project.id).all()
+        projects_list = []
+        
+        for project in projects:
+            try:
+                projects_list.append(project.to_dict())
+            except LookupError as e:
+                # Handle invalid enum values in database (e.g., from before validation was added)
+                # This happens when SQLAlchemy tries to convert database values to enum types
+                current_app.logger.warning(
+                    f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
+                    "Skipping this project. Consider fixing the database value."
+                )
+                # Skip this project - it has invalid data
+                continue
+        
+        return jsonify(projects_list), 200
     
-    for project in projects:
-        try:
-            projects_list.append(project.to_dict())
-        except LookupError as e:
-            # Handle invalid enum values in database (e.g., from before validation was added)
-            # This happens when SQLAlchemy tries to convert database values to enum types
-            current_app.logger.warning(
-                f"Project {project.id} ({project.name}) has invalid enum value: {e}. "
-                "Skipping this project. Consider fixing the database value."
-            )
-            # Skip this project - it has invalid data
-            continue
-    
-    return jsonify(projects_list), 200
+    except LookupError as e:
+        # Error occurred during query execution - SQLAlchemy couldn't convert enum values
+        # Fall back to raw SQL query to bypass enum type conversion
+        current_app.logger.warning(
+            f"LookupError during query execution: {e}. "
+            "Falling back to raw SQL query to handle invalid enum values."
+        )
+        
+        # Build raw SQL query with filters
+        sql = "SELECT id, name, path, organization, classification, status, description, remote_url, created_at, updated_at FROM projects WHERE 1=1"
+        params = {}
+        
+        # Add filters
+        if 'status' in request.args:
+            status = request.args['status']
+            if status in VALID_STATUSES:
+                sql += " AND status = :status"
+                params['status'] = status
+        
+        if 'organization' in request.args:
+            organization = request.args['organization']
+            if organization:
+                sql += " AND organization = :organization"
+                params['organization'] = organization
+        
+        if 'classification' in request.args:
+            classification = request.args['classification']
+            if classification in VALID_CLASSIFICATIONS:
+                sql += " AND classification = :classification"
+                params['classification'] = classification
+        
+        if 'search' in request.args:
+            search_term = request.args['search']
+            if search_term:
+                sql += " AND (name LIKE :search OR description LIKE :search)"
+                params['search'] = f"%{search_term}%"
+        
+        sql += " ORDER BY id"
+        
+        # Execute raw SQL query
+        result = db.session.execute(text(sql), params)
+        rows = result.fetchall()
+        
+        # Convert rows to dictionaries, skipping invalid enum values
+        projects_list = []
+        for row in rows:
+            try:
+                # Try to create a Project object to validate enum values
+                project_dict = {
+                    'id': row.id,
+                    'name': row.name,
+                    'path': row.path,
+                    'organization': row.organization,
+                    'classification': row.classification if row.classification in VALID_CLASSIFICATIONS else None,
+                    'status': row.status if row.status in VALID_STATUSES else 'active',
+                    'description': row.description,
+                    'remote_url': row.remote_url,
+                    'created_at': row.created_at.isoformat() if row.created_at else None,
+                    'updated_at': row.updated_at.isoformat() if row.updated_at else None,
+                }
+                projects_list.append(project_dict)
+            except Exception as e:
+                current_app.logger.warning(
+                    f"Skipping project {row.id} ({row.name}) due to error: {e}"
+                )
+                continue
+        
+        return jsonify(projects_list), 200
 
 
 def create_project():
