@@ -142,22 +142,36 @@ def list_projects():
         rows = result.fetchall()
         
         # Convert rows to dictionaries, skipping invalid enum values
-        # SQLAlchemy returns Row objects that can be accessed by index or attribute name
+        # SQLAlchemy Row objects support both index and attribute access
         projects_list = []
         for row in rows:
             try:
-                # Access row columns - SQLAlchemy Row objects support both index and attribute access
-                # Use getattr with index fallback for compatibility
-                row_id = row[0] if hasattr(row, '__getitem__') else getattr(row, 'id', None)
-                row_name = row[1] if hasattr(row, '__getitem__') else getattr(row, 'name', None)
-                row_path = row[2] if hasattr(row, '__getitem__') else getattr(row, 'path', None)
-                row_org = row[3] if hasattr(row, '__getitem__') else getattr(row, 'organization', None)
-                row_classification = row[4] if hasattr(row, '__getitem__') else getattr(row, 'classification', None)
-                row_status = row[5] if hasattr(row, '__getitem__') else getattr(row, 'status', None)
-                row_description = row[6] if hasattr(row, '__getitem__') else getattr(row, 'description', None)
-                row_remote_url = row[7] if hasattr(row, '__getitem__') else getattr(row, 'remote_url', None)
-                row_created_at = row[8] if hasattr(row, '__getitem__') else getattr(row, 'created_at', None)
-                row_updated_at = row[9] if hasattr(row, '__getitem__') else getattr(row, 'updated_at', None)
+                # Access row columns - try attribute access first, fall back to index
+                # Row objects from text() queries support both methods
+                try:
+                    # Try attribute access (works if columns are named)
+                    row_id = row.id
+                    row_name = row.name
+                    row_path = row.path
+                    row_org = row.organization
+                    row_classification = row.classification
+                    row_status = row.status
+                    row_description = row.description
+                    row_remote_url = row.remote_url
+                    row_created_at = row.created_at
+                    row_updated_at = row.updated_at
+                except (AttributeError, KeyError):
+                    # Fall back to index access (for tuple-like rows)
+                    row_id = row[0]
+                    row_name = row[1]
+                    row_path = row[2]
+                    row_org = row[3]
+                    row_classification = row[4]
+                    row_status = row[5]
+                    row_description = row[6]
+                    row_remote_url = row[7]
+                    row_created_at = row[8]
+                    row_updated_at = row[9]
                 
                 # Validate enum values and convert invalid ones
                 classification = row_classification if row_classification in VALID_CLASSIFICATIONS else None
