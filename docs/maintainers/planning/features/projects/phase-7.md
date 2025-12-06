@@ -39,6 +39,11 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 - [x] Create test file structure
 - [x] Create FlaskTestClientAdapter for mocking API calls
 - [x] Create mock_api_for_cli fixture in `scripts/project_cli/tests/conftest.py`
+- [x] Create `cli_loader.py` helper for loading non-.py script files
+- [x] Move all CLI tests to co-located structure
+- [x] Fix import issues in all test files
+
+**Deferred:** 2025-12-06 - Test suite has 7 failures (89% pass rate). See [DEFERRED.md](../DEFERRED.md) for details.
 
 #### CLI Command Tests
 
