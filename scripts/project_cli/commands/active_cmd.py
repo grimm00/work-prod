@@ -13,9 +13,20 @@ from .list_cmd import build_projects_table
 
 
 @click.command()
-@click.option('--wide', is_flag=True, help='Show all columns')
+@click.option('--wide', is_flag=True, 
+              help='Show all columns (status, organization, classification)')
 def active(wide):
-    """Show active projects (shortcut for 'proj list --status active')."""
+    """
+    Show active projects.
+    
+    Shortcut command for 'proj list --status active'. Displays only projects
+    with active status in a formatted table.
+    
+    \b
+    Examples:
+        proj active
+        proj active --wide
+    """
     console = Console()
     
     try:

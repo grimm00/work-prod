@@ -14,10 +14,23 @@ from .list_cmd import build_projects_table
 
 
 @click.command()
-@click.option('--org', '-o', help='Organization name (defaults to PROJ_ORG env var or "work")')
-@click.option('--wide', is_flag=True, help='Show all columns')
+@click.option('--org', '-o', 
+              help='Organization name (defaults to PROJ_ORG env var or "work")')
+@click.option('--wide', is_flag=True, 
+              help='Show all columns (status, organization, classification)')
 def mine(org, wide):
-    """Show projects for current user/organization."""
+    """
+    Show projects for current user/organization.
+    
+    Display projects filtered by organization. Defaults to "work" organization
+    or the value of PROJ_ORG environment variable if set.
+    
+    \b
+    Examples:
+        proj mine
+        proj mine --org personal
+        proj mine -o learning --wide
+    """
     console = Console()
     
     try:

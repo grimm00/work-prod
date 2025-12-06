@@ -13,9 +13,21 @@ from .list_cmd import build_projects_table
 
 
 @click.command()
-@click.option('--limit', '-n', default=10, help='Number of recent projects to show (default: 10)')
+@click.option('--limit', '-n', default=10, 
+              help='Number of recent projects to show (default: 10)')
 def recent(limit):
-    """Show recently updated projects."""
+    """
+    Show recently updated projects.
+    
+    Display the most recently updated projects, sorted by update date.
+    Shows all columns by default for better context.
+    
+    \b
+    Examples:
+        proj recent
+        proj recent --limit 5
+        proj recent -n 20
+    """
     console = Console()
     
     try:

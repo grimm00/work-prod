@@ -21,6 +21,11 @@ def import_projects(file):
     """
     Import projects from a JSON file.
     
+    Bulk import multiple projects from a JSON file. Shows progress bar during import
+    and displays statistics (imported, skipped, errors) after completion.
+    Projects with duplicate paths or names are automatically skipped.
+    
+    \b
     FILE: Path to JSON file containing projects data.
     
     Expected JSON format:
@@ -29,11 +34,21 @@ def import_projects(file):
             {
                 "name": "Project Name",
                 "path": "/optional/path",
-                ...
+                "organization": "work",
+                "classification": "primary",
+                "status": "active",
+                "description": "Project description",
+                "remote_url": "https://github.com/user/repo.git"
             },
             ...
         ]
     }
+    
+    \b
+    Examples:
+        proj import projects.json
+        proj import ../data/projects.json
+        proj import ~/backup/projects-2025.json
     """
     console = Console()
     client = APIClient()

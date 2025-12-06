@@ -15,7 +15,19 @@ from ..progress import spinner
 
 @click.command()
 def stats():
-    """Show project statistics."""
+    """
+    Show project statistics.
+    
+    Display comprehensive statistics about all projects including:
+    - Total project count
+    - Breakdown by status (active, paused, completed, cancelled)
+    - Breakdown by organization
+    - Breakdown by classification (primary, secondary, archive, maintenance)
+    
+    \b
+    Examples:
+        proj stats
+    """
     console = Console()
     
     try:

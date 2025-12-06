@@ -15,7 +15,17 @@ from ..error_handler import handle_error
 @click.command()
 @click.argument('project_id', type=int)
 def archive_project(project_id):
-    """Archive a project."""
+    """
+    Archive a project.
+    
+    Archives a project by setting its classification to 'archive' and status to 'completed'.
+    Archived projects are preserved but marked as inactive.
+    
+    \b
+    Examples:
+        proj archive 1
+        proj archive 42
+    """
     console = Console()
     
     try:

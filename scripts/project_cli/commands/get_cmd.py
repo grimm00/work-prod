@@ -16,7 +16,17 @@ from ..progress import spinner
 @click.command()
 @click.argument('project_id', type=int)
 def get_project(project_id):
-    """Get details of a specific project by ID."""
+    """
+    Get details of a specific project by ID.
+    
+    Display comprehensive information about a single project including
+    all fields (name, path, organization, classification, status, description, etc.).
+    
+    \b
+    Examples:
+        proj get 1
+        proj get 42
+    """
     console = Console()
     
     try:

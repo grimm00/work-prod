@@ -13,20 +13,37 @@ from ..error_handler import handle_error
 
 
 @click.command()
-@click.option('--name', '-n', required=True, help='Project name (required)')
-@click.option('--path', '-p', help='Project file system path')
-@click.option('--organization', '-o', help='Organization (e.g., work, personal)')
+@click.option('--name', '-n', required=True, 
+              help='Project name (required, must be unique)')
+@click.option('--path', '-p', 
+              help='Project file system path (must be unique if provided)')
+@click.option('--organization', '-o', 
+              help='Organization name (e.g., work, personal, learning)')
 @click.option('--classification', '-c', 
               type=click.Choice(['primary', 'secondary', 'archive', 'maintenance'], case_sensitive=False),
-              help='Project classification')
+              help='Project classification (primary, secondary, archive, maintenance)')
 @click.option('--status', '-s',
               type=click.Choice(['active', 'paused', 'completed', 'cancelled'], case_sensitive=False),
               default='active',
               help='Project status (default: active)')
-@click.option('--description', '-d', help='Project description')
-@click.option('--remote-url', '-r', help='Git repository URL')
+@click.option('--description', '-d', 
+              help='Project description (supports multi-line text)')
+@click.option('--remote-url', '-r', 
+              help='Git repository URL (e.g., https://github.com/user/repo.git)')
 def create_project(name, path, organization, classification, status, description, remote_url):
-    """Create a new project."""
+    """
+    Create a new project.
+    
+    Create a project with the specified details. Name is required and must be unique.
+    Path is optional but must be unique if provided.
+    
+    \b
+    Examples:
+        proj create --name "My Project"
+        proj create -n "Work Project" --org work --classification primary
+        proj create -n "Learning Python" -p /code/python-learning -d "Python tutorials"
+        proj create -n "Open Source" -r https://github.com/user/repo.git
+    """
     console = Console()
     
     try:

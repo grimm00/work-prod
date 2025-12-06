@@ -13,7 +13,19 @@ from ..error_handler import handle_error
 
 @click.group()
 def config_group():
-    """Manage CLI configuration settings."""
+    """
+    Manage CLI configuration settings.
+    
+    View and modify CLI configuration stored in ~/.projrc file.
+    Configuration includes API URL, display preferences, and other settings.
+    
+    \b
+    Examples:
+        proj config show
+        proj config get api base_url
+        proj config set api base_url http://localhost:5000/api
+        proj config set display max_rows 100
+    """
     pass
 
 
@@ -50,8 +62,18 @@ def show_config():
 @click.argument('key')
 @click.argument('value')
 def set_config(section, key, value):
-    """Set a configuration value.
+    """
+    Set a configuration value.
     
+    Update a configuration setting in ~/.projrc file. Changes take effect
+    immediately for subsequent commands.
+    
+    \b
+    SECTION: Configuration section (api, display)
+    KEY: Configuration key (base_url, max_rows, color)
+    VALUE: New value to set
+    
+    \b
     Examples:
         proj config set api base_url http://localhost:5000/api
         proj config set display max_rows 100
@@ -73,11 +95,20 @@ def set_config(section, key, value):
 @click.argument('section')
 @click.argument('key')
 def get_config(section, key):
-    """Get a configuration value.
+    """
+    Get a configuration value.
     
+    Display the current value of a specific configuration setting.
+    
+    \b
+    SECTION: Configuration section (api, display)
+    KEY: Configuration key (base_url, max_rows, color)
+    
+    \b
     Examples:
         proj config get api base_url
         proj config get display max_rows
+        proj config get display color
     """
     console = Console()
     config = Config.get_instance()

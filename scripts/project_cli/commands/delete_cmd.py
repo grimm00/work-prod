@@ -14,9 +14,21 @@ from ..progress import spinner
 
 @click.command()
 @click.argument('project_id', type=int)
-@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
+@click.option('--yes', '-y', is_flag=True, 
+              help='Skip confirmation prompt (use with caution)')
 def delete_project(project_id, yes):
-    """Delete a project permanently."""
+    """
+    Delete a project permanently.
+    
+    Permanently removes a project from the system. This action cannot be undone.
+    By default, prompts for confirmation before deleting.
+    
+    \b
+    Examples:
+        proj delete 1
+        proj delete 42 --yes
+        proj delete 5 -y
+    """
     console = Console()
     
     try:
