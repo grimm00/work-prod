@@ -42,10 +42,10 @@ def import_projects(file):
             data = json.load(f)
     except json.JSONDecodeError as e:
         console.print(f"[red]Error: Invalid JSON in file: {e}[/red]")
-        raise click.Abort()
+        raise click.Abort() from e
     except Exception as e:
         console.print(f"[red]Error reading file: {e}[/red]")
-        raise click.Abort()
+        raise click.Abort() from e
     
     # Validate data structure
     if 'projects' not in data:
@@ -108,5 +108,5 @@ def import_projects(file):
         
     except Exception as e:
         console.print(f"[red]Error importing projects: {e}[/red]")
-        raise click.Abort()
+        raise click.Abort() from e
 
