@@ -403,39 +403,20 @@ rm /tmp/pr-description-phase[N].md
 
 ---
 
-### 6. Sourcery Review Workflow (After PR Created)
+### 6. Present PR to User
 
-**After PR is created and user acknowledges:**
+**After PR is created:**
 
-1. **Run Sourcery review:**
-   ```bash
-   cd ~/Projects/dev-toolkit
-   dt-review [pr-number]
-   ```
+1. **Display PR information:**
+   - PR number and URL
+   - PR title
+   - Branch information
 
-2. **Review feedback saved to:**
-   `docs/maintainers/feedback/sourcery/pr##.md`
+2. **Next steps:**
+   - Use `/pr-validation` command to run manual testing, Sourcery review, and update documentation
+   - Or proceed with manual review and testing
 
-3. **Fill out priority matrix:**
-   - For each Sourcery comment, assess:
-     - **Priority:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
-     - **Impact:** CRITICAL 🔴 / HIGH 🟠 / MEDIUM 🟡 / LOW 🟢
-     - **Effort:** LOW 🟢 / MEDIUM 🟡 / HIGH 🟠 / VERY_HIGH 🔴
-
-4. **Identify critical issues:**
-   - Review all CRITICAL 🔴 items
-   - Review all HIGH 🟠 items
-   - Determine if fixes needed before merge
-
-5. **Create fix plans (if needed):**
-   - Use `/fix-plan` command to create batches
-   - Fix plans created in: `docs/maintainers/planning/features/[feature]/fix/pr##/`
-
-6. **Update fix tracking:**
-   - Update PR hub: `docs/maintainers/planning/features/[feature]/fix/pr##/README.md`
-   - Update main hub: `docs/maintainers/planning/features/[feature]/fix/README.md`
-
-**Note:** Use `/pr-validation` command if PR is already open to combine manual testing updates, execution, and Sourcery review.
+**Note:** Sourcery review (`dt-review`) is handled by the `/pr-validation` command, not during PR creation.
 
 ---
 
@@ -458,7 +439,7 @@ rm /tmp/pr-description-phase[N].md
 3. **Update PR:**
    - Push fix branch
    - Update PR description with fixes
-   - Re-run Sourcery review if needed
+   - Re-run `/pr-validation` if needed (includes Sourcery review)
 
 **If only LOW/MEDIUM issues:**
 - Document in fix tracking
