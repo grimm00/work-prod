@@ -2175,17 +2175,28 @@ curl -X POST http://localhost:5000/api/projects/import \
 **Verification:**
 
 ```bash
-# Verify first project was imported
-curl http://localhost:5000/api/projects?path=/test/path1 | python -m json.tool
-# Expected: Returns First Project
+# Note: API doesn't filter by path, so we'll search by name or check full list
+# Verify first project was imported (search by name)
+curl "http://localhost:5000/api/projects?search=First Project" | python -m json.tool
+# Expected: Returns First Project with path /test/path1
 
-# Verify third project was imported
-curl http://localhost:5000/api/projects?path=/test/path2 | python -m json.tool
-# Expected: Returns Third Project
+# Verify third project was imported (search by name)
+curl "http://localhost:5000/api/projects?search=Third Project" | python -m json.tool
+# Expected: Returns Third Project with path /test/path2
 
-# Verify duplicate project was NOT imported
-curl http://localhost:5000/api/projects?path=/test/duplicate | python -m json.tool
-# Expected: Returns only the original "Existing Project", not "Duplicate Project"
+# Verify duplicate project was NOT imported (search by name)
+curl "http://localhost:5000/api/projects?search=Duplicate Project" | python -m json.tool
+# Expected: Returns empty array (or only projects with different names)
+
+# Alternative: Check full list and filter client-side
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"path": "/test/path1"'
+# Expected: Shows First Project exists
+
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"path": "/test/path2"'
+# Expected: Shows Third Project exists
+
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"name": "Duplicate Project"'
+# Expected: No results (or verify it doesn't have path /test/duplicate)
 ```
 
 **Verification:**
