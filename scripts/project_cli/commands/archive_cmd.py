@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..progress import spinner
 from ..error_handler import handle_error
 
 
@@ -20,7 +21,8 @@ def archive_project(project_id):
     try:
         # Archive project via API
         client = APIClient()
-        project = client.archive_project(project_id)
+        with spinner(console, f"Archiving project #{project_id}..."):
+            project = client.archive_project(project_id)
         
         # Display success
         console.print(f"[green]✓ Archived project #{project['id']}: {project['name']}[/green]")

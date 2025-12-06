@@ -10,6 +10,7 @@ from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import spinner
 
 
 @click.command()
@@ -21,7 +22,8 @@ def get_project(project_id):
     try:
         # Fetch project from API
         client = APIClient()
-        project = client.get_project(project_id)
+        with spinner(console, f"Fetching project #{project_id}..."):
+            project = client.get_project(project_id)
         
         # Create details table
         table = Table(show_header=False, box=None)

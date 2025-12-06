@@ -9,6 +9,7 @@ from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import spinner
 
 
 def build_projects_table(projects, wide=False, status=None, organization=None,
@@ -99,12 +100,13 @@ def list_projects(status, organization, classification, search, wide):
     try:
         # Fetch projects from API with filters
         client = APIClient()
-        projects = client.list_projects(
-            status=status,
-            organization=organization,
-            classification=classification,
-            search=search
-        )
+        with spinner(console, "Fetching projects..."):
+            projects = client.list_projects(
+                status=status,
+                organization=organization,
+                classification=classification,
+                search=search
+            )
         
         if not projects:
             console.print("[yellow]No projects found.[/yellow]")

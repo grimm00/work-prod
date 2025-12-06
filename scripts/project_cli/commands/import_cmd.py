@@ -12,6 +12,7 @@ from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import progress_bar
 
 
 @click.command()
@@ -58,11 +59,13 @@ def import_projects(file):
         raise click.Abort()
     
     projects_count = len(data['projects'])
-    console.print(f"[cyan]Importing {projects_count} project(s) from {file.name}...[/cyan]")
     
-    # Import projects
+    # Import projects with progress bar
     try:
-        result = client.import_projects(data)
+        with progress_bar(console, projects_count, f"Importing {projects_count} project(s)") as progress:
+            task = progress.add_task(f"Importing from {file.name}", total=projects_count)
+            result = client.import_projects(data)
+            progress.update(task, completed=projects_count)
         
         # Display results
         imported = result.get('imported', 0)

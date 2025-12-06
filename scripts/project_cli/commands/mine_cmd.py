@@ -9,6 +9,7 @@ import os
 from rich.console import Console
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import spinner
 from .list_cmd import build_projects_table
 
 
@@ -25,7 +26,8 @@ def mine(org, wide):
             org = os.environ.get('PROJ_ORG', 'work')
         
         client = APIClient()
-        projects = client.list_projects(organization=org)
+        with spinner(console, f"Fetching projects for {org}..."):
+            projects = client.list_projects(organization=org)
         
         if not projects:
             console.print(f"[yellow]No projects found for organization: {org}[/yellow]")

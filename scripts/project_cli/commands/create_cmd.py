@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..progress import spinner
 from ..error_handler import handle_error
 
 
@@ -47,7 +48,8 @@ def create_project(name, path, organization, classification, status, description
         
         # Create project via API
         client = APIClient()
-        project = client.create_project(data)
+        with spinner(console, f"Creating project '{name}'..."):
+            project = client.create_project(data)
         
         # Display success
         console.print(f"[green]✓ Created project #{project['id']}: {project['name']}[/green]")

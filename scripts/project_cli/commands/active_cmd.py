@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import spinner
 from .list_cmd import build_projects_table
 
 
@@ -19,7 +20,8 @@ def active(wide):
     
     try:
         client = APIClient()
-        projects = client.list_projects(status='active')
+        with spinner(console, "Fetching active projects..."):
+            projects = client.list_projects(status='active')
         
         if not projects:
             console.print("[yellow]No active projects found.[/yellow]")

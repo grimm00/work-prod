@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..progress import spinner
 from ..error_handler import handle_error
 
 
@@ -54,13 +55,15 @@ def update_project(project_id, name, path, organization, classification, status,
         # Get original project for comparison
         client = APIClient()
         try:
-            original = client.get_project(project_id)
+            with spinner(console, f"Fetching project #{project_id}..."):
+                original = client.get_project(project_id)
         except Exception as e:
             handle_error(e, console)
             raise click.Abort() from e
         
         # Update project via API
-        updated = client.update_project(project_id, data)
+        with spinner(console, f"Updating project #{project_id}..."):
+            updated = client.update_project(project_id, data)
         
         # Display success
         console.print(f"[green]✓ Updated project #{updated['id']}: {updated['name']}[/green]")

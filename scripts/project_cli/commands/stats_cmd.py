@@ -10,6 +10,7 @@ from rich.table import Table
 from rich.panel import Panel
 from ..api_client import APIClient
 from ..error_handler import handle_error
+from ..progress import spinner
 
 
 @click.command()
@@ -19,7 +20,8 @@ def stats():
     
     try:
         client = APIClient()
-        projects = client.list_projects()
+        with spinner(console, "Calculating statistics..."):
+            projects = client.list_projects()
         
         if not projects:
             console.print("[yellow]No projects found.[/yellow]")
