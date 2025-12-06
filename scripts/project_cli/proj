@@ -3,6 +3,9 @@
 Project CLI Tool (proj)
 
 Command-line interface for managing projects via the backend API.
+
+This script imports the CLI group from the cli module and invokes it.
+This allows the CLI to be imported directly by tests and other modules.
 """
 
 import sys
@@ -13,98 +16,8 @@ scripts_dir = str(Path(__file__).parent.parent)
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-import click
-from project_cli.commands.list_cmd import list_projects
-from project_cli.commands.get_cmd import get_project
-from project_cli.commands.create_cmd import create_project
-from project_cli.commands.update_cmd import update_project
-from project_cli.commands.delete_cmd import delete_project
-from project_cli.commands.archive_cmd import archive_project
-from project_cli.commands.import_cmd import import_projects
-from project_cli.commands.config_cmd import config
-from project_cli.commands.stats_cmd import stats
-from project_cli.commands.recent_cmd import recent
-from project_cli.commands.active_cmd import active
-from project_cli.commands.mine_cmd import mine
-
-
-@click.group()
-@click.version_option(version='0.1.0')
-def cli():
-    """
-    Project Management CLI Tool
-    
-    A command-line interface for managing projects via the Projects API.
-    Provides commands for listing, creating, updating, deleting, and archiving projects.
-    
-    \b
-    Quick Start:
-        proj list                    # List all projects
-        proj get 1                   # Get project details
-        proj create --name "My Project"  # Create a project
-        proj stats                   # Show statistics
-    
-    \b
-    Common Commands:
-        proj list                    # List projects with filters
-        proj create                  # Create new project
-        proj update <id>             # Update project
-        proj delete <id>             # Delete project
-        proj archive <id>            # Archive project
-        proj import <file>          # Import from JSON
-        proj stats                   # Show statistics
-        proj active                  # Show active projects
-        proj recent                  # Show recent projects
-        proj mine                    # Show your projects
-        proj config                  # Manage configuration
-    
-    \b
-    Examples:
-        # List all active projects
-        proj list --status active
-        
-        # Search for projects
-        proj list --search "productivity"
-        
-        # Create a project
-        proj create -n "My Project" --org work --classification primary
-        
-        # Update project status
-        proj update 1 --status paused
-        
-        # Show statistics
-        proj stats
-        
-        # Import projects from file
-        proj import projects.json
-    
-    \b
-    Configuration:
-        Configuration is stored in ~/.projrc. Use 'proj config' to manage settings.
-        API URL can also be set via PROJ_API_URL environment variable.
-    
-    \b
-    For more information on a specific command, use:
-        proj <command> --help
-    """
-    pass
-
-
-# Register commands
-cli.add_command(list_projects, name='list')
-cli.add_command(get_project, name='get')
-cli.add_command(create_project, name='create')
-cli.add_command(update_project, name='update')
-cli.add_command(delete_project, name='delete')
-cli.add_command(archive_project, name='archive')
-cli.add_command(import_projects, name='import')
-cli.add_command(config, name='config')
-cli.add_command(stats, name='stats')
-cli.add_command(recent, name='recent')
-cli.add_command(active, name='active')
-cli.add_command(mine, name='mine')
-
+# Import CLI group from module
+from project_cli.cli import cli
 
 if __name__ == '__main__':
     cli()
-
