@@ -6,7 +6,6 @@ Tests special characters, boundary values, and unusual scenarios.
 
 import pytest
 import sys
-import importlib.util
 from pathlib import Path
 
 # Add backend to path for app imports

@@ -5,9 +5,6 @@ Tests error scenarios: backend down, invalid URLs, timeouts, etc.
 """
 
 import pytest
-import sys
-import importlib.util
-from pathlib import Path
 
 from click.testing import CliRunner
 

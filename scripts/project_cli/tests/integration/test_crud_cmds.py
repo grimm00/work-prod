@@ -6,7 +6,6 @@ Tests the `proj create`, `proj update`, `proj delete`, and `proj archive` comman
 
 import pytest
 import sys
-import importlib.util
 from pathlib import Path
 
 # Add backend to path for app imports

@@ -5,8 +5,6 @@ Tests the `proj import` command using Click's CliRunner.
 """
 
 import pytest
-import sys
-import importlib.util
 import json
 import tempfile
 from pathlib import Path

@@ -5,9 +5,6 @@ Tests the `proj config` commands using Click's CliRunner.
 """
 
 import pytest
-import sys
-import importlib.util
-from pathlib import Path
 import os
 
 from click.testing import CliRunner

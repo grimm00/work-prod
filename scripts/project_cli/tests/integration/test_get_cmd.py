@@ -6,7 +6,6 @@ Tests the `proj get <id>` command using Click's CliRunner.
 
 import pytest
 import sys
-import importlib.util
 from pathlib import Path
 
 # Add backend to path for app imports

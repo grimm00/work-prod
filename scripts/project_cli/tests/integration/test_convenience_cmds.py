@@ -6,7 +6,6 @@ Tests the `proj stats`, `proj recent`, `proj active`, and `proj mine` commands.
 
 import pytest
 import sys
-import importlib.util
 from pathlib import Path
 from datetime import datetime, timedelta
 
