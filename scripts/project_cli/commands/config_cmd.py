@@ -129,9 +129,6 @@ def get_config(section, key):
         console.print(f"{section}.{key} = {value}")
 
 
-@click.command()
-@click.pass_context
-def config(ctx):
-    """Manage CLI configuration settings."""
-    ctx.forward(config_group)
+# Export the group as 'config' for registration
+config = config_group
 
