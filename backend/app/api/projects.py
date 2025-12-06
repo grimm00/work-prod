@@ -18,6 +18,37 @@ VALID_CLASSIFICATIONS = ['primary', 'secondary', 'archive', 'maintenance']
 VALID_STATUSES = ['active', 'paused', 'completed', 'cancelled']
 
 
+def validate_project_data(data):
+    """
+    Validate project data for classification and status.
+    
+    Args:
+        data: Dictionary containing project data to validate
+    
+    Returns:
+        tuple: (error_response, error_code) or (None, None) if valid
+        - error_response: Flask jsonify response with error message
+        - error_code: HTTP status code (400)
+    """
+    # Validate classification if provided
+    if 'classification' in data and data['classification'] is not None:
+        if data['classification'] not in VALID_CLASSIFICATIONS:
+            return jsonify({
+                'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
+            }), 400
+    
+    # Validate status if provided
+    if 'status' in data:
+        if data['status'] is None:
+            return jsonify({'error': 'Status cannot be null'}), 400
+        if data['status'] not in VALID_STATUSES:
+            return jsonify({
+                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
+            }), 400
+    
+    return None, None
+
+
 @projects_bp.route('/projects', methods=['GET', 'POST'])
 def projects():
     """
@@ -103,21 +134,10 @@ def create_project():
     if not data or 'name' not in data or not data['name']:
         return jsonify({'error': 'Name is required'}), 400
     
-    # Validate classification if provided
-    if 'classification' in data and data['classification'] is not None:
-        if data['classification'] not in VALID_CLASSIFICATIONS:
-            return jsonify({
-                'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
-            }), 400
-    
-    # Validate status if provided
-    if 'status' in data:
-        if data['status'] is None:
-            return jsonify({'error': 'Status cannot be null'}), 400
-        if data['status'] not in VALID_STATUSES:
-            return jsonify({
-                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
-            }), 400
+    # Validate project data
+    error_response, error_code = validate_project_data(data)
+    if error_response:
+        return error_response, error_code
     
     # Check for duplicate path
     if 'path' in data and data['path']:
@@ -221,21 +241,10 @@ def update_project(project_id):
         # No updates provided - return current project
         return jsonify(project.to_dict()), 200
     
-    # Validate classification if provided
-    if 'classification' in data and data['classification'] is not None:
-        if data['classification'] not in VALID_CLASSIFICATIONS:
-            return jsonify({
-                'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
-            }), 400
-    
-    # Validate status if provided
-    if 'status' in data:
-        if data['status'] is None:
-            return jsonify({'error': 'Status cannot be null'}), 400
-        if data['status'] not in VALID_STATUSES:
-            return jsonify({
-                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
-            }), 400
+    # Validate project data
+    error_response, error_code = validate_project_data(data)
+    if error_response:
+        return error_response, error_code
     
     # Check for duplicate path if updating path
     if 'path' in data and data['path'] and data['path'] != project.path:
