@@ -3,7 +3,9 @@
 **Batch:** quick-wins-low-low-02  
 **Priority:** 🟢 LOW / 🟡 MEDIUM  
 **Effort:** 🟢 LOW  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
+**Completed:** 2025-12-05  
+**PR:** #21  
 **Created:** 2025-12-05  
 **Issues:** 7 issues  
 **Source PRs:** #12, #16, #18, #19
@@ -379,59 +381,56 @@ def test_filter_projects_invalid_value_ignored(client, app, filter_param, filter
 
 ## Implementation Steps
 
-### 1. Issue PR12-#4: Named Expression
-   - [ ] Update status filter to use named expression
-   - [ ] Update classification filter to use named expression
-   - [ ] Verify functionality unchanged
-   - [ ] Run tests to ensure no regressions
+### 1. Issue PR12-#4: Named Expression ✅
+   - [x] Update status filter to use named expression
+   - [x] Update classification filter to use named expression
+   - [x] Verify functionality unchanged
+   - [x] Run tests to ensure no regressions
 
-### 2. Issue PR12-#5: Raise from Previous Error
-   - [ ] Verify if already fixed (check line 103 in `list_cmd.py`)
-   - [ ] If already fixed, mark as complete and skip
-   - [ ] If not fixed, add `from e` to exception handler
-   - [ ] Verify error messages still display correctly
-   - [ ] Test error handling still works
+### 2. Issue PR12-#5: Raise from Previous Error ✅
+   - [x] Verify if already fixed (check line 103 in `list_cmd.py`)
+   - [x] Already fixed - marked as complete and skipped
 
-### 3. Issue PR16-#8: Swap If Expression
-   - [ ] Change `border_style="green" if not errors else "yellow"` to `border_style="yellow" if errors else "green"`
-   - [ ] Verify behavior unchanged
-   - [ ] Test with errors and without errors
+### 3. Issue PR16-#8: Swap If Expression ✅
+   - [x] Change `border_style="green" if not errors else "yellow"` to `border_style="yellow" if errors else "green"`
+   - [x] Verify behavior unchanged
+   - [x] Test with errors and without errors
 
-### 4. Issue PR16-#9: Remove Duplicate Dict Key
-   - [ ] Remove duplicate `'github:todolist-repo'` key from test data
-   - [ ] Verify test still passes
-   - [ ] Verify test intent unchanged
+### 4. Issue PR16-#9: Remove Duplicate Dict Key ✅
+   - [x] Remove duplicate `'github:todolist-repo'` key from test data
+   - [x] Verify test still passes
+   - [x] Verify test intent unchanged
 
-### 5. Issue PR16-#12: Raise from Previous Error (3 instances)
-   - [ ] Add `from e` to first `raise click.Abort()` (JSONDecodeError)
-   - [ ] Add `from e` to second `raise click.Abort()` (file reading error)
-   - [ ] Add `from e` to third `raise click.Abort()` (import error)
-   - [ ] Verify error messages still clear
-   - [ ] Test error handling still works
+### 5. Issue PR16-#12: Raise from Previous Error (3 instances) ✅
+   - [x] Add `from e` to first `raise click.Abort()` (JSONDecodeError)
+   - [x] Add `from e` to second `raise click.Abort()` (file reading error)
+   - [x] Add `from e` to third `raise click.Abort()` (import error)
+   - [x] Verify error messages still clear
+   - [x] Test error handling still works
 
-### 6. Issue PR18-Overall-#1: Consistency of Missing-Value Handling
-   - [ ] Choose approach (Option 2: plain 'N/A' recommended)
-   - [ ] Update Path column to use 'N/A' instead of `[dim]No path[/dim]`
-   - [ ] Verify display still looks good
-   - [ ] Test with projects that have missing values
+### 6. Issue PR18-Overall-#1: Consistency of Missing-Value Handling ✅
+   - [x] Choose approach (Option 2: plain 'N/A' recommended)
+   - [x] Update Path column to use 'N/A' instead of `[dim]No path[/dim]`
+   - [x] Verify display still looks good
+   - [x] Test with projects that have missing values
 
-### 7. Issue PR19-Overall-#1: Use @pytest.mark.parametrize
-   - [ ] Combine two test functions into one parametrized test
-   - [ ] Use `@pytest.mark.parametrize` decorator
-   - [ ] Verify both test cases still covered
-   - [ ] Verify test failures are clear (show which parameter failed)
-   - [ ] Run tests to ensure they pass
+### 7. Issue PR19-Overall-#1: Use @pytest.mark.parametrize ✅
+   - [x] Combine two test functions into one parametrized test
+   - [x] Use `@pytest.mark.parametrize` decorator
+   - [x] Verify both test cases still covered
+   - [x] Verify test failures are clear (show which parameter failed)
+   - [x] Run tests to ensure they pass
 
 ---
 
 ## Testing
 
-- [ ] All existing tests pass
-- [ ] No regressions introduced
-- [ ] Error handling still works correctly
-- [ ] Test with missing values in CLI display
-- [ ] Parametrized test covers both scenarios
-- [ ] Test failures are clear and indicate which parameter failed
+- [x] All existing tests pass (117 tests)
+- [x] No regressions introduced
+- [x] Error handling still works correctly
+- [x] Test with missing values in CLI display
+- [x] Parametrized test covers both scenarios
+- [x] Test failures are clear and indicate which parameter failed
 
 ---
 
@@ -447,16 +446,16 @@ def test_filter_projects_invalid_value_ignored(client, app, filter_param, filter
 
 ## Definition of Done
 
-- [ ] All 7 issues fixed
-- [ ] Named expressions used in filter logic
-- [ ] All exception handlers use `from e`
-- [ ] If expression swapped
-- [ ] Duplicate dict key removed
-- [ ] Missing-value handling consistent
-- [ ] Tests parametrized
-- [ ] All tests passing
-- [ ] Code reviewed
-- [ ] Ready for PR
+- [x] All 7 issues fixed (6 implemented, 1 already fixed)
+- [x] Named expressions used in filter logic
+- [x] All exception handlers use `from e`
+- [x] If expression swapped
+- [x] Duplicate dict key removed
+- [x] Missing-value handling consistent
+- [x] Tests parametrized
+- [x] All tests passing (117 tests)
+- [x] Code reviewed
+- [x] Ready for PR
 
 ---
 

@@ -47,10 +47,8 @@ def list_projects():
     query = Project.query
     
     # Filter by status
-    if 'status' in request.args:
-        status = request.args['status']
-        if status in VALID_STATUSES:
-            query = query.filter_by(status=status)
+    if 'status' in request.args and (status := request.args['status']) in VALID_STATUSES:
+        query = query.filter_by(status=status)
         # If invalid status, ignore filter (return all projects)
     
     # Filter by organization
@@ -60,10 +58,8 @@ def list_projects():
             query = query.filter_by(organization=organization)
     
     # Filter by classification
-    if 'classification' in request.args:
-        classification = request.args['classification']
-        if classification in VALID_CLASSIFICATIONS:
-            query = query.filter_by(classification=classification)
+    if 'classification' in request.args and (classification := request.args['classification']) in VALID_CLASSIFICATIONS:
+        query = query.filter_by(classification=classification)
         # If invalid classification, ignore filter (return all projects)
     
     # Text search in name and description
