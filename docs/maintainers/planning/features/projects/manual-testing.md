@@ -1,7 +1,8 @@
 # Projects Feature Manual Testing Guide
 
-**Phases:** Phase 2, Phase 3, Phase 4 & Phase 5 - Create, Update, Delete, Archive, Search & Filter, Import  
+**Phases:** Phase 2, Phase 3, Phase 4, Phase 5 & Phase 6 - Create, Update, Delete, Archive, Search & Filter, Import, CLI Enhancement  
 **Phase 5 (PR #16):** Import functionality - Scenarios 29-33  
+**Phase 6 (PR #24):** CLI Enhancement & Daily Use Tools - Scenarios 38-45  
 **Fixes:**
 
 - PR #17 - Request body validation improvements (Scenarios 34-37)
@@ -10,7 +11,7 @@
 - PR #20 - Test quality improvements (test-only, no manual testing scenarios needed)
 - PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)
 - PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)  
-  **Last Updated:** 2025-12-05  
+  **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
 ---
@@ -1416,6 +1417,16 @@ Mark these as complete after testing:
 - [ ] `proj get` shows project details
 - [ ] Error messages are clear and helpful
 - [ ] Rich formatting displays correctly
+- [ ] `proj config show` displays configuration in formatted table
+- [ ] `proj config set` updates configuration and persists to file
+- [ ] `proj config get` retrieves specific configuration values
+- [ ] `proj stats` displays project statistics with breakdowns
+- [ ] `proj recent` shows recently updated projects with limit option
+- [ ] `proj active` filters and displays active projects
+- [ ] `proj mine` filters and displays projects for user's organization
+- [ ] Error handling shows friendly messages when backend is down
+- [ ] Progress indicators (spinners) show during API calls
+- [ ] Help system (`--help`) is comprehensive for all commands
 
 ### Data Integrity
 
@@ -1447,13 +1458,13 @@ Mark these as complete after testing:
 
 ## 📝 Test Results Summary
 
-**Testing Completed:** [x] Yes  
-**Date Tested:** 2025-12-05  
-**Tester:** Automated validation
+**Testing Completed:** [ ] Pending  
+**Date Tested:** [Pending]  
+**Tester:** User verification before PR merge
 
 **Overall Result:**
 
-- [x] ✅ All tests passed - Ready for PR
+- [ ] ✅ All tests passed - Ready for PR
 - [ ] ⚠️ Minor issues found - Fix before PR
 - [ ] ❌ Major issues found - Requires rework
 
@@ -1465,6 +1476,7 @@ Mark these as complete after testing:
 - Error handling working (reports errors but continues)
 - CLI import command working (Rich formatting displays correctly)
 - Import statistics verified: 48 projects imported successfully
+- **Phase 6 scenarios (38-46) added - pending testing**
 
 ---
 
