@@ -119,7 +119,6 @@ class Config:
         for section in self.config.sections():
             if section not in result:
                 result[section] = {}
-            for key, value in self.config.items(section):
-                result[section][key] = value
+            result[section].update(dict(self.config.items(section)))
         
         return result
