@@ -1787,30 +1787,28 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 ```bash
 cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
-# Test 1: Default URL (with /api)
+# Test 1: Default URL (with /api, no trailing slash)
 export PROJ_API_URL=http://localhost:5000/api
 ./proj list
-# Expected: Works correctly, health check succeeds
+# Expected: Works correctly, health check succeeds at http://localhost:5000/api/health
 
-# Test 2: URL without trailing slash
-export PROJ_API_URL=http://localhost:5000/api
+# Test 2: URL with trailing slash (should be stripped)
+export PROJ_API_URL=http://localhost:5000/api/
 ./proj list
-# Expected: Works correctly, health URL constructed properly
-
-# Test 3: Custom URL format
-export PROJ_API_URL=http://localhost:5000/custom/api
-./proj list
-# Expected: Works correctly, health URL is http://localhost:5000/custom/api/health
+# Expected: Works correctly, health URL constructed as http://localhost:5000/api/health
+# The rstrip('/') removes trailing slash before appending /health
 ```
 
 **Verification:**
 
-- [x] Health check works with default URL format
-- [x] Health check works with URL without trailing slash
-- [x] Health check works with custom URL paths
-- [x] Health URL constructed correctly (base + /health)
+- [x] Health check works with default URL format (no trailing slash)
+- [x] Health check works with URL with trailing slash (stripped correctly)
+- [x] Health URL constructed correctly using `rstrip('/') + '/health'` pattern
+- [x] No brittle string replacement (old `replace('/api', '/api/health')` was removed)
 
-**Expected Result:** ✅ Health URL construction works robustly with various base URL formats
+**Note:** The fix replaces the brittle `base_url.replace('/api', '/api/health')` with explicit path construction (`base_url.rstrip('/') + '/health'`), which works robustly with any base URL format. Testing with a non-existent custom path (like `/custom/api`) will always fail because the backend isn't running at that path - the test verifies the URL construction logic works correctly for realistic URL variations.
+
+**Expected Result:** ✅ Health URL construction works robustly with various base URL formats (with/without trailing slash)
 
 ---
 
