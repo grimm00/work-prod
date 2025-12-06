@@ -1744,6 +1744,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 **Test:** Verify CLI doesn't crash with invalid `display.max_rows` config value
 
 **Prerequisites:**
+
 - CLI installed and working
 - Configuration file exists at `~/.projrc`
 
@@ -1776,6 +1777,7 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 **Test:** Verify health check works with various base URL formats
 
 **Prerequisites:**
+
 - CLI installed and working
 - Backend server running
 - Can set custom API URL via environment variable
@@ -1817,6 +1819,7 @@ export PROJ_API_URL=http://localhost:5000/custom/api
 **Test:** Verify CLI handles missing path key gracefully
 
 **Prerequisites:**
+
 - CLI installed and working
 - Backend server running
 - Projects exist in database
