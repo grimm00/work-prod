@@ -88,16 +88,18 @@ def _handle_connection_error(error: requests.exceptions.ConnectionError, console
     """Handle connection refused/network errors."""
     health_url = _get_health_url()
     
-    message = "[bold red]Cannot connect to backend API[/bold red]\n\n"
-    message += "The backend server appears to be offline or unreachable.\n\n"
-    message += "[bold]To fix this:[/bold]\n"
-    message += "1. Start the backend server:\n"
-    message += "   [cyan]cd backend && python run.py[/cyan]\n\n"
-    message += "2. Verify the server is running:\n"
-    message += f"   [cyan]curl {health_url}[/cyan]\n\n"
-    message += "3. Check your API URL configuration:\n"
-    message += "   [cyan]proj config get api base_url[/cyan]\n"
-    message += "   Or set it: [cyan]proj config set api base_url <your-url>[/cyan]"
+    message = (
+        "[bold red]Cannot connect to backend API[/bold red]\n\n"
+        "The backend server appears to be offline or unreachable.\n\n"
+        "[bold]To fix this:[/bold]\n"
+        "1. Start the backend server:\n"
+        "   [cyan]cd backend && python run.py[/cyan]\n\n"
+        "2. Verify the server is running:\n"
+        f"   [cyan]curl {health_url}[/cyan]\n\n"
+        "3. Check your API URL configuration:\n"
+        "   [cyan]proj config get api base_url[/cyan]\n"
+        "   Or set it: [cyan]proj config set api base_url <your-url>[/cyan]"
+    )
     
     console.print(Panel(message, title="Connection Error", border_style="red"))
     console.print(f"\n[dim]Technical details: {error}[/dim]")
@@ -107,15 +109,17 @@ def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) 
     """Handle timeout errors."""
     health_url = _get_health_url()
     
-    message = "[bold red]Request timed out[/bold red]\n\n"
-    message += "The backend server took too long to respond.\n\n"
-    message += "[bold]Possible causes:[/bold]\n"
-    message += "• Backend server is overloaded\n"
-    message += "• Network connectivity issues\n"
-    message += "• Backend server may be unresponsive\n\n"
-    message += "[bold]Try:[/bold]\n"
-    message += f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
-    message += "• Restart the backend server"
+    message = (
+        "[bold red]Request timed out[/bold red]\n\n"
+        "The backend server took too long to respond.\n\n"
+        "[bold]Possible causes:[/bold]\n"
+        "• Backend server is overloaded\n"
+        "• Network connectivity issues\n"
+        "• Backend server may be unresponsive\n\n"
+        "[bold]Try:[/bold]\n"
+        f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
+        "• Restart the backend server"
+    )
     
     console.print(Panel(message, title="Timeout Error", border_style="yellow"))
     console.print(f"\n[dim]Technical details: {error}[/dim]")
