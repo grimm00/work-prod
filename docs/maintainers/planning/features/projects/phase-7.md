@@ -1,6 +1,6 @@
-# Projects Feature - Phase 7: Manual Testing & Bug Fixes
+# Projects Feature - Phase 7: Automated Testing & Bug Fixes
 
-**Phase:** 7 - Manual Testing & Bug Fixes  
+**Phase:** 7 - Automated Testing & Bug Fixes  
 **Duration:** 2 days  
 **Status:** 🔴 Not Started  
 **Prerequisites:** Phase 6 complete
@@ -9,17 +9,17 @@
 
 ## 📋 Overview
 
-Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimization, and documentation completion. This phase ensures the backend MVP is production-ready for daily use. By the end, the Projects API and CLI are stable, tested, and documented.
+Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs discovered during PR validation, and completing documentation. Manual testing was already completed during PR validation phases. This phase ensures the backend MVP has comprehensive automated test coverage and all critical bugs are fixed.
 
-**Success Definition:** Backend MVP is production-ready with no critical bugs and complete documentation.
+**Success Definition:** Backend MVP has automated CLI tests, critical bugs fixed, and complete documentation.
 
 ---
 
 ## 🎯 Goals
 
-1. **Comprehensive Testing** - Manual test all endpoints and CLI commands
-2. **Bug Fixes** - Fix all discovered issues
-3. **Performance** - Optimize slow queries and operations
+1. **Automated CLI Testing** - Add CLI integration tests using Click's CliRunner (HIGH priority from Phase 6 reflection)
+2. **Bug Fixes** - Fix bugs discovered during PR validation
+3. **Test Coverage** - Improve automated test coverage for edge cases
 4. **API Documentation** - Complete OpenAPI/Swagger spec
 5. **User Documentation** - README and usage guides
 
@@ -27,59 +27,80 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 
 ## 📝 Tasks
 
-### 1. Manual Testing Checklist ✅ In Progress
+### 1. Automated CLI Testing (HIGH Priority) 🔴 Not Started
 
-**Testing Plan:** See `phase-7-testing-checklist.md` for detailed execution plan
+**Reference:** Phase 6 reflection identified this as HIGH priority improvement  
+**Framework:** Click's CliRunner (documented in ADR-0006)
 
-#### API Endpoints
-- [x] Testing checklist created (`phase-7-testing-checklist.md`)
-- [ ] GET /api/health - Health check works
-- [ ] GET /api/projects - List projects (empty, with data, filtered)
-- [ ] GET /api/projects/<id> - Get single project
-- [ ] POST /api/projects - Create project (valid, invalid, duplicates)
-- [ ] PUT /api/projects/<id> - Update project (partial, full, validation)
-- [ ] DELETE /api/projects/<id> - Delete project
-- [ ] PUT /api/projects/<id>/archive - Archive project
-- [ ] POST /api/projects/import - Import bulk data
+#### Setup
+- [ ] Create `backend/tests/integration/cli/` directory
+- [ ] Add CliRunner fixture to `backend/tests/conftest.py`
+- [ ] Create test file structure
 
-#### CLI Commands
-- [ ] `proj list` - All variations (filters, search)
-- [ ] `proj get <id>` - Get single project
-- [ ] `proj create` - Create projects
-- [ ] `proj update` - Update projects
-- [ ] `proj delete` - Delete with confirmation
-- [ ] `proj archive` - Archive projects
-- [ ] `proj import` - Import from JSON
-- [ ] `proj stats` - Statistics display
-- [ ] `proj recent` - Recent projects
-- [ ] `proj active` - Active projects filter
+#### CLI Command Tests
+- [ ] `proj list` - Test basic listing, filters, search
+- [ ] `proj get <id>` - Test get command with valid/invalid IDs
+- [ ] `proj create` - Test interactive creation
+- [ ] `proj update` - Test update command
+- [ ] `proj delete` - Test delete with confirmation
+- [ ] `proj archive` - Test archive command
+- [ ] `proj import` - Test import from JSON file
+- [ ] `proj config` - Test config show/set/get commands
+- [ ] `proj stats` - Test statistics display
+- [ ] `proj recent` - Test recent projects filter
+- [ ] `proj active` - Test active projects filter
+- [ ] `proj mine` - Test my projects filter
 
-#### Edge Cases
-- [ ] Empty database
-- [ ] Large dataset (100+ projects)
-- [ ] Invalid input handling
-- [ ] Network errors (backend down)
-- [ ] Concurrent updates
+#### Error Handling Tests
+- [ ] Backend down - connection errors
+- [ ] Invalid API URL configuration
+- [ ] Network timeout scenarios
+- [ ] Invalid command arguments
+- [ ] Missing required fields
+
+**Estimated:** 4-6 hours
+
+### 2. Bug Fixes from PR Validation 🔴 Not Started
+
+**Note:** Manual testing already completed during PR validation. Bugs documented in fix tracking.
+
+#### Review Deferred Issues
+- [ ] Review `docs/maintainers/planning/features/projects/fix/` for deferred issues
+- [ ] Prioritize bugs by severity (Critical, High, Medium, Low)
+- [ ] Create fix batches for high-priority bugs
+
+#### Fix Critical/High Priority Bugs
+- [ ] Fix any CRITICAL bugs (if any remain)
+- [ ] Fix HIGH priority bugs
+- [ ] Document fixes in bug tracking
+
+**Estimated:** 2-4 hours (depends on bugs found)
+
+### 3. Test Coverage Improvements 🔴 Not Started
+
+#### Edge Case Tests
+- [ ] Empty database scenarios
+- [ ] Large dataset performance tests (100+ projects)
+- [ ] Invalid input handling tests
 - [ ] Special characters in names/paths
 - [ ] Very long descriptions
+- [ ] Concurrent operation tests
 
-### 2. Bug Tracking
+#### Missing Test Coverage
+- [ ] Review coverage report for gaps
+- [ ] Add tests for uncovered code paths
+- [ ] Strengthen existing test assertions
 
-- [ ] Create `docs/maintainers/planning/features/projects/fix/bugs.md`
-- [ ] Document all discovered bugs
-- [ ] Prioritize: Critical, High, Medium, Low
-- [ ] Fix critical and high priority bugs
-- [ ] Track medium/low for future phases
+**Estimated:** 2-3 hours
 
-### 3. Performance Testing
+### 4. Performance Testing (Optional)
 
-- [ ] Test with 100 projects
-- [ ] Test with 1000 projects (stress test)
+- [ ] Test with 100 projects (if time permits)
 - [ ] Measure query times
 - [ ] Add database indexes if needed
-- [ ] Optimize slow endpoints
+- [ ] Optimize slow endpoints (if any)
 
-### 4. API Documentation
+### 5. API Documentation
 
 - [ ] Create OpenAPI/Swagger specification
 - [ ] Document all endpoints:
@@ -91,7 +112,7 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 - [ ] Generate API docs with Swagger UI or similar
 - [ ] Add to project README
 
-### 5. User Documentation
+### 6. User Documentation
 
 - [ ] Update project README.md:
   - Backend MVP features
@@ -103,7 +124,7 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 - [ ] Create API usage examples
 - [ ] Add troubleshooting section
 
-### 6. Code Quality
+### 7. Code Quality
 
 - [ ] Run linter (flake8 or pylint)
 - [ ] Fix linting issues
@@ -111,7 +132,7 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 - [ ] Add docstrings to all functions
 - [ ] Review code for security issues
 
-### 7. Final Verification
+### 8. Final Verification
 
 - [ ] All backend tests pass
 - [ ] Test coverage > 80%
@@ -124,13 +145,13 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 
 ## ✅ Completion Criteria
 
-- [ ] All manual test cases pass
+- [ ] CLI automated tests implemented (using CliRunner)
+- [ ] All CLI commands have test coverage
 - [ ] Critical bugs fixed
-- [ ] Performance acceptable (queries < 100ms for 100 projects)
+- [ ] Test coverage > 80% (including CLI tests)
 - [ ] API fully documented (OpenAPI spec)
 - [ ] User documentation complete
 - [ ] Code quality high (linting, docstrings)
-- [ ] Test coverage > 80%
 - [ ] Ready for daily use
 
 ---
@@ -140,42 +161,47 @@ Phase 7 focuses on comprehensive manual testing, bug fixes, performance optimiza
 1. **Bug Reports**
    - Documented bugs in fix/bugs.md
    - Critical bugs resolved
-   
 2. **API Documentation**
+
    - OpenAPI/Swagger specification
    - API usage guide
    - Example requests/responses
 
 3. **User Documentation**
+
    - Updated README
    - CLI usage guide
    - Troubleshooting guide
    - Development setup guide
 
 4. **Code Quality**
+
    - Linting clean
    - Docstrings complete
    - Type hints added
 
-5. **Test Results**
-   - Manual test report
-   - Performance test results
-   - Coverage report
+5. **Automated Tests**
+   - CLI integration tests (using CliRunner)
+   - Edge case tests
+   - Coverage report (>80%)
 
 ---
 
 ## 📊 Test Coverage Goals
 
 ### Backend
+
 - Models: > 90%
 - API endpoints: > 85%
 - Overall: > 80%
 
 ### Integration
+
 - All CRUD operations tested
 - All filter combinations tested
 - Error handling tested
 - Edge cases covered
+- **CLI commands tested** (NEW - Phase 7)
 
 ---
 
@@ -193,6 +219,7 @@ For tracking bugs during testing:
 [What's wrong]
 
 **Steps to Reproduce:**
+
 1. Step 1
 2. Step 2
 
@@ -230,6 +257,8 @@ docs/
 
 ---
 
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-06  
 **Status:** 🔴 Not Started  
-**Next:** Begin after Phase 6 complete and before declaring MVP complete
+**Next:** Begin automated CLI testing (HIGH priority from Phase 6 reflection)
+
+**Note:** Manual testing was already completed during PR validation phases. Phase 7 focuses on automated testing and bug fixes.
