@@ -17,9 +17,10 @@ class APIClient:
         Initialize API client.
         
         Args:
-            base_url: Base URL for API (defaults to Config.API_BASE_URL)
+            base_url: Base URL for API (defaults to Config instance API URL)
         """
-        self.base_url = base_url or Config.API_BASE_URL
+        config = Config.get_instance()
+        self.base_url = base_url or config.get_api_url()
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',

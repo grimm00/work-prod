@@ -21,6 +21,7 @@ from project_cli.commands.update_cmd import update_project
 from project_cli.commands.delete_cmd import delete_project
 from project_cli.commands.archive_cmd import archive_project
 from project_cli.commands.import_cmd import import_projects
+from project_cli.commands.config_cmd import config
 
 
 @click.group()
@@ -42,6 +43,7 @@ cli.add_command(update_project, name='update')
 cli.add_command(delete_project, name='delete')
 cli.add_command(archive_project, name='archive')
 cli.add_command(import_projects, name='import')
+cli.add_command(config, name='config')
 
 
 if __name__ == '__main__':
