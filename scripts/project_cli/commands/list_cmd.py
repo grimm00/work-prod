@@ -86,7 +86,7 @@ def list_projects(status, organization, classification, search, wide):
             if show_classification:
                 row_data.append(project.get('classification', 'N/A'))
             
-            row_data.append(project['path'] or "[dim]No path[/dim]")
+            row_data.append(project['path'] or 'N/A')
             
             # Add Description column if searching or using --wide
             if show_description:
