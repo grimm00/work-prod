@@ -88,7 +88,8 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def get_project(self, project_id: int) -> Dict:
         """
@@ -108,7 +109,8 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def create_project(self, data: Dict) -> Dict:
         """
@@ -128,7 +130,8 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def update_project(self, project_id: int, data: Dict) -> Dict:
         """
@@ -149,7 +152,8 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def delete_project(self, project_id: int) -> None:
         """
@@ -165,7 +169,8 @@ class APIClient:
             response = self.session.delete(f'{self.base_url}/projects/{project_id}', timeout=10)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def archive_project(self, project_id: int) -> Dict:
         """
@@ -185,7 +190,8 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def import_projects(self, projects_data: Dict) -> Dict:
         """
@@ -205,5 +211,6 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            _raise_api_error(e, response if hasattr(e, 'response') else None)
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
 
