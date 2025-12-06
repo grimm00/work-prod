@@ -7,6 +7,7 @@ Provides friendly error messages and suggestions for common issues.
 import requests
 from rich.console import Console
 from rich.panel import Panel
+from .config import Config
 
 
 class CLIError(Exception):
@@ -55,7 +56,12 @@ def handle_error(error: Exception, console: Console = None) -> None:
 
 def _handle_connection_error(error: requests.exceptions.ConnectionError, console: Console) -> None:
     """Handle connection refused/network errors."""
-    config_url = "http://localhost:5000/api"
+    config = Config.get_instance()
+    config_url = config.get_api_url()
+    
+    # Construct health URL properly
+    base = config_url.rstrip('/')
+    health_url = f"{base}/health"
     
     message = "[bold red]Cannot connect to backend API[/bold red]\n\n"
     message += "The backend server appears to be offline or unreachable.\n\n"
@@ -63,7 +69,7 @@ def _handle_connection_error(error: requests.exceptions.ConnectionError, console
     message += "1. Start the backend server:\n"
     message += "   [cyan]cd backend && python run.py[/cyan]\n\n"
     message += "2. Verify the server is running:\n"
-    message += f"   [cyan]curl {config_url.replace('/api', '/api/health')}[/cyan]\n\n"
+    message += f"   [cyan]curl {health_url}[/cyan]\n\n"
     message += "3. Check your API URL configuration:\n"
     message += "   [cyan]proj config get api base_url[/cyan]\n"
     message += "   Or set it: [cyan]proj config set api base_url <your-url>[/cyan]"
@@ -74,6 +80,11 @@ def _handle_connection_error(error: requests.exceptions.ConnectionError, console
 
 def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) -> None:
     """Handle timeout errors."""
+    config = Config.get_instance()
+    base_url = config.get_api_url()
+    base = base_url.rstrip('/')
+    health_url = f"{base}/health"
+    
     message = "[bold red]Request timed out[/bold red]\n\n"
     message += "The backend server took too long to respond.\n\n"
     message += "[bold]Possible causes:[/bold]\n"
@@ -81,7 +92,7 @@ def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) 
     message += "• Network connectivity issues\n"
     message += "• Backend server may be unresponsive\n\n"
     message += "[bold]Try:[/bold]\n"
-    message += "• Check if backend is running: [cyan]curl http://localhost:5000/api/health[/cyan]\n"
+    message += f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
     message += "• Restart the backend server"
     
     console.print(Panel(message, title="Timeout Error", border_style="yellow"))
@@ -166,10 +177,15 @@ def _handle_api_error(error: APIError, console: Console) -> None:
 
 def _handle_generic_error(error: Exception, console: Console) -> None:
     """Handle generic/unexpected errors."""
+    config = Config.get_instance()
+    base_url = config.get_api_url()
+    base = base_url.rstrip('/')
+    health_url = f"{base}/health"
+    
     message = "[bold red]An unexpected error occurred[/bold red]\n\n"
     message += f"{error}\n\n"
     message += "[bold]Try:[/bold]\n"
-    message += "• Check if backend is running: [cyan]curl http://localhost:5000/api/health[/cyan]\n"
+    message += f"• Check if backend is running: [cyan]curl {health_url}[/cyan]\n"
     message += "• Verify your configuration: [cyan]proj config show[/cyan]\n"
     message += "• Check the error message above for details"
     
