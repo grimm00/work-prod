@@ -47,7 +47,7 @@ def test_list_command_backend_down(cli_runner, monkeypatch):
 @pytest.mark.integration
 def test_list_command_invalid_api_url(cli_runner, monkeypatch):
     """Test list command with invalid API URL configuration."""
-    from scripts.project_cli import config
+    from project_cli import config
     
     # Mock Config to return invalid URL
     def mock_get_api_url(self):
