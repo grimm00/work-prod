@@ -1948,6 +1948,187 @@ unset PROJ_API_URL
 
 ---
 
+## PR #28: Error Handler Improvements
+
+**Features:** Extract health URL helper function, add URL validation with fallback
+
+### Scenario 52: CLI - Error Handler Uses Health URL Helper
+
+**Test:** Verify error handlers use centralized health URL helper function
+
+**Prerequisites:**
+
+- CLI installed and working
+- Backend server NOT running
+- Default configuration
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Test connection error (backend down)
+./proj list
+# Expected: Error message shows health URL constructed correctly
+
+# Test timeout error (if backend is slow/unresponsive)
+# Note: This may require simulating a timeout, or can be verified by code inspection
+```
+
+**Expected:**
+
+- Error messages show health URL constructed correctly
+- Health URL is consistent across all error handlers
+- URL format is correct (base URL + /health)
+- No hardcoded URLs in error messages
+
+**Verification:**
+
+- [ ] Connection error shows correct health URL
+- [ ] Health URL is constructed from configured base URL
+- [ ] URL format is consistent (no trailing slashes issues)
+- [ ] Error messages are helpful and actionable
+
+**Expected Result:** ✅ Error handlers use centralized helper for consistent URL construction
+
+---
+
+### Scenario 53: CLI - Error Handler Handles Empty URL Configuration
+
+**Test:** Verify error handler falls back to default URL when configured URL is empty
+
+**Prerequisites:**
+
+- CLI installed and working
+- Backend server NOT running
+- Can modify configuration
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Set empty URL in config
+./proj config set api base_url ""
+
+# Try to use CLI (should use default URL)
+./proj list
+
+# Expected: Error message shows default URL (http://localhost:5000/api/health)
+# Not: Error message shows empty or invalid URL
+```
+
+**Expected:**
+
+- Empty URL configuration doesn't cause errors
+- Error handler falls back to default URL
+- Error message shows valid default health URL
+- No unusable curl commands (like `curl /health`)
+
+**Verification:**
+
+- [ ] Empty URL doesn't cause crash
+- [ ] Default URL is used (http://localhost:5000/api/health)
+- [ ] Error message shows valid health URL
+- [ ] Troubleshooting steps are still helpful
+
+**Expected Result:** ✅ Error handler gracefully handles empty URL with default fallback
+
+---
+
+### Scenario 54: CLI - Error Handler Handles Invalid URL Format
+
+**Test:** Verify error handler falls back to default URL when configured URL has invalid format
+
+**Prerequisites:**
+
+- CLI installed and working
+- Backend server NOT running
+- Can modify configuration
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Set invalid URL format (missing http://)
+./proj config set api base_url "localhost:5000/api"
+
+# Try to use CLI (should use default URL)
+./proj list
+
+# Expected: Error message shows default URL (http://localhost:5000/api/health)
+# Not: Error message shows invalid URL format
+```
+
+**Expected:**
+
+- Invalid URL format doesn't cause errors
+- Error handler validates URL format (must start with http:// or https://)
+- Falls back to default URL if format is invalid
+- Error message shows valid health URL
+
+**Verification:**
+
+- [ ] Invalid URL format doesn't cause crash
+- [ ] URL format is validated (checks for http:// or https://)
+- [ ] Default URL is used when format is invalid
+- [ ] Error message shows valid health URL
+- [ ] No unusable curl commands
+
+**Expected Result:** ✅ Error handler validates URL format and falls back to default when invalid
+
+---
+
+### Scenario 55: CLI - Error Handler Consistency Across All Handlers
+
+**Test:** Verify all error handlers use the same health URL helper function
+
+**Prerequisites:**
+
+- CLI installed and working
+- Backend server NOT running
+- Custom API URL configured
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Set custom API URL
+./proj config set api base_url "http://custom-server:8080/api"
+
+# Test different error scenarios
+# Connection error
+./proj list
+# Expected: Shows http://custom-server:8080/api/health
+
+# Timeout error (if backend is slow/unresponsive)
+# Note: May require simulating timeout or code inspection
+
+# Generic error (if backend returns unexpected error)
+# Note: May require simulating error or code inspection
+```
+
+**Expected:**
+
+- All error handlers show consistent health URL
+- Health URL is constructed from same configured base URL
+- URL format is consistent across all handlers
+- No duplication of URL construction logic
+
+**Verification:**
+
+- [ ] Connection error handler uses helper
+- [ ] Timeout error handler uses helper
+- [ ] Generic error handler uses helper
+- [ ] All handlers show same health URL format
+- [ ] URL construction is centralized (no duplication)
+
+**Expected Result:** ✅ All error handlers use centralized helper for consistent behavior
+
+---
+
 ## ✅ Acceptance Criteria
 
 Mark these as complete after testing:
