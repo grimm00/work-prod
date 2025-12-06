@@ -11,7 +11,8 @@
 - PR #20 - Test quality improvements (test-only, no manual testing scenarios needed)
 - PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)
 - PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)
-- PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)  
+- PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)
+- PR #27 - Configuration improvements - use configured URLs, show defaults (Scenarios 50-51)  
   **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
