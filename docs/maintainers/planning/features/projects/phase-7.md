@@ -48,7 +48,7 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 - [x] `proj update` - Test update command (2 tests)
 - [x] `proj delete` - Test delete with confirmation (2 tests)
 - [x] `proj archive` - Test archive command (2 tests)
-- [ ] `proj import` - Test import from JSON file
+- [x] `proj import` - Test import from JSON file (5 tests)
 - [x] `proj config` - Test config show/set/get commands (4 tests)
 - [x] `proj stats` - Test statistics display (2 tests)
 - [x] `proj recent` - Test recent projects filter (2 tests)
@@ -57,11 +57,11 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 
 #### Error Handling Tests
 
-- [ ] Backend down - connection errors
-- [ ] Invalid API URL configuration
-- [ ] Network timeout scenarios
-- [ ] Invalid command arguments
-- [ ] Missing required fields
+- [x] Backend down - connection errors (1 test)
+- [x] Invalid API URL configuration (1 test)
+- [x] Invalid command arguments (1 test)
+- [x] Missing required fields (1 test)
+- [ ] Network timeout scenarios (deferred - requires timeout mocking)
 
 **Estimated:** 4-6 hours
 
