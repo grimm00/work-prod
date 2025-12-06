@@ -2140,10 +2140,12 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 **Test:** Verify that IntegrityError (e.g., duplicate path) in middle of batch doesn't roll back previous successful imports.
 
 **Prerequisites:**
+
 - Backend server running
 - Clean database (or ensure `/test/path1` and `/test/path2` don't exist)
 
 **API Test:**
+
 ```bash
 # First, create a project with a specific path
 curl -X POST http://localhost:5000/api/projects \
@@ -2171,6 +2173,7 @@ curl -X POST http://localhost:5000/api/projects/import \
 ```
 
 **Verification:**
+
 ```bash
 # Verify first project was imported
 curl http://localhost:5000/api/projects?path=/test/path1 | python -m json.tool
@@ -2186,6 +2189,7 @@ curl http://localhost:5000/api/projects?path=/test/duplicate | python -m json.to
 ```
 
 **Verification:**
+
 - [ ] Response status is 201 (not 500)
 - [ ] `imported` count is 2 (First and Third projects)
 - [ ] `skipped` count is 1 (Duplicate project)
