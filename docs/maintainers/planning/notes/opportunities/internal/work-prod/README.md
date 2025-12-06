@@ -16,6 +16,7 @@
 - **[Phase 3 Learnings](phase-3-learnings.md)** - Delete & Archive Projects + Workflow Automation
 - **[Phase 4 Learnings](phase-4-learnings.md)** - Search & Filter Projects + Fix Batch System
 - **[Phase 5 Learnings](phase-5-learnings.md)** - Import Projects from JSON + Validation Improvements
+- **[Phase 6 Learnings](phase-6-learnings.md)** - CLI Enhancement & Daily Use Tools
 
 ### Process Learnings
 
@@ -37,8 +38,8 @@ These learnings inform the dev-infra improvement checklists in the `dev-infra/` 
 
 ## 📊 Summary
 
-**Total Learning Documents:** 6  
-**Coverage:** Phases 1-5 + Fix Management
+**Total Learning Documents:** 7  
+**Coverage:** Phases 1-6 + Fix Management
 
 **Completion Status:**
 
@@ -50,8 +51,8 @@ These learnings inform the dev-infra improvement checklists in the `dev-infra/` 
 | Phase 3 | phase-3-learnings.md | ✅ Complete | 🟡 Pending |
 | Phase 4 | phase-4-learnings.md | ✅ Complete | 🟡 Pending |
 | Phase 5 | phase-5-learnings.md | ✅ Complete | 🟡 Pending |
+| Phase 6 | phase-6-learnings.md | ✅ Complete | 🟡 Pending |
 | Fix Management | fix-management-learnings.md | ✅ Complete | 🟡 Pending |
-| Phase 6+ | TBD | 🔴 Not Started | - |
 
 ---
 
