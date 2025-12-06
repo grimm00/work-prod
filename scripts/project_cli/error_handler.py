@@ -133,7 +133,7 @@ def _handle_http_error(error: requests.exceptions.HTTPError, console: Console) -
             error_data = response.json()
             if isinstance(error_data, dict) and 'error' in error_data:
                 error_msg = error_data['error']
-        except:
+        except Exception:
             pass
     
     status_code = response.status_code if response else None

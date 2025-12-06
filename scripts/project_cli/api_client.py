@@ -23,7 +23,7 @@ def _raise_api_error(error: requests.exceptions.RequestException, response=None)
                 error_data = response.json()
                 if isinstance(error_data, dict) and 'error' in error_data:
                     error_msg = error_data['error']
-            except:
+            except Exception:
                 pass
         raise APIError(error_msg, status_code=response.status_code if response else None) from error
     else:
