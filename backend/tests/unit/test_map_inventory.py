@@ -203,8 +203,7 @@ class TestMapClassificationToProject:
         inventory_data = {
             'merged:todolist-repo': 'Personal',
             'github:todolist-repo': 'Personal',
-            'local:/Users/cdwilson/Projects/todolist-repo': 'Personal',
-            'github:todolist-repo': 'Personal'  # Duplicate key (shouldn't happen but test robustness)
+            'local:/Users/cdwilson/Projects/todolist-repo': 'Personal'
         }
         
         projects = map_classification_to_project(inventory_data)
