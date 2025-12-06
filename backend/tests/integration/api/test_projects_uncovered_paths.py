@@ -115,7 +115,12 @@ def test_import_projects_per_project_exception_handling(client, app, monkeypatch
 
 @pytest.mark.integration
 def test_import_projects_commit_exception_handling(client, app, monkeypatch):
-    """Test exception handling for commit errors in import_projects (lines 420-423)."""
+    """
+    Test exception handling for commit errors in import_projects.
+    
+    With per-project commit handling, commit exceptions are caught per-project
+    and added to errors, allowing the batch to continue processing.
+    """
     # Mock db.session.commit to raise an exception
     original_commit = db.session.commit
     
@@ -132,13 +137,73 @@ def test_import_projects_commit_exception_handling(client, app, monkeypatch):
                           },
                           content_type='application/json')
     
-    assert response.status_code == 500
+    # With per-project commit handling, commit exceptions are caught per-project
+    # and added to errors, so we return 201 with error details
+    assert response.status_code == 201
     data = json.loads(response.data)
-    assert 'error' in data
-    assert 'import' in data['error'].lower() or 'failed' in data['error'].lower()
+    assert data['imported'] == 0  # No projects imported due to commit failure
+    assert data['skipped'] == 1  # One project skipped
+    assert len(data['errors']) == 1  # One error for commit failure
+    assert 'error' in data['errors'][0]
     
     # Restore original commit
     monkeypatch.setattr(db.session, 'commit', original_commit)
+
+
+@pytest.mark.integration
+def test_import_projects_integrity_error_per_project(client, app):
+    """
+    Test that IntegrityError (e.g., duplicate path) in middle of batch
+    doesn't roll back previous successful imports.
+    
+    This test verifies the fix for PR29-#1: bulk import should handle
+    IntegrityError per-project, not per-batch.
+    """
+    # Create an existing project with a path
+    with app.app_context():
+        existing = Project(name="Existing Project", path="/duplicate/path")
+        db.session.add(existing)
+        db.session.commit()
+    
+    # Import batch with duplicate path in the middle
+    import_data = {
+        'projects': [
+            {'name': 'First Project', 'path': '/first/path'},  # Should succeed
+            {'name': 'Duplicate Project', 'path': '/duplicate/path'},  # Should fail (duplicate)
+            {'name': 'Third Project', 'path': '/third/path'}  # Should succeed
+        ]
+    }
+    
+    response = client.post('/api/projects/import',
+                          json=import_data,
+                          content_type='application/json')
+    
+    # Should return 201 (not 500) because some projects succeeded
+    assert response.status_code == 201
+    data = json.loads(response.data)
+    
+    # Verify statistics
+    assert data['imported'] == 2  # First and third projects
+    assert data['skipped'] == 1  # Duplicate project
+    assert len(data['errors']) == 1  # One error for duplicate
+    
+    # Verify error details
+    assert 'duplicate' in data['errors'][0]['error'].lower() or 'path' in data['errors'][0]['error'].lower()
+    assert data['errors'][0]['project'] == 'Duplicate Project'
+    
+    # Verify successful projects were persisted
+    with app.app_context():
+        first_project = Project.query.filter_by(path='/first/path').first()
+        assert first_project is not None
+        assert first_project.name == 'First Project'
+        
+        third_project = Project.query.filter_by(path='/third/path').first()
+        assert third_project is not None
+        assert third_project.name == 'Third Project'
+        
+        # Verify duplicate project was NOT created
+        duplicate_projects = Project.query.filter_by(name='Duplicate Project').all()
+        assert len(duplicate_projects) == 0
 
 
 @pytest.mark.integration

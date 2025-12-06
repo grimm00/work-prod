@@ -413,7 +413,30 @@ def import_projects():
             )
 
             db.session.add(project)
-            imported += 1
+
+            # Commit each project individually to handle IntegrityError per-project
+            # This ensures successful projects persist even if later projects fail
+            try:
+                db.session.commit()
+                imported += 1
+            except IntegrityError as e:
+                # Rollback this specific project, but keep the session for others
+                db.session.rollback()
+                project_name = project_data.get('name', 'Unknown')
+                current_app.logger.warning(
+                    f"IntegrityError importing project {project_name}: {e}",
+                    exc_info=True
+                )
+                # Determine specific error message
+                error_msg = 'Failed to import project'
+                if 'path' in str(e).lower() or 'unique' in str(e).lower():
+                    error_msg = 'Project with this path already exists'
+                errors.append({
+                    'project': project_name,
+                    'error': error_msg
+                })
+                skipped += 1
+                # Continue processing remaining projects
 
         except Exception as e:
             # Log full exception for debugging
@@ -428,13 +451,8 @@ def import_projects():
                 'error': 'Failed to import project'
             })
             skipped += 1
-
-    try:
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()
-        current_app.logger.error(f"Error committing import: {e}", exc_info=True)
-        return jsonify({'error': 'Failed to import projects'}), 500
+            # Rollback any pending changes for this project
+            db.session.rollback()
 
     return jsonify({
         'imported': imported,
