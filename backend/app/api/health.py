@@ -13,7 +13,7 @@ health_bp = Blueprint('health', __name__)
 def health_check():
     """
     Health check endpoint.
-    
+
     Returns:
         JSON response with status and message
     """
@@ -21,4 +21,3 @@ def health_check():
         'status': 'ok',
         'message': 'Flask backend is running'
     }), 200
-
