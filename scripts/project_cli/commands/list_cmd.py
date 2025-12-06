@@ -10,6 +10,73 @@ from rich.table import Table
 from ..api_client import APIClient
 
 
+def build_projects_table(projects, wide=False, status=None, organization=None,
+                        classification=None, search=None):
+    """
+    Build a Rich Table for displaying projects.
+    
+    Args:
+        projects: List of project dictionaries
+        wide: Whether to show all columns
+        status: Status filter (if used, shows Status column)
+        organization: Organization filter (if used, shows Org column)
+        classification: Classification filter (if used, shows Classification column)
+        search: Search filter (if used, shows Description column)
+    
+    Returns:
+        Table: Configured Rich Table ready for display
+    """
+    table = Table(title=f"Projects ({len(projects)})", expand=True)
+    
+    # Determine which columns to show
+    show_status = wide or status is not None
+    show_org = wide or organization is not None
+    show_classification = wide or classification is not None
+    show_description = wide or search is not None
+    
+    # Add columns
+    table.add_column("ID", style="cyan", justify="right")
+    table.add_column("Name", style="green", no_wrap=False)
+    
+    if show_status:
+        table.add_column("Status", style="yellow")
+    if show_org:
+        table.add_column("Org", style="blue")
+    if show_classification:
+        table.add_column("Classification", style="magenta")
+    
+    table.add_column("Path", style="blue", no_wrap=False)
+    
+    if show_description:
+        table.add_column("Description", style="dim", no_wrap=False)
+    
+    table.add_column("Created", style="magenta")
+    
+    # Add rows
+    for project in projects:
+        row_data = [
+            str(project['id']),
+            project['name'],
+        ]
+        if show_status:
+            row_data.append(project.get('status', 'N/A'))
+        if show_org:
+            row_data.append(project.get('organization', 'N/A'))
+        if show_classification:
+            row_data.append(project.get('classification', 'N/A'))
+        
+        row_data.append(project['path'] or 'N/A')
+        
+        if show_description:
+            description = project.get('description', '')
+            row_data.append(description or "[dim]No description[/dim]")
+        
+        row_data.append(project['created_at'][:10])
+        table.add_row(*row_data)
+    
+    return table
+
+
 @click.command()
 @click.option(
     '--status', '-s',
@@ -42,60 +109,15 @@ def list_projects(status, organization, classification, search, wide):
             console.print("[yellow]No projects found.[/yellow]")
             return
         
-        # Create table with expand=True to use full terminal width
-        table = Table(title=f"Projects ({len(projects)})", expand=True)
-        table.add_column("ID", style="cyan", justify="right")
-        table.add_column("Name", style="green", no_wrap=False)  # Allow wrapping
-        
-        # Determine which columns to show:
-        # - Show Status if --wide flag OR --status filter is used
-        # - Show Org if --wide flag OR --org filter is used
-        # - Show Classification if --wide flag OR --classification filter is used
-        # - Show Description if --wide flag OR --search filter is used (to show where match occurred)
-        show_status = wide or status is not None
-        show_org = wide or organization is not None
-        show_classification = wide or classification is not None
-        show_description = wide or search is not None
-        
-        # Add columns based on filters and --wide flag
-        if show_status:
-            table.add_column("Status", style="yellow")
-        if show_org:
-            table.add_column("Org", style="blue")
-        if show_classification:
-            table.add_column("Classification", style="magenta")
-        
-        table.add_column("Path", style="blue", no_wrap=False)  # Allow wrapping
-        
-        # Add Description column if searching or using --wide
-        if show_description:
-            table.add_column("Description", style="dim", no_wrap=False)  # Allow wrapping
-        
-        table.add_column("Created", style="magenta")
-        
-        # Add rows conditionally based on visible columns
-        for project in projects:
-            row_data = [
-                str(project['id']),
-                project['name'],
-            ]
-            if show_status:
-                row_data.append(project.get('status', 'N/A'))
-            if show_org:
-                row_data.append(project.get('organization', 'N/A'))
-            if show_classification:
-                row_data.append(project.get('classification', 'N/A'))
-            
-            row_data.append(project['path'] or 'N/A')
-            
-            # Add Description column if searching or using --wide
-            if show_description:
-                description = project.get('description', '')
-                row_data.append(description or "[dim]No description[/dim]")
-            
-            row_data.append(project['created_at'][:10])  # Just the date
-            table.add_row(*row_data)
-        
+        # Build and display table
+        table = build_projects_table(
+            projects,
+            wide=wide,
+            status=status,
+            organization=organization,
+            classification=classification,
+            search=search
+        )
         console.print(table)
         
     except Exception as e:
