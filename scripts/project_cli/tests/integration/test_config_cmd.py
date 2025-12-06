@@ -12,23 +12,9 @@ import os
 
 from click.testing import CliRunner
 
-# Import CLI from proj script file
-# Add scripts directory to path so we can import project_cli
-scripts_dir = str(Path(__file__).parent.parent.parent.parent)
-if scripts_dir not in sys.path:
-    sys.path.insert(0, scripts_dir)
-
-proj_path = Path(__file__).parent.parent.parent / 'proj'
-if not proj_path.exists():
-    raise FileNotFoundError(f"CLI script not found at {proj_path}")
-
-spec = importlib.util.spec_from_file_location("proj", str(proj_path.resolve()))
-if spec is None or spec.loader is None:
-    raise ImportError(f"Could not load CLI module from {proj_path}")
-
-proj_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(proj_module)
-cli = proj_module.cli
+# Import CLI using helper function
+from .cli_loader import load_cli
+cli = load_cli()
 
 
 @pytest.mark.integration
