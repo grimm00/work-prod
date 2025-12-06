@@ -77,7 +77,7 @@ def import_projects(file):
     
     # Import projects with progress bar
     try:
-        with progress_bar(console, projects_count, f"Importing {projects_count} project(s)") as progress:
+        with progress_bar(console, f"Importing {projects_count} project(s)") as progress:
             task = progress.add_task(f"Importing from {file.name}", total=projects_count)
             result = client.import_projects(data)
             progress.update(task, completed=projects_count)
