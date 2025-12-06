@@ -8,7 +8,8 @@
 - PR #18 - CLI table display improvements (Scenario 24 updated, Scenario 27a added)
 - PR #19 - Test expectations tightened for invalid filter values (test-only, no manual testing scenarios needed)
 - PR #20 - Test quality improvements (test-only, no manual testing scenarios needed)
-- PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)  
+- PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)
+- PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)  
   **Last Updated:** 2025-12-05  
   **Tester:** User verification before PR merge
 
