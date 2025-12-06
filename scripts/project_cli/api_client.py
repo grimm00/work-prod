@@ -10,6 +10,26 @@ from .config import Config
 from .error_handler import BackendConnectionError, APIError, check_backend_health
 
 
+def _raise_api_error(error: requests.exceptions.RequestException, response=None) -> None:
+    """Convert requests exceptions to APIError or re-raise connection errors."""
+    if isinstance(error, requests.exceptions.ConnectionError):
+        raise BackendConnectionError(str(error)) from error
+    elif isinstance(error, requests.exceptions.Timeout):
+        raise error  # Let timeout errors propagate
+    elif isinstance(error, requests.exceptions.HTTPError):
+        error_msg = str(error)
+        if response is not None:
+            try:
+                error_data = response.json()
+                if isinstance(error_data, dict) and 'error' in error_data:
+                    error_msg = error_data['error']
+            except:
+                pass
+        raise APIError(error_msg, status_code=response.status_code if response else None) from error
+    else:
+        raise error
+
+
 class APIClient:
     """Client for interacting with the Projects API."""
     
