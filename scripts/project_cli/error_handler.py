@@ -217,12 +217,23 @@ def check_backend_health(base_url: str) -> bool:
     Check if backend is running and healthy.
     
     Args:
-        base_url: Base API URL
+        base_url: Base API URL (will be validated)
         
     Returns:
         True if backend is healthy, False otherwise
     """
     try:
+        # Validate and normalize URL using same logic as _get_health_url
+        if not base_url or not base_url.strip():
+            base_url = 'http://localhost:5000/api'
+        else:
+            base_url = base_url.strip()
+        
+        # Validate URL format
+        if not base_url.startswith('http://') and not base_url.startswith('https://'):
+            # Invalid format, use default
+            base_url = 'http://localhost:5000/api'
+        
         # Ensure base_url ends with /, then append health
         base = base_url.rstrip('/')
         health_url = f"{base}/health"
