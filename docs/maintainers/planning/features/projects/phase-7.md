@@ -44,10 +44,10 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 
 - [x] `proj list` - Test basic listing, filters, search (7 tests)
 - [x] `proj get <id>` - Test get command with valid/invalid IDs (3 tests)
-- [ ] `proj create` - Test interactive creation
-- [ ] `proj update` - Test update command
-- [ ] `proj delete` - Test delete with confirmation
-- [ ] `proj archive` - Test archive command
+- [x] `proj create` - Test interactive creation (4 tests)
+- [x] `proj update` - Test update command (2 tests)
+- [x] `proj delete` - Test delete with confirmation (2 tests)
+- [x] `proj archive` - Test archive command (2 tests)
 - [ ] `proj import` - Test import from JSON file
 - [x] `proj config` - Test config show/set/get commands (4 tests)
 - [x] `proj stats` - Test statistics display (2 tests)
