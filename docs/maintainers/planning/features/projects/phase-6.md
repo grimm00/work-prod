@@ -29,6 +29,7 @@ Phase 6 enhances the CLI tool for daily use. This phase adds rich formatting wit
 ## 📝 Tasks
 
 #### 1. Install Rich Library
+
 - [x] Add to `scripts/project_cli/requirements.txt`:
   ```
   requests>=2.31.0
@@ -38,19 +39,21 @@ Phase 6 enhances the CLI tool for daily use. This phase adds rich formatting wit
 - [x] Install: `pip install -r requirements.txt`
 
 #### 2. Refactor CLI with Click
+
 - [x] Convert script to use Click framework:
+
   ```python
   import click
   from rich.console import Console
   from rich.table import Table
-  
+
   console = Console()
-  
+
   @click.group()
   def cli():
       """Project management CLI tool."""
       pass
-  
+
   @cli.command()
   @click.option('--status', help='Filter by status')
   @click.option('--org', help='Filter by organization')
@@ -60,14 +63,16 @@ Phase 6 enhances the CLI tool for daily use. This phase adds rich formatting wit
   ```
 
 #### 3. Implement Rich Tables
+
 - [x] Update list command with table output:
+
   ```python
   table = Table(title="Projects")
   table.add_column("ID", style="cyan")
   table.add_column("Name", style="green")
   table.add_column("Status", style="yellow")
   table.add_column("Organization")
-  
+
   for project in projects:
       table.add_row(
           str(project['id']),
@@ -75,24 +80,28 @@ Phase 6 enhances the CLI tool for daily use. This phase adds rich formatting wit
           project['status'],
           project.get('organization', '-')
       )
-  
+
   console.print(table)
   ```
 
 #### 4. Add Configuration File
+
 - [x] Create `~/.projrc` support:
+
   ```ini
   [api]
   base_url = http://localhost:5000/api
-  
+
   [display]
   max_rows = 50
   color = true
   ```
+
 - [x] Load config on startup
 - [x] Add `proj config` command to edit settings
 
 #### 5. Add Convenience Commands
+
 - [x] `proj stats` - Show project statistics:
   - Total projects
   - By status
@@ -103,15 +112,18 @@ Phase 6 enhances the CLI tool for daily use. This phase adds rich formatting wit
 - [x] `proj mine` - Show projects for current user/org
 
 #### 6. Improve Error Handling
+
 - [x] Check if backend is running
 - [x] Friendly error messages
 - [x] Suggest fixes (e.g., "Is the backend running? Try: cd backend && python run.py")
 
 #### 7. Add Progress Indicators
+
 - [x] Show spinner during API calls
 - [x] Progress bar for import operations
 
 #### 8. Create Help System
+
 - [x] Add detailed `--help` for each command
 - [x] Add examples in help text
 - [x] Create man page or comprehensive README
