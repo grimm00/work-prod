@@ -33,25 +33,30 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 **Framework:** Click's CliRunner (documented in ADR-0006)
 
 #### Setup
-- [ ] Create `backend/tests/integration/cli/` directory
-- [ ] Add CliRunner fixture to `backend/tests/conftest.py`
-- [ ] Create test file structure
+
+- [x] Create `backend/tests/integration/cli/` directory
+- [x] Add CliRunner fixture to `backend/tests/conftest.py`
+- [x] Create test file structure
+- [x] Create FlaskTestClientAdapter for mocking API calls
+- [x] Create mock_api_for_cli fixture
 
 #### CLI Command Tests
-- [ ] `proj list` - Test basic listing, filters, search
-- [ ] `proj get <id>` - Test get command with valid/invalid IDs
+
+- [x] `proj list` - Test basic listing, filters, search (7 tests)
+- [x] `proj get <id>` - Test get command with valid/invalid IDs (3 tests)
 - [ ] `proj create` - Test interactive creation
 - [ ] `proj update` - Test update command
 - [ ] `proj delete` - Test delete with confirmation
 - [ ] `proj archive` - Test archive command
 - [ ] `proj import` - Test import from JSON file
-- [ ] `proj config` - Test config show/set/get commands
-- [ ] `proj stats` - Test statistics display
-- [ ] `proj recent` - Test recent projects filter
-- [ ] `proj active` - Test active projects filter
-- [ ] `proj mine` - Test my projects filter
+- [x] `proj config` - Test config show/set/get commands (4 tests)
+- [x] `proj stats` - Test statistics display (2 tests)
+- [x] `proj recent` - Test recent projects filter (2 tests)
+- [x] `proj active` - Test active projects filter (2 tests)
+- [x] `proj mine` - Test my projects filter (2 tests)
 
 #### Error Handling Tests
+
 - [ ] Backend down - connection errors
 - [ ] Invalid API URL configuration
 - [ ] Network timeout scenarios
@@ -65,11 +70,13 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 **Note:** Manual testing already completed during PR validation. Bugs documented in fix tracking.
 
 #### Review Deferred Issues
+
 - [ ] Review `docs/maintainers/planning/features/projects/fix/` for deferred issues
 - [ ] Prioritize bugs by severity (Critical, High, Medium, Low)
 - [ ] Create fix batches for high-priority bugs
 
 #### Fix Critical/High Priority Bugs
+
 - [ ] Fix any CRITICAL bugs (if any remain)
 - [ ] Fix HIGH priority bugs
 - [ ] Document fixes in bug tracking
@@ -79,6 +86,7 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 ### 3. Test Coverage Improvements 🔴 Not Started
 
 #### Edge Case Tests
+
 - [ ] Empty database scenarios
 - [ ] Large dataset performance tests (100+ projects)
 - [ ] Invalid input handling tests
@@ -87,6 +95,7 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 - [ ] Concurrent operation tests
 
 #### Missing Test Coverage
+
 - [ ] Review coverage report for gaps
 - [ ] Add tests for uncovered code paths
 - [ ] Strengthen existing test assertions
