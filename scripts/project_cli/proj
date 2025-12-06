@@ -22,6 +22,10 @@ from project_cli.commands.delete_cmd import delete_project
 from project_cli.commands.archive_cmd import archive_project
 from project_cli.commands.import_cmd import import_projects
 from project_cli.commands.config_cmd import config
+from project_cli.commands.stats_cmd import stats
+from project_cli.commands.recent_cmd import recent
+from project_cli.commands.active_cmd import active
+from project_cli.commands.mine_cmd import mine
 
 
 @click.group()
@@ -44,6 +48,10 @@ cli.add_command(delete_project, name='delete')
 cli.add_command(archive_project, name='archive')
 cli.add_command(import_projects, name='import')
 cli.add_command(config, name='config')
+cli.add_command(stats, name='stats')
+cli.add_command(recent, name='recent')
+cli.add_command(active, name='active')
+cli.add_command(mine, name='mine')
 
 
 if __name__ == '__main__':
