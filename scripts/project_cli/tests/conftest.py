@@ -29,9 +29,13 @@ def mock_api_for_cli(client, monkeypatch):
     This fixture delegates to the shared mock_api_client helper for FlaskTestClientAdapter
     setup, keeping only CLI-specific overrides (health check and config).
     
+    The mocking is scoped to the test lifecycle via pytest's monkeypatch fixture,
+    which automatically restores original methods after each test, reducing
+    global side effects.
+    
     Args:
         client: Flask test client fixture (from backend)
-        monkeypatch: pytest monkeypatch fixture
+        monkeypatch: pytest monkeypatch fixture (provides test-scoped cleanup)
         
     Returns:
         Flask test client (for convenience)
@@ -40,6 +44,7 @@ def mock_api_for_cli(client, monkeypatch):
     from .integration.test_helpers import mock_api_client
     
     # Delegate to shared helper for FlaskTestClientAdapter setup
+    # monkeypatch fixture ensures cleanup after test
     mock_api_client(client, monkeypatch)
     
     # CLI-specific overrides: health check and config
