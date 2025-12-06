@@ -776,47 +776,25 @@ def test_filter_projects_multiple_filters(client, app):
 
 
 @pytest.mark.integration
-def test_filter_projects_invalid_status_value_ignored(client, app):
-    """Test GET /api/projects?status=invalid ignores invalid filter and returns all projects."""
+@pytest.mark.parametrize("filter_param,filter_value,project1_attr,project2_attr", [
+    ('status', 'invalid', {'status': 'active'}, {'status': 'paused'}),
+    ('classification', 'invalid', {'classification': 'primary'}, {'classification': 'secondary'}),
+])
+def test_filter_projects_invalid_value_ignored(client, app, filter_param, filter_value, project1_attr, project2_attr):
+    """Test GET /api/projects?{filter_param}={filter_value} ignores invalid filter and returns all projects."""
     # Create some projects
     with app.app_context():
-        project1 = Project(name="Project 1", status="active")
-        project2 = Project(name="Project 2", status="paused")
+        project1 = Project(name="Project 1", **project1_attr)
+        project2 = Project(name="Project 2", **project2_attr)
         db.session.add_all([project1, project2])
         db.session.commit()
         project1_id = project1.id
         project2_id = project2.id
     
-    # Try to filter by invalid status
-    response = client.get('/api/projects?status=invalid')
+    # Try to filter by invalid value
+    response = client.get(f'/api/projects?{filter_param}={filter_value}')
     
-    # Invalid status values are ignored, so all projects should be returned
-    assert response.status_code == 200
-    data = response.get_json()
-    assert isinstance(data, list)
-    assert len(data) == 2
-    
-    # Verify that the returned projects are exactly the ones created in this test
-    returned_ids = {project["id"] for project in data}
-    assert returned_ids == {project1_id, project2_id}
-
-
-@pytest.mark.integration
-def test_filter_projects_invalid_classification_value_ignored(client, app):
-    """Test GET /api/projects?classification=invalid ignores invalid filter and returns all projects."""
-    # Create some projects
-    with app.app_context():
-        project1 = Project(name="Project 1", classification="primary")
-        project2 = Project(name="Project 2", classification="secondary")
-        db.session.add_all([project1, project2])
-        db.session.commit()
-        project1_id = project1.id
-        project2_id = project2.id
-    
-    # Try to filter by invalid classification
-    response = client.get('/api/projects?classification=invalid')
-    
-    # Invalid classification values are ignored, so all projects should be returned
+    # Invalid values are ignored, so all projects should be returned
     assert response.status_code == 200
     data = response.get_json()
     assert isinstance(data, list)
