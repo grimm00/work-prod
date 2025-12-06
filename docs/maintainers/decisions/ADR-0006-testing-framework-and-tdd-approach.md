@@ -102,14 +102,18 @@ tests/e2e/
 
 **CLI:**
 ```
-backend/tests/
-├── integration/             # API integration tests
-└── scripts/project_cli/tests/integration/  # CLI command integration tests (co-located with CLI code)
+scripts/project_cli/tests/
+├── integration/             # CLI command integration tests (co-located with CLI code)
 │   ├── test_list_cmd.py
 │   ├── test_get_cmd.py
-│   ├── test_create_cmd.py
-│   └── test_config_cmd.py
-└── conftest.py              # CliRunner fixture
+│   ├── test_crud_cmds.py
+│   ├── test_config_cmd.py
+│   ├── test_convenience_cmds.py
+│   ├── test_import_cmd.py
+│   ├── test_error_handling.py
+│   ├── test_edge_cases.py
+│   └── test_helpers.py      # FlaskTestClientAdapter
+└── conftest.py              # CLI test fixtures (imports backend fixtures)
 ```
 
 ---

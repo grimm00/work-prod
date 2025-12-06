@@ -44,7 +44,7 @@ def test_config_get(cli_runner, mock_api_for_cli):
 def test_config_set_and_get(cli_runner, mock_api_for_cli, tmp_path, monkeypatch):
     """Test config set and get commands."""
     # Mock config file location to use temp directory
-    from scripts.project_cli import config
+    from project_cli import config
     test_config_file = tmp_path / '.projrc'
     monkeypatch.setattr(config.Config, '_load_config', lambda self: None)
     monkeypatch.setattr(config.Config, 'config_file', test_config_file)
