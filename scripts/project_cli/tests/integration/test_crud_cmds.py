@@ -19,8 +19,19 @@ from app.models.project import Project
 from app import db
 
 # Import CLI from proj script file
+# Add scripts directory to path so we can import project_cli
+scripts_dir = str(Path(__file__).parent.parent.parent.parent)
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
 proj_path = Path(__file__).parent.parent.parent / 'proj'
-spec = importlib.util.spec_from_file_location("project_cli.proj", proj_path)
+if not proj_path.exists():
+    raise FileNotFoundError(f"CLI script not found at {proj_path}")
+
+spec = importlib.util.spec_from_file_location("proj", str(proj_path.resolve()))
+if spec is None or spec.loader is None:
+    raise ImportError(f"Could not load CLI module from {proj_path}")
+
 proj_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(proj_module)
 cli = proj_module.cli
