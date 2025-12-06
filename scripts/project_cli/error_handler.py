@@ -90,7 +90,8 @@ def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) 
 
 def _handle_http_error(error: requests.exceptions.HTTPError, console: Console) -> None:
     """Handle HTTP error responses."""
-    response = error.response
+    # HTTPError exceptions have a response attribute
+    response = getattr(error, 'response', None)
     
     # Try to extract error message from response
     error_msg = None
