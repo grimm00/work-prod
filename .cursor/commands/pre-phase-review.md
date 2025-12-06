@@ -342,23 +342,55 @@ Review and align phase documentation before starting a new phase. Ensures scope 
 
 ### 8. Commit Changes
 
+**IMPORTANT:** If `--fix` flag was used, commit all documentation fixes automatically.
+
 **If fixes applied:**
 
-```bash
-git add docs/maintainers/planning/features/[feature]/
-git commit -m "docs(phase-[N]): align phase scope across documentation
+1. **Stage all documentation changes:**
+   ```bash
+   git add docs/maintainers/planning/features/[feature]/
+   git add docs/maintainers/planning/notes/pre-phase-review-phase[N]-*.md
+   ```
 
-- Fixed scope mismatch in status-and-next-steps.md
-- Updated feature plan to match phase document
-- Aligned feature README with phase scope
-- Verified prerequisites met"
-```
+2. **Commit with comprehensive message:**
+   ```bash
+   git commit -m "docs(phase-[N]): align phase scope across documentation
+
+   Pre-phase-review fixes:
+   - Fixed scope mismatch in status-and-next-steps.md
+   - Updated feature plan to match phase document
+   - Aligned feature README with phase scope
+   - Verified prerequisites met
+   
+   Related: Pre-phase-review Phase [N]"
+   ```
+
+3. **Push to develop (if on develop branch):**
+   ```bash
+   git push origin develop
+   ```
+
+**If review report created (without --fix):**
+- Commit review report separately:
+  ```bash
+  git add docs/maintainers/planning/notes/pre-phase-review-phase[N]-*.md
+  git commit -m "docs(phase-[N]): pre-phase review - document inconsistencies
+
+  Pre-phase-review findings:
+  - [List key inconsistencies found]
+  - Prerequisites verified
+  - Readiness assessment complete
+  
+  Related: Phase [N]"
+  ```
 
 **Checklist:**
 
-- [ ] Changes committed
+- [ ] All documentation fixes staged
+- [ ] Review report committed (if created)
 - [ ] Commit message follows format
-- [ ] Documentation updated
+- [ ] Changes pushed (if on develop branch)
+- [ ] Documentation aligned
 
 ---
 

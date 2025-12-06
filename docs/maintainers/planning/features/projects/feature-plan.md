@@ -191,21 +191,21 @@ Backend-first development focuses on API and CLI tools, deferring frontend (Reac
 
 ---
 
-### Phase 7: Polish and MVP Completion (3 days)
+### Phase 7: Manual Testing & Bug Fixes (2 days)
 
-**Goal:** Production-ready Projects feature
+**Goal:** Production-ready backend MVP with comprehensive testing and documentation
 
 **Key Deliverables:**
-- Responsive design (mobile, tablet, desktop)
-- Loading states and empty states
-- Error messages with recovery guidance
-- Accessibility audit (ARIA, focus management)
-- Performance testing (100+ projects)
-- API documentation (OpenAPI)
-- User guide
-- Deployment instructions
+- Comprehensive manual testing of all endpoints and CLI commands
+- Bug fixes for discovered issues
+- Performance optimization (queries < 100ms for 100 projects)
+- API documentation (OpenAPI/Swagger spec)
+- User documentation (README, CLI guide, API examples)
+- Code quality improvements (linting, docstrings, type hints)
 
 **Phase Document:** [phase-7.md](phase-7.md)
+
+**Note:** Frontend polish (responsive design, accessibility) deferred to future phase. Phase 7 focuses on backend MVP completion.
 
 ---
 
