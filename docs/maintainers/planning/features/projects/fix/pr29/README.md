@@ -11,7 +11,7 @@
 
 ### Fix Batches
 
-- **[batch-high-medium-01.md](batch-high-medium-01.md)** - Bulk import IntegrityError handling (🟠 HIGH, 🟡 MEDIUM, 1 issue)
+- **[batch-high-medium-01.md](batch-high-medium-01.md)** - Bulk import IntegrityError handling (🟠 HIGH, 🟡 MEDIUM, 1 issue) 🔴 **HIGH PRIORITY**
 - **[batch-medium-medium-01.md](batch-medium-medium-01.md)** - Code duplication and refactoring (🟡 MEDIUM, 🟡 MEDIUM, 3 issues)
 - **[batch-medium-low-01.md](batch-medium-low-01.md)** - Test quality improvements (🟡 MEDIUM, 🟢 LOW, 5 issues)
 - **[batch-medium-low-02.md](batch-medium-low-02.md)** - Test quality improvements (🟡 MEDIUM, 🟢 LOW, 5 issues)
