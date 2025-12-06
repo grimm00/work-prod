@@ -50,11 +50,10 @@ class APIClient:
         })
         
         # Check backend health if requested
-        if check_health:
-            if not check_backend_health(self.base_url):
-                raise BackendConnectionError(
-                    f"Cannot connect to backend at {self.base_url}"
-                )
+        if check_health and not check_backend_health(self.base_url):
+            raise BackendConnectionError(
+                f"Cannot connect to backend at {self.base_url}"
+            )
     
     def list_projects(self, status: str = None, organization: str = None, 
                      classification: str = None, search: str = None) -> List[Dict]:
