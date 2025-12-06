@@ -30,7 +30,7 @@ PR #27 implements the Configuration Improvements batch (cross-PR batch), fixing 
 
 **Date:** 2025-12-06  
 **Review:** PR #27 Sourcery feedback  
-**Status:** 🟡 **DEFERRED** - All MEDIUM/LOW priority, can be handled opportunistically
+**Status:** ✅ **ALL FIXED** - All deferred issues fixed in PR #28
 
 **Deferred Issues:**
 
@@ -38,7 +38,7 @@ PR #27 implements the Configuration Improvements batch (cross-PR batch), fixing 
 - **PR27-Overall #1:** Extract health URL construction to helper - Same as #1 (duplicate, counted with PR27-#1) - **✅ Fixed in PR #28**
 - **PR27-Overall #2:** Handle missing/invalid configured URL - Defensive improvement (MEDIUM priority, MEDIUM impact, MEDIUM effort) - **✅ Fixed in PR #28**
 
-**Action Plan:** All deferred issues have been fixed in PR #28 via `batch-medium-low-01.md`.
+**Action Plan:** All deferred issues have been fixed in PR #28 via `batch-medium-low-01.md` (merged 2025-12-06).
 
 ---
 
@@ -46,7 +46,7 @@ PR #27 implements the Configuration Improvements batch (cross-PR batch), fixing 
 
 **Total Issues:** 3 fixed (PR #27), 2 fixed (PR #28)  
 **Batches:** 1 (Configuration Improvements batch - complete), 1 (Error Handler Improvements - complete)  
-**Status:** ✅ Complete
+**Status:** ✅ Complete - All issues fixed
 
 **Priority Breakdown:**
 - 🟡 MEDIUM: All issues fixed
