@@ -69,14 +69,17 @@ def _get_health_url() -> str:
     if not base_url or not base_url.strip():
         # Fallback to default
         base_url = 'http://localhost:5000/api'
+    else:
+        # Normalize whitespace
+        base_url = base_url.strip()
+    
+    # Validate URL format before constructing health URL
+    if not base_url.startswith('http://') and not base_url.startswith('https://'):
+        # Invalid format, fallback to default
+        base_url = 'http://localhost:5000/api'
     
     base = base_url.rstrip('/')
     health_url = f"{base}/health"
-    
-    # Additional validation: ensure URL looks valid
-    if not health_url.startswith('http://') and not health_url.startswith('https://'):
-        # Fallback to default
-        health_url = 'http://localhost:5000/api/health'
     
     return health_url
 
