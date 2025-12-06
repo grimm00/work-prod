@@ -54,14 +54,39 @@ def handle_error(error: Exception, console: Console = None) -> None:
         _handle_generic_error(error, console)
 
 
+def _get_health_url() -> str:
+    """
+    Get the health check URL from configured API base URL.
+    
+    Returns:
+        Health check URL (e.g., 'http://localhost:5000/api/health')
+        Returns default URL if configured URL is missing or invalid
+    """
+    config = Config.get_instance()
+    base_url = config.get_api_url()
+    
+    # Validate URL
+    if not base_url or not base_url.strip():
+        # Fallback to default
+        base_url = 'http://localhost:5000/api'
+    else:
+        # Normalize whitespace
+        base_url = base_url.strip()
+    
+    # Validate URL format before constructing health URL
+    if not base_url.startswith('http://') and not base_url.startswith('https://'):
+        # Invalid format, fallback to default
+        base_url = 'http://localhost:5000/api'
+    
+    base = base_url.rstrip('/')
+    health_url = f"{base}/health"
+    
+    return health_url
+
+
 def _handle_connection_error(error: requests.exceptions.ConnectionError, console: Console) -> None:
     """Handle connection refused/network errors."""
-    config = Config.get_instance()
-    config_url = config.get_api_url()
-    
-    # Construct health URL properly
-    base = config_url.rstrip('/')
-    health_url = f"{base}/health"
+    health_url = _get_health_url()
     
     message = "[bold red]Cannot connect to backend API[/bold red]\n\n"
     message += "The backend server appears to be offline or unreachable.\n\n"
@@ -80,10 +105,7 @@ def _handle_connection_error(error: requests.exceptions.ConnectionError, console
 
 def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) -> None:
     """Handle timeout errors."""
-    config = Config.get_instance()
-    base_url = config.get_api_url()
-    base = base_url.rstrip('/')
-    health_url = f"{base}/health"
+    health_url = _get_health_url()
     
     message = "[bold red]Request timed out[/bold red]\n\n"
     message += "The backend server took too long to respond.\n\n"
@@ -177,10 +199,7 @@ def _handle_api_error(error: APIError, console: Console) -> None:
 
 def _handle_generic_error(error: Exception, console: Console) -> None:
     """Handle generic/unexpected errors."""
-    config = Config.get_instance()
-    base_url = config.get_api_url()
-    base = base_url.rstrip('/')
-    health_url = f"{base}/health"
+    health_url = _get_health_url()
     
     message = "[bold red]An unexpected error occurred[/bold red]\n\n"
     message += f"{error}\n\n"
@@ -198,12 +217,23 @@ def check_backend_health(base_url: str) -> bool:
     Check if backend is running and healthy.
     
     Args:
-        base_url: Base API URL
+        base_url: Base API URL (will be validated)
         
     Returns:
         True if backend is healthy, False otherwise
     """
     try:
+        # Validate and normalize URL using same logic as _get_health_url
+        if not base_url or not base_url.strip():
+            base_url = 'http://localhost:5000/api'
+        else:
+            base_url = base_url.strip()
+        
+        # Validate URL format
+        if not base_url.startswith('http://') and not base_url.startswith('https://'):
+            # Invalid format, use default
+            base_url = 'http://localhost:5000/api'
+        
         # Ensure base_url ends with /, then append health
         base = base_url.rstrip('/')
         health_url = f"{base}/health"

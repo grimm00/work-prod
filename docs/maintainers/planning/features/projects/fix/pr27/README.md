@@ -34,22 +34,22 @@ PR #27 implements the Configuration Improvements batch (cross-PR batch), fixing 
 
 **Deferred Issues:**
 
-- **PR27-#1:** Extract health URL construction to helper function (MEDIUM priority, MEDIUM impact, LOW effort) - **Planned in [batch-medium-low-01.md](batch-medium-low-01.md)**
-- **PR27-Overall #1:** Extract health URL construction to helper - Same as #1 (duplicate, counted with PR27-#1)
-- **PR27-Overall #2:** Handle missing/invalid configured URL - Defensive improvement (MEDIUM priority, MEDIUM impact, MEDIUM effort) - **Planned in [batch-medium-low-01.md](batch-medium-low-01.md)**
+- **PR27-#1:** Extract health URL construction to helper function (MEDIUM priority, MEDIUM impact, LOW effort) - **✅ Fixed in PR #28**
+- **PR27-Overall #1:** Extract health URL construction to helper - Same as #1 (duplicate, counted with PR27-#1) - **✅ Fixed in PR #28**
+- **PR27-Overall #2:** Handle missing/invalid configured URL - Defensive improvement (MEDIUM priority, MEDIUM impact, MEDIUM effort) - **✅ Fixed in PR #28**
 
-**Action Plan:** These issues are planned in `batch-medium-low-01.md` and can be implemented together as they both relate to error handler improvements.
+**Action Plan:** All deferred issues have been fixed in PR #28 via `batch-medium-low-01.md`.
 
 ---
 
 ## 📊 Summary
 
-**Total Issues:** 3 fixed, 3 deferred  
-**Batches:** 1 (Configuration Improvements batch)  
+**Total Issues:** 3 fixed (PR #27), 2 fixed (PR #28)  
+**Batches:** 1 (Configuration Improvements batch - complete), 1 (Error Handler Improvements - complete)  
 **Status:** ✅ Complete
 
 **Priority Breakdown:**
-- 🟡 MEDIUM: 3 deferred issues
+- 🟡 MEDIUM: All issues fixed
 
 ---
 
