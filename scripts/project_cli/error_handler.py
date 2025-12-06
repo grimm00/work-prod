@@ -188,9 +188,11 @@ def check_backend_health(base_url: str) -> bool:
         True if backend is healthy, False otherwise
     """
     try:
-        health_url = base_url.replace('/api', '/api/health')
+        # Ensure base_url ends with /, then append health
+        base = base_url.rstrip('/')
+        health_url = f"{base}/health"
         response = requests.get(health_url, timeout=2)
         return response.status_code == 200
-    except:
+    except Exception:
         return False
 

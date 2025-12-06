@@ -67,7 +67,7 @@ def build_projects_table(projects, wide=False, status=None, organization=None,
         if show_classification:
             row_data.append(project.get('classification', 'N/A'))
         
-        row_data.append(project['path'] or 'N/A')
+        row_data.append(project.get('path') or 'N/A')
         
         if show_description:
             description = project.get('description', '')
