@@ -34,11 +34,11 @@ PR #27 implements the Configuration Improvements batch (cross-PR batch), fixing 
 
 **Deferred Issues:**
 
-- **PR27-#1:** Extract health URL construction to helper function (MEDIUM priority, MEDIUM impact, LOW effort)
-- **PR27-Overall #1:** Extract health URL construction to helper - Same as #1 (MEDIUM priority, MEDIUM impact, LOW effort)
-- **PR27-Overall #2:** Handle missing/invalid configured URL - Defensive improvement (MEDIUM priority, MEDIUM impact, MEDIUM effort)
+- **PR27-#1:** Extract health URL construction to helper function (MEDIUM priority, MEDIUM impact, LOW effort) - **Planned in batch-medium-low-01**
+- **PR27-Overall #1:** Extract health URL construction to helper - Same as #1 (duplicate, counted with PR27-#1)
+- **PR27-Overall #2:** Handle missing/invalid configured URL - Defensive improvement (MEDIUM priority, MEDIUM impact, MEDIUM effort) - **Planned in batch-medium-low-01**
 
-**Action Plan:** These issues can be addressed in a future fix batch, prioritizing those with higher impact or bug risk. The health URL extraction is a code quality improvement that reduces duplication. The missing/invalid URL handling is a defensive improvement that prevents edge case issues.
+**Action Plan:** These issues are planned in `batch-medium-low-01.md` and can be implemented together as they both relate to error handler improvements.
 
 ---
 
