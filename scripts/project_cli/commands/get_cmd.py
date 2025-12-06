@@ -9,6 +9,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -42,6 +43,6 @@ def get_project(project_id):
         console.print(panel)
         
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 def build_projects_table(projects, wide=False, status=None, organization=None,
@@ -121,6 +122,6 @@ def list_projects(status, organization, classification, search, wide):
         console.print(table)
         
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

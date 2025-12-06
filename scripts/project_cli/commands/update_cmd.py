@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -55,11 +56,8 @@ def update_project(project_id, name, path, organization, classification, status,
         try:
             original = client.get_project(project_id)
         except Exception as e:
-            if hasattr(e, 'response') and e.response is not None and e.response.status_code == 404:
-                console.print(f"[red]✗ Error: Project #{project_id} not found[/red]")
-            else:
-                console.print(f"[red]✗ Error: {e}[/red]")
-            raise click.Abort()
+            handle_error(e, console)
+            raise click.Abort() from e
         
         # Update project via API
         updated = client.update_project(project_id, data)
@@ -94,14 +92,6 @@ def update_project(project_id, name, path, organization, classification, status,
             console.print("[dim]No fields changed.[/dim]")
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 

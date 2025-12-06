@@ -8,6 +8,7 @@ import click
 import os
 from rich.console import Console
 from ..api_client import APIClient
+from ..error_handler import handle_error
 from .list_cmd import build_projects_table
 
 
@@ -44,6 +45,6 @@ def mine(org, wide):
         console.print(table)
         
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

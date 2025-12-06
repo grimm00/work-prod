@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -46,14 +47,6 @@ def archive_project(project_id):
         console.print(table)
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 

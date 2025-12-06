@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..config import Config
+from ..error_handler import handle_error
 
 
 @click.group()
@@ -64,7 +65,7 @@ def set_config(section, key, value):
         config.save()
         console.print(f"[green]✓ Set {section}.{key} = {value}[/green]")
     except Exception as e:
-        console.print(f"[red]Error setting configuration: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 
 

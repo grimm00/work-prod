@@ -8,6 +8,7 @@ import click
 from rich.console import Console
 from rich.prompt import Confirm
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -36,14 +37,6 @@ def delete_project(project_id, yes):
         console.print(f"[green]✓ Deleted project #{project_id}: {project['name']}[/green]")
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 

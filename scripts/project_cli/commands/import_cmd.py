@@ -11,6 +11,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -107,6 +108,6 @@ def import_projects(file):
             console.print(f"[yellow]⊘ Skipped {skipped} project(s) (already exist)[/yellow]")
         
     except Exception as e:
-        console.print(f"[red]Error importing projects: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 
