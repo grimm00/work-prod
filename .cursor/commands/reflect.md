@@ -248,6 +248,13 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 
 ### 6. Generate Reflection Report
 
+**IMPORTANT:** Reflection files must be saved to the `reflections/` subdirectory:
+- **Location:** `docs/maintainers/planning/notes/reflections/reflection-[scope]-[date].md`
+- **Examples:**
+  - `docs/maintainers/planning/notes/reflections/reflection-phase6-cli-enhancement-2025-12-06.md`
+  - `docs/maintainers/planning/notes/reflections/reflection-2025-12-06.md` (full project)
+  - `docs/maintainers/planning/notes/reflections/reflection-workflow-2025-12-06.md`
+
 **Report structure:**
 
 ```markdown
@@ -399,9 +406,24 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 **Next Reflection:** [Suggested date]
 ```
 
+**File Location:**
+
+**CRITICAL:** Reflection files MUST be saved to the `reflections/` subdirectory:
+- **Path:** `docs/maintainers/planning/notes/reflections/reflection-[scope]-[date].md`
+- **Examples:**
+  - Phase reflection: `docs/maintainers/planning/notes/reflections/reflection-phase6-cli-enhancement-2025-12-06.md`
+  - Full project: `docs/maintainers/planning/notes/reflections/reflection-2025-12-06.md`
+  - Workflow: `docs/maintainers/planning/notes/reflections/reflection-workflow-2025-12-06.md`
+
+**After creating reflection:**
+- Update `docs/maintainers/planning/notes/reflections/README.md` with link to new reflection
+- Add to appropriate section (Project-Wide or Phase-Specific)
+
 **Checklist:**
 
 - [ ] Report generated
+- [ ] File saved to `reflections/` subdirectory
+- [ ] Reflections README updated with link
 - [ ] Current state analyzed
 - [ ] Opportunities identified
 - [ ] Issues noted
