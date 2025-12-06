@@ -82,7 +82,7 @@ def import_projects(file):
         panel = Panel(
             table,
             title="[bold]Import Complete[/bold]",
-            border_style="green" if not errors else "yellow"
+            border_style="yellow" if errors else "green"
         )
         console.print(panel)
         
