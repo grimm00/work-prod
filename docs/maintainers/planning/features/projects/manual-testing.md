@@ -2133,6 +2133,72 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 
 ---
 
+## PR #30: Bulk Import IntegrityError Handling
+
+### Scenario 56: API - Import Per-Project IntegrityError Handling
+
+**Test:** Verify that IntegrityError (e.g., duplicate path) in middle of batch doesn't roll back previous successful imports.
+
+**Prerequisites:**
+- Backend server running
+- Clean database (or ensure `/test/path1` and `/test/path2` don't exist)
+
+**API Test:**
+```bash
+# First, create a project with a specific path
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Existing Project", "path": "/test/duplicate"}' | python -m json.tool
+
+# Expected: 201 Created, project created successfully
+
+# Now import a batch with duplicate path in the middle
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {"name": "First Project", "path": "/test/path1"},
+      {"name": "Duplicate Project", "path": "/test/duplicate"},
+      {"name": "Third Project", "path": "/test/path2"}
+    ]
+  }' | python -m json.tool
+
+# Expected: 201 Created (not 500!)
+# Response should include:
+# - "imported": 2 (First and Third projects)
+# - "skipped": 1 (Duplicate project)
+# - "errors": [{"project": "Duplicate Project", "error": "Project with this path already exists"}]
+```
+
+**Verification:**
+```bash
+# Verify first project was imported
+curl http://localhost:5000/api/projects?path=/test/path1 | python -m json.tool
+# Expected: Returns First Project
+
+# Verify third project was imported
+curl http://localhost:5000/api/projects?path=/test/path2 | python -m json.tool
+# Expected: Returns Third Project
+
+# Verify duplicate project was NOT imported
+curl http://localhost:5000/api/projects?path=/test/duplicate | python -m json.tool
+# Expected: Returns only the original "Existing Project", not "Duplicate Project"
+```
+
+**Verification:**
+- [ ] Response status is 201 (not 500)
+- [ ] `imported` count is 2 (First and Third projects)
+- [ ] `skipped` count is 1 (Duplicate project)
+- [ ] `errors` array contains error for duplicate project
+- [ ] Error message indicates "Project with this path already exists"
+- [ ] First project exists in database
+- [ ] Third project exists in database
+- [ ] Duplicate project was NOT created
+
+**Expected Result:** ✅ IntegrityError handled per-project: successful projects persist, duplicate project skipped with error, batch continues processing.
+
+---
+
 ## ✅ Acceptance Criteria
 
 Mark these as complete after testing:
