@@ -9,18 +9,31 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
+from ..progress import spinner
 
 
 @click.command()
 @click.argument('project_id', type=int)
 def get_project(project_id):
-    """Get details of a specific project by ID."""
+    """
+    Get details of a specific project by ID.
+    
+    Display comprehensive information about a single project including
+    all fields (name, path, organization, classification, status, description, etc.).
+    
+    \b
+    Examples:
+        proj get 1
+        proj get 42
+    """
     console = Console()
     
     try:
         # Fetch project from API
         client = APIClient()
-        project = client.get_project(project_id)
+        with spinner(console, f"Fetching project #{project_id}..."):
+            project = client.get_project(project_id)
         
         # Create details table
         table = Table(show_header=False, box=None)
@@ -42,6 +55,6 @@ def get_project(project_id):
         console.print(panel)
         
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

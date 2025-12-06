@@ -8,6 +8,8 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
+from ..progress import spinner
 
 
 def build_projects_table(projects, wide=False, status=None, organization=None,
@@ -92,18 +94,33 @@ def build_projects_table(projects, wide=False, status=None, organization=None,
 @click.option('--search', help='Search in project names and descriptions')
 @click.option('--wide', is_flag=True, help='Show all columns (status, organization, classification) and use full-width layout')
 def list_projects(status, organization, classification, search, wide):
-    """List all projects with optional filtering."""
+    """
+    List all projects with optional filtering and search.
+    
+    Display projects in a formatted table. Use filters to narrow down results.
+    The Description column is automatically shown when using --search.
+    
+    \b
+    Examples:
+        proj list
+        proj list --status active
+        proj list --org work --classification primary
+        proj list --search "productivity"
+        proj list --wide
+        proj list --status active --wide
+    """
     console = Console()
     
     try:
         # Fetch projects from API with filters
         client = APIClient()
-        projects = client.list_projects(
-            status=status,
-            organization=organization,
-            classification=classification,
-            search=search
-        )
+        with spinner(console, "Fetching projects..."):
+            projects = client.list_projects(
+                status=status,
+                organization=organization,
+                classification=classification,
+                search=search
+            )
         
         if not projects:
             console.print("[yellow]No projects found.[/yellow]")
@@ -121,6 +138,6 @@ def list_projects(status, organization, classification, search, wide):
         console.print(table)
         
     except Exception as e:
-        console.print(f"[red]Error: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

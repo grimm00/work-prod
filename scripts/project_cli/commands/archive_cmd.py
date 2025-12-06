@@ -8,18 +8,31 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..progress import spinner
+from ..error_handler import handle_error
 
 
 @click.command()
 @click.argument('project_id', type=int)
 def archive_project(project_id):
-    """Archive a project."""
+    """
+    Archive a project.
+    
+    Archives a project by setting its classification to 'archive' and status to 'completed'.
+    Archived projects are preserved but marked as inactive.
+    
+    \b
+    Examples:
+        proj archive 1
+        proj archive 42
+    """
     console = Console()
     
     try:
         # Archive project via API
         client = APIClient()
-        project = client.archive_project(project_id)
+        with spinner(console, f"Archiving project #{project_id}..."):
+            project = client.archive_project(project_id)
         
         # Display success
         console.print(f"[green]✓ Archived project #{project['id']}: {project['name']}[/green]")
@@ -46,14 +59,6 @@ def archive_project(project_id):
         console.print(table)
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 

@@ -7,24 +7,54 @@ Provides a simple interface for making API requests.
 import requests
 from typing import List, Dict, Optional
 from .config import Config
+from .error_handler import BackendConnectionError, APIError, check_backend_health
+
+
+def _raise_api_error(error: requests.exceptions.RequestException, response=None) -> None:
+    """Convert requests exceptions to APIError or re-raise connection errors."""
+    if isinstance(error, requests.exceptions.ConnectionError):
+        raise BackendConnectionError(str(error)) from error
+    elif isinstance(error, requests.exceptions.Timeout):
+        raise error  # Let timeout errors propagate
+    elif isinstance(error, requests.exceptions.HTTPError):
+        error_msg = str(error)
+        if response is not None:
+            try:
+                error_data = response.json()
+                if isinstance(error_data, dict) and 'error' in error_data:
+                    error_msg = error_data['error']
+            except:
+                pass
+        raise APIError(error_msg, status_code=response.status_code if response else None) from error
+    else:
+        raise error
 
 
 class APIClient:
     """Client for interacting with the Projects API."""
     
-    def __init__(self, base_url: str = None):
+    def __init__(self, base_url: str = None, check_health: bool = True):
         """
         Initialize API client.
         
         Args:
-            base_url: Base URL for API (defaults to Config.API_BASE_URL)
+            base_url: Base URL for API (defaults to Config instance API URL)
+            check_health: Whether to check backend health on initialization (default: True)
         """
-        self.base_url = base_url or Config.API_BASE_URL
+        config = Config.get_instance()
+        self.base_url = base_url or config.get_api_url()
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         })
+        
+        # Check backend health if requested
+        if check_health:
+            if not check_backend_health(self.base_url):
+                raise BackendConnectionError(
+                    f"Cannot connect to backend at {self.base_url}"
+                )
     
     def list_projects(self, status: str = None, organization: str = None, 
                      classification: str = None, search: str = None) -> List[Dict]:
@@ -53,9 +83,13 @@ class APIClient:
         if search:
             params['search'] = search
         
-        response = self.session.get(f'{self.base_url}/projects', params=params)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.get(f'{self.base_url}/projects', params=params, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def get_project(self, project_id: int) -> Dict:
         """
@@ -70,9 +104,13 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.get(f'{self.base_url}/projects/{project_id}')
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.get(f'{self.base_url}/projects/{project_id}', timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def create_project(self, data: Dict) -> Dict:
         """
@@ -87,9 +125,13 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.post(f'{self.base_url}/projects', json=data)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.post(f'{self.base_url}/projects', json=data, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def update_project(self, project_id: int, data: Dict) -> Dict:
         """
@@ -105,9 +147,13 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.patch(f'{self.base_url}/projects/{project_id}', json=data)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.patch(f'{self.base_url}/projects/{project_id}', json=data, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def delete_project(self, project_id: int) -> None:
         """
@@ -119,8 +165,12 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.delete(f'{self.base_url}/projects/{project_id}')
-        response.raise_for_status()
+        try:
+            response = self.session.delete(f'{self.base_url}/projects/{project_id}', timeout=10)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def archive_project(self, project_id: int) -> Dict:
         """
@@ -135,9 +185,13 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.put(f'{self.base_url}/projects/{project_id}/archive')
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.put(f'{self.base_url}/projects/{project_id}/archive', timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
     
     def import_projects(self, projects_data: Dict) -> Dict:
         """
@@ -152,7 +206,11 @@ class APIClient:
         Raises:
             requests.RequestException: If API request fails
         """
-        response = self.session.post(f'{self.base_url}/projects/import', json=projects_data)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.session.post(f'{self.base_url}/projects/import', json=projects_data, timeout=30)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            response = getattr(e, 'response', None)
+            _raise_api_error(e, response)
 

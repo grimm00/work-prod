@@ -11,6 +11,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from ..api_client import APIClient
+from ..error_handler import handle_error
+from ..progress import progress_bar
 
 
 @click.command()
@@ -19,6 +21,11 @@ def import_projects(file):
     """
     Import projects from a JSON file.
     
+    Bulk import multiple projects from a JSON file. Shows progress bar during import
+    and displays statistics (imported, skipped, errors) after completion.
+    Projects with duplicate paths or names are automatically skipped.
+    
+    \b
     FILE: Path to JSON file containing projects data.
     
     Expected JSON format:
@@ -27,11 +34,21 @@ def import_projects(file):
             {
                 "name": "Project Name",
                 "path": "/optional/path",
-                ...
+                "organization": "work",
+                "classification": "primary",
+                "status": "active",
+                "description": "Project description",
+                "remote_url": "https://github.com/user/repo.git"
             },
             ...
         ]
     }
+    
+    \b
+    Examples:
+        proj import projects.json
+        proj import ../data/projects.json
+        proj import ~/backup/projects-2025.json
     """
     console = Console()
     client = APIClient()
@@ -57,11 +74,13 @@ def import_projects(file):
         raise click.Abort()
     
     projects_count = len(data['projects'])
-    console.print(f"[cyan]Importing {projects_count} project(s) from {file.name}...[/cyan]")
     
-    # Import projects
+    # Import projects with progress bar
     try:
-        result = client.import_projects(data)
+        with progress_bar(console, projects_count, f"Importing {projects_count} project(s)") as progress:
+            task = progress.add_task(f"Importing from {file.name}", total=projects_count)
+            result = client.import_projects(data)
+            progress.update(task, completed=projects_count)
         
         # Display results
         imported = result.get('imported', 0)
@@ -107,6 +126,6 @@ def import_projects(file):
             console.print(f"[yellow]⊘ Skipped {skipped} project(s) (already exist)[/yellow]")
         
     except Exception as e:
-        console.print(f"[red]Error importing projects: {e}[/red]")
+        handle_error(e, console)
         raise click.Abort() from e
 

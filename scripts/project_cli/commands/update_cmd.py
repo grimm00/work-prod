@@ -8,6 +8,8 @@ import click
 from rich.console import Console
 from rich.table import Table
 from ..api_client import APIClient
+from ..progress import spinner
+from ..error_handler import handle_error
 
 
 @click.command()
@@ -24,7 +26,19 @@ from ..api_client import APIClient
 @click.option('--description', '-d', help='Project description')
 @click.option('--remote-url', '-r', help='Git repository URL')
 def update_project(project_id, name, path, organization, classification, status, description, remote_url):
-    """Update an existing project."""
+    """
+    Update an existing project.
+    
+    Update one or more fields of a project. Only specified fields will be updated.
+    Shows a before/after comparison of changed fields.
+    
+    \b
+    Examples:
+        proj update 1 --status paused
+        proj update 1 -s active -o work
+        proj update 1 --description "Updated description"
+        proj update 1 -n "New Name" -c primary
+    """
     console = Console()
     
     try:
@@ -53,16 +67,15 @@ def update_project(project_id, name, path, organization, classification, status,
         # Get original project for comparison
         client = APIClient()
         try:
-            original = client.get_project(project_id)
+            with spinner(console, f"Fetching project #{project_id}..."):
+                original = client.get_project(project_id)
         except Exception as e:
-            if hasattr(e, 'response') and e.response is not None and e.response.status_code == 404:
-                console.print(f"[red]✗ Error: Project #{project_id} not found[/red]")
-            else:
-                console.print(f"[red]✗ Error: {e}[/red]")
-            raise click.Abort()
+            handle_error(e, console)
+            raise click.Abort() from e
         
         # Update project via API
-        updated = client.update_project(project_id, data)
+        with spinner(console, f"Updating project #{project_id}..."):
+            updated = client.update_project(project_id, data)
         
         # Display success
         console.print(f"[green]✓ Updated project #{updated['id']}: {updated['name']}[/green]")
@@ -94,14 +107,6 @@ def update_project(project_id, name, path, organization, classification, status,
             console.print("[dim]No fields changed.[/dim]")
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 

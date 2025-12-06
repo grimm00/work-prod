@@ -8,19 +8,34 @@ import click
 from rich.console import Console
 from rich.prompt import Confirm
 from ..api_client import APIClient
+from ..error_handler import handle_error
+from ..progress import spinner
 
 
 @click.command()
 @click.argument('project_id', type=int)
-@click.option('--yes', '-y', is_flag=True, help='Skip confirmation prompt')
+@click.option('--yes', '-y', is_flag=True, 
+              help='Skip confirmation prompt (use with caution)')
 def delete_project(project_id, yes):
-    """Delete a project permanently."""
+    """
+    Delete a project permanently.
+    
+    Permanently removes a project from the system. This action cannot be undone.
+    By default, prompts for confirmation before deleting.
+    
+    \b
+    Examples:
+        proj delete 1
+        proj delete 42 --yes
+        proj delete 5 -y
+    """
     console = Console()
     
     try:
         # Get project details first for confirmation
         client = APIClient()
-        project = client.get_project(project_id)
+        with spinner(console, f"Fetching project #{project_id}..."):
+            project = client.get_project(project_id)
         
         # Confirm deletion unless --yes flag is used
         if not yes:
@@ -30,20 +45,13 @@ def delete_project(project_id, yes):
                 return
         
         # Delete project
-        client.delete_project(project_id)
+        with spinner(console, f"Deleting project #{project_id}..."):
+            client.delete_project(project_id)
         
         # Display success
         console.print(f"[green]✓ Deleted project #{project_id}: {project['name']}[/green]")
         
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_data = e.response.json()
-                if 'error' in error_data:
-                    error_msg = error_data['error']
-            except:
-                pass
-        console.print(f"[red]✗ Error: {error_msg}[/red]")
-        raise click.Abort()
+        handle_error(e, console)
+        raise click.Abort() from e
 
