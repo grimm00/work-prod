@@ -16,7 +16,8 @@
 - PR #27 - Configuration improvements - use configured URLs, show defaults (Scenarios 50-51)
 - PR #28 - Error handler improvements - extract health URL helper, validate URLs (Scenarios 52-55)
 - PR #29 - Phase 7: Test coverage improvements, API/user documentation, code quality (test-only, documentation-only, no manual testing scenarios needed)
-- PR #30 - Bulk import IntegrityError handling - per-project error handling (Scenario 56)  
+- PR #30 - Bulk import IntegrityError handling - per-project error handling (Scenario 56)
+- PR #31 - Test infrastructure improvements - centralize fixtures, scope mocking, improve CLI loading (test-only, no manual testing scenarios needed)
   **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
