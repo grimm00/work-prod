@@ -10,7 +10,8 @@
 - PR #19 - Test expectations tightened for invalid filter values (test-only, no manual testing scenarios needed)
 - PR #20 - Test quality improvements (test-only, no manual testing scenarios needed)
 - PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)
-- PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)  
+- PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)
+- PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)  
   **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
@@ -1800,6 +1801,7 @@ Mark these as complete after testing:
 - CLI import command working (Rich formatting displays correctly)
 - Import statistics verified: 48 projects imported successfully
 - **Phase 6 scenarios (38-46) added - pending testing**
+- **PR #25 scenarios (47-49) added - bug risk fixes**
 
 ---
 
