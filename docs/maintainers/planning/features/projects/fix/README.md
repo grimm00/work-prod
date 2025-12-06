@@ -23,6 +23,7 @@
 - **[PR #22](pr22/README.md)** - Fix Batch: code-refactoring-medium-medium-01 (✅ Complete - 2 issues fixed, 6 deferred)
 - **[PR #24](pr24/README.md)** - Phase 6: CLI Enhancement & Daily Use Tools (✅ Complete - All tasks complete, 16 deferred)
 - **[PR #25](pr25/README.md)** - Fix Batch: bug-risk-fixes-medium-low-01 (✅ Complete - 3 issues fixed, 1 deferred)
+- **[PR #27](pr27/README.md)** - Fix Batch: configuration-improvements-medium-medium-01 (✅ Complete - 3 issues fixed, 3 deferred)
 
 ### User-Reported Issues
 
@@ -36,6 +37,7 @@
   - ✅ **Quick Wins Batch 2** (PR #21) - 7 issues fixed (5 LOW/LOW + 2 MEDIUM/LOW)
   - ✅ **Code Refactoring Batch** (PR #22) - 2 MEDIUM/MEDIUM issues fixed
   - ✅ **Bug Risk Fixes Batch** (PR #25) - 3 MEDIUM/LOW issues fixed
+  - ✅ **Configuration Improvements Batch** (PR #27) - 3 MEDIUM/MEDIUM issues fixed
 
 ### Archived PRs
 
