@@ -26,18 +26,56 @@ python run.py
 
 ## 📡 API Endpoints
 
+**📚 Full API Documentation:** See [OpenAPI Specification](openapi.yaml) for complete API documentation with request/response schemas, examples, and error codes.
+
+**🔍 View API Docs:**
+- **Swagger UI:** Upload `openapi.yaml` to [Swagger Editor](https://editor.swagger.io/) or use [Swagger UI](https://swagger.io/tools/swagger-ui/)
+- **Redoc:** Use [Redoc](https://github.com/Redocly/redoc) to generate beautiful API docs from `openapi.yaml`
+- **Postman:** Import `openapi.yaml` into Postman for API testing
+
 ### Health Check
 - `GET /api/health` - Server health status
+  - Returns: `{"status": "ok", "message": "Flask backend is running"}`
 
 ### Projects API (Phase 1-5 Complete)
-- `GET /api/projects` - List all projects (with filtering and search)
-- `GET /api/projects?status=active&organization=work&search=term` - Filter and search projects
+
+#### List Projects
+- `GET /api/projects` - List all projects
+- `GET /api/projects?status=active` - Filter by status (active, paused, completed, cancelled)
+- `GET /api/projects?organization=work` - Filter by organization
+- `GET /api/projects?classification=primary` - Filter by classification (primary, secondary, archive, maintenance)
+- `GET /api/projects?search=term` - Search in name and description (case-insensitive)
+- `GET /api/projects?status=active&organization=work&search=term` - Combine filters
+
+#### Get Project
 - `GET /api/projects/<id>` - Get project by ID
+  - Returns: Project object or 404 if not found
+
+#### Create Project
 - `POST /api/projects` - Create new project
-- `PATCH /api/projects/<id>` - Update project
+  - Required: `name`
+  - Optional: `path`, `organization`, `classification`, `status`, `description`, `remote_url`
+  - Default: `status` defaults to 'active'
+  - Returns: 201 Created with Location header
+
+#### Update Project
+- `PATCH /api/projects/<id>` - Update project (partial update)
+  - All fields optional - only provided fields are updated
+  - Returns: 200 OK with updated project
+
+#### Delete Project
 - `DELETE /api/projects/<id>` - Delete project permanently
+  - Returns: 204 No Content on success
+
+#### Archive Project
 - `PUT /api/projects/<id>/archive` - Archive project
+  - Sets `classification='archive'` and `status='completed'`
+  - Returns: 200 OK with archived project
+
+#### Bulk Import
 - `POST /api/projects/import` - Bulk import projects from JSON
+  - Request body: `{"projects": [...]}`
+  - Returns: 201 Created with statistics (`imported`, `skipped`, `errors`)
 
 ### Request/Response Examples
 
@@ -97,10 +135,27 @@ curl -X POST http://localhost:5000/api/projects/import \
 **Status:** `active`, `paused`, `completed`, `cancelled`
 
 **Required Fields:**
-- `name` (for POST)
+- `name` (required for POST /api/projects)
 
 **Optional Fields:**
-- `path`, `organization`, `classification`, `status`, `description`, `remote_url`
+- `path` (must be unique if provided)
+- `organization`
+- `classification`
+- `status` (defaults to 'active' if not provided)
+- `description`
+- `remote_url`
+
+**Validation:**
+- `name`: Required, cannot be empty
+- `status`: Cannot be null (if provided), must be valid enum value
+- `classification`: Must be valid enum value if provided
+- `path`: Must be unique across all projects
+
+**Error Responses:**
+- `400 Bad Request`: Validation error (invalid enum, missing required field, etc.)
+- `404 Not Found`: Project not found
+- `409 Conflict`: Duplicate path or database integrity error
+- `500 Internal Server Error`: Server error (details not exposed to client)
 
 ---
 
@@ -143,7 +198,7 @@ pytest tests/integration/api/test_projects.py
 pytest tests/unit/models/test_project.py::test_project_creation
 ```
 
-**Current Coverage:** 88% (21 integration tests, 13 unit tests)
+**Current Coverage:** 97% (207 tests passing: 199 backend + 8 uncovered path tests)
 
 ---
 
@@ -183,7 +238,7 @@ Configurations:
 
 ---
 
-**Last Updated:** 2025-12-03  
-**Status:** ✅ Phase 2 Complete  
-**Coverage:** 88% (34 tests passing)  
-**Next:** Phase 3 - Delete & Archive Projects
+**Last Updated:** 2025-12-06  
+**Status:** ✅ Phase 7 In Progress  
+**Coverage:** 97% (207 tests passing)  
+**API Documentation:** OpenAPI 3.0.3 specification available in `openapi.yaml`
