@@ -20,6 +20,7 @@
 - **[PR #19](pr19/README.md)** - Fix Batch: pr12-batch-medium-low-01 (✅ Complete - 1 issue fixed, 1 deferred)
 - **[PR #20](pr20/README.md)** - Fix Batch: test-quality-medium-low-01 (✅ Complete - 9 issues fixed, 5 deferred)
 - **[PR #21](pr21/README.md)** - Fix Batch: quick-wins-low-low-02 (✅ Complete - 7 issues fixed, 0 deferred)
+- **[PR #22](pr22/README.md)** - Fix Batch: code-refactoring-medium-medium-01 (✅ Complete - 2 issues fixed, 6 deferred)
 
 ### User-Reported Issues
 
@@ -30,8 +31,8 @@
 - **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (2 complete, 2 active, 18 issues)
   - ✅ **Quick Wins Batch 1** (PR #14) - 7 LOW/LOW issues fixed
   - ✅ **Test Quality Improvements Batch** (PR #20) - 9 issues fixed (5 MEDIUM/LOW + 4 LOW/MEDIUM)
-  - 🔴 **Quick Wins Batch 2** - 7 issues pending (5 LOW/LOW + 2 MEDIUM/LOW)
-  - 🔴 **Code Refactoring Batch** - 2 MEDIUM/MEDIUM issues pending
+  - ✅ **Quick Wins Batch 2** (PR #21) - 7 issues fixed (5 LOW/LOW + 2 MEDIUM/LOW)
+  - ✅ **Code Refactoring Batch** (PR #22) - 2 MEDIUM/MEDIUM issues fixed
 
 ### Archived PRs
 

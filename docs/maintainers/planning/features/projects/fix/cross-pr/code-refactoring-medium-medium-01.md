@@ -14,9 +14,9 @@
 
 ## Issues in This Batch
 
-| Issue | PR | Priority | Impact | Effort | Description |
-|-------|----|----------|--------|--------|-------------|
-| PR16-#10 | #16 | 🟡 MEDIUM | 🟢 LOW | 🟡 MEDIUM | Extract duplicate code into method |
+| Issue           | PR  | Priority  | Impact    | Effort    | Description                             |
+| --------------- | --- | --------- | --------- | --------- | --------------------------------------- |
+| PR16-#10        | #16 | 🟡 MEDIUM | 🟢 LOW    | 🟡 MEDIUM | Extract duplicate code into method      |
 | PR18-Overall-#2 | #18 | 🟡 MEDIUM | 🟡 MEDIUM | 🟡 MEDIUM | Factor column configuration into helper |
 
 ---
@@ -27,10 +27,12 @@ This batch contains 2 MEDIUM/MEDIUM refactoring issues from 2 PRs. These issues 
 
 **Estimated Time:** 2-3 hours  
 **Files Affected:**
+
 - `backend/app/api/projects.py` (PR16-#10)
 - `scripts/project_cli/commands/list_cmd.py` (PR18-Overall-#2)
 
 **Source PRs:**
+
 - PR #16: Phase 5: Bulk Import (1 issue)
 - PR #18: CLI Enhancement & Daily Use Tools (1 issue)
 
@@ -49,6 +51,7 @@ This batch contains 2 MEDIUM/MEDIUM refactoring issues from 2 PRs. These issues 
 Extract duplicate code into a method to reduce duplication and improve maintainability. The validation logic for `classification` and `status` appears in multiple places (`create_project`, `update_project`, `import_projects`).
 
 **Current Code:**
+
 ```python
 # In create_project():
 if 'classification' in data and data['classification'] is not None:
@@ -70,11 +73,12 @@ if 'status' in data:
 ```
 
 **Proposed Solution:**
+
 ```python
 def validate_project_data(data):
     """
     Validate project data for classification and status.
-    
+
     Returns:
         tuple: (error_response, error_code) or (None, None) if valid
     """
@@ -84,7 +88,7 @@ def validate_project_data(data):
             return jsonify({
                 'error': f"Invalid classification. Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
             }), 400
-    
+
     # Validate status if provided
     if 'status' in data:
         if data['status'] is None:
@@ -93,7 +97,7 @@ def validate_project_data(data):
             return jsonify({
                 'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
             }), 400
-    
+
     return None, None
 
 # Usage in create_project(), update_project(), import_projects():
@@ -103,6 +107,7 @@ if error_response:
 ```
 
 **Benefits:**
+
 - Reduces code duplication
 - Single source of truth for validation logic
 - Easier to maintain and update
@@ -121,6 +126,7 @@ if error_response:
 The `wide` flag currently drives both additional columns and wrapping behavior; if you anticipate more view modes in the future, you might factor column configuration into a small helper (e.g., `build_table(wide: bool)`) to keep the command function focused on data retrieval and orchestration.
 
 **Current Code:**
+
 ```python
 # Create table with expand=True to use full terminal width
 table = Table(title=f"Projects ({len(projects)})", expand=True)
@@ -165,25 +171,26 @@ for project in projects:
         row_data.append(project.get('organization', 'N/A'))
     if show_classification:
         row_data.append(project.get('classification', 'N/A'))
-    
+
     row_data.append(project['path'] or "[dim]No path[/dim]")
-    
+
     # Add Description column if searching or using --wide
     if show_description:
         description = project.get('description', '')
         row_data.append(description or "[dim]No description[/dim]")
-    
+
     row_data.append(project['created_at'][:10])  # Just the date
     table.add_row(*row_data)
 ```
 
 **Proposed Solution:**
+
 ```python
-def build_projects_table(projects, wide=False, status=None, organization=None, 
+def build_projects_table(projects, wide=False, status=None, organization=None,
                         classification=None, search=None):
     """
     Build a Rich Table for displaying projects.
-    
+
     Args:
         projects: List of project dictionaries
         wide: Whether to show all columns
@@ -191,36 +198,36 @@ def build_projects_table(projects, wide=False, status=None, organization=None,
         organization: Organization filter (if used, shows Org column)
         classification: Classification filter (if used, shows Classification column)
         search: Search filter (if used, shows Description column)
-    
+
     Returns:
         Table: Configured Rich Table ready for display
     """
     table = Table(title=f"Projects ({len(projects)})", expand=True)
-    
+
     # Determine which columns to show
     show_status = wide or status is not None
     show_org = wide or organization is not None
     show_classification = wide or classification is not None
     show_description = wide or search is not None
-    
+
     # Add columns
     table.add_column("ID", style="cyan", justify="right")
     table.add_column("Name", style="green", no_wrap=False)
-    
+
     if show_status:
         table.add_column("Status", style="yellow")
     if show_org:
         table.add_column("Org", style="blue")
     if show_classification:
         table.add_column("Classification", style="magenta")
-    
+
     table.add_column("Path", style="blue", no_wrap=False)
-    
+
     if show_description:
         table.add_column("Description", style="dim", no_wrap=False)
-    
+
     table.add_column("Created", style="magenta")
-    
+
     # Add rows
     for project in projects:
         row_data = [
@@ -233,16 +240,16 @@ def build_projects_table(projects, wide=False, status=None, organization=None,
             row_data.append(project.get('organization', 'N/A'))
         if show_classification:
             row_data.append(project.get('classification', 'N/A'))
-        
+
         row_data.append(project['path'] or "[dim]No path[/dim]")
-        
+
         if show_description:
             description = project.get('description', '')
             row_data.append(description or "[dim]No description[/dim]")
-        
+
         row_data.append(project['created_at'][:10])
         table.add_row(*row_data)
-    
+
     return table
 
 # Usage in list_projects():
@@ -258,6 +265,7 @@ console.print(table)
 ```
 
 **Benefits:**
+
 - Separates table configuration from command logic
 - Easier to add new view modes in the future
 - More testable (can test table building independently)
@@ -268,22 +276,24 @@ console.print(table)
 ## Implementation Steps
 
 ### 1. Issue PR16-#10: Extract Duplicate Code into Method
-   - [ ] Create `validate_project_data()` helper function in `backend/app/api/projects.py`
-   - [ ] Move classification and status validation logic into helper
-   - [ ] Update `create_project()` to use helper
-   - [ ] Update `update_project()` to use helper
-   - [ ] Update `import_projects()` to use helper
-   - [ ] Run tests to verify functionality unchanged
-   - [ ] Verify error messages are consistent
+
+- [ ] Create `validate_project_data()` helper function in `backend/app/api/projects.py`
+- [ ] Move classification and status validation logic into helper
+- [ ] Update `create_project()` to use helper
+- [ ] Update `update_project()` to use helper
+- [ ] Update `import_projects()` to use helper
+- [ ] Run tests to verify functionality unchanged
+- [ ] Verify error messages are consistent
 
 ### 2. Issue PR18-Overall-#2: Factor Column Configuration into Helper
-   - [ ] Create `build_projects_table()` helper function in `scripts/project_cli/commands/list_cmd.py`
-   - [ ] Move table creation and column configuration logic into helper
-   - [ ] Move row building logic into helper
-   - [ ] Update `list_projects()` to use helper
-   - [ ] Test CLI command with various filter combinations
-   - [ ] Verify table display is unchanged
-   - [ ] Test with `--wide` flag
+
+- [ ] Create `build_projects_table()` helper function in `scripts/project_cli/commands/list_cmd.py`
+- [ ] Move table creation and column configuration logic into helper
+- [ ] Move row building logic into helper
+- [ ] Update `list_projects()` to use helper
+- [ ] Test CLI command with various filter combinations
+- [ ] Verify table display is unchanged
+- [ ] Test with `--wide` flag
 
 ---
 
@@ -296,6 +306,7 @@ console.print(table)
 - [x] No regressions introduced
 
 **Run tests:**
+
 ```bash
 # Backend tests
 cd backend
@@ -342,6 +353,7 @@ This batch was created from fix-review report recommendations. These issues are 
 - Reduce duplication and improve testability
 
 **Source PRs:**
+
 - PR #16: 1 issue (extract duplicate validation)
 - PR #18: 1 issue (factor column configuration)
 
@@ -349,4 +361,3 @@ This batch was created from fix-review report recommendations. These issues are 
 
 **Last Updated:** 2025-12-05  
 **Next:** Use `/fix-implement` to implement this batch
-
