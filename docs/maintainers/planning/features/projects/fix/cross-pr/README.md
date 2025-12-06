@@ -11,17 +11,21 @@
 ### Active Batches
 
 - **[quick-wins-low-low-01.md](quick-wins-low-low-01.md)** - Quick Wins Batch 1 (✅ Complete, PR #14)
-- **[quick-wins-low-low-02.md](quick-wins-low-low-02.md)** - Quick Wins Batch 2 (🔴 Not Started, 7 issues)
-- **[test-quality-medium-low-01.md](test-quality-medium-low-01.md)** - Test Quality Improvements (🔴 Not Started, 9 issues)
-- **[code-refactoring-medium-medium-01.md](code-refactoring-medium-medium-01.md)** - Code Refactoring (🔴 Not Started, 2 issues)
+- **[quick-wins-low-low-02.md](quick-wins-low-low-02.md)** - Quick Wins Batch 2 (✅ Complete, PR #21)
+- **[test-quality-medium-low-01.md](test-quality-medium-low-01.md)** - Test Quality Improvements (✅ Complete, PR #20)
+- **[code-refactoring-medium-medium-01.md](code-refactoring-medium-medium-01.md)** - Code Refactoring (✅ Complete, PR #22)
+- **[bug-risk-fixes-medium-low-01.md](bug-risk-fixes-medium-low-01.md)** - Bug Risk Fixes (🔴 Not Started, 3 issues)
+- **[quick-wins-low-low-03.md](quick-wins-low-low-03.md)** - Quick Wins Batch 3 (🔴 Not Started, 23 issues)
+- **[configuration-improvements-medium-medium-01.md](configuration-improvements-medium-medium-01.md)** - Configuration Improvements (🔴 Not Started, 3 issues)
+- **[test-quality-improvements-medium-low-02.md](test-quality-improvements-medium-low-02.md)** - Test Quality Improvements Batch 2 (🔴 Not Started, 9 issues)
 
 ---
 
 ## 📊 Summary
 
-**Total Batches:** 4 (4 complete, 0 active)  
-**Total Issues:** 20 (18 complete, 2 active)  
-**Source PRs:** #1, #2, #8, #12, #13, #16, #18, #19
+**Total Batches:** 8 (4 complete, 4 active)  
+**Total Issues:** 47 (18 complete, 29 active)  
+**Source PRs:** #1, #2, #8, #12, #13, #16, #18, #19, #20, #22, #24
 
 **Notes:**
 - Quick Wins Batch 2 completed via PR #21 (2025-12-05)
@@ -29,8 +33,8 @@
 
 **Priority Breakdown:**
 
-- 🟡 MEDIUM: 11 issues (Test Quality batch + Code Refactoring batch + 1 in Quick Wins Batch 2)
-- 🟢 LOW: 9 issues (2 Quick Wins batches)
+- 🟡 MEDIUM: 18 issues (Bug Risk batch: 3, Configuration batch: 3, Test Quality batches: 9, Code Refactoring: 2, Quick Wins Batch 2: 1)
+- 🟢 LOW: 29 issues (Quick Wins batches: 23, Test Quality: 1, Code Refactoring: 3, Configuration: 1, Bug Risk: 1)
 
 ---
 
@@ -103,15 +107,78 @@
 
 ---
 
+## 🟡 Active Batches
+
+### Bug Risk Fixes Batch
+
+- **Status:** 🔴 Not Started
+- **Issues:** 3 MEDIUM/LOW issues
+- **File:** [bug-risk-fixes-medium-low-01.md](bug-risk-fixes-medium-low-01.md)
+- **Estimated:** 1-2 hours
+- **Source PRs:** #22 (1 issue), #24 (2 issues)
+
+**Issues:**
+- PR24-#1: Guard against invalid `display.max_rows` values
+- PR24-#3: Fix health URL construction
+- PR22-#1: Use `.get()` for path to avoid KeyError
+
+### Quick Wins Batch 3
+
+- **Status:** 🔴 Not Started
+- **Issues:** 23 LOW/LOW issues
+- **File:** [quick-wins-low-low-03.md](quick-wins-low-low-03.md)
+- **Estimated:** 3-4 hours
+- **Source PRs:** #12 (2 issues), #16 (3 issues), #18 (1 issue), #22 (6 issues), #24 (11 issues)
+
+**Issues:**
+- Exception handling improvements (4 issues)
+- Code style improvements (3 issues)
+- Code quality improvements (5 issues)
+- Documentation improvements (2 issues)
+- Various quick fixes (9 issues)
+
+### Configuration Improvements Batch
+
+- **Status:** 🔴 Not Started
+- **Issues:** 3 MEDIUM/MEDIUM issues
+- **File:** [configuration-improvements-medium-medium-01.md](configuration-improvements-medium-medium-01.md)
+- **Estimated:** 2-3 hours
+- **Source PRs:** #24 (3 issues)
+
+**Issues:**
+- PR24-#2: Use configured API base URL in error messages
+- PR24-Overall #1: Config defaults visibility
+- PR24-Overall #2: Hardcoded URLs
+
+### Test Quality Improvements Batch 2
+
+- **Status:** 🔴 Not Started
+- **Issues:** 9 MEDIUM/LOW issues (1 deferred)
+- **File:** [test-quality-improvements-medium-low-02.md](test-quality-improvements-medium-low-02.md)
+- **Estimated:** 3-4 hours
+- **Source PRs:** #16 (2 issues), #19 (1 issue), #20 (4 issues), #22 (2 issues, 1 deferred)
+
+**Issues:**
+- Test coverage improvements (3 issues)
+- Test reliability improvements (1 issue)
+- Test duplication reduction (1 issue)
+- Request validation improvements (2 issues)
+- API simplification (1 issue)
+- Architectural improvement (1 issue - deferred)
+
+---
+
 ## 🚀 Next Steps
 
 1. Review fix plans in this directory
 2. Use `/fix-implement` command to implement batches
-3. Start with Quick Wins Batch 2 (lower priority, builds momentum)
-4. Then implement Test Quality Improvements batch (improves test coverage)
-5. Finally implement Code Refactoring batch (improves code organization)
+3. **Recommended order:**
+   - Start with Bug Risk Fixes Batch (highest priority)
+   - Then Quick Wins Batch 3 (builds momentum)
+   - Then Configuration Improvements Batch (improves UX)
+   - Finally Test Quality Improvements Batch 2 (improves test coverage)
 
 ---
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-06
 
