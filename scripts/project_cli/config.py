@@ -108,8 +108,17 @@ class Config:
             pass
     
     def get_all(self):
-        """Get all configuration as a dictionary."""
+        """Get all configuration as a dictionary, including defaults."""
         result = {}
+        # Start with defaults
+        for section, options in self.DEFAULT_CONFIG.items():
+            result[section] = options.copy()
+        
+        # Override with actual config values
         for section in self.config.sections():
-            result[section] = dict(self.config.items(section))
+            if section not in result:
+                result[section] = {}
+            for key, value in self.config.items(section):
+                result[section][key] = value
+        
         return result

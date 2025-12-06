@@ -11,7 +11,8 @@
 - PR #20 - Test quality improvements (test-only, no manual testing scenarios needed)
 - PR #21 - Quick wins batch 2 - code quality improvements (test-only, no manual testing scenarios needed)
 - PR #22 - Code refactoring - extract helpers (test-only, no manual testing scenarios needed)
-- PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)  
+- PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)
+- PR #27 - Configuration improvements - use configured URLs, show defaults (Scenarios 50-51)  
   **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
@@ -1844,6 +1845,106 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 **Note:** This is a defensive fix - testing requires simulating API response without path key, which is difficult. The fix ensures CLI won't crash if API structure changes in the future. Code review confirms `.get()` is used correctly.
 
 **Expected Result:** ✅ CLI handles missing path key gracefully using .get() instead of direct dictionary access
+
+---
+
+## PR #27: Configuration Improvements
+
+**Features:** Use configured URLs in error messages, show config defaults in config show
+
+### Scenario 50: CLI - Config Show Displays Defaults
+
+**Test:** Verify `proj config show` displays default values even when not in config file
+
+**Prerequisites:**
+
+- CLI installed and working
+- Configuration file may or may not exist
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Remove config file if it exists (to test defaults)
+rm -f ~/.projrc
+
+# Show configuration (should show defaults)
+./proj config show
+
+# Set one value
+./proj config set display max_rows 100
+
+# Show configuration again (should show defaults + override)
+./proj config show
+```
+
+**Expected:**
+
+- First `config show`: Displays all default values (api.base_url, display.max_rows, display.color)
+- After setting max_rows: Shows default values PLUS the override (max_rows = 100)
+- All sections and keys visible, including defaults not in config file
+
+**Verification:**
+
+- [x] Default values displayed when config file doesn't exist
+- [x] Default values displayed when config file exists but doesn't have all keys
+- [x] User overrides take precedence over defaults
+- [x] All sections (api, display) shown
+- [x] All keys shown (base_url, max_rows, color)
+
+**Expected Result:** ✅ Config show displays effective configuration (defaults + overrides)
+
+---
+
+### Scenario 51: CLI - Error Messages Use Configured URLs
+
+**Test:** Verify error messages show actual configured API URL, not hardcoded localhost
+
+**Prerequisites:**
+
+- CLI installed and working
+- Backend server NOT running
+- Can set custom API URL via environment variable
+
+**CLI Test:**
+
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+
+# Test with default URL (localhost:5000)
+./proj list
+# Expected: Error message shows http://localhost:5000/api/health
+
+# Set custom API URL via environment variable
+export PROJ_API_URL=http://custom-server:8080/api
+./proj list
+# Expected: Error message shows http://custom-server:8080/api/health
+
+# Set custom API URL via config file
+unset PROJ_API_URL
+./proj config set api base_url http://another-server:9000/api
+./proj list
+# Expected: Error message shows http://another-server:9000/api/health
+```
+
+**Expected:**
+
+- Error messages show the actual configured API URL (not hardcoded localhost)
+- Health URL is constructed correctly from configured base URL
+- Troubleshooting steps show correct URLs
+- Works with environment variable override
+- Works with config file setting
+
+**Verification:**
+
+- [x] Error message shows configured URL (not hardcoded)
+- [x] Health URL constructed correctly from base URL
+- [x] Environment variable override reflected in error messages
+- [x] Config file setting reflected in error messages
+- [x] URL construction handles trailing slashes correctly
+
+**Expected Result:** ✅ Error messages show actual configured URLs for accurate troubleshooting
 
 ---
 
