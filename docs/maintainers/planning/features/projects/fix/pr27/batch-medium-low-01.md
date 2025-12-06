@@ -4,8 +4,10 @@
 **Batch:** medium-low-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟢 LOW / 🟡 MEDIUM  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Created:** 2025-12-06  
+**Completed:** 2025-12-06  
+**PR:** #28  
 **Issues:** 2 issues (1 unique issue + 1 duplicate, 1 additional issue)
 
 ---
@@ -222,15 +224,15 @@ def _handle_connection_error(error: requests.exceptions.ConnectionError, console
 
 ## Definition of Done
 
-- [ ] All 2 issues in batch fixed
-- [ ] Health URL helper function extracted
-- [ ] URL validation added with fallback
-- [ ] All error handlers updated to use helper
-- [ ] Tests passing
-- [ ] Code reviewed
-- [ ] Manual testing completed
-- [ ] No regressions introduced
-- [ ] Ready for PR
+- [x] All 2 issues in batch fixed
+- [x] Health URL helper function extracted
+- [x] URL validation added with fallback
+- [x] All error handlers updated to use helper
+- [x] Tests passing
+- [x] Code reviewed
+- [x] Manual testing completed
+- [x] No regressions introduced
+- [x] Ready for PR
 
 ---
 
