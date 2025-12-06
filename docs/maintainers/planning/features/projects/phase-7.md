@@ -34,11 +34,11 @@ Phase 7 focuses on adding automated tests (especially CLI tests), fixing bugs di
 
 #### Setup
 
-- [x] Create `backend/tests/integration/cli/` directory
-- [x] Add CliRunner fixture to `backend/tests/conftest.py`
+- [x] Create `scripts/project_cli/tests/integration/` directory
+- [x] Add CliRunner fixture to `backend/tests/conftest.py` (shared fixture)
 - [x] Create test file structure
 - [x] Create FlaskTestClientAdapter for mocking API calls
-- [x] Create mock_api_for_cli fixture
+- [x] Create mock_api_for_cli fixture in `scripts/project_cli/tests/conftest.py`
 
 #### CLI Command Tests
 

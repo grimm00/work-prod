@@ -13,7 +13,8 @@ The work-prod application requires a comprehensive testing strategy to support T
 
 1. **Backend Testing** (Python/Flask)
 2. **Frontend Testing** (React/Vite)
-3. **End-to-End Testing** (Full stack integration)
+3. **CLI Testing** (Click-based commands)
+4. **End-to-End Testing** (Full stack integration)
 
 ### Requirements
 
@@ -62,6 +63,13 @@ We will use the following testing frameworks:
 - **Browsers:** Chromium, Firefox, WebKit (cross-browser testing)
 - **Debugging:** Trace Viewer, screenshots, video capture
 
+### CLI: Click's CliRunner
+
+- **Framework:** Click's built-in CliRunner (part of click package)
+- **Test Types:** Integration tests for CLI commands
+- **Coverage Tool:** pytest-cov (CLI tests run with pytest)
+- **Coverage Target:** >80% for CLI commands
+
 ### Test Organization
 
 **Backend:**
@@ -92,6 +100,18 @@ tests/e2e/
 └── utils/                   # Test helpers
 ```
 
+**CLI:**
+```
+backend/tests/
+├── integration/             # API integration tests
+└── scripts/project_cli/tests/integration/  # CLI command integration tests (co-located with CLI code)
+│   ├── test_list_cmd.py
+│   ├── test_get_cmd.py
+│   ├── test_create_cmd.py
+│   └── test_config_cmd.py
+└── conftest.py              # CliRunner fixture
+```
+
 ---
 
 ## Consequences
@@ -119,6 +139,13 @@ tests/e2e/
 - Auto-wait reduces flaky tests
 - Superior CI/CD integration
 
+**CliRunner:**
+- Built into Click framework (no additional dependencies)
+- Simple API: `runner.invoke(cli, ['command', 'args'])`
+- Captures stdout/stderr and exit codes
+- Works seamlessly with pytest fixtures
+- Can mock environment variables and config files
+
 **Overall:**
 - Complete testing coverage across all layers
 - Fast feedback loop for TDD workflow
@@ -130,7 +157,7 @@ tests/e2e/
 **Learning Curve:**
 - Team needs to learn pytest fixtures and pytest-flask patterns
 - Playwright has more concepts than simpler tools like Cypress
-- Three different testing frameworks to maintain
+- Multiple testing frameworks to maintain (pytest, Vitest, Playwright, CliRunner)
 
 **Configuration:**
 - Multiple configuration files (pytest.ini, vitest.config.js, playwright.config.js)
@@ -200,6 +227,9 @@ In Phase 0 (Development Environment), implement:
    # E2E
    npm install -D @playwright/test
    npx playwright install
+   
+   # CLI (no additional install needed - CliRunner is part of click)
+   # CliRunner is already available if click is installed
    ```
 
 2. Create configuration files (pytest.ini, vitest.config.js, playwright.config.js)
@@ -214,15 +244,16 @@ For each vertical slice (e.g., "List Projects"):
 
 1. **Backend Model Test** → Implement model
 2. **Backend API Test** → Implement endpoint
-3. **Frontend Component Test** → Implement component
-4. **Frontend Store Test** → Implement Zustand store
-5. **E2E Test** (optional) → Verify full flow
+3. **CLI Test** (for CLI commands) → Implement CLI command
+4. **Frontend Component Test** → Implement component
+5. **Frontend Store Test** → Implement Zustand store
+6. **E2E Test** (optional) → Verify full flow
 
 ### Coverage Enforcement
 
 **Local Development:**
 ```bash
-# Backend
+# Backend (includes CLI tests)
 pytest --cov=app --cov-fail-under=80
 
 # Frontend
@@ -230,6 +261,34 @@ npm test -- --coverage
 
 # E2E
 npx playwright test
+```
+
+### CLI Testing Pattern
+
+Example CLI test using CliRunner:
+
+```python
+# scripts/project_cli/tests/integration/test_list_cmd.py
+import pytest
+from click.testing import CliRunner
+from app.models.project import Project
+from app import db
+
+# CLI import handled via importlib in test file
+# Backend fixtures (app, client, db) imported from backend/tests/conftest.py
+
+def test_list_command_success(cli_runner, app, mock_api_for_cli):
+    """Test list command returns successfully."""
+    with app.app_context():
+        result = cli_runner.invoke(cli, ['list'])
+        assert result.exit_code == 0
+        assert 'Projects' in result.output
+
+def test_list_command_with_filters(cli_runner, app, mock_api_for_cli):
+    """Test list command with status filter."""
+    with app.app_context():
+        result = cli_runner.invoke(cli, ['list', '--status', 'active'])
+        assert result.exit_code == 0
 ```
 
 **CI/CD (GitHub Actions):**
@@ -260,6 +319,7 @@ Consider adding pre-commit hooks to:
 - [Vitest Documentation](https://vitest.dev/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [Playwright Documentation](https://playwright.dev/)
+- [Click Testing Documentation](https://click.palletsprojects.com/en/8.1.x/testing/)
 
 ### Related ADRs
 
@@ -269,6 +329,10 @@ Consider adding pre-commit hooks to:
 - **ADR-0004:** Flask-React Integration Strategy - Integration testing approach
 - **ADR-0005:** Projects as Foundation Architecture - First feature to implement with TDD
 
+### Project Learnings
+
+- **Phase 6 Reflection:** CLI Enhancement learnings - Identified CliRunner as testing approach
+
 ### External Resources
 
 - [Testing Flask Applications with pytest](https://testdriven.io/blog/flask-pytest/)
@@ -277,8 +341,8 @@ Consider adding pre-commit hooks to:
 
 ---
 
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-06  
 **Status:** ✅ Accepted and Active  
-**Implementation:** Phase 0 - Development Environment
+**Implementation:** Phase 0 - Development Environment (CLI testing added Phase 7)
 
 

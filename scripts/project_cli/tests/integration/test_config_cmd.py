@@ -10,15 +10,10 @@ import importlib.util
 from pathlib import Path
 import os
 
-# Add scripts directory to path
-scripts_dir = str(Path(__file__).parent.parent.parent.parent / 'scripts')
-if scripts_dir not in sys.path:
-    sys.path.insert(0, scripts_dir)
-
 from click.testing import CliRunner
 
 # Import CLI from proj script file
-proj_path = Path(__file__).parent.parent.parent.parent / 'scripts' / 'project_cli' / 'proj'
+proj_path = Path(__file__).parent.parent.parent / 'proj'
 spec = importlib.util.spec_from_file_location("project_cli.proj", proj_path)
 proj_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(proj_module)

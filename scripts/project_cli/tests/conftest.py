@@ -2,16 +2,23 @@
 CLI test configuration and fixtures.
 
 Provides fixtures for testing CLI commands with mocked API calls.
+Imports backend fixtures for integration testing.
 """
 
 import pytest
 import sys
 from pathlib import Path
 
-# Add scripts directory to path so we can import project_cli
-scripts_dir = str(Path(__file__).parent.parent.parent.parent / 'scripts')
-if scripts_dir not in sys.path:
-    sys.path.insert(0, scripts_dir)
+# Add backend directory to path to import backend fixtures
+backend_dir = Path(__file__).parent.parent.parent.parent / 'backend'
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
+# Import backend fixtures
+from tests.conftest import app, client, db, cli_runner
+
+# Import CLI-specific fixtures from integration test helpers
+# Note: Import happens inside fixture to avoid circular imports
 
 
 @pytest.fixture
@@ -24,21 +31,19 @@ def mock_api_for_cli(client, monkeypatch):
     a running backend server.
     
     Args:
-        client: Flask test client fixture
+        client: Flask test client fixture (from backend)
         monkeypatch: pytest monkeypatch fixture
         
     Returns:
         Flask test client (for convenience)
     """
-    from .test_helpers import FlaskTestClientAdapter
     import requests
-    from scripts.project_cli import error_handler
+    from project_cli import error_handler
+    from .integration.test_helpers import FlaskTestClientAdapter
     
     adapter = FlaskTestClientAdapter(client)
     
     # Mock requests.Session methods
-    original_session_init = requests.Session.__init__
-    
     def mock_session_init(self, *args, **kwargs):
         """Initialize session with mocked methods."""
         # Call original init but don't set up real session
@@ -67,8 +72,7 @@ def mock_api_for_cli(client, monkeypatch):
     monkeypatch.setattr(error_handler, 'check_backend_health', mock_check_health)
     
     # Mock Config to return test URL
-    from scripts.project_cli import config
-    original_get_api_url = config.Config.get_api_url
+    from project_cli import config
     
     def mock_get_api_url(self):
         """Return test API URL."""
