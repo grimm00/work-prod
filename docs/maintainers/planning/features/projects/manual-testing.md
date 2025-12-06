@@ -15,7 +15,8 @@
 - PR #25 - Bug risk fixes - guard invalid config, fix health URL, use .get() for path (Scenarios 47-49)
 - PR #27 - Configuration improvements - use configured URLs, show defaults (Scenarios 50-51)
 - PR #28 - Error handler improvements - extract health URL helper, validate URLs (Scenarios 52-55)
-- PR #29 - Phase 7: Test coverage improvements, API/user documentation, code quality (test-only, documentation-only, no manual testing scenarios needed)  
+- PR #29 - Phase 7: Test coverage improvements, API/user documentation, code quality (test-only, documentation-only, no manual testing scenarios needed)
+- PR #30 - Bulk import IntegrityError handling - per-project error handling (Scenario 56)  
   **Last Updated:** 2025-12-06  
   **Tester:** User verification before PR merge
 
@@ -2129,6 +2130,87 @@ cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
 - [x] URL construction is centralized (no duplication)
 
 **Expected Result:** ✅ All error handlers use centralized helper for consistent behavior
+
+---
+
+## PR #30: Bulk Import IntegrityError Handling
+
+### Scenario 56: API - Import Per-Project IntegrityError Handling
+
+**Test:** Verify that IntegrityError (e.g., duplicate path) in middle of batch doesn't roll back previous successful imports.
+
+**Prerequisites:**
+
+- Backend server running
+- Clean database (or ensure `/test/path1` and `/test/path2` don't exist)
+
+**API Test:**
+
+```bash
+# First, create a project with a specific path
+curl -X POST http://localhost:5000/api/projects \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Existing Project", "path": "/test/duplicate"}' | python -m json.tool
+
+# Expected: 201 Created, project created successfully
+
+# Now import a batch with duplicate path in the middle
+curl -X POST http://localhost:5000/api/projects/import \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projects": [
+      {"name": "First Project", "path": "/test/path1"},
+      {"name": "Duplicate Project", "path": "/test/duplicate"},
+      {"name": "Third Project", "path": "/test/path2"}
+    ]
+  }' | python -m json.tool
+
+# Expected: 201 Created (not 500!)
+# Response should include:
+# - "imported": 2 (First and Third projects)
+# - "skipped": 1 (Duplicate project)
+# - "errors": [{"project": "Duplicate Project", "error": "Project with this path already exists"}]
+```
+
+**Verification:**
+
+```bash
+# Note: API doesn't filter by path, so we'll search by name or check full list
+# Verify first project was imported (search by name)
+curl "http://localhost:5000/api/projects?search=First Project" | python -m json.tool
+# Expected: Returns First Project with path /test/path1
+
+# Verify third project was imported (search by name)
+curl "http://localhost:5000/api/projects?search=Third Project" | python -m json.tool
+# Expected: Returns Third Project with path /test/path2
+
+# Verify duplicate project was NOT imported (search by name)
+curl "http://localhost:5000/api/projects?search=Duplicate Project" | python -m json.tool
+# Expected: Returns empty array (or only projects with different names)
+
+# Alternative: Check full list and filter client-side
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"path": "/test/path1"'
+# Expected: Shows First Project exists
+
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"path": "/test/path2"'
+# Expected: Shows Third Project exists
+
+curl http://localhost:5000/api/projects | python -m json.tool | grep -A 5 '"name": "Duplicate Project"'
+# Expected: No results (or verify it doesn't have path /test/duplicate)
+```
+
+**Verification:**
+
+- [ ] Response status is 201 (not 500)
+- [ ] `imported` count is 2 (First and Third projects)
+- [ ] `skipped` count is 1 (Duplicate project)
+- [ ] `errors` array contains error for duplicate project
+- [ ] Error message indicates "Project with this path already exists"
+- [ ] First project exists in database
+- [ ] Third project exists in database
+- [ ] Duplicate project was NOT created
+
+**Expected Result:** ✅ IntegrityError handled per-project: successful projects persist, duplicate project skipped with error, batch continues processing.
 
 ---
 
