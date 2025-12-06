@@ -31,7 +31,16 @@ def config_group():
 
 @config_group.command('show')
 def show_config():
-    """Show current configuration settings."""
+    """
+    Show current configuration settings.
+    
+    Display all configuration values from ~/.projrc file in a formatted table.
+    Shows both API and display settings.
+    
+    \b
+    Examples:
+        proj config show
+    """
     console = Console()
     config = Config.get_instance()
     
