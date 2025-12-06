@@ -94,7 +94,21 @@ def build_projects_table(projects, wide=False, status=None, organization=None,
 @click.option('--search', help='Search in project names and descriptions')
 @click.option('--wide', is_flag=True, help='Show all columns (status, organization, classification) and use full-width layout')
 def list_projects(status, organization, classification, search, wide):
-    """List all projects with optional filtering."""
+    """
+    List all projects with optional filtering and search.
+    
+    Display projects in a formatted table. Use filters to narrow down results.
+    The Description column is automatically shown when using --search.
+    
+    \b
+    Examples:
+        proj list
+        proj list --status active
+        proj list --org work --classification primary
+        proj list --search "productivity"
+        proj list --wide
+        proj list --status active --wide
+    """
     console = Console()
     
     try:

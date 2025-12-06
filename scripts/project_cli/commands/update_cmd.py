@@ -26,7 +26,19 @@ from ..error_handler import handle_error
 @click.option('--description', '-d', help='Project description')
 @click.option('--remote-url', '-r', help='Git repository URL')
 def update_project(project_id, name, path, organization, classification, status, description, remote_url):
-    """Update an existing project."""
+    """
+    Update an existing project.
+    
+    Update one or more fields of a project. Only specified fields will be updated.
+    Shows a before/after comparison of changed fields.
+    
+    \b
+    Examples:
+        proj update 1 --status paused
+        proj update 1 -s active -o work
+        proj update 1 --description "Updated description"
+        proj update 1 -n "New Name" -c primary
+    """
     console = Console()
     
     try:
