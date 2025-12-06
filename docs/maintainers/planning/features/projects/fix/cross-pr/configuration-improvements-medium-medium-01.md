@@ -3,7 +3,9 @@
 **Batch:** configuration-improvements-medium-medium-01  
 **Priority:** 🟡 MEDIUM  
 **Effort:** 🟡 MEDIUM  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete
+**Completed:** 2025-12-06
+**PR:** #26  
 **Created:** 2025-12-06  
 **Source:** fix-review-report-2025-12-06.md  
 **Issues:** 3 issues from 1 PR
@@ -190,22 +192,22 @@ def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) 
 ## Implementation Steps
 
 1. **Issue PR24-#2: Use Configured URL in Connection Error**
-   - [ ] Import `Config` in `error_handler.py`
-   - [ ] Update `_handle_connection_error()` to use `Config.get_instance().get_api_url()`
-   - [ ] Construct health URL properly
-   - [ ] Test with different base URLs
+   - [x] Import `Config` in `error_handler.py`
+   - [x] Update `_handle_connection_error()` to use `Config.get_instance().get_api_url()`
+   - [x] Construct health URL properly
+   - [x] Test with different base URLs
 
 2. **Issue PR24-Overall #1: Config Defaults Visibility**
-   - [ ] Update `get_all()` method to merge DEFAULT_CONFIG
-   - [ ] Ensure user overrides take precedence
-   - [ ] Test `proj config show` displays all values
-   - [ ] Verify defaults are shown correctly
+   - [x] Update `get_all()` method to merge DEFAULT_CONFIG
+   - [x] Ensure user overrides take precedence
+   - [x] Test `proj config show` displays all values
+   - [x] Verify defaults are shown correctly
 
 3. **Issue PR24-Overall #2: Hardcoded URLs in Error Messages**
-   - [ ] Update `_handle_timeout_error()` to use configured URL
-   - [ ] Update any other error handlers with hardcoded URLs
-   - [ ] Test with different base URLs
-   - [ ] Verify error messages show correct URLs
+   - [x] Update `_handle_timeout_error()` to use configured URL
+   - [x] Update `_handle_generic_error()` to use configured URL
+   - [x] Test with different base URLs
+   - [x] Verify error messages show correct URLs
 
 ---
 
@@ -229,14 +231,14 @@ def _handle_timeout_error(error: requests.exceptions.Timeout, console: Console) 
 
 ## Definition of Done
 
-- [ ] All 3 issues in batch fixed
-- [ ] Tests passing
+- [x] All 3 issues in batch fixed
+- [x] Tests passing
 - [ ] Code reviewed
 - [ ] Manual testing completed
-- [ ] Error messages show configured URLs
-- [ ] Config show displays defaults
-- [ ] No regressions introduced
-- [ ] Ready for PR
+- [x] Error messages show configured URLs
+- [x] Config show displays defaults
+- [x] No regressions introduced
+- [x] Ready for PR
 
 ---
 
