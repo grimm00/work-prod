@@ -1,0 +1,691 @@
+openapi: 3.0.3
+info:
+  title: Work Productivity Projects API
+  description: |
+    REST API for managing work, personal, and learning projects.
+    
+    This API provides endpoints for creating, reading, updating, and deleting projects,
+    as well as filtering, searching, and bulk importing projects.
+  version: 1.0.0
+  contact:
+    name: API Support
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:5000/api
+    description: Development server
+  - url: https://api.example.com/api
+    description: Production server (example)
+
+tags:
+  - name: Health
+    description: Health check endpoints
+  - name: Projects
+    description: Project management endpoints
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Returns the health status of the API server
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: ok
+                message: Flask backend is running
+
+  /projects:
+    get:
+      tags:
+        - Projects
+      summary: List projects
+      description: |
+        Retrieve a list of all projects with optional filtering and search.
+        
+        **Query Parameters:**
+        - `status`: Filter by status (active, paused, completed, cancelled)
+        - `organization`: Filter by organization name
+        - `classification`: Filter by classification (primary, secondary, archive, maintenance)
+        - `search`: Search term to match against project name and description (case-insensitive)
+        
+        Invalid filter values are ignored and all projects are returned.
+      operationId: listProjects
+      parameters:
+        - name: status
+          in: query
+          description: Filter by project status
+          required: false
+          schema:
+            type: string
+            enum: [active, paused, completed, cancelled]
+        - name: organization
+          in: query
+          description: Filter by organization name
+          required: false
+          schema:
+            type: string
+        - name: classification
+          in: query
+          description: Filter by project classification
+          required: false
+          schema:
+            type: string
+            enum: [primary, secondary, archive, maintenance]
+        - name: search
+          in: query
+          description: Search term for project name and description
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+              example:
+                - id: 1
+                  name: My Project
+                  path: /path/to/project
+                  organization: work
+                  classification: primary
+                  status: active
+                  description: A sample project
+                  remote_url: https://github.com/user/repo
+                  created_at: '2025-12-06T10:00:00'
+                  updated_at: '2025-12-06T10:00:00'
+                - id: 2
+                  name: Another Project
+                  path: null
+                  organization: personal
+                  classification: secondary
+                  status: paused
+                  description: null
+                  remote_url: null
+                  created_at: '2025-12-05T15:30:00'
+                  updated_at: '2025-12-05T15:30:00'
+
+    post:
+      tags:
+        - Projects
+      summary: Create project
+      description: |
+        Create a new project. The `name` field is required.
+        
+        **Default Values:**
+        - `status`: defaults to 'active' if not provided
+        
+        **Validation:**
+        - `name`: Required, cannot be empty
+        - `status`: Cannot be null (if provided)
+        - `classification`: Must be one of: primary, secondary, archive, maintenance
+        - `status`: Must be one of: active, paused, completed, cancelled
+        - `path`: Must be unique across all projects
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+            example:
+              name: My New Project
+              path: /path/to/new/project
+              organization: work
+              classification: primary
+              status: active
+              description: Description of the new project
+              remote_url: https://github.com/user/new-repo
+      responses:
+        '201':
+          description: Project created successfully
+          headers:
+            Location:
+              description: URL of the created project
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                missingName:
+                  value:
+                    error: Name is required
+                invalidStatus:
+                  value:
+                    error: Invalid status. Must be one of: active, paused, completed, cancelled
+                nullStatus:
+                  value:
+                    error: Status cannot be null
+                invalidClassification:
+                  value:
+                    error: Invalid classification. Must be one of: primary, secondary, archive, maintenance
+        '409':
+          description: Duplicate path conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Project with this path already exists
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Internal server error
+
+  /projects/{projectId}:
+    get:
+      tags:
+        - Projects
+      summary: Get project by ID
+      description: Retrieve a specific project by its ID
+      operationId: getProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Project ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Project found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid project ID format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Invalid project ID format
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Project not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags:
+        - Projects
+      summary: Update project
+      description: |
+        Update an existing project. All fields are optional - only provided fields will be updated.
+        
+        **Validation:**
+        - Same validation rules as create project
+        - `path`: Must be unique (cannot duplicate another project's path)
+        
+        If no fields are provided, the current project is returned unchanged.
+      operationId: updateProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Project ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+            example:
+              status: completed
+              description: Updated description
+      responses:
+        '200':
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Duplicate path conflict or database integrity error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                duplicatePath:
+                  value:
+                    error: Project with this path already exists
+                integrityError:
+                  value:
+                    error: Database integrity error
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Projects
+      summary: Delete project
+      description: Permanently delete a project
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Project ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Project deleted successfully (No Content)
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /projects/{projectId}/archive:
+    put:
+      tags:
+        - Projects
+      summary: Archive project
+      description: |
+        Archive a project by setting its classification to 'archive' and status to 'completed'.
+        The project will still appear in list queries but is marked as archived.
+      operationId: archiveProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Project ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Project archived successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+              example:
+                id: 1
+                name: My Project
+                path: /path/to/project
+                organization: work
+                classification: archive
+                status: completed
+                description: A sample project
+                remote_url: https://github.com/user/repo
+                created_at: '2025-12-06T10:00:00'
+                updated_at: '2025-12-06T10:30:00'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /projects/import:
+    post:
+      tags:
+        - Projects
+      summary: Bulk import projects
+      description: |
+        Import multiple projects from a JSON payload in a single request.
+        
+        **Behavior:**
+        - Projects are processed individually
+        - If a project fails to import, it is skipped and added to the errors list
+        - Other projects continue to be processed
+        - Duplicate projects (by `remote_url`) are skipped
+        
+        **Response:**
+        - `imported`: Number of projects successfully imported
+        - `skipped`: Number of projects skipped (duplicates or errors)
+        - `errors`: List of errors with project name and error message
+      operationId: importProjects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectImportRequest'
+            example:
+              projects:
+                - name: Project 1
+                  path: /path/1
+                  remote_url: https://github.com/user/project1
+                  classification: primary
+                  status: active
+                - name: Project 2
+                  path: /path/2
+                  organization: work
+                  classification: secondary
+                  status: paused
+      responses:
+        '201':
+          description: Import completed with statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectImportResponse'
+              example:
+                imported: 2
+                skipped: 0
+                errors: []
+        '400':
+          description: Invalid request (not JSON, missing projects field, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                notJson:
+                  value:
+                    error: Content-Type must be application/json
+                invalidJson:
+                  value:
+                    error: Invalid JSON
+                notObject:
+                  value:
+                    error: Request body must be a JSON object
+                missingProjects:
+                  value:
+                    error: Missing 'projects' field
+                projectsNotList:
+                  value:
+                    error: 'projects' field must be a list
+        '500':
+          description: Internal server error (e.g., commit failure)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Failed to import projects
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          example: ok
+        message:
+          type: string
+          example: Flask backend is running
+
+    Project:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          description: Unique project identifier
+          example: 1
+        name:
+          type: string
+          description: Project name
+          maxLength: 200
+          example: My Project
+        path:
+          type: string
+          nullable: true
+          description: File system path (must be unique)
+          maxLength: 500
+          example: /path/to/project
+        organization:
+          type: string
+          nullable: true
+          description: Organization name
+          maxLength: 100
+          example: work
+        classification:
+          type: string
+          nullable: true
+          enum: [primary, secondary, archive, maintenance]
+          description: Project classification
+          example: primary
+        status:
+          type: string
+          enum: [active, paused, completed, cancelled]
+          description: Project status
+          example: active
+        description:
+          type: string
+          nullable: true
+          description: Project description
+          example: A sample project description
+        remote_url:
+          type: string
+          nullable: true
+          description: Git repository URL
+          maxLength: 500
+          format: uri
+          example: https://github.com/user/repo
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp (ISO 8601)
+          example: '2025-12-06T10:00:00'
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp (ISO 8601)
+          example: '2025-12-06T10:00:00'
+
+    ProjectCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Project name (required)
+          maxLength: 200
+          example: My New Project
+        path:
+          type: string
+          nullable: true
+          description: File system path (must be unique)
+          maxLength: 500
+          example: /path/to/new/project
+        organization:
+          type: string
+          nullable: true
+          description: Organization name
+          maxLength: 100
+          example: work
+        classification:
+          type: string
+          nullable: true
+          enum: [primary, secondary, archive, maintenance]
+          description: Project classification
+          example: primary
+        status:
+          type: string
+          enum: [active, paused, completed, cancelled]
+          description: Project status (defaults to 'active' if not provided)
+          default: active
+          example: active
+        description:
+          type: string
+          nullable: true
+          description: Project description
+          example: Description of the new project
+        remote_url:
+          type: string
+          nullable: true
+          description: Git repository URL
+          maxLength: 500
+          format: uri
+          example: https://github.com/user/new-repo
+
+    ProjectUpdate:
+      type: object
+      description: All fields are optional - only provided fields will be updated
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          example: Updated Project Name
+        path:
+          type: string
+          nullable: true
+          maxLength: 500
+          example: /updated/path
+        organization:
+          type: string
+          nullable: true
+          maxLength: 100
+          example: personal
+        classification:
+          type: string
+          nullable: true
+          enum: [primary, secondary, archive, maintenance]
+          example: secondary
+        status:
+          type: string
+          enum: [active, paused, completed, cancelled]
+          example: completed
+        description:
+          type: string
+          nullable: true
+          example: Updated description
+        remote_url:
+          type: string
+          nullable: true
+          maxLength: 500
+          format: uri
+          example: https://github.com/user/updated-repo
+
+    ProjectImportRequest:
+      type: object
+      required:
+        - projects
+      properties:
+        projects:
+          type: array
+          description: List of projects to import
+          items:
+            $ref: '#/components/schemas/ProjectCreate'
+          minItems: 1
+
+    ProjectImportResponse:
+      type: object
+      required:
+        - imported
+        - skipped
+        - errors
+      properties:
+        imported:
+          type: integer
+          description: Number of projects successfully imported
+          minimum: 0
+          example: 2
+        skipped:
+          type: integer
+          description: Number of projects skipped (duplicates or errors)
+          minimum: 0
+          example: 0
+        errors:
+          type: array
+          description: List of import errors
+          items:
+            type: object
+            required:
+              - project
+              - error
+            properties:
+              project:
+                type: string
+                description: Project name (or 'Unknown' if name not available)
+                example: Project 1
+              error:
+                type: string
+                description: Error message
+                example: Failed to import project
+
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: Project not found
+
