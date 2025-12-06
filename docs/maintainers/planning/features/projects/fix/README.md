@@ -24,7 +24,9 @@
 - **[PR #24](pr24/README.md)** - Phase 6: CLI Enhancement & Daily Use Tools (✅ Complete - All tasks complete, 16 deferred)
 - **[PR #25](pr25/README.md)** - Fix Batch: bug-risk-fixes-medium-low-01 (✅ Complete - 3 issues fixed, 1 deferred)
 - **[PR #27](pr27/README.md)** - Fix Batch: configuration-improvements-medium-medium-01 (✅ Complete - 3 issues fixed, 2 deferred fixed in PR #28)
-- **[PR #29](pr29/README.md)** - Phase 7: Automated Testing & Bug Fixes (🟡 Partial - 1/6 batches complete via PR #30, 18 issues remaining)
+- **[PR #29](pr29/README.md)** - Phase 7: Automated Testing & Bug Fixes (🟡 Partial - 2/6 batches complete via PR #30, #31, 15 issues remaining)
+- **[PR #30](pr30/README.md)** - Fix Batch: pr29-batch-high-medium-01 (🟡 Planned - 6 issues deferred)
+- **[PR #31](pr31/README.md)** - Fix Batch: pr29-batch-medium-medium-01 (🟡 Planned - 3 issues deferred)
 
 ### User-Reported Issues
 
