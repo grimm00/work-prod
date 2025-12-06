@@ -120,14 +120,24 @@ def mock_api_client(test_client, monkeypatch):
     """
     Mock the requests library to use Flask test client.
     
+    This is the shared helper function that sets up FlaskTestClientAdapter
+    and patches requests.Session and requests module methods.
+    
     Args:
         test_client: Flask test client instance
         monkeypatch: pytest monkeypatch fixture
+        
+    Returns:
+        FlaskTestClientAdapter instance (for convenience)
     """
     adapter = FlaskTestClientAdapter(test_client)
     
     # Mock requests.Session to use our adapter
     def mock_session_init(self, *args, **kwargs):
+        """Initialize session with mocked methods."""
+        # Call original init but don't set up real session
+        self.headers = {}
+        # Replace methods with adapter methods
         self.get = adapter.get
         self.post = adapter.post
         self.patch = adapter.patch
@@ -144,4 +154,6 @@ def mock_api_client(test_client, monkeypatch):
     monkeypatch.setattr(requests, 'patch', adapter.patch)
     monkeypatch.setattr(requests, 'put', adapter.put)
     monkeypatch.setattr(requests, 'delete', adapter.delete)
+    
+    return adapter
 

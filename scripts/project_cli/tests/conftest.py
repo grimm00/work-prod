@@ -26,9 +26,8 @@ def mock_api_for_cli(client, monkeypatch):
     """
     Mock API calls to use Flask test client instead of real HTTP requests.
     
-    This fixture patches the requests library and health check to use
-    the Flask test client, allowing CLI commands to be tested without
-    a running backend server.
+    This fixture delegates to the shared mock_api_client helper for FlaskTestClientAdapter
+    setup, keeping only CLI-specific overrides (health check and config).
     
     Args:
         client: Flask test client fixture (from backend)
@@ -37,33 +36,13 @@ def mock_api_for_cli(client, monkeypatch):
     Returns:
         Flask test client (for convenience)
     """
-    import requests
     from project_cli import error_handler
-    from .integration.test_helpers import FlaskTestClientAdapter
+    from .integration.test_helpers import mock_api_client
     
-    adapter = FlaskTestClientAdapter(client)
+    # Delegate to shared helper for FlaskTestClientAdapter setup
+    mock_api_client(client, monkeypatch)
     
-    # Mock requests.Session methods
-    def mock_session_init(self, *args, **kwargs):
-        """Initialize session with mocked methods."""
-        # Call original init but don't set up real session
-        self.headers = {}
-        # Replace methods with adapter methods
-        self.get = adapter.get
-        self.post = adapter.post
-        self.patch = adapter.patch
-        self.put = adapter.put
-        self.delete = adapter.delete
-    
-    monkeypatch.setattr(requests.Session, '__init__', mock_session_init)
-    
-    # Mock direct requests functions
-    monkeypatch.setattr(requests, 'get', adapter.get)
-    monkeypatch.setattr(requests, 'post', adapter.post)
-    monkeypatch.setattr(requests, 'patch', adapter.patch)
-    monkeypatch.setattr(requests, 'put', adapter.put)
-    monkeypatch.setattr(requests, 'delete', adapter.delete)
-    
+    # CLI-specific overrides: health check and config
     # Mock health check to always return True (since we're using test client)
     def mock_check_health(base_url):
         """Mock health check - always return True for test client."""
