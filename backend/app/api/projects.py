@@ -482,4 +482,3 @@ def get_project_invalid(project_id):
 def handle_value_error(error):
     """Handle ValueError exceptions (e.g., invalid ID format)."""
     return jsonify({'error': 'Invalid project ID format'}), 400
-
