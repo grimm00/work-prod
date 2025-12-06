@@ -453,8 +453,8 @@ rm /tmp/pr-description-phase[N].md
 **Before merging:**
 
 - [ ] PR created and link presented to user
-- [ ] Sourcery review completed
-- [ ] Priority matrix filled out
+- [ ] `/pr-validation` command run (includes manual testing and Sourcery review)
+- [ ] Manual testing completed
 - [ ] CRITICAL/HIGH issues addressed (if any)
 - [ ] User explicitly approves merge
 
@@ -865,10 +865,9 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 ### Issue: Sourcery Review Not Available
 
 **Solution:**
-- Check if `dt-review` is installed
-- May need to run from `~/Projects/dev-toolkit`
-- Can proceed with PR creation, review later
-- Document in PR description that review pending
+- Sourcery review is handled by `/pr-validation` command, not during PR creation
+- Run `/pr-validation` after PR is created to get Sourcery review
+- Can proceed with PR creation, review will be done via `/pr-validation`
 
 ---
 
@@ -890,7 +889,7 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 **After PR created:**
 
 - [ ] PR link presented to user
-- [ ] Sourcery review run (dt-review)
+- [ ] `/pr-validation` command run (includes Sourcery review)
 - [ ] Priority matrix filled out
 - [ ] CRITICAL/HIGH issues addressed
 - [ ] User approval obtained
@@ -913,7 +912,7 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 **During PR:**
 - Present PR link clearly to user
 - Don't auto-merge without approval
-- Fill out Sourcery matrix thoroughly
+- Run `/pr-validation` to fill out Sourcery matrix (if review available)
 - Be honest about issues found
 - Prioritize fixes appropriately
 
