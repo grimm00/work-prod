@@ -81,7 +81,12 @@ class Config:
     
     def get_max_rows(self):
         """Get maximum rows to display."""
-        return int(self.get('display', 'max_rows', '50'))
+        default = 50
+        value = self.get('display', 'max_rows', str(default))
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
     
     def get_color_enabled(self):
         """Check if color output is enabled."""
