@@ -1374,6 +1374,329 @@ curl -X POST http://localhost:5000/api/projects/import \
 
 ---
 
+## Phase 6: CLI Enhancement & Daily Use Tools
+
+**PR:** #24  
+**Scenarios:** 38-46  
+**Features:** Configuration file, convenience commands, error handling, progress indicators, help system
+
+---
+
+### Scenario 38: CLI - Configuration Show
+
+**Test:** Display current configuration settings
+
+**Prerequisites:**
+- CLI installed and working
+- Optional: Configuration file exists at `~/.projrc`
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj config show
+```
+
+**Expected:**
+- Displays configuration in a formatted table
+- Shows sections: `api`, `display`
+- Shows keys: `base_url`, `max_rows`, `color`
+- Shows current values or defaults
+- Displays configuration file path at bottom
+
+**Verification:**
+- [ ] Table displays correctly with Rich formatting
+- [ ] All sections and keys shown
+- [ ] Values are readable
+- [ ] Configuration file path shown
+
+**Expected Result:** ✅ Configuration displayed in formatted table with all settings visible
+
+---
+
+### Scenario 39: CLI - Configuration Set
+
+**Test:** Set a configuration value
+
+**Prerequisites:**
+- CLI installed and working
+- Backend server running (for verification)
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj config set display max_rows 100
+./proj config show
+```
+
+**Expected:**
+- First command: Shows success message "✓ Set display.max_rows = 100"
+- Second command: Shows updated value in configuration table
+- Value persists in `~/.projrc` file
+
+**Verification:**
+```bash
+# Check config file directly
+cat ~/.projrc
+# Expected: Contains [display] section with max_rows = 100
+```
+
+**Verification:**
+- [ ] Success message displayed
+- [ ] Value updated in config show
+- [ ] Value saved to `~/.projrc` file
+- [ ] File format is valid INI
+
+**Expected Result:** ✅ Configuration value set successfully and persisted to file
+
+---
+
+### Scenario 40: CLI - Configuration Get
+
+**Test:** Get a specific configuration value
+
+**Prerequisites:**
+- CLI installed and working
+- Configuration set (from Scenario 39)
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj config get display max_rows
+```
+
+**Expected:**
+- Displays: `display.max_rows = 100` (or current value)
+- Single line output with section.key = value format
+
+**Verification:**
+- [ ] Correct value displayed
+- [ ] Format is `section.key = value`
+- [ ] Works for all configuration keys
+
+**Expected Result:** ✅ Configuration value retrieved and displayed correctly
+
+---
+
+### Scenario 41: CLI - Stats Command
+
+**Test:** Display project statistics
+
+**Prerequisites:**
+- Backend server running
+- At least some projects in database
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj stats
+```
+
+**Expected:**
+- Shows "Project Statistics" header
+- Displays total project count
+- Shows breakdown by status (active, paused, completed, cancelled) with symbols
+- Shows breakdown by organization (sorted by count)
+- Shows breakdown by classification (primary, secondary, archive, maintenance) with symbols
+- Uses Rich formatting with colors and symbols
+
+**Verification:**
+- [ ] Total count matches actual projects
+- [ ] Status breakdown shows correct counts
+- [ ] Organization breakdown shows correct counts
+- [ ] Classification breakdown shows correct counts
+- [ ] Formatting is readable and well-organized
+- [ ] Spinner shows "Calculating statistics..." during fetch
+
+**Expected Result:** ✅ Statistics displayed correctly with accurate counts and Rich formatting
+
+---
+
+### Scenario 42: CLI - Recent Command
+
+**Test:** Display recently updated projects
+
+**Prerequisites:**
+- Backend server running
+- At least some projects in database
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj recent
+./proj recent --limit 5
+```
+
+**Expected:**
+- First command: Shows 10 most recently updated projects (default limit)
+- Second command: Shows 5 most recently updated projects
+- Displays projects in table format (using build_projects_table with wide=True)
+- Shows all columns (ID, Name, Status, Org, Classification, Path, Description, Created)
+- Projects sorted by created_at (most recent first)
+- Spinner shows "Fetching recent projects..." during fetch
+
+**Verification:**
+- [ ] Default limit is 10 projects
+- [ ] Custom limit works correctly
+- [ ] Projects sorted correctly (most recent first)
+- [ ] Table shows all columns
+- [ ] Formatting is correct
+
+**Expected Result:** ✅ Recent projects displayed correctly with proper limit and sorting
+
+---
+
+### Scenario 43: CLI - Active Command
+
+**Test:** Display active projects (shortcut for `proj list --status active`)
+
+**Prerequisites:**
+- Backend server running
+- At least some active projects in database
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj active
+./proj active --wide
+```
+
+**Expected:**
+- First command: Shows only active projects
+- Second command: Shows active projects with all columns (wide view)
+- Filters by status='active' automatically
+- Table shows Status column (since status filter is used)
+- Spinner shows "Fetching active projects..." during fetch
+
+**Verification:**
+- [ ] Only active projects shown
+- [ ] Status column visible
+- [ ] Wide flag works correctly
+- [ ] Equivalent to `proj list --status active`
+
+**Expected Result:** ✅ Active projects displayed correctly with proper filtering
+
+---
+
+### Scenario 44: CLI - Mine Command
+
+**Test:** Display projects for current user/organization
+
+**Prerequisites:**
+- Backend server running
+- At least some projects with organization='work' (or set PROJ_ORG env var)
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+# Test with default (PROJ_ORG env var or "work")
+./proj mine
+# Test with explicit org
+./proj mine --org learning
+./proj mine --org work --wide
+```
+
+**Expected:**
+- First command: Shows projects for default organization (PROJ_ORG or "work")
+- Second command: Shows projects for "learning" organization
+- Third command: Shows projects for "work" with wide view
+- Filters by organization automatically
+- Table shows Org column (since organization filter is used)
+- Spinner shows "Fetching projects for [org]..." during fetch
+
+**Verification:**
+- [ ] Default organization works (PROJ_ORG or "work")
+- [ ] Explicit org flag works
+- [ ] Only projects for specified org shown
+- [ ] Org column visible
+- [ ] Wide flag works correctly
+
+**Expected Result:** ✅ Organization-filtered projects displayed correctly with proper defaults
+
+---
+
+### Scenario 45: CLI - Error Handling (Backend Down)
+
+**Test:** Verify friendly error messages when backend is unavailable
+
+**Prerequisites:**
+- Backend server NOT running
+- CLI installed and working
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+# Stop backend server if running
+./proj list
+./proj stats
+./proj get 1
+```
+
+**Expected:**
+- All commands show friendly error messages
+- Error message includes:
+  - Clear title: "Backend Connection Failed"
+  - Possible reasons listed (server not running, incorrect URL, network issues)
+  - Troubleshooting steps:
+    - Start backend server command
+    - Verify server command
+    - Check API URL command
+    - Set API URL via env var command
+- Error displayed in Rich Panel with red border
+- Technical details shown at bottom (dimmed)
+
+**Verification:**
+- [ ] Error message is user-friendly
+- [ ] Troubleshooting steps are actionable
+- [ ] Formatting is clear (Rich Panel)
+- [ ] Technical details available but not overwhelming
+- [ ] Same error handling for all commands
+
+**Expected Result:** ✅ Friendly error messages displayed with clear troubleshooting steps
+
+---
+
+### Scenario 46: CLI - Help System
+
+**Test:** Verify comprehensive help text for all commands
+
+**Prerequisites:**
+- CLI installed and working
+
+**CLI Test:**
+```bash
+cd /Users/cdwilson/Projects/work-prod/scripts/project_cli
+./proj --help
+./proj list --help
+./proj config --help
+./proj stats --help
+./proj recent --help
+./proj active --help
+./proj mine --help
+```
+
+**Expected:**
+- Main help (`./proj --help`):
+  - Shows quick start guide
+  - Lists common commands
+  - Shows configuration information
+  - Includes examples
+- Command help (`./proj [command] --help`):
+  - Detailed description
+  - All options listed with descriptions
+  - Examples included
+  - Valid values shown for choices
+
+**Verification:**
+- [ ] Main help is comprehensive
+- [ ] All commands have detailed help
+- [ ] Options are documented
+- [ ] Examples are provided
+- [ ] Help text is readable and formatted well
+
+**Expected Result:** ✅ Comprehensive help text available for all commands with examples
+
+---
+
 ## ✅ Acceptance Criteria
 
 Mark these as complete after testing:
