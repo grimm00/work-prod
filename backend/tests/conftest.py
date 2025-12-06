@@ -53,3 +53,15 @@ def runner(app):
     """
     return app.test_cli_runner()
 
+
+@pytest.fixture
+def cli_runner():
+    """
+    Create a Click CliRunner for testing CLI commands.
+    
+    Returns:
+        Click CliRunner instance
+    """
+    from click.testing import CliRunner
+    return CliRunner()
+
