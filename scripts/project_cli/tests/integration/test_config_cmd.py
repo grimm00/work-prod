@@ -40,8 +40,11 @@ def test_config_set_and_get(cli_runner, mock_api_for_cli, tmp_path, monkeypatch)
     # Mock config file location to use temp directory
     from project_cli import config
     test_config_file = tmp_path / '.projrc'
-    monkeypatch.setattr(config.Config, '_load_config', lambda self: None)
-    monkeypatch.setattr(config.Config, 'config_file', test_config_file)
+    
+    # Get the singleton instance and patch its config_file attribute
+    config_instance = config.Config()
+    monkeypatch.setattr(config_instance, 'config_file', test_config_file)
+    monkeypatch.setattr(config_instance, '_load_config', lambda: None)
     
     # Set a config value
     result = cli_runner.invoke(cli, ['config', 'set', 'api', 'base_url', 'http://test:5000/api'])

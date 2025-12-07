@@ -49,11 +49,10 @@ def mine(org, wide):
         # Display in table format
         table = build_projects_table(
             projects,
-            wide=wide,
-            status=None,
-            organization=org,  # This will show Org column
-            classification=None,
-            search=None
+            show_status=wide,
+            show_org=True,  # Always show org for mine command
+            show_classification=wide,
+            show_description=False
         )
         table.title = f"My Projects ({org}) - {len(projects)} projects"
         

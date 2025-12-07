@@ -127,7 +127,8 @@ def test_list_command_with_wide_flag(cli_runner, app, mock_api_for_cli):
         result = cli_runner.invoke(cli, ['list', '--wide'])
         
         assert result.exit_code == 0
-        assert 'Full Project' in result.output
+        # Rich table may wrap text, so check for parts of the name
+        assert 'Full' in result.output and 'Project' in result.output
         # Wide mode should show all columns
         assert 'Status' in result.output or 'active' in result.output
         assert 'Org' in result.output or 'work' in result.output

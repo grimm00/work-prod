@@ -51,14 +51,13 @@ def recent(limit):
         # Limit results
         recent_projects = projects_sorted[:limit]
         
-        # Display in table format
+        # Display in table format (show all columns for recent projects)
         table = build_projects_table(
             recent_projects,
-            wide=True,  # Show all columns for recent projects
-            status=None,
-            organization=None,
-            classification=None,
-            search=None
+            show_status=True,
+            show_org=True,
+            show_classification=True,
+            show_description=True
         )
         table.title = f"Recently Updated Projects (showing {len(recent_projects)} of {len(projects)})"
         
