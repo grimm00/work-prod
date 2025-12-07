@@ -452,7 +452,7 @@ Enhance `/task-release` command with more automation:
 
 - **Deferred Issues:** 13 MEDIUM/LOW issues deferred to post-MVP
 - **Release Process Not Templated:** Release process not yet in dev-infra template
-- **No External Communication:** Release notes not published externally
+- ~~**No External Communication:** Release notes not published externally~~ ✅ Fixed - GitHub Release created
 
 ### Emerging Patterns
 
@@ -467,6 +467,7 @@ Enhance `/task-release` command with more automation:
 **v0.1.0 Release Complete:**
 - ✅ All release steps completed
 - ✅ Version tagged and pushed
+- ✅ GitHub Release created with release notes
 - ✅ Release documentation finalized
 - ✅ Transition plan marked complete
 - ✅ Post-PR documentation updated
