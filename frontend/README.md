@@ -1,46 +1,16 @@
-# Frontend
+# React + Vite
 
-**Purpose:** User interface and client-side application  
-**Status:** 🔴 Not Started  
-**Last Updated:** {{CURRENT_DATE}}
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## 📋 Quick Links
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Frontend Components
-- **[Components](components/README.md)** - Reusable UI components
-- **[Pages](pages/README.md)** - Application pages and routes
-- **[Styles](styles/README.md)** - CSS and styling
-- **[Assets](assets/README.md)** - Images, fonts, and static files
+## React Compiler
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🎯 Overview
+## Expanding the ESLint configuration
 
-The frontend directory contains all client-side application code, including user interface components, pages, styling, and static assets.
-
-### Key Components
-1. **Components** - Reusable UI building blocks
-2. **Pages** - Application screens and routing
-3. **Styles** - CSS, themes, and styling
-4. **Assets** - Images, fonts, and static files
-
----
-
-## 📁 Directory Structure
-
-```
-frontend/
-├── components/       # Reusable UI components
-├── pages/           # Application pages
-├── styles/          # CSS and styling
-├── assets/          # Static assets
-└── utils/           # Utility functions
-```
-
----
-
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
-**Next:** [Components](components/README.md)
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

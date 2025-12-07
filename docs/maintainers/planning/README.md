@@ -2,11 +2,15 @@
 
 **Purpose:** Central coordination for project planning and roadmap management  
 **Status:** ✅ Active  
-**Last Updated:** [Date]
+**Last Updated:** 2025-12-02
 
 ---
 
 ## 📋 Quick Links
+
+### MVP Roadmap
+
+- **[Projects MVP Roadmap](mvp-roadmap.md)** - 7-phase implementation plan for Projects feature (🟡 Planned)
 
 ### Core Planning
 
@@ -95,18 +99,24 @@ planning/
 
 ### ✅ Active Planning
 
-- [Active feature 1]
-- [Active release 1]
+- Git Flow branching strategy established (main + develop branches)
+- MVP roadmap created with 7-phase implementation plan
+- Testing strategy research topic added to Week 2
 
 ### 🟡 Planned Items
 
-- [Planned feature 1]
-- [Planned release 1]
+- **Projects Feature MVP** - 16-day implementation plan (Phases 0-7)
+  - Prerequisites: Testing strategy research → ADR-0006
+  - Target: Mid-December completion
+  - Success: All 59 projects organized and searchable
+- **Testing Strategy Research** - Week 2 prerequisite (2-3 days)
 
 ### 📈 Planning Metrics
 
-- [Planning metric 1]
-- [Planning metric 2]
+- MVP Timeline: 16 days (3 weeks) estimated
+- Prerequisites: 1 research topic (Testing Strategy)
+- Implementation Phases: 8 phases (Phase 0 setup + Phases 1-7 features)
+- Success Criteria: 8 deliverables defined
 
 ---
 
@@ -150,6 +160,6 @@ planning/
 
 ---
 
-**Last Updated:** [Date]  
+**Last Updated:** 2025-12-02  
 **Status:** ✅ Active  
-**Next:** [Next planning task]
+**Next:** Complete testing strategy research (Week 2) → Begin Phase 0 (Development Environment)

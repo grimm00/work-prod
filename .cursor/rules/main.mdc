@@ -5,8 +5,18 @@ alwaysApply: true
 # Work Productivity Project - Cursor AI Rules
 
 **Purpose:** Guide AI assistance to align with project best practices and workflow  
-**Last Updated:** 2025-11-26 (Research organization, ADRs, current state)  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active
+
+---
+
+## 📋 Quick Links
+
+### Rules Files
+
+- **[Workflow Rules](workflow.mdc)** - Development workflow and processes (Git Flow, PR review, feature planning, CI/CD)
+- **[Backend Rules](backend.mdc)** - Backend-specific patterns and conventions
+- **[Frontend Rules](frontend.mdc)** - Frontend-specific patterns and conventions (when created)
 
 ---
 
@@ -90,130 +100,14 @@ Always use: `YYYY-MM-DD` format (e.g., 2025-11-26)
 
 ---
 
-## 🚀 Git Flow Workflow
+## 🔄 Workflow Processes
 
-### Branch Strategy
+**Detailed workflow documentation:** See [workflow.mdc](workflow.mdc) for complete workflow processes including:
 
-**ALWAYS follow this branching model:**
-
-- `main` - Production releases ONLY (protected)
-- `develop` - Ongoing development (protected)
-- `feat/*` - Feature branches (e.g., `feat/time-tracking`)
-- `fix/*` - Bug fixes (e.g., `fix/login-error`)
-- `docs/*` - Documentation updates
-- `chore/*` - Maintenance tasks
-
-### Commit Requirements
-
-1. **Feature/Fix Branches**
-
-   - REQUIRE pull requests to develop/main
-   - Full testing and linting required
-   - External reviews on release branches
-   - Use conventional commits format
-
-2. **Documentation/Chore Branches**
-
-   - CAN push directly to develop/main
-   - Minimal validation required
-   - Focus on clarity and accuracy
-
-3. **Commit Message Format**
-
-   ```
-   type(scope): brief description
-
-   Longer explanation if needed
-   ```
-
-   Types: feat, fix, docs, chore, test, refactor
-
----
-
-## 📊 Feature Planning Process
-
-### Creating New Features
-
-**ALWAYS follow this structure when creating features:**
-
-1. **Create Feature Directory**
-
-   ```
-   docs/maintainers/planning/features/[feature-name]/
-   ```
-
-2. **Required Files**
-
-   - `README.md` - Feature hub with quick links
-   - `feature-plan.md` - High-level overview and phases
-   - `status-and-next-steps.md` - Current progress tracking
-   - `phase-1.md` - First phase details (additional phases as needed: `phase-2.md`, `phase-3.md`, etc.)
-   - `deliverables/README.md` - Hub for planning outputs (templates, guides, documentation)
-   - `fix/README.md` - Troubleshooting hub (create as needed)
-
-3. **Feature Plan Structure**
-
-   ```markdown
-   # [Feature Name] - Feature Plan
-
-   **Status:** [Status Indicator]
-   **Created:** [YYYY-MM-DD]
-   **Priority:** [High/Medium/Low]
-
-   ## 📋 Overview
-
-   [User-facing description]
-
-   ## 🎯 Success Criteria
-
-   - [ ] Measurable criterion 1
-   - [ ] Measurable criterion 2
-
-   ## 📅 Implementation Phases
-
-   ### Phase 1: [Name]
-
-   - [ ] Task 1
-   - [ ] Task 2
-
-   ## 🚀 Next Steps
-
-   [Immediate next actions]
-   ```
-
-4. **Phase Document Structure**
-
-   ```markdown
-   # [Feature Name] - Phase [N]: [Name]
-
-   **Status:** [Status]
-   **Duration:** [Estimate]
-
-   ## 📋 Overview
-
-   [Phase purpose]
-
-   ## 🎯 Goals
-
-   - Goal 1
-   - Goal 2
-
-   ## 📝 Tasks
-
-   - [ ] Task 1
-   - [ ] Task 2
-
-   ## ✅ Completion Criteria
-
-   - [ ] Criterion 1
-   ```
-
-### Feature Development Lifecycle
-
-1. **Discovery** - Identify opportunity, create directory
-2. **Planning** - Write feature-plan.md, break into phases
-3. **Implementation** - Execute phases, update status documents
-4. **Completion** - Document results, archive superseded docs
+- Git Flow branching strategy and commit requirements
+- Pull Request review workflow and fix management
+- Feature planning process and lifecycle
+- CI/CD integration and tool configurations
 
 ---
 
@@ -271,12 +165,11 @@ work-prod/
 
 ## 🎨 Code and Development Standards
 
-### Technology Stack (To Be Determined)
+### Technology Stack (Finalized 2025-11-26)
 
-- **Backend:** TBD (suggest Python/Flask or Node.js/Express)
-- **Frontend:** TBD (suggest React or Vue.js)
-- **Database:** TBD (suggest PostgreSQL or SQLite)
-- **Testing:** TBD (suggest pytest or Jest)
+**Backend:** Python + Flask + SQLAlchemy + SQLite  
+**Frontend:** React 18 + Vite + Zustand + React Router v6  
+**Integration:** Vite proxy (dev), Flask serves React (prod)
 
 ### Code Quality
 
@@ -287,6 +180,26 @@ When writing code:
 3. Include inline comments for complex logic
 4. Create unit tests for new functionality
 5. Update documentation when changing behavior
+
+**Linting Standards:**
+
+- Use `.flake8` configuration file (max-line-length: 100)
+- Run linting before committing: `flake8 backend/`
+- Fix all linting errors (whitespace, long lines, unused imports)
+- Maintain 0 linting errors
+
+**Test Quality Standards:**
+
+- Test coverage target: >80% (models >90%, API endpoints >85%)
+- Always assert exact expected behavior (never `assert status_code in [201, 400]`)
+- Create edge case tests for Unicode, special chars, boundary values, very long inputs
+- Create uncovered path tests for exception handling paths
+- Document current behavior clearly in test docstrings
+
+**Domain-Specific Standards:**
+
+- **Backend:** See [backend.mdc](backend.mdc) for backend-specific patterns, testing standards, and API design
+- **Frontend:** See [frontend.mdc](frontend.mdc) (when created)
 
 ---
 
@@ -414,29 +327,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-## 🔄 CI/CD Integration
-
-### Testing Requirements
-
-- **Feature branches:** Full test suite, linting, type checking
-- **Documentation branches:** Markdown validation only
-- **Release branches:** Full validation + external reviews
-
-### Tool Integrations
-
-**Currently Active:**
-
-- ✅ Sourcery AI for code review
-- ✅ GitHub CLI for repo management
-- ✅ Cursor IDE with AI rules
-
-**Planned:**
-
-- 🟡 Bugbot for bug detection
-- 🟡 Dev-toolkit integration
-
----
-
 ## 🎯 AI Assistant Guidelines
 
 ### When Suggesting Changes
@@ -463,6 +353,18 @@ Create ADRs in `docs/maintainers/decisions/` for:
 3. Write tests for new functionality
 4. Update relevant README files
 5. Consider if ADR is needed for significant decisions
+
+### When Handling Fixes
+
+1. **After PR Merge:** Use `/fix-plan` to create fix batches from Sourcery review
+2. **Batch Creation:** Group issues by priority/effort, support cross-PR batches
+3. **Implementation:** Use `/fix-implement` with TDD workflow
+4. **PR Creation:** Use `/pr --fix [batch-name]` for fix PRs
+5. **Post-Merge:** Use `/post-pr` to update fix tracking and clean up branches
+6. **Fix Tracking:** Use hub-and-spoke organization (`fix/pr##/`, `fix/cross-pr/`)
+7. **Review Old Issues:** Use `/fix-review` to identify deferred issues across PRs
+
+**Detailed Workflow:** See [workflow.mdc](workflow.mdc) for complete fix management workflow.
 
 ### Response Style
 
@@ -549,10 +451,10 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 **Version:** v0.1.0  
 **Stage:** Research Complete → Ready for Implementation  
-**Updated:** 2025-11-26  
-**Priority:** Begin MVP implementation for January deadline
+**Updated:** 2025-12-07  
+**Priority:** Phase 7 complete, ready for Phase 8 (MVP Polish)
 
-### ✅ Completed (Week 1)
+### ✅ Completed (Phases 0-7)
 
 **Research & Architecture:**
 
@@ -565,6 +467,17 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - ✅ 4 ADRs created documenting all architectural decisions
 - ✅ Research folder organized by category
 
+**Implementation:**
+
+- ✅ Phase 0: Development Environment complete
+- ✅ Phase 1: List & Get Projects complete
+- ✅ Phase 2: Create & Update Projects complete
+- ✅ Phase 3: Delete & Archive Projects complete
+- ✅ Phase 4: Search & Filter Projects complete
+- ✅ Phase 5: Import Projects from JSON complete
+- ✅ Phase 6: CLI Enhancement & Daily Use Tools complete
+- ✅ Phase 7: Automated Testing & Bug Fixes complete
+
 **Documentation:**
 
 - ✅ Project structure initialized
@@ -573,10 +486,21 @@ Create ADRs in `docs/maintainers/decisions/` for:
 - ✅ Exploration phase complete (requirements gathered)
 - ✅ Research tracking system implemented
 - ✅ Cursor AI rules comprehensive
+- ✅ OpenAPI 3.0.3 specification created (691 lines)
+- ✅ User documentation complete (README - 897 lines)
+
+**Testing & Quality:**
+
+- ✅ Test coverage: 97% (exceeds 80% requirement)
+- ✅ 151 backend tests passing (100% pass rate)
+- ✅ Edge case tests added (26 tests)
+- ✅ Uncovered path tests added (8 tests)
+- ✅ All linting issues fixed (0 errors)
+- ✅ Code quality review complete
 
 ### 🟠 In Progress
 
-- 🟠 Ready to begin implementation setup
+- 🟠 Ready to begin Phase 8: MVP Polish / Production Ready
 
 ### 🟡 Planned (Next Steps)
 
@@ -647,13 +571,19 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 **Update Process:**
 
-1. Make changes to this file
+1. Make changes to this file (or appropriate split file)
 2. Commit with message: `docs(cursor-rules): [description]`
 3. Push to develop branch (docs/\* can push directly)
 4. No PR required for cursor rules updates
 
+**Split Files:**
+
+- **Workflow changes:** Update [workflow.mdc](workflow.mdc)
+- **Backend patterns:** Update [backend.mdc](backend.mdc) (when created)
+- **Frontend patterns:** Update [frontend.mdc](frontend.mdc) (when created)
+
 ---
 
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active  
-**Next:** Begin Week 2 research (Projects Data Model with Learning sub-classification)
+**Next:** Continue Phase 8 implementation

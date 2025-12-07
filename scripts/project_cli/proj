@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+"""
+Project CLI Tool (proj)
+
+Command-line interface for managing projects via the backend API.
+
+This script imports the CLI group from the cli module and invokes it.
+This allows the CLI to be imported directly by tests and other modules.
+"""
+
+import sys
+from pathlib import Path
+
+# Add scripts directory to path for package imports
+scripts_dir = str(Path(__file__).parent.parent)
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
+# Import CLI group from module
+from project_cli.cli import cli
+
+if __name__ == '__main__':
+    cli()

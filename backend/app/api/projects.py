@@ -1,0 +1,502 @@
+"""
+Projects API endpoints.
+
+Provides REST API for managing projects including list, get, and create operations.
+"""
+
+from flask import Blueprint, jsonify, request, current_app
+from app.models.project import Project
+from app import db
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
+
+projects_bp = Blueprint('projects', __name__)
+
+
+# Validation constants
+VALID_CLASSIFICATIONS = ['primary', 'secondary', 'archive', 'maintenance']
+VALID_STATUSES = ['active', 'paused', 'completed', 'cancelled']
+
+
+def validate_project_data(data):
+    """
+    Validate project data for classification and status.
+
+    Args:
+        data: Dictionary containing project data to validate
+
+    Returns:
+        tuple: (error_response, error_code) or (None, None) if valid
+        - error_response: Flask jsonify response with error message
+        - error_code: HTTP status code (400)
+    """
+    # Validate classification if provided
+    if 'classification' in data and data['classification'] is not None:
+        if data['classification'] not in VALID_CLASSIFICATIONS:
+            return jsonify({
+                'error': (
+                    f"Invalid classification. Must be one of: "
+                    f"{', '.join(VALID_CLASSIFICATIONS)}"
+                )
+            }), 400
+
+    # Validate status if provided
+    if 'status' in data:
+        if data['status'] is None:
+            return jsonify({'error': 'Status cannot be null'}), 400
+        if data['status'] not in VALID_STATUSES:
+            return jsonify({
+                'error': f"Invalid status. Must be one of: {', '.join(VALID_STATUSES)}"
+            }), 400
+
+    return None, None
+
+
+@projects_bp.route('/projects', methods=['GET', 'POST'])
+def projects():
+    """
+    Handle GET and POST requests for projects collection.
+
+    GET: List all projects
+    POST: Create a new project
+    """
+    if request.method == 'GET':
+        return list_projects()
+    elif request.method == 'POST':
+        return create_project()
+
+
+def list_projects():
+    """
+    List all projects with optional filtering.
+
+    Query parameters:
+        - status: Filter by status (active, paused, completed, cancelled)
+        - organization: Filter by organization name
+        - classification: Filter by classification (primary, secondary, archive, maintenance)
+
+    Returns:
+        JSON array of projects ordered by ID, filtered by query parameters
+    """
+    query = Project.query
+
+    # Filter by status
+    if 'status' in request.args and (status := request.args['status']) in VALID_STATUSES:
+        query = query.filter_by(status=status)
+        # If invalid status, ignore filter (return all projects)
+
+    # Filter by organization
+    if 'organization' in request.args:
+        organization = request.args['organization']
+        if organization:  # Non-empty string
+            query = query.filter_by(organization=organization)
+
+    # Filter by classification
+    if ('classification' in request.args
+            and (classification := request.args['classification']) in VALID_CLASSIFICATIONS):
+        query = query.filter_by(classification=classification)
+        # If invalid classification, ignore filter (return all projects)
+
+    # Text search in name and description
+    if 'search' in request.args:
+        search_term = request.args['search']
+        if search_term:  # Non-empty search term
+            search_pattern = f"%{search_term}%"
+            query = query.filter(
+                or_(
+                    Project.name.ilike(search_pattern),
+                    Project.description.ilike(search_pattern)
+                )
+            )
+
+    # Execute query and return results
+    projects = query.order_by(Project.id).all()
+    return jsonify([project.to_dict() for project in projects]), 200
+
+
+def create_project():
+    """
+    Create a new project.
+
+    Request body (JSON):
+        - name (required): Project name
+        - path (optional): File system path
+        - organization (optional): Organization name
+        - classification (optional): Project classification
+        - status (optional): Project status (defaults to 'active')
+        - description (optional): Project description
+        - remote_url (optional): Git repository URL
+
+    Returns:
+        201: Created project with Location header
+        400: Validation error
+        409: Duplicate path conflict
+    """
+    data = request.get_json()
+
+    # Validate required fields
+    if not data or 'name' not in data or not data['name']:
+        return jsonify({'error': 'Name is required'}), 400
+
+    # Validate project data
+    error_response, error_code = validate_project_data(data)
+    if error_response:
+        return error_response, error_code
+
+    # Check for duplicate path
+    if 'path' in data and data['path']:
+        existing = Project.query.filter_by(path=data['path']).first()
+        if existing:
+            return jsonify({'error': 'Project with this path already exists'}), 409
+
+    # Create project
+    try:
+        project = Project(
+            name=data['name'],
+            path=data.get('path'),
+            organization=data.get('organization'),
+            classification=data.get('classification'),
+            status=data.get('status', 'active'),
+            description=data.get('description'),
+            remote_url=data.get('remote_url')
+        )
+
+        db.session.add(project)
+        db.session.commit()
+
+        return jsonify(project.to_dict()), 201, {
+            'Location': f'/api/projects/{project.id}'
+        }
+
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'error': 'Database integrity error'}), 409
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in create_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
+@projects_bp.route('/projects/<int:project_id>', methods=['GET', 'PATCH', 'DELETE'])
+def project_detail(project_id):
+    """
+    Handle GET, PATCH, and DELETE requests for a specific project.
+
+    GET: Retrieve project details
+    PATCH: Update project fields
+    DELETE: Permanently delete project
+    """
+    if request.method == 'GET':
+        return get_project(project_id)
+    elif request.method == 'PATCH':
+        return update_project(project_id)
+    elif request.method == 'DELETE':
+        return delete_project(project_id)
+
+
+def get_project(project_id):
+    """
+    Get a specific project by ID.
+
+    Args:
+        project_id: Integer ID of the project
+
+    Returns:
+        JSON object of the project
+
+    Raises:
+        404: Project not found
+        500: Invalid enum values in database
+    """
+    project = db.session.get(Project, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+
+    return jsonify(project.to_dict()), 200
+
+
+def update_project(project_id):
+    """
+    Update an existing project.
+
+    Request body (JSON): Fields to update (all optional)
+        - name: Project name
+        - path: File system path
+        - organization: Organization name
+        - classification: Project classification
+        - status: Project status
+        - description: Project description
+        - remote_url: Git repository URL
+
+    Returns:
+        200: Updated project
+        400: Validation error
+        404: Project not found
+        409: Duplicate path conflict
+    """
+    project = db.session.get(Project, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+
+    data = request.get_json()
+    if not data:
+        # No updates provided - return current project
+        return jsonify(project.to_dict()), 200
+
+    # Validate project data
+    error_response, error_code = validate_project_data(data)
+    if error_response:
+        return error_response, error_code
+
+    # Check for duplicate path if updating path
+    if 'path' in data and data['path'] and data['path'] != project.path:
+        existing = Project.query.filter_by(path=data['path']).first()
+        if existing:
+            return jsonify({'error': 'Project with this path already exists'}), 409
+
+    # Update fields that are provided
+    try:
+        if 'name' in data:
+            project.name = data['name']
+        if 'path' in data:
+            project.path = data['path']
+        if 'organization' in data:
+            project.organization = data['organization']
+        if 'classification' in data:
+            project.classification = data['classification']
+        if 'status' in data:
+            project.status = data['status']
+        if 'description' in data:
+            project.description = data['description']
+        if 'remote_url' in data:
+            project.remote_url = data['remote_url']
+
+        db.session.commit()
+
+        return jsonify(project.to_dict()), 200
+
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'error': 'Database integrity error'}), 409
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in update_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
+def delete_project(project_id):
+    """
+    Delete a project permanently.
+
+    Returns:
+        204: Project deleted successfully (No Content)
+        404: Project not found
+    """
+    project = db.session.get(Project, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+
+    try:
+        db.session.delete(project)
+        db.session.commit()
+        return '', 204
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in delete_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
+@projects_bp.route('/projects/import', methods=['POST'])
+def import_projects():
+    """
+    Bulk import projects from JSON data.
+
+    Expected JSON format:
+    {
+        "projects": [
+            {
+                "name": "Project Name",
+                "path": "/optional/path",
+                "organization": "Optional Org",
+                "classification": "primary|secondary|archive|maintenance",
+                "status": "active|paused|completed|cancelled",
+                "description": "Optional description",
+                "remote_url": "https://github.com/user/repo"
+            },
+            ...
+        ]
+    }
+
+    Returns:
+        201: Import completed with statistics
+        400: Invalid JSON or invalid payload
+    """
+    if not request.is_json:
+        return jsonify({'error': 'Content-Type must be application/json'}), 400
+
+    try:
+        data = request.get_json()
+    except Exception:
+        return jsonify({'error': 'Invalid JSON'}), 400
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Request body must be a JSON object'}), 400
+
+    if 'projects' not in data:
+        return jsonify({'error': "Missing 'projects' field"}), 400
+
+    projects_data = data['projects']
+    if not isinstance(projects_data, list):
+        return jsonify({'error': "'projects' field must be a list"}), 400
+
+    imported = 0
+    skipped = 0
+    errors = []
+
+    for project_data in projects_data:
+        try:
+            # Check if project already exists by remote_url
+            remote_url = project_data.get('remote_url')
+            if remote_url:
+                existing = Project.query.filter_by(remote_url=remote_url).first()
+                if existing:
+                    skipped += 1
+                    continue
+
+            # Validate required field
+            if 'name' not in project_data or not project_data['name']:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': 'Name is required'
+                })
+                skipped += 1
+                continue
+
+            # Validate classification if provided
+            classification = project_data.get('classification')
+            if classification is not None and classification not in VALID_CLASSIFICATIONS:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': (
+                        f"Invalid classification '{classification}'. "
+                        f"Must be one of: {', '.join(VALID_CLASSIFICATIONS)}"
+                    )
+                })
+                skipped += 1
+                continue
+
+            # Validate status if provided
+            status = project_data.get('status', 'active')
+            if status not in VALID_STATUSES:
+                errors.append({
+                    'project': project_data.get('name', 'Unknown'),
+                    'error': (
+                        f"Invalid status '{status}'. "
+                        f"Must be one of: {', '.join(VALID_STATUSES)}"
+                    )
+                })
+                skipped += 1
+                continue
+
+            # Create new project
+            project = Project(
+                name=project_data['name'],
+                path=project_data.get('path'),
+                organization=project_data.get('organization'),
+                classification=classification,
+                status=status,
+                description=project_data.get('description'),
+                remote_url=project_data.get('remote_url')
+            )
+
+            db.session.add(project)
+
+            # Commit each project individually to handle IntegrityError per-project
+            # This ensures successful projects persist even if later projects fail
+            try:
+                db.session.commit()
+                imported += 1
+            except IntegrityError as e:
+                # Rollback this specific project, but keep the session for others
+                db.session.rollback()
+                project_name = project_data.get('name', 'Unknown')
+                current_app.logger.warning(
+                    f"IntegrityError importing project {project_name}: {e}",
+                    exc_info=True
+                )
+                # Determine specific error message
+                error_msg = 'Failed to import project'
+                if 'path' in str(e).lower() or 'unique' in str(e).lower():
+                    error_msg = 'Project with this path already exists'
+                errors.append({
+                    'project': project_name,
+                    'error': error_msg
+                })
+                skipped += 1
+                # Continue processing remaining projects
+
+        except Exception as e:
+            # Log full exception for debugging
+            project_name = project_data.get('name', 'Unknown')
+            current_app.logger.error(
+                f"Error importing project {project_name}: {e}",
+                exc_info=True
+            )
+            # Return generic error message to client (don't leak internals)
+            errors.append({
+                'project': project_data.get('name', 'Unknown'),
+                'error': 'Failed to import project'
+            })
+            skipped += 1
+            # Rollback any pending changes for this project
+            db.session.rollback()
+
+    return jsonify({
+        'imported': imported,
+        'skipped': skipped,
+        'errors': errors
+    }), 201
+
+
+@projects_bp.route('/projects/<int:project_id>/archive', methods=['PUT'])
+def archive_project(project_id):
+    """
+    Archive a project by setting classification to 'archive' and status to 'completed'.
+
+    Returns:
+        200: Project archived successfully (returns updated project)
+        404: Project not found
+    """
+    project = db.session.get(Project, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project not found'}), 404
+
+    try:
+        project.classification = 'archive'
+        project.status = 'completed'
+        db.session.commit()
+        return jsonify(project.to_dict()), 200
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Unexpected error in archive_project: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
+
+
+@projects_bp.route('/projects/<project_id>', methods=['GET'])
+def get_project_invalid(project_id):
+    """
+    Handle invalid project ID format.
+
+    This route catches non-integer IDs and returns 400 Bad Request.
+    """
+    return jsonify({'error': 'Invalid project ID format'}), 400
+
+
+@projects_bp.errorhandler(ValueError)
+def handle_value_error(error):
+    """Handle ValueError exceptions (e.g., invalid ID format)."""
+    return jsonify({'error': 'Invalid project ID format'}), 400

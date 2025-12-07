@@ -3,8 +3,9 @@
 **Purpose:** Catalog of research topics to investigate before implementation  
 **Status:** 🟠 In Progress  
 **Created:** 2025-11-26
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-02  
 **Week 1:** ✅ Complete (4/4 topics)  
+**Week 2:** ✅ Complete (1/1 critical prerequisite - Testing Strategy)  
 **Inventory Refined:** 2025-12-01
 
 ---
@@ -216,6 +217,53 @@ Must work seamlessly for development workflow.
 - Authentication strategy
 
 **Status:** ✅ Complete - See [tech-stack/flask-react-integration.md](tech-stack/flask-react-integration.md)
+
+---
+
+### 1.5 Testing Strategy and Framework Selection
+
+**Priority:** 🔴 CRITICAL  
+**Category:** Technology Stack  
+**Timeline:** Week 2  
+**Created:** 2025-12-02
+
+**Research Questions:**
+
+- Backend testing: pytest vs unittest vs nose2 for Flask applications?
+- Frontend testing: Vitest vs Jest vs React Testing Library for React + Vite?
+- E2E testing: Playwright vs Cypress vs Selenium for full-stack integration?
+- How to structure tests for vertical slice TDD approach?
+- Test organization: by feature vs by layer?
+- Fixtures and test data management patterns?
+- How to test Flask application factory and blueprints?
+- How to test SQLAlchemy models and database interactions?
+- How to test Zustand stores and React components?
+- Coverage requirements and CI integration strategy?
+- Pre-commit hooks for testing?
+
+**Why Critical:**
+
+Test-driven development approach requires testing infrastructure before implementation begins. Vertical slice architecture needs clear testing patterns for backend → API → frontend flow.
+
+**Resources:**
+
+- pytest documentation and Flask testing guides
+- Vitest documentation and Vite integration
+- Playwright/Cypress comparison studies
+- TDD best practices for full-stack applications
+- Testing patterns for vertical slice architecture
+
+**Deliverables:**
+
+- ADR-0006: Testing Framework and TDD Approach
+- Backend testing framework decision (pytest recommended)
+- Frontend testing framework decision (Vitest vs Jest)
+- E2E testing framework decision
+- Test organization patterns
+- TDD workflow documentation
+- CI integration strategy
+
+**Status:** ✅ Complete - See [tech-stack/testing-strategy.md](tech-stack/testing-strategy.md) and [ADR-0006](../decisions/ADR-0006-testing-framework-and-tdd-approach.md)
 
 ---
 

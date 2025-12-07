@@ -1,0 +1,319 @@
+---
+alwaysApply: true
+---
+
+# Backend Rules
+
+**Purpose:** Backend-specific patterns, conventions, and standards  
+**Last Updated:** 2025-12-07  
+**Applies To:** `backend/` directory
+
+---
+
+## 📋 Quick Links
+
+- **[Main Rules](main.mdc)** - Core project rules and standards
+- **[Workflow Rules](workflow.mdc)** - Development workflow and processes
+
+---
+
+## Backend Technology Stack
+
+- Python 3.11+
+- Flask (application factory pattern)
+- SQLAlchemy ORM + Flask-Migrate
+- SQLite (local-first database)
+- pytest for testing
+
+---
+
+## Backend Architecture Patterns
+
+### Application Factory Pattern
+
+Flask applications should use the application factory pattern:
+
+```python
+# backend/app/__init__.py
+from flask import Flask
+from flask_migrate import Migrate
+
+def create_app(config_name='development'):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    
+    # Register blueprints
+    from app.api import api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+    
+    return app
+```
+
+---
+
+## Backend Code Standards
+
+### Request Body Validation
+
+Always validate request body shape explicitly:
+
+```python
+# Validate Content-Type
+if not request.is_json:
+    return jsonify({'error': 'Content-Type must be application/json'}), 400
+
+# Validate JSON
+try:
+    data = request.get_json()
+except Exception:
+    return jsonify({'error': 'Invalid JSON'}), 400
+
+# Validate request body shape
+if not isinstance(data, dict):
+    return jsonify({'error': 'Request body must be a JSON object'}), 400
+
+if 'field_name' not in data:
+    return jsonify({'error': "Missing 'field_name' field"}), 400
+
+field_data = data['field_name']
+if not isinstance(field_data, list):
+    return jsonify({'error': "'field_name' field must be a list"}), 400
+```
+
+### Enum Validation
+
+Validate enum values before database operations:
+
+- Check enum values before inserting/updating
+- Return clear error messages for invalid values
+- Add validation to mapping scripts and API endpoints
+- Prevents database enum errors and API crashes
+
+### Data Mapping Scripts
+
+When creating data mapping scripts:
+
+- Place in `scripts/` directory (outside main codebase)
+- Make scripts testable independently
+- Include comprehensive unit tests
+- Handle deduplication logic explicitly
+- Separate mapping logic from import logic
+
+---
+
+## Backend Patterns (From Phase 5 & Phase 7 Learnings)
+
+### Bulk Import Pattern
+
+When implementing bulk import endpoints:
+
+- Return statistics (`imported`, `skipped`, `errors`) in response
+- Handle per-item errors gracefully (don't fail entire import)
+- Use duplicate detection by unique field (e.g., `remote_url`)
+- Validate request body shape strictly before processing
+
+**Example:**
+
+```python
+@app.route('/api/projects/import', methods=['POST'])
+def import_projects():
+    # Validate request body
+    if not request.is_json:
+        return jsonify({'error': 'Content-Type must be application/json'}), 400
+    
+    data = request.get_json()
+    if not isinstance(data, dict) or 'projects' not in data:
+        return jsonify({'error': "Request body must contain 'projects' field"}), 400
+    
+    projects_data = data['projects']
+    if not isinstance(projects_data, list):
+        return jsonify({'error': "'projects' field must be a list"}), 400
+    
+    # Process each project individually
+    imported = 0
+    skipped = 0
+    errors = []
+    
+    for project_data in projects_data:
+        try:
+            # Check for duplicates
+            existing = Project.query.filter_by(remote_url=project_data.get('remote_url')).first()
+            if existing:
+                skipped += 1
+                continue
+            
+            # Create project
+            project = Project(**project_data)
+            db.session.add(project)
+            db.session.commit()
+            imported += 1
+        except Exception as e:
+            errors.append({'project': project_data.get('name'), 'error': str(e)})
+            db.session.rollback()
+    
+    return jsonify({
+        'imported': imported,
+        'skipped': skipped,
+        'errors': errors
+    }), 200
+```
+
+---
+
+## Backend Testing Standards
+
+### Test Organization
+
+- **Unit tests:** `backend/tests/unit/` - Test individual functions/classes
+- **Integration tests:** `backend/tests/integration/` - Test API endpoints and database
+- **Edge case tests:** `backend/tests/integration/api/test_[feature]_edge_cases.py`
+- **Uncovered path tests:** `backend/tests/integration/api/test_[feature]_uncovered_paths.py`
+
+### Coverage Targets
+
+- **Overall:** >80%
+- **Models:** >90%
+- **API endpoints:** >85%
+- **Exception paths:** 100%
+
+### Edge Case Testing Pattern
+
+When creating test suites:
+
+- Create `test_[feature]_edge_cases.py` for comprehensive edge case coverage
+- Categories: Unicode/emoji, special characters, boundary values, very long inputs, empty/null values
+- Test naming: `test_[feature]_with_[edge_case]`
+- Document expected behavior clearly in test docstrings
+
+**Example:**
+
+```python
+@pytest.mark.integration
+def test_create_project_with_emoji_name(client):
+    """Test that emoji characters in name are handled correctly."""
+    emoji_name = "🚀 Rocket Project"
+    response = client.post('/api/projects',
+                          json={'name': emoji_name},
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    data = json.loads(response.data)
+    assert data['name'] == emoji_name
+
+@pytest.mark.integration
+def test_create_project_with_very_long_description(client):
+    """Test that very long descriptions (5000 chars) are handled."""
+    long_description = 'A' * 5000
+    response = client.post('/api/projects',
+                          json={
+                              'name': 'Long Description Project',
+                              'description': long_description
+                          },
+                          content_type='application/json')
+    
+    assert response.status_code == 201
+    data = json.loads(response.data)
+    assert len(data['description']) == 5000
+```
+
+### Uncovered Path Testing Pattern
+
+When improving test coverage:
+
+- Create `test_[feature]_uncovered_paths.py` for coverage-driven test creation
+- Focus on exception handling paths identified by coverage reports
+- Use monkeypatching for error injection
+- Target specific uncovered lines efficiently
+
+**Example:**
+
+```python
+@pytest.mark.integration
+def test_get_project_database_error_handling(client, app, monkeypatch):
+    """Test that database errors are handled gracefully."""
+    def mock_query_error(*args, **kwargs):
+        raise Exception("Database connection error")
+    
+    monkeypatch.setattr(Project, 'query', mock_query_error)
+    
+    response = client.get('/api/projects/999')
+    
+    assert response.status_code == 500
+    data = json.loads(response.data)
+    assert 'error' in data
+```
+
+### Test Assertion Guidelines
+
+**Always assert exact expected behavior:**
+
+✅ Good: `assert response.status_code == 201`  
+❌ Bad: `assert response.status_code in [201, 400]`
+
+**Document current behavior clearly:**
+
+✅ Good: `"""Current behavior: API accepts whitespace-only names."""`  
+❌ Bad: `"""Test may pass with 201 or 400."""`
+
+**Use separate tests for different behaviors:**
+
+✅ Good: Two separate tests for different behaviors  
+❌ Bad: One test that allows multiple outcomes
+
+---
+
+## API Design Patterns
+
+### REST API Conventions
+
+- Use standard HTTP methods (GET, POST, PATCH, DELETE)
+- Use plural nouns for resources (`/api/projects`)
+- Use status codes appropriately (200, 201, 204, 400, 404, 409, 500)
+- Return consistent error response format
+- Use query parameters for filtering/searching
+
+### Error Response Format
+
+```python
+# Standard error response
+{
+    "error": "Human-readable error message"
+}
+
+# Validation error response
+{
+    "error": "Missing 'name' field"
+}
+
+# Conflict error response
+{
+    "error": "Project with this path already exists"
+}
+```
+
+---
+
+## Database Patterns
+
+### SQLAlchemy Models
+
+- Use SQLAlchemy ORM (never raw SQL)
+- Define relationships explicitly
+- Use enums for status/type fields
+- Add indexes for frequently queried fields
+- Use `created_at` and `updated_at` timestamps
+
+### Migrations
+
+- Use Flask-Migrate for schema changes
+- Create migrations for all schema changes
+- Test migrations up and down
+- Never modify existing migrations
+
+---
+
+**Last Updated:** 2025-12-07

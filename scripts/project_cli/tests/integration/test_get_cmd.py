@@ -1,0 +1,60 @@
+"""
+CLI integration tests for get command.
+
+Tests the `proj get <id>` command using Click's CliRunner.
+"""
+
+import pytest
+import sys
+from pathlib import Path
+
+# Add backend to path for app imports
+backend_dir = Path(__file__).parent.parent.parent.parent / 'backend'
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
+from click.testing import CliRunner
+from app.models.project import Project
+from app import db
+
+# Import CLI using helper function
+from .cli_loader import load_cli
+cli = load_cli()
+
+
+@pytest.mark.integration
+def test_get_command_success(cli_runner, app, mock_api_for_cli):
+    """Test get command with valid project ID."""
+    with app.app_context():
+        # Create test project
+        project = Project(name="Test Project", path="/test/path", status="active")
+        db.session.add(project)
+        db.session.commit()
+        
+        result = cli_runner.invoke(cli, ['get', str(project.id)])
+        
+        assert result.exit_code == 0
+        assert 'Test Project' in result.output
+        assert str(project.id) in result.output
+
+
+@pytest.mark.integration
+def test_get_command_not_found(cli_runner, app, mock_api_for_cli):
+    """Test get command with non-existent project ID."""
+    with app.app_context():
+        result = cli_runner.invoke(cli, ['get', '999'])
+        
+        assert result.exit_code != 0
+        # Should show error message
+        assert '404' in result.output or 'not found' in result.output.lower() or 'error' in result.output.lower()
+
+
+@pytest.mark.integration
+def test_get_command_invalid_id(cli_runner, mock_api_for_cli):
+    """Test get command with invalid ID format."""
+    result = cli_runner.invoke(cli, ['get', 'invalid'])
+    
+    # Click should validate integer type
+    assert result.exit_code != 0
+    assert 'Invalid value' in result.output or 'invalid' in result.output.lower()
+
