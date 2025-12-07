@@ -209,6 +209,24 @@ Backend-first development focuses on API and CLI tools, deferring frontend (Reac
 
 ---
 
+### Phase 8: MVP Polish / Production Ready (2-3 days)
+
+**Goal:** Production-ready backend MVP with all critical issues resolved
+
+**Key Deliverables:**
+- Fix CLI test failures (deferred from Phase 7)
+- Performance optimization (queries < 100ms for 100 projects)
+- Production configuration (environment variables, logging)
+- Final bug fixes
+- Deployment preparation and documentation
+- Final documentation review
+
+**Phase Document:** [phase-8.md](phase-8.md)
+
+**Note:** This phase focuses on backend MVP polish and production readiness. Frontend development is deferred to a separate learning project with no deadline.
+
+---
+
 ## 📊 Timeline Summary
 
 | Phase | Duration | Cumulative | Status |
