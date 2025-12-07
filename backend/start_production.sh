@@ -17,17 +17,17 @@ fi
 
 # Load environment variables from .env file if it exists
 if [ -f .env ]; then
-    export $(cat .env | grep -v '^#' | xargs)
+    set -a  # Automatically export all variables
+    source .env 2>/dev/null || true
+    set +a  # Turn off automatic export
 fi
 
 # Ensure production config
 export APP_CONFIG=production
 
-# Verify database exists and is initialized
-if [ ! -f instance/work_prod.db ]; then
-    echo "Initializing database..."
-    flask db upgrade
-fi
+# Apply database migrations (always run, not just on first deploy)
+echo "Applying database migrations..."
+flask db upgrade
 
 # Check if Gunicorn is installed
 if ! command -v gunicorn &> /dev/null; then
