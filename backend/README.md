@@ -1,8 +1,8 @@
 # Backend
 
 **Purpose:** Flask API backend for project management  
-**Status:** ✅ Phase 5 Complete - Import Projects API + CLI  
-**Last Updated:** 2025-12-05
+**Status:** ✅ Phase 8 Complete - MVP Polish / Production Ready  
+**Last Updated:** 2025-12-07
 
 ---
 
@@ -37,7 +37,7 @@ python run.py
 - `GET /api/health` - Server health status
   - Returns: `{"status": "ok", "message": "Flask backend is running"}`
 
-### Projects API (Phase 1-5 Complete)
+### Projects API (Phase 1-8 Complete - MVP Ready)
 
 #### List Projects
 - `GET /api/projects` - List all projects
@@ -180,6 +180,20 @@ flask db upgrade
 flask db downgrade
 ```
 
+**Production Migrations:**
+```bash
+# Set production config
+export APP_CONFIG=production
+
+# Apply migrations
+flask db upgrade
+
+# Verify current migration
+flask db current
+```
+
+**⚠️ Important:** Always backup database before running migrations in production.
+
 ---
 
 ## 🧪 Testing
@@ -226,10 +240,26 @@ backend/
 
 ## ⚙️ Configuration
 
-Environment variables:
-- `APP_CONFIG` - Configuration to use (development, production, testing)
-- `DATABASE_URL` - Database connection string (production)
+**Environment Variables:**
+
+See [Production Configuration Guide](PRODUCTION.md) for complete environment variable documentation.
+
+**Required (Production):**
+- `SECRET_KEY` - Flask secret key (REQUIRED in production)
+
+**Optional:**
+- `APP_CONFIG` - Configuration mode (`development`, `testing`, `production`)
+- `DATABASE_URL` - Database connection string (defaults to SQLite)
 - `CORS_ALLOWED_ORIGINS` - Comma-separated allowed origins (production)
+- `FLASK_ENV` - Legacy Flask environment variable (deprecated, use `APP_CONFIG`)
+
+**Example `.env` file:**
+```bash
+APP_CONFIG=production
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=sqlite:///instance/work_prod.db
+CORS_ALLOWED_ORIGINS=https://example.com
+```
 
 Configurations:
 - `DevelopmentConfig` - Local development (DEBUG=True)

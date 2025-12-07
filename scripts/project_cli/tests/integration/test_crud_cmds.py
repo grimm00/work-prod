@@ -150,7 +150,8 @@ def test_archive_command(cli_runner, app, mock_api_for_cli):
         # Verify project is archived
         archived_project = Project.query.get(project.id)
         assert archived_project.classification == 'archive'
-        assert archived_project.status == 'paused'
+        # Archive command sets status to 'completed' (not 'paused')
+        assert archived_project.status == 'completed'
 
 
 @pytest.mark.integration

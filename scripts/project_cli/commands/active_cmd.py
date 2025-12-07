@@ -41,11 +41,10 @@ def active(wide):
         # Display in table format
         table = build_projects_table(
             projects,
-            wide=wide,
-            status='active',  # This will show Status column
-            organization=None,
-            classification=None,
-            search=None
+            show_status=True,  # Always show status for active command
+            show_org=wide,
+            show_classification=wide,
+            show_description=False
         )
         table.title = f"Active Projects ({len(projects)})"
         

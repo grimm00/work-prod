@@ -30,6 +30,7 @@
 - **[PR #32](pr32/README.md)** - Fix Batch: quick-wins-low-low-03 (✅ Complete - 9 issues fixed, 0 deferred)
 - **[PR #33](pr33/README.md)** - Fix Batch: test-quality-improvements-medium-low-02 (✅ Complete - 7 issues fixed, 7 deferred)
 - **[PR #34](pr34/README.md)** - Fix Batch: test-quality-improvements-medium-low-03 (✅ Complete - 1 issue fixed, 0 deferred)
+- **[PR #35](pr35/README.md)** - MVP Polish / Production Ready (🟠 In Progress - 2 HIGH priority fixes planned)
 
 ### User-Reported Issues
 
