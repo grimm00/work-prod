@@ -180,6 +180,20 @@ flask db upgrade
 flask db downgrade
 ```
 
+**Production Migrations:**
+```bash
+# Set production config
+export APP_CONFIG=production
+
+# Apply migrations
+flask db upgrade
+
+# Verify current migration
+flask db current
+```
+
+**⚠️ Important:** Always backup database before running migrations in production.
+
 ---
 
 ## 🧪 Testing
