@@ -11,12 +11,13 @@
 
 ### Command Adaptation Documents
 
-- **[int-opp Adaptation](int-opp-adaptation.md)** - How to adapt `/int-opp` command for dev-infra (✅ Complete)
-- **[reflect Adaptation](reflect-adaptation.md)** - How to adapt `/reflect` command for dev-infra (🔴 Not Started)
-- **[fix-plan Adaptation](fix-plan-adaptation.md)** - How to adapt `/fix-plan` command for dev-infra (🔴 Not Started)
-- **[transition-plan Adaptation](transition-plan-adaptation.md)** - How to adapt `/transition-plan` command for dev-infra (🔴 Not Started)
-- **[task-phase Adaptation](task-phase-adaptation.md)** - How to adapt `/task-phase` command for dev-infra (🔴 Not Started)
+- **[int-opp Adaptation](int-opp-adaptation.md)** - How to adapt `/int-opp` command for dev-infra (✅ Documented)
+- **[reflect Adaptation](reflect-adaptation.md)** - How to adapt `/reflect` command for dev-infra (✅ Documented)
+- **[fix-plan Adaptation](fix-plan-adaptation.md)** - How to adapt `/fix-plan` command for dev-infra (✅ Documented)
+- **[transition-plan Adaptation](transition-plan-adaptation.md)** - How to adapt `/transition-plan` command for dev-infra (✅ Documented)
+- **[task-phase Adaptation](task-phase-adaptation.md)** - How to adapt `/task-phase` command for dev-infra (✅ Documented)
 - **[Command Adaptation Guide](command-adaptation-guide.md)** - General guide for adapting commands
+- **[Command Coverage](command-coverage.md)** - Track which commands have adaptation documentation
 
 ---
 
@@ -39,7 +40,13 @@ This directory contains documentation on how to adapt work-prod Cursor commands 
 - `/fix-plan` - Fix planning workflow (✅ Documented)
 - `/transition-plan` - Transition planning (✅ Documented)
 - `/task-phase` - Phase implementation workflow (✅ Documented)
-- `/pr` - PR creation workflow (🟡 Planned)
+- `/pr` - PR creation workflow (🔴 HIGH Priority - Not Documented)
+- `/fix-implement` - Fix implementation workflow (🔴 HIGH Priority - Not Documented)
+- `/fix-review` - Fix review workflow (🔴 HIGH Priority - Not Documented)
+- `/post-pr` - Post-merge documentation (🔴 HIGH Priority - Not Documented)
+- `/reflection-artifacts` - Artifact extraction (🔴 HIGH Priority - Not Documented)
+
+**See:** [Command Coverage](command-coverage.md) for complete status
 
 ---
 

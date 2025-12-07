@@ -10,6 +10,7 @@
 
 ### Project-Wide Reflections
 
+- **[Command Adaptations & Dev-Infra Handoff](reflection-command-adaptations-dev-infra-handoff-2025-12-07.md)** - Reflection on command adaptation documentation and dev-infra handoff preparation
 - **[Reflection Release Complete](reflection-2025-12-07-release-complete.md)** - Release completion reflection after v0.1.0 release
 - **[Reflection MVP Complete](reflection-2025-12-07-mvp-complete.md)** - Full project reflection after MVP completion (Phase 8)
 - **[Reflection 2025-12-07](reflection-2025-12-07.md)** - Full project reflection after Phase 7 completion and cursor rules split
@@ -25,8 +26,8 @@
 
 ## 📊 Summary
 
-**Total Reflections:** 7  
-**Latest:** 2025-12-07 (Inventory POC Repository Placement)
+**Total Reflections:** 8  
+**Latest:** 2025-12-07 (Command Adaptations & Dev-Infra Handoff)
 
 ---
 
