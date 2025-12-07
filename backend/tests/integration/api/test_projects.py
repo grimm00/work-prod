@@ -800,6 +800,10 @@ def test_filter_projects_invalid_value_ignored(client, app, filter_param, filter
     assert isinstance(data, list)
     assert len(data) == 2
     
+    # Ensure that the returned projects are exactly the ones created in this test
+    returned_ids = {project["id"] for project in data}
+    assert returned_ids == {project1_id, project2_id}
+    
     # Verify that the returned projects are exactly the ones created in this test
     returned_ids = {project["id"] for project in data}
     assert returned_ids == {project1_id, project2_id}
