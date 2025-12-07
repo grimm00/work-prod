@@ -12,29 +12,22 @@ from ..error_handler import handle_error
 from ..progress import spinner
 
 
-def build_projects_table(projects, wide=False, status=None, organization=None,
-                        classification=None, search=None):
+def build_projects_table(projects, *, show_status=False, show_org=False,
+                        show_classification=False, show_description=False):
     """
     Build a Rich Table for displaying projects.
     
     Args:
         projects: List of project dictionaries
-        wide: Whether to show all columns
-        status: Status filter (if used, shows Status column)
-        organization: Organization filter (if used, shows Org column)
-        classification: Classification filter (if used, shows Classification column)
-        search: Search filter (if used, shows Description column)
+        show_status: Whether to show Status column
+        show_org: Whether to show Org column
+        show_classification: Whether to show Classification column
+        show_description: Whether to show Description column
     
     Returns:
         Table: Configured Rich Table ready for display
     """
     table = Table(title=f"Projects ({len(projects)})", expand=True)
-    
-    # Determine which columns to show
-    show_status = wide or status is not None
-    show_org = wide or organization is not None
-    show_classification = wide or classification is not None
-    show_description = wide or search is not None
     
     # Add columns
     table.add_column("ID", style="cyan", justify="right")
@@ -126,14 +119,19 @@ def list_projects(status, organization, classification, search, wide):
             console.print("[yellow]No projects found.[/yellow]")
             return
         
+        # Determine which columns to show
+        show_status = wide or status is not None
+        show_org = wide or organization is not None
+        show_classification = wide or classification is not None
+        show_description = wide or search is not None
+        
         # Build and display table
         table = build_projects_table(
             projects,
-            wide=wide,
-            status=status,
-            organization=organization,
-            classification=classification,
-            search=search
+            show_status=show_status,
+            show_org=show_org,
+            show_classification=show_classification,
+            show_description=show_description
         )
         console.print(table)
         

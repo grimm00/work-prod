@@ -302,4 +302,16 @@ class TestClassificationMaps:
         """Test that status map values are valid Project enum values."""
         assert STATUS_MAP[classification] == status_value
         assert status_value in {'active', 'paused', 'completed', 'cancelled', None}
+    
+    def test_classification_map_all_entries_valid(self):
+        """Test that all CLASSIFICATION_MAP entries have valid values."""
+        valid_classifications = {'primary', 'secondary', 'archive', 'maintenance', None}
+        for cls, mapped in CLASSIFICATION_MAP.items():
+            assert mapped in valid_classifications, f"Invalid classification mapping: {cls} -> {mapped}"
+    
+    def test_status_map_all_entries_valid(self):
+        """Test that all STATUS_MAP entries have valid values."""
+        valid_statuses = {'active', 'paused', 'completed', 'cancelled', None}
+        for cls, mapped in STATUS_MAP.items():
+            assert mapped in valid_statuses, f"Invalid status mapping: {cls} -> {mapped}"
 
