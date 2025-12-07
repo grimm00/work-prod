@@ -12,6 +12,7 @@
 
 - **[Release Checklist](checklist.md)** - Release preparation checklist
 - **[Release Notes](release-notes.md)** - Release notes and changelog
+- **[Transition Plan](transition-plan.md)** - Release transition planning document
 
 ---
 
@@ -90,6 +91,7 @@
 
 - **Release Checklist:** [checklist.md](checklist.md)
 - **Release Notes:** [release-notes.md](release-notes.md)
+- **Transition Plan:** [transition-plan.md](transition-plan.md)
 - **Reflection:** `docs/maintainers/planning/notes/reflections/reflection-2025-12-07-mvp-complete.md`
 - **Feature Status:** `docs/maintainers/planning/features/projects/status-and-next-steps.md`
 
