@@ -82,11 +82,12 @@ class Config:
     def get_max_rows(self):
         """Get maximum rows to display."""
         default = 50
-        value = self.get('display', 'max_rows', str(default))
-        try:
-            return int(value)
-        except (TypeError, ValueError):
-            return default
+        if value := self.get('display', 'max_rows', str(default)):
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return default
+        return default
     
     def get_color_enabled(self):
         """Check if color output is enabled."""
@@ -118,7 +119,6 @@ class Config:
         for section in self.config.sections():
             if section not in result:
                 result[section] = {}
-            for key, value in self.config.items(section):
-                result[section][key] = value
+            result[section].update(dict(self.config.items(section)))
         
         return result

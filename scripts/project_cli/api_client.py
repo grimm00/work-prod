@@ -23,7 +23,7 @@ def _raise_api_error(error: requests.exceptions.RequestException, response=None)
                 error_data = response.json()
                 if isinstance(error_data, dict) and 'error' in error_data:
                     error_msg = error_data['error']
-            except:
+            except Exception:
                 pass
         raise APIError(error_msg, status_code=response.status_code if response else None) from error
     else:
@@ -50,11 +50,10 @@ class APIClient:
         })
         
         # Check backend health if requested
-        if check_health:
-            if not check_backend_health(self.base_url):
-                raise BackendConnectionError(
-                    f"Cannot connect to backend at {self.base_url}"
-                )
+        if check_health and not check_backend_health(self.base_url):
+            raise BackendConnectionError(
+                f"Cannot connect to backend at {self.base_url}"
+            )
     
     def list_projects(self, status: str = None, organization: str = None, 
                      classification: str = None, search: str = None) -> List[Dict]:
