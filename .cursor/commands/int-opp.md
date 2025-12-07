@@ -1,213 +1,858 @@
 # Document Internal Opportunities
 
-After completing a phase, use this command to capture learnings for improving dev-infra template.
-
-## Instructions
-
-1. Create phase learnings document in `docs/maintainers/planning/notes/opportunities/internal/work-prod/`
-2. Document actionable template improvements in `docs/maintainers/planning/notes/opportunities/internal/dev-infra/`
-3. Update the internal opportunities README
+Capture learnings from work-prod (or any project) to improve dev-infra template and other projects.
 
 ---
 
-## Phase Learnings Template
+## Workflow Overview
 
-**File:** `docs/maintainers/planning/notes/opportunities/internal/work-prod/phase-N-learnings.md`
+**When to use:**
 
-### Structure to include:
+- After completing a phase or significant work
+- To capture learnings for improving dev-infra template
+- To create project-specific opportunity directories
+- To document command adaptations for dev-infra
 
-#### Header
-- Phase name and number
-- Completion date
-- Duration (days/hours)
-- Applied to dev-infra status
-- Last updated date
-
-#### Overview Section
-- Phase summary (what was built)
-- Timeline & effort table
-- Key metrics (tests, coverage, PRs, LOC)
-- Major achievements
-
-#### What Worked Exceptionally Well
-For each successful pattern:
-- Why it worked
-- What made it successful
-- Template implications (directory structure, code patterns)
-- Key code examples
-- Benefits realized
-
-Categories to consider:
-- Development patterns (architecture, testing)
-- Workflow processes (Git Flow, PR reviews)
-- Documentation approaches (hub-spoke, ADRs)
-- Tools and automation (CLI, testing tools)
-- Code quality practices (TDD, coverage)
-
-#### What Needs Improvement
-For each pain point:
-- What the problem was
-- Why it occurred
-- Impact on development
-- How to prevent in future projects
-- Specific template changes needed
-
-Categories to consider:
-- Setup friction
-- Missing documentation
-- Process gaps
-- Tool limitations
-- Configuration issues
-
-#### Unexpected Discoveries
-- Findings that surprised you
-- Insights about tools/patterns
-- Better approaches discovered mid-phase
-- Things that worked differently than expected
-
-#### Time Investment Analysis
-- Breakdown of where time was spent
-- What took longer than expected
-- What was faster than expected
-- Lessons for future estimation
-
-#### Metrics & Impact
-- Lines of code written
-- Test coverage achieved
-- Number of bugs found/fixed
-- External review feedback (Sourcery)
-- Developer experience improvements
+**Key principle:** Capture learnings while fresh, organize by project, and create actionable improvement checklists.
 
 ---
 
-## Dev-Infra Improvements Template
+## Usage
 
-**File:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/dev-infra-improvements-phaseN.md`
+**Command:** `/int-opp [project-name] [options]`
 
-### Structure to include:
+**Examples:**
 
-#### Introduction
-- Source (which phase)
-- Target (dev-infra template)
-- Status
-- Why improvements matter
-- How discovered
-- What problem they solve
+- `/int-opp` - Capture learnings for work-prod (default)
+- `/int-opp work-prod` - Explicitly specify work-prod
+- `/int-opp dev-infra` - Create opportunities directory for dev-infra
+- `/int-opp inventory-tools --new-project` - Create new project directory and discover project info
+- `/int-opp dev-infra --command-adaptation` - Document command adaptations for dev-infra
+- `/int-opp [project] --phase N` - Capture phase-specific learnings
 
-#### Improvement Sections
+**Options:**
 
-Organize by category (adjust as needed):
+- `--new-project` - Create directory for new project and discover project information
+- `--command-adaptation` - Document command adaptations for dev-infra (use with dev-infra project)
+- `--phase N` - Capture learnings for specific phase
+- `--type TYPE` - Type of opportunity (`learnings`, `improvements`, `command-adaptation`)
+- `--dry-run` - Show what would be created without creating files
 
-**Pre-Project Setup**
-- Research templates to add/enhance
-- Decision record templates needed
-- Planning guides to improve
+---
 
-**Project Structure**
-- Directories to pre-create
-- .gitkeep files needed
-- Structure comments/documentation
+## Step-by-Step Process
 
-**Configuration**
-- Config templates to add
-- Environment variable patterns
-- Security best practices to encode
+### 1. Identify Project
 
-**Testing Infrastructure**
-- Test setup patterns
-- Fixture templates
-- Coverage configuration
-- CI/CD improvements
+**Default behavior:**
 
-**Documentation**
-- README templates
-- Hub-spoke patterns
-- ADR templates
-- Manual testing guides
+- If no project specified, use `work-prod` (current project)
+- Check if project directory exists in `docs/maintainers/planning/notes/opportunities/internal/[project]/`
 
-**Development Workflow**
-- Git Flow setup
-- PR templates
-- Review checklists
-- Fix tracking systems
+**New project discovery (`--new-project`):**
 
-**CLI/Tooling**
-- CLI patterns to template
-- Script templates
-- Automation opportunities
+1. **Check if directory exists:**
+   - Look for `docs/maintainers/planning/notes/opportunities/internal/[project]/`
+   - If exists, project is known
 
-#### For Each Improvement:
+2. **Search for project information:**
+   - Check Projects API: `./proj list --search "[project-name]"`
+   - Check GitHub: Search for repository with project name
+   - Check local filesystem: Look for project directories in `~/Projects/` or `~/Learning/`
+   - Check if project is mentioned in documentation
+
+3. **Gather project context:**
+   - Project type (application, tool, library, template)
+   - Technology stack (if known)
+   - Purpose/description
+   - Current status
+
+4. **Ask for clarification (if needed):**
+   - If project info is ambiguous or missing
+   - Request: project description, type, purpose
+   - Confirm project name and directory structure
+
+**Checklist:**
+
+- [ ] Project identified (or using default)
+- [ ] Project directory checked/created
+- [ ] Project information gathered (if new project)
+- [ ] Clarification obtained (if needed)
+
+---
+
+### 2. Create Project Directory Structure (if new project)
+
+**If `--new-project` specified and directory doesn't exist:**
+
+**Directory structure:**
+
+```
+docs/maintainers/planning/notes/opportunities/internal/[project-name]/
+├── README.md                    # Project hub
+├── learnings/                   # Learnings from this project
+│   ├── README.md                # Learnings hub
+│   └── [topic]-learnings.md    # Specific learnings documents
+└── improvements/                # Improvements for dev-infra/other projects
+    ├── README.md                # Improvements hub
+    └── [topic]-improvements.md  # Specific improvement documents
+```
+
+**Create project hub:**
+
+**File:** `docs/maintainers/planning/notes/opportunities/internal/[project-name]/README.md`
+
+```markdown
+# [Project Name] Opportunities
+
+**Purpose:** [Project description]  
+**Type:** [Application/Tool/Library/Template]  
+**Status:** ✅ Active  
+**Created:** YYYY-MM-DD  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Quick Links
+
+### Learnings
+
+- **[Learnings Hub](learnings/README.md)** - Learnings from [project name]
+
+### Improvements
+
+- **[Improvements Hub](improvements/README.md)** - Improvements for dev-infra/other projects
+
+---
+
+## 🎯 Overview
+
+[Project description and purpose]
+
+**Project Context:**
+- **Type:** [Application/Tool/Library/Template]
+- **Technology Stack:** [If known]
+- **Purpose:** [What this project does]
+- **Status:** [Current status]
+
+---
+
+## 📊 Summary
+
+**Learnings Documents:** [N]  
+**Improvement Documents:** [M]  
+**Status:** ✅ Active
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**Create learnings hub:**
+
+**File:** `docs/maintainers/planning/notes/opportunities/internal/[project-name]/learnings/README.md`
+
+```markdown
+# [Project Name] Learnings
+
+**Purpose:** Learnings from [project name] implementation  
+**Target:** Inform dev-infra template and other projects  
+**Status:** ✅ Active  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Quick Links
+
+### Learning Documents
+
+- **[Learning Document 1]([topic]-learnings.md)** - [Description]
+
+---
+
+## 🎯 Purpose
+
+This directory contains learnings from [project name] that can inform:
+- Dev-infra template improvements
+- Future project patterns
+- Best practices documentation
+
+---
+
+## 📊 Summary
+
+**Total Learning Documents:** [N]  
+**Status:** ✅ Active
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**Create improvements hub:**
+
+**File:** `docs/maintainers/planning/notes/opportunities/internal/[project-name]/improvements/README.md`
+
+```markdown
+# [Project Name] Improvements
+
+**Purpose:** Actionable improvements based on [project name] learnings  
+**Target:** Dev-infra template and other projects  
+**Status:** ✅ Active  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Quick Links
+
+### Improvement Documents
+
+- **[Improvement Document 1]([topic]-improvements.md)** - [Description]
+
+---
+
+## 🎯 Purpose
+
+This directory contains actionable improvement checklists based on learnings from [project name].
+
+---
+
+## 📊 Summary
+
+**Total Improvement Documents:** [N]  
+**Status:** ✅ Active
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**Checklist:**
+
+- [ ] Project directory created (if new project)
+- [ ] Project hub README created
+- [ ] Learnings directory and hub created
+- [ ] Improvements directory and hub created
+- [ ] Project information documented
+
+---
+
+### 3. Determine Opportunity Type
+
+**Types:**
+
+1. **Learnings** (default for work-prod):
+   - What worked well
+   - What needs improvement
+   - Unexpected discoveries
+   - Time investment analysis
+
+2. **Improvements** (for dev-infra):
+   - Actionable checklists
+   - Template updates needed
+   - Pattern documentation
+
+3. **Command Adaptation** (for dev-infra):
+   - How to adapt work-prod commands for dev-infra
+   - Command modifications needed
+   - Workflow adaptations
+
+**Auto-detection:**
+
+- If project is `dev-infra` and `--command-adaptation` → Command Adaptation
+- If project is `dev-infra` → Improvements
+- If project is `work-prod` → Learnings
+- Otherwise → Ask user or default to Learnings
+
+**Checklist:**
+
+- [ ] Opportunity type determined
+- [ ] Type is appropriate for project
+- [ ] Type matches user intent
+
+---
+
+### 4. Create Opportunity Documents
+
+#### For Learnings (Default)
+
+**Location:** `docs/maintainers/planning/notes/opportunities/internal/[project]/learnings/`
+
+**File naming:**
+- Format: `[topic]-learnings.md` (e.g., `phase-N-learnings.md`, `fix-management-learnings.md`)
+- Or: `[project]-learnings-[date].md` for general learnings
+
+**Learnings Template:**
+
+```markdown
+# [Project Name] Learnings - [Topic]
+
+**Project:** [Project Name]  
+**Topic:** [Topic/Phase Name]  
+**Date:** YYYY-MM-DD  
+**Status:** ✅ Complete  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Overview
+
+[Summary of what was learned]
+
+---
+
+## ✅ What Worked Exceptionally Well
+
+### [Pattern/Category]
+
+**Why it worked:**
+[Explanation]
+
+**What made it successful:**
+[Details]
+
+**Template implications:**
+[What to template]
+
+**Key examples:**
+[Code/documentation examples]
+
+**Benefits:**
+- Benefit 1
+- Benefit 2
+
+---
+
+## 🟡 What Needs Improvement
+
+### [Issue/Category]
+
+**What the problem was:**
+[Description]
+
+**Why it occurred:**
+[Root cause]
+
+**Impact:**
+[How it affected development]
+
+**How to prevent:**
+[Prevention strategies]
+
+**Template changes needed:**
+[Specific changes]
+
+---
+
+## 💡 Unexpected Discoveries
+
+### [Discovery]
+
+**Finding:**
+[What was discovered]
+
+**Why it's valuable:**
+[Value explanation]
+
+**How to leverage:**
+[How to use this]
+
+---
+
+## ⏱️ Time Investment Analysis
+
+**Breakdown:**
+- [Activity]: [Time]
+- [Activity]: [Time]
+
+**What took longer:**
+- [Activity]: [Reason]
+
+**What was faster:**
+- [Activity]: [Reason]
+
+**Estimation lessons:**
+- Lesson 1
+- Lesson 2
+
+---
+
+## 📊 Metrics & Impact
+
+**Code metrics:**
+- Lines of code: [N]
+- Test coverage: [X]%
+- Files created/modified: [N]
+
+**Quality metrics:**
+- Bugs found/fixed: [N]
+- External review feedback: [Summary]
+
+**Developer experience:**
+- Improvement 1
+- Improvement 2
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+---
+
+#### For Improvements (Dev-Infra)
+
+**Location:** `docs/maintainers/planning/notes/opportunities/internal/[project]/improvements/`
+
+**File naming:**
+- Format: `[project]-improvements-[topic].md` (e.g., `dev-infra-improvements-phaseN.md`)
+
+**Improvements Template:**
+
+```markdown
+# [Project Name] Improvements - [Topic]
+
+**Source:** [Project Name] - [Topic/Phase]  
+**Target:** Dev-infra template  
+**Status:** ✅ Complete  
+**Created:** YYYY-MM-DD  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Overview
+
+[Summary of improvements]
+
+---
+
+## 🎯 Improvement Categories
+
+### [Category Name]
 
 - [ ] **Improvement Title**
-  - **Location:** Specific file path in template
-  - **Action:** What to do
-  - **Prevents/Enables:** Problem solved or capability added
-  - **Content/Example:** Code or content to add
-  - **Expected Impact:** Benefit statement
+  - **Location:** [File path in template]
+  - **Action:** [What to do]
+  - **Prevents/Enables:** [Problem solved or capability added]
+  - **Content/Example:** [Code or content to add]
+  - **Expected Impact:** [Benefit statement]
   - **Priority:** CRITICAL/HIGH/MEDIUM/LOW
   - **Effort:** LOW/MEDIUM/HIGH
 
 ---
 
-## Update Tracking
+**Last Updated:** YYYY-MM-DD
+```
 
-After creating documents:
+---
 
-1. Update `internal/README.md` completion tracking table
-2. Update `work-prod/README.md` with new learnings document
-3. Update `dev-infra/README.md` with new improvements document
-4. Add new phase row with status
-5. Update "Last Updated" date
-6. Link to new documents in Quick Links
+#### For Command Adaptation (Dev-Infra)
 
-Example update:
+**Location:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/command-adaptations/`
+
+**File naming:**
+- Format: `[command-name]-adaptation.md` (e.g., `int-opp-adaptation.md`, `reflect-adaptation.md`)
+
+**Command Adaptation Template:**
 
 ```markdown
-| Phase | Learnings Doc | Status | Applied to dev-infra |
-|-------|--------------|--------|---------------------|
-| Phase N | [work-prod/phase-N-learnings.md](work-prod/phase-N-learnings.md) | ✅ Complete | 🟡 Pending |
+# Command Adaptation: [Command Name] for Dev-Infra
+
+**Source Command:** [Command name from work-prod]  
+**Target:** Dev-infra template  
+**Status:** 🔴 Not Started  
+**Created:** YYYY-MM-DD  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## 📋 Overview
+
+[Description of command and how it should be adapted for dev-infra]
+
+---
+
+## 🎯 Original Command
+
+**Command:** `/[command-name]`  
+**Purpose:** [Original purpose]  
+**Location:** `.cursor/commands/[command-name].md`
+
+**Key Features:**
+- Feature 1
+- Feature 2
+
+---
+
+## 🔄 Adaptations Needed
+
+### [Adaptation Category]
+
+**Change:** [What needs to change]  
+**Reason:** [Why this change is needed]  
+**Impact:** [How this affects dev-infra usage]
+
+**Original:**
+[Original code/pattern]
+
+**Adapted:**
+[Adapted code/pattern]
+
+**Files to modify:**
+- `[file1]` - [reason]
+- `[file2]` - [reason]
+
+---
+
+## 📝 Implementation Steps
+
+1. **Step 1: [Name]**
+   - [ ] Task 1
+   - [ ] Task 2
+
+2. **Step 2: [Name]**
+   - [ ] Task 1
+   - [ ] Task 2
+
+---
+
+## ✅ Definition of Done
+
+- [ ] Command adapted for dev-infra
+- [ ] Documentation updated
+- [ ] Tests updated (if applicable)
+- [ ] Ready for use in dev-infra
+
+---
+
+**Last Updated:** YYYY-MM-DD
 ```
+
+---
+
+### 5. Update Project Hubs
+
+**Update project hub:**
+
+- Add new document to Quick Links
+- Update summary statistics
+- Update "Last Updated" date
+
+**Update learnings/improvements hub:**
+
+- Add document link
+- Update summary
+- Update "Last Updated" date
+
+**Checklist:**
+
+- [ ] Project hub updated
+- [ ] Learnings/improvements hub updated
+- [ ] Quick links added
+- [ ] Summary statistics updated
+
+---
+
+### 6. Update Main Internal Opportunities Hub
+
+**File:** `docs/maintainers/planning/notes/opportunities/internal/README.md`
+
+**Add project entry:**
+
+```markdown
+### [Project Name] Opportunities
+
+- **[Project Hub]([project-name]/README.md)** - [Project description]
+  - Learnings: [N] documents
+  - Improvements: [M] documents
+```
+
+**Update completion tracking:**
+
+```markdown
+| Project | Learnings | Improvements | Status |
+|---------|-----------|--------------|--------|
+| work-prod | [N] | [M] | ✅ Active |
+| dev-infra | [N] | [M] | ✅ Active |
+| [project] | [N] | [M] | ✅ Active |
+```
+
+**Checklist:**
+
+- [ ] Main hub updated with project entry
+- [ ] Completion tracking updated
+- [ ] Quick links updated
+- [ ] "Last Updated" date updated
+
+---
+
+## Project Discovery Process (--new-project)
+
+### 1. Check Existing Projects
+
+**Search locations:**
+
+1. **Projects API:**
+   ```bash
+   ./proj list --search "[project-name]"
+   ```
+
+2. **GitHub:**
+   ```bash
+   gh repo list --search "[project-name]"
+   ```
+
+3. **Local filesystem:**
+   ```bash
+   find ~/Projects ~/Learning -type d -name "*[project-name]*" 2>/dev/null
+   ```
+
+4. **Documentation:**
+   - Search README files
+   - Check exploration documents
+   - Check research documents
+
+**Checklist:**
+
+- [ ] Projects API searched
+- [ ] GitHub searched
+- [ ] Local filesystem searched
+- [ ] Documentation searched
+
+---
+
+### 2. Gather Project Information
+
+**If project found:**
+
+- Extract: name, description, type, technology stack, status
+- Verify: project path, repository URL, current state
+
+**If project not found:**
+
+- Ask user for:
+  - Project name (confirm spelling)
+  - Project type (application, tool, library, template)
+  - Project purpose/description
+  - Technology stack (if known)
+  - Current status
+  - Project location (if exists)
+
+**Checklist:**
+
+- [ ] Project information gathered
+- [ ] Project details verified
+- [ ] Missing information requested from user
+
+---
+
+### 3. Create Project Directory
+
+**After gathering information:**
+
+1. Create project directory structure
+2. Create project hub with gathered information
+3. Create learnings and improvements directories
+4. Document project context in hub
+
+**Checklist:**
+
+- [ ] Project directory created
+- [ ] Project hub created with information
+- [ ] Directory structure complete
+- [ ] Project context documented
+
+---
+
+## Command Adaptation Workflow (--command-adaptation)
+
+### When to Use
+
+**Use with dev-infra project:**
+
+- When adapting work-prod commands for dev-infra template
+- When documenting how commands should work in dev-infra
+- When creating adaptation guides for command porting
+
+**Example:**
+
+```bash
+/int-opp dev-infra --command-adaptation
+```
+
+---
+
+### 1. Identify Commands to Adapt
+
+**Source commands:**
+
+- List commands in `.cursor/commands/` directory
+- Identify commands that should be adapted for dev-infra
+- Prioritize by usage and importance
+
+**Common commands to adapt:**
+
+- `/int-opp` - This command itself
+- `/reflect` - Reflection workflow
+- `/fix-plan` - Fix planning workflow
+- `/transition-plan` - Transition planning
+- `/task-phase` - Phase implementation workflow
+
+**Checklist:**
+
+- [ ] Commands identified
+- [ ] Priority assigned
+- [ ] Adaptation order determined
+
+---
+
+### 2. Analyze Command for Adaptation
+
+**For each command:**
+
+1. **Read command documentation:**
+   - Understand original purpose
+   - Identify key features
+   - Note project-specific assumptions
+
+2. **Identify adaptations needed:**
+   - What's work-prod specific?
+   - What should be generic?
+   - What paths need to change?
+   - What assumptions need updating?
+
+3. **Document adaptations:**
+   - Create adaptation document
+   - Document changes needed
+   - Provide examples
+
+**Checklist:**
+
+- [ ] Command analyzed
+- [ ] Adaptations identified
+- [ ] Adaptation document created
+
+---
+
+### 3. Create Command Adaptation Document
+
+**Location:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/command-adaptations/`
+
+**File naming:**
+- Format: `[command-name]-adaptation.md`
+
+**Template:** See "Command Adaptation Template" above
+
+**Checklist:**
+
+- [ ] Adaptation document created
+- [ ] Adaptations documented
+- [ ] Examples provided
+- [ ] Implementation steps outlined
+
+---
+
+### 4. Update Dev-Infra Hub
+
+**File:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/README.md`
+
+**Add command adaptations section:**
+
+```markdown
+### Command Adaptations
+
+- **[Command Adaptations Hub](command-adaptations/README.md)** - How to adapt work-prod commands for dev-infra
+```
+
+**Checklist:**
+
+- [ ] Dev-infra hub updated
+- [ ] Command adaptations section added
+- [ ] Links to adaptation documents added
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Capture Phase Learnings (work-prod)
+
+**Command:** `/int-opp work-prod --phase 8`
+
+**Process:**
+1. Identify work-prod project (default)
+2. Create phase learnings document
+3. Use phase learnings template
+4. Update work-prod hub
+
+---
+
+### Scenario 2: Create New Project Directory
+
+**Command:** `/int-opp inventory-tools --new-project`
+
+**Process:**
+1. Search for inventory-tools project
+2. Gather project information
+3. Ask for clarification if needed
+4. Create project directory structure
+5. Create project hub with information
+
+---
+
+### Scenario 3: Document Command Adaptation
+
+**Command:** `/int-opp dev-infra --command-adaptation`
+
+**Process:**
+1. Identify commands to adapt
+2. Analyze each command
+3. Create adaptation documents
+4. Update dev-infra hub
 
 ---
 
 ## Tips
 
-### While Working
-- Keep notes throughout phase (don't wait until end)
-- Capture friction moments immediately
-- Note "aha!" moments when they happen
-- Track time spent on different activities
+### For New Projects
 
-### During Documentation
-- Be specific (exact file paths, line numbers)
-- Include code examples
-- Think "would this help me 6 months ago?"
+- Search thoroughly before asking user
+- Gather as much information as possible automatically
+- Only ask for clarification when information is ambiguous
+- Document project context clearly in hub
+
+### For Command Adaptations
+
+- Focus on making commands generic/reusable
+- Document project-specific assumptions
+- Provide clear examples
+- Think about how dev-infra will use the command
+
+### For Learnings
+
+- Capture while fresh (right after phase/work)
+- Be specific with examples
 - Focus on actionable items
-- Estimate impact and effort
-
-### Quality Checks
-- Can someone follow your improvement checklist?
-- Are your examples copy-pasteable?
-- Did you explain WHY, not just WHAT?
-- Are priorities and effort estimates realistic?
+- Think about template implications
 
 ---
 
-## Reference Examples
+## Reference
 
-- **Comprehensive:** `work-prod/phase-1-learnings.md` - 880 lines covering everything
-- **Actionable:** `dev-infra/dev-infra-improvements.md` - Specific checklist with file locations
+**Project Directories:**
 
-Follow these as models for structure and level of detail.
+- `docs/maintainers/planning/notes/opportunities/internal/[project-name]/`
+
+**Command Files:**
+
+- `.cursor/commands/[command-name].md`
+
+**Related Commands:**
+
+- `/reflect` - Create reflection documents
+- `/transition-plan` - Create transition plans
+- `/fix-plan` - Create fix plans
 
 ---
 
-## Directory Structure
-
-**Learnings:** `docs/maintainers/planning/notes/opportunities/internal/work-prod/`  
-**Improvements:** `docs/maintainers/planning/notes/opportunities/internal/dev-infra/`
-
-This structure separates:
-- **Work-prod learnings** (what we learned FROM work-prod)
-- **Dev-infra improvements** (what TO DO in dev-infra template)
-
+**Last Updated:** 2025-12-07  
+**Status:** ✅ Active  
+**Next:** Use to capture learnings, create project directories, or document command adaptations

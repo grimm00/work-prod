@@ -359,7 +359,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/class-handouts`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/apprenticeship-learning/class-handouts.git
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-09-10
 - **Branch:** main
 - **Size:** 41.1 MB (198 files)
@@ -396,7 +396,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/helm`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/cdwilson/helm-learning
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-09-30
 - **Branch:** main
 - **Size:** 15.3 MB (1,434 files)
@@ -420,7 +420,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/IaC-gitops`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/apprenticeship-learning/IaC-gitops/
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-11-06
 - **Branch:** fix/frontend-image-pullbackoff
 - **Size:** 45.7 MB (711 files)
@@ -430,7 +430,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/Iac-GitOps-cdwilson`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/apprenticeship-learning/IaC-gitops-cdwilson
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-11-06
 - **Branch:** ci/repository-cleanup
 - **Size:** 257.2 MB (43,948 files)
@@ -463,7 +463,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/mock-trading`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/apprenticeship-learning/mock-trading
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-11-18
 - **Branch:** main
 - **Size:** 29.9 MB (1,839 files)
@@ -517,7 +517,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/py101`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/cdwilson/python-101
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-11-19
 - **Branch:** main
 - **Size:** 368.9 MB (28,229 files)
@@ -534,7 +534,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/request-auth`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/apprenticeship-learning/request-authorization
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-11-25
 - **Branch:** main
 - **Size:** 243.4 MB (12,868 files)
@@ -551,7 +551,7 @@ This section lists all 59 unique projects, grouped by classification.
 - **Type:** Local-Only
 - **Path:** `/Users/cdwilson/Learning/terraform`
 - **Git Repository:** Yes
-- **Remote URL:** https://git.drwholdings.com/up-platform-infrastructure-testbed/terraform/
+- **Remote URL:** [INTERNAL_REPO_URL]
 - **Last Commit:** 2025-10-14
 - **Branch:** cdwilson/play-2
 - **Size:** 594.6 KB (73 files)

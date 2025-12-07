@@ -21,6 +21,12 @@
 - **[Dev-Infra Improvements Phase 8](dev-infra-improvements-phase8.md)** - Production configuration, deployment guides, release management, production safety
 - **[Dev-Infra Improvements Fix Management](dev-infra-improvements-fix-management.md)** - Fix tracking, cross-PR batches, workflow commands
 
+### Command Adaptations
+
+- **[Command Adaptations Hub](command-adaptations/README.md)** - How to adapt work-prod commands for dev-infra
+- **[int-opp Adaptation](command-adaptations/int-opp-adaptation.md)** - Adapting `/int-opp` command for dev-infra
+- **[Command Adaptation Guide](command-adaptations/command-adaptation-guide.md)** - General guide for adapting commands
+
 ---
 
 ## 🎯 Purpose
@@ -38,6 +44,7 @@ Each improvement document includes:
 ## 📊 Summary
 
 **Total Improvement Documents:** 9  
+**Total Command Adaptation Documents:** 2  
 **Status:** 🟡 Pending application to dev-infra template
 
 **Coverage:**
