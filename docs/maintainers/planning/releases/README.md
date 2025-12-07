@@ -52,7 +52,7 @@ Each release includes:
 ### v0.1.0 - MVP Release
 
 **Status:** ✅ Released  
-**Release Date:** 2025-12-07  
+**Release Date:** 2025-12-07
 **Created:** 2025-12-07  
 **Source:** reflection-2025-12-07-mvp-complete.md
 
@@ -74,6 +74,7 @@ Each release includes:
 ### v0.1.0 - MVP Release (2025-12-07)
 
 **Status:** ✅ Released  
+**PR:** #37  
 **Type:** MVP Release
 
 **Key Features:**

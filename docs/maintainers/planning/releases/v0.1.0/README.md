@@ -4,6 +4,7 @@
 **Status:** ✅ Released  
 **Release Date:** 2025-12-07  
 **Created:** 2025-12-07  
+**Merged:** PR #37 (to main)
 **Source:** reflection-2025-12-07-mvp-complete.md  
 **Type:** MVP Release
 
