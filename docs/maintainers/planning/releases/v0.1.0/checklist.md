@@ -12,7 +12,7 @@
 
 ### Code Quality
 
-- [ ] All tests passing (214 tests: 151 backend + 63 CLI)
+- [ ] All tests passing (214 tests: 166 backend + 63 CLI)
 - [ ] Test coverage > 80% (currently 97%)
 - [ ] 0 linting errors maintained
 - [ ] All HIGH priority issues addressed (2 HIGH issues fixed in PR #35)
