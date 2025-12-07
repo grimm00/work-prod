@@ -181,12 +181,35 @@ When writing code:
 4. Create unit tests for new functionality
 5. Update documentation when changing behavior
 
+**Linting Standards:**
+
+- Use `.flake8` configuration file (max-line-length: 100)
+- Run linting before committing: `flake8 backend/`
+- Fix all linting errors (whitespace, long lines, unused imports)
+- Maintain 0 linting errors
+
+**Test Quality Standards:**
+
+- Test coverage target: >80% (models >90%, API endpoints >85%)
+- Always assert exact expected behavior (never `assert status_code in [201, 400]`)
+- Create edge case tests for Unicode, special chars, boundary values, very long inputs
+- Create uncovered path tests for exception handling paths
+- Document current behavior clearly in test docstrings
+
 **Domain-Specific Standards:**
 
 - **Backend:** See [backend.mdc](backend.mdc) (when created)
 - **Frontend:** See [frontend.mdc](frontend.mdc) (when created)
 
-### Backend Patterns (From Phase 5 Learnings)
+**Testing Standards (From Phase 7):**
+
+- **Edge Case Testing:** Create `test_[feature]_edge_cases.py` with categories (Unicode, special chars, boundary values, very long inputs)
+- **Uncovered Path Testing:** Create `test_[feature]_uncovered_paths.py` for coverage-driven test creation
+- **Test Assertions:** Always assert exact expected behavior, never allow multiple outcomes
+- **Coverage Targets:** Overall >80%, Models >90%, API endpoints >85%
+- **Test Organization:** Separate files for edge cases and uncovered paths
+
+### Backend Patterns (From Phase 5 & Phase 7 Learnings)
 
 **Bulk Import Pattern:**
 
@@ -196,6 +219,24 @@ When implementing bulk import endpoints:
 - Handle per-item errors gracefully (don't fail entire import)
 - Use duplicate detection by unique field (e.g., `remote_url`)
 - Validate request body shape strictly before processing
+
+**Edge Case Testing Pattern:**
+
+When creating test suites:
+
+- Create `test_[feature]_edge_cases.py` for comprehensive edge case coverage
+- Categories: Unicode/emoji, special characters, boundary values, very long inputs, empty/null values
+- Test naming: `test_[feature]_with_[edge_case]`
+- Document expected behavior clearly in test docstrings
+
+**Uncovered Path Testing Pattern:**
+
+When improving test coverage:
+
+- Create `test_[feature]_uncovered_paths.py` for coverage-driven test creation
+- Focus on exception handling paths identified by coverage reports
+- Use monkeypatching for error injection
+- Target specific uncovered lines efficiently
 
 **Request Body Validation:**
 
@@ -493,8 +534,8 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 **Version:** v0.1.0  
 **Stage:** Research Complete → Ready for Implementation  
-**Updated:** 2025-12-05  
-**Priority:** Begin MVP implementation for January deadline
+**Updated:** 2025-12-07  
+**Priority:** Phase 7 complete, ready for Phase 8 (MVP Polish)
 
 ### ✅ Completed (Week 1)
 
@@ -604,6 +645,6 @@ Create ADRs in `docs/maintainers/decisions/` for:
 
 ---
 
-**Last Updated:** 2025-12-05  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active  
-**Next:** Continue Phase 6 implementation
+**Next:** Continue Phase 8 implementation
