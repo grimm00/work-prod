@@ -27,6 +27,8 @@
 - **[PR #29](pr29/README.md)** - Phase 7: Automated Testing & Bug Fixes (🟡 Partial - 2/6 batches complete via PR #30, #31, 15 issues remaining)
 - **[PR #30](pr30/README.md)** - Fix Batch: pr29-batch-high-medium-01 (🟡 Planned - 6 issues deferred)
 - **[PR #31](pr31/README.md)** - Fix Batch: pr29-batch-medium-medium-01 (🟡 Planned - 3 issues deferred)
+- **[PR #32](pr32/README.md)** - Fix Batch: quick-wins-low-low-03 (✅ Complete - 9 issues fixed, 0 deferred)
+- **[PR #33](pr33/README.md)** - Fix Batch: test-quality-improvements-medium-low-02 (✅ Complete - 7 issues fixed, 7 deferred)
 
 ### User-Reported Issues
 
@@ -34,7 +36,7 @@
 
 ### Cross-PR Batches
 
-- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (7 complete, 2 active, 39 issues complete)
+- **[Cross-PR Batches](cross-pr/README.md)** - Batches from fix-review reports (8 complete, 1 active, 46 issues complete)
   - ✅ **Quick Wins Batch 1** (PR #14) - 7 LOW/LOW issues fixed
   - ✅ **Test Quality Improvements Batch** (PR #20) - 9 issues fixed (5 MEDIUM/LOW + 4 LOW/MEDIUM)
   - ✅ **Quick Wins Batch 2** (PR #21) - 7 issues fixed (5 LOW/LOW + 2 MEDIUM/LOW)
@@ -42,6 +44,7 @@
   - ✅ **Bug Risk Fixes Batch** (PR #25) - 3 MEDIUM/LOW issues fixed
   - ✅ **Configuration Improvements Batch** (PR #27) - 3 MEDIUM/MEDIUM issues fixed
   - ✅ **Quick Wins Batch 3** (PR #32) - 9 LOW/LOW issues fixed
+  - ✅ **Test Quality Improvements Batch 2** (PR #33) - 7 issues fixed (MEDIUM/LOW)
 
 ### Archived PRs
 
