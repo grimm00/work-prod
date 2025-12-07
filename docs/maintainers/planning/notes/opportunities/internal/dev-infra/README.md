@@ -18,6 +18,7 @@
 - **[Dev-Infra Improvements Phase 5](dev-infra-improvements-phase5.md)** - Bulk import patterns, data mapping scripts, validation improvements
 - **[Dev-Infra Improvements Phase 6](dev-infra-improvements-phase6.md)** - CLI configuration, error handling, progress indicators, help system
 - **[Dev-Infra Improvements Phase 7](dev-infra-improvements-phase7.md)** - Edge case testing, API documentation, user documentation, code quality
+- **[Dev-Infra Improvements Phase 8](dev-infra-improvements-phase8.md)** - Production configuration, deployment guides, release management, production safety
 - **[Dev-Infra Improvements Fix Management](dev-infra-improvements-fix-management.md)** - Fix tracking, cross-PR batches, workflow commands
 
 ---
@@ -36,7 +37,7 @@ Each improvement document includes:
 
 ## 📊 Summary
 
-**Total Improvement Documents:** 8  
+**Total Improvement Documents:** 9  
 **Status:** 🟡 Pending application to dev-infra template
 
 **Coverage:**
@@ -46,7 +47,8 @@ Each improvement document includes:
 - Phase 4: Fix management and PR validation
 - Phase 5: Bulk operations and validation
 - Phase 6: CLI configuration, error handling, progress indicators
-- Phase 7: Edge case testing, API documentation, user documentation, code quality
+- Phase 7: Edge case testing, API documentation, user documentation
+- Phase 8: Production configuration, deployment guides, release management, code quality
 - Fix Management: Cross-PR fix batches
 
 ---
