@@ -1,8 +1,10 @@
 # Release v0.1.0 - MVP Release
 
 **Version:** v0.1.0  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Released  
+**Release Date:** 2025-12-07  
 **Created:** 2025-12-07  
+**Merged:** PR #37 (to main)
 **Source:** reflection-2025-12-07-mvp-complete.md  
 **Type:** MVP Release
 
@@ -19,8 +21,8 @@
 ## 📊 Release Summary
 
 **Version:** v0.1.0  
-**Release Date:** TBD  
-**Status:** 🔴 Not Started
+**Release Date:** 2025-12-07  
+**Status:** ✅ Released
 
 **Key Features:**
 - Full CRUD API (GET, POST, PATCH, DELETE, Archive)
