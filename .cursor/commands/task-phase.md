@@ -1,6 +1,6 @@
-# Phase Task Implementation Command
+# Task Phase Command
 
-Use this command to implement phases task-by-task, following TDD workflow and creating PRs at the right time.
+Use this command to implement phase tasks step-by-step, following TDD workflow and creating PRs at the right time.
 
 ---
 
@@ -37,12 +37,12 @@ Use this command to implement phases task-by-task, following TDD workflow and cr
 
 ## Usage
 
-**Command:** `@phase-task [phase-number] [task-number]`
+**Command:** `/task-phase [phase-number] [task-number]`
 
 **Examples:**
-- `@phase-task 4 1` - Implement Phase 4, Tasks 1-2 (RED + GREEN for filtering)
-- `@phase-task 4 3` - Implement Phase 4, Tasks 3-4 (RED + GREEN for search)
-- `@phase-task 4 5` - Implement Phase 4, Task 5 (CLI enhancement)
+- `/task-phase 4 1` - Implement Phase 4, Tasks 1-2 (RED + GREEN for filtering)
+- `/task-phase 4 3` - Implement Phase 4, Tasks 3-4 (RED + GREEN for search)
+- `/task-phase 4 5` - Implement Phase 4, Task 5 (CLI enhancement)
 
 **Task Grouping:**
 - When you specify a RED task (e.g., Task 1), automatically include the next GREEN task (Task 2)

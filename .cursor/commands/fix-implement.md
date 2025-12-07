@@ -734,7 +734,8 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 - `/fix-plan` - Create fix plans from PR review or fix-review report
 - `/fix-review` - Review old deferred issues and generate report
 - `/pr --fix [batch-name]` - Create PR for fix batch (use after implementation)
-- `/phase-task` - Individual task implementation (similar workflow)
+- `/task-phase` - Phase task implementation (similar workflow)
+- `/task-release` - Release transition task implementation (similar workflow)
 
 ---
 

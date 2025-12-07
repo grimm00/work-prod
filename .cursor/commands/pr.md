@@ -10,6 +10,7 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 - After completing a phase (use `--phase`)
 - After implementing a fix batch (use `--fix`)
+- After completing release transition steps (use `--release`)
 - To create PRs with consistent formatting and validation
 
 **Key principle:** Single command for all PR creation, with context-specific templates and workflows.
@@ -18,7 +19,7 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 ## Usage
 
-**Command:** `@pr [--phase|--fix] [identifier] [options]`
+**Command:** `@pr [--phase|--fix|--release] [identifier] [options]`
 
 **Modes:**
 
@@ -32,6 +33,11 @@ Centralized command for creating pull requests for phases and fix batches. Provi
    - Example: `@pr --fix quick-wins-low-low-01` (cross-PR batch)
    - Creates PR for fix batch
    - Uses fix-specific template
+
+3. **Release PR:** `@pr --release [version]`
+   - Example: `@pr --release v0.1.0`
+   - Creates PR for release transition
+   - Uses release-specific template
 
 **Options:**
 
@@ -50,13 +56,14 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 - `--phase` flag → Phase PR mode
 - `--fix` flag → Fix PR mode
+- `--release` flag → Release PR mode
 - Neither flag → Show usage/help
 
 **Checklist:**
 
 - [ ] Mode determined
-- [ ] Identifier provided (phase number or batch name)
-- [ ] Current branch matches expected (phase branch or fix branch)
+- [ ] Identifier provided (phase number, batch name, or version)
+- [ ] Current branch matches expected (phase branch, fix branch, or release branch)
 
 ---
 
@@ -668,6 +675,190 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
+## Release PR Mode (`--release`)
+
+### 1. Load Release Information
+
+**Parse version:**
+- Extract version (e.g., `v0.1.0`)
+- Verify version format (should match semantic versioning)
+
+**Load transition plan:**
+- `docs/maintainers/planning/releases/[version]/transition-plan.md`
+
+**Extract information:**
+- Version number
+- Release steps completed
+- Release checklist status
+- Release notes status
+- Tagging status
+- Post-release verification status
+
+**Verify:**
+- Transition plan exists
+- All steps marked complete
+- Release checklist complete
+- Release notes finalized
+- Current branch is release branch (e.g., `release/[version]`)
+
+**Checklist:**
+- [ ] Version format valid
+- [ ] Transition plan found
+- [ ] All steps complete
+- [ ] Current branch is release branch
+
+---
+
+### 2. Generate PR Description (Release)
+
+**PR Title:**
+```
+chore: Release [version]
+```
+
+**PR Description Template:**
+
+```markdown
+## Release [version]
+
+[Brief description of release - e.g., "MVP Release" or "First production release"]
+
+---
+
+## What's Included
+
+### Release Preparation
+- Release checklist completed
+- Release notes finalized
+- Pre-release verification complete
+- Version tagged: [version]
+- Release documentation updated
+
+### Verification
+- All tests passing ([N] tests)
+- Test coverage: [X]%
+- Production readiness verified
+- Deployment guide reviewed
+- Post-release verification complete (if applicable)
+
+### Release Steps Completed
+- [x] Step 1: Finalize Release Documentation
+- [x] Step 2: Complete Pre-Release Verification
+- [x] Step 3: Version Tagging and Release
+- [x] Step 4: Update Release Documentation
+- [x] Step 5: Post-Release Verification
+- [x] Step 6: Release Communication
+
+---
+
+## Testing
+
+- [x] All automated tests passing ([N] tests)
+- [x] Coverage: [X]% (maintained/improved)
+- [x] Pre-release verification complete
+- [x] Post-release verification complete (if applicable)
+- [ ] Sourcery review completed (if code changes)
+
+---
+
+## Release Artifacts
+
+- **Release Checklist:** `docs/maintainers/planning/releases/[version]/checklist.md`
+- **Release Notes:** `docs/maintainers/planning/releases/[version]/release-notes.md`
+- **Transition Plan:** `docs/maintainers/planning/releases/[version]/transition-plan.md`
+
+---
+
+## Related
+
+- **Transition Plan:** `docs/maintainers/planning/releases/[version]/transition-plan.md`
+- **Release Checklist:** `docs/maintainers/planning/releases/[version]/checklist.md`
+- **Release Notes:** `docs/maintainers/planning/releases/[version]/release-notes.md`
+- **Release Hub:** `docs/maintainers/planning/releases/README.md`
+```
+
+---
+
+### 3. Pre-PR Validation (Release)
+
+**Before creating PR:**
+
+- [ ] All release steps completed
+- [ ] Release checklist complete
+- [ ] Release notes finalized
+- [ ] Version tagged (if Step 3 complete)
+- [ ] All verification steps passed
+- [ ] Release documentation updated
+- [ ] Transition plan updated (all steps marked complete)
+- [ ] Current branch is release branch
+- [ ] All changes committed
+
+**Verification commands:**
+```bash
+# Verify tag exists
+git tag -l [version]
+
+# Verify branch
+git branch --show-current
+
+# Verify tests passing
+pytest backend/ -v
+```
+
+**Checklist:**
+- [ ] On release branch
+- [ ] No uncommitted changes
+- [ ] All verification steps passed
+- [ ] Release documentation complete
+
+---
+
+### 4. Create PR (Release)
+
+**Steps:**
+
+1. **Push release branch:**
+   ```bash
+   git push origin release/[version]
+   ```
+
+2. **Create PR using GitHub CLI:**
+   ```bash
+   gh pr create --title "chore: Release [version]" \
+                --body-file /tmp/pr-description-release-[version].md \
+                --base develop \
+                --head release/[version]
+   ```
+
+3. **Get PR number from output** (e.g., `#36`)
+
+4. **STOP HERE - Present PR link to user**
+   - DO NOT auto-merge
+   - DO NOT proceed to Sourcery review yet
+   - Wait for user acknowledgment
+
+---
+
+### 5. Sourcery Review (Release)
+
+**After PR created and user acknowledges:**
+
+- Run Sourcery review if code changes exist: `dt-review`
+- Review feedback saved to: `docs/maintainers/feedback/sourcery/pr##.md`
+- Fill out priority matrix (if review run)
+- Address CRITICAL/HIGH issues before merge (if any)
+
+**Note:** Release PRs may have minimal code changes (mostly documentation), so Sourcery review may be optional.
+
+---
+
+### 6. Post-Merge (Release)
+
+**After merge:**
+- Use `/post-pr --release [version]` command to update documentation
+
+---
+
 ## Common Workflow Steps
 
 ### Pre-PR Validation
@@ -774,7 +965,8 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ### Phase Workflow
 
-1. `/phase-task` - Implement phase tasks
+1. `/task-phase` - Implement phase tasks
+2. `/task-release` - Implement release transition tasks
 2. `/pr --phase [N]` - Create phase PR
 3. `/post-pr` - Update documentation after merge
 
@@ -783,7 +975,15 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 1. `/fix-plan` - Create fix plans
 2. `/fix-implement [batch-name]` - Implement fixes
 3. `/pr --fix [batch-name]` - Create fix PR
-4. `/post-pr` - Update documentation after merge
+4. `/post-pr --fix [batch-name]` - Update documentation after merge
+
+### Release Workflow
+
+1. `/reflection-artifacts --type release` - Generate release artifacts
+2. `/transition-plan --from-artifacts` - Create transition plan
+3. `/task-release [version] [step]` - Implement release steps
+4. `/pr --release [version]` - Create release PR
+5. `/post-pr --release [version]` - Update documentation after merge
 
 ---
 
@@ -952,7 +1152,8 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 **Related Commands:**
 
-- `/phase-task` - Implement phase tasks
+- `/task-phase` - Implement phase tasks
+- `/task-release` - Implement release transition tasks
 - `/fix-implement` - Implement fix batches
 - `/fix-plan` - Create fix plans from Sourcery reviews
 - `/pr-validation` - Validate PR (manual testing + Sourcery review)
@@ -961,7 +1162,7 @@ gh pr create --title "fix: [Batch Description] ([batch-name])" \
 
 ---
 
-**Last Updated:** 2025-12-05  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active  
-**Next:** Use `/pr --phase [N]` for phase PRs, `/pr --fix [batch-name]` for fix PRs
+**Next:** Use `/pr --phase [N]` for phase PRs, `/pr --fix [batch-name]` for fix PRs, `/pr --release [version]` for release PRs
 

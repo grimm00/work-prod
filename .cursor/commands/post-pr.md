@@ -17,21 +17,40 @@ Use this command after a PR is merged to update all relevant documentation. This
 
 ## Usage
 
-**Command:** `/post-pr [pr-number] [phase-number]`
+**Command:** `/post-pr [pr-number] [--phase|--fix|--release] [identifier]`
 
 **Examples:**
-- `/post-pr 10 3` - Update docs after PR #10 (Phase 3) merge
-- `/post-pr 11 4` - Update docs after PR #11 (Phase 4) merge
+- `/post-pr 10 --phase 3` - Update docs after PR #10 (Phase 3) merge
+- `/post-pr 11 --phase 4` - Update docs after PR #11 (Phase 4) merge
+- `/post-pr 12 --fix pr12-batch-medium-low-01` - Update docs after fix PR merge
+- `/post-pr 36 --release v0.1.0` - Update docs after release PR merge
 
 ---
 
 ## Step-by-Step Process
 
+### Mode Selection
+
+**Determine mode:**
+
+- `--phase` flag → Phase mode (default for backward compatibility)
+- `--fix` flag → Fix mode
+- `--release` flag → Release mode
+- No flag with old format `[pr-number] [phase-number]` → Phase mode (backward compatibility)
+
+**Checklist:**
+
+- [ ] Mode determined
+- [ ] Identifier provided (phase number, batch name, or version)
+- [ ] PR number provided
+
+---
+
 ### 1. Validate Inputs
 
 **Check before proceeding:**
 - [ ] PR number is valid (check GitHub)
-- [ ] Phase number is valid (phase document exists)
+- [ ] Identifier is valid (phase document, fix plan, or release transition plan exists)
 - [ ] PR is merged to `develop` (or user confirms it will be merged)
 - [ ] Current branch is `develop` (or can switch to it)
 
@@ -49,8 +68,14 @@ gh pr view [pr-number] --json merged
 ### 2. Create Docs Branch
 
 **Branch naming:**
-- Format: `docs/post-pr##-phase##-complete`
-- Example: `docs/post-pr10-phase3-complete`
+- Phase mode: `docs/post-pr##-phase##-complete`
+- Fix mode: `docs/post-pr##-fix-[batch-name]-complete`
+- Release mode: `docs/post-pr##-release-[version]-complete`
+
+**Examples:**
+- `docs/post-pr10-phase3-complete` (Phase mode)
+- `docs/post-pr12-fix-pr12-batch-medium-low-01-complete` (Fix mode)
+- `docs/post-pr36-release-v0.1.0-complete` (Release mode)
 
 **Steps:**
 ```bash
@@ -494,7 +519,8 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 ### Command Sequence
 
 **Complete workflow:**
-1. `/phase-task` - Implement individual tasks
+1. `/task-phase` - Implement phase tasks
+2. `/task-release` - Implement release transition tasks
 2. `/pr --phase [N]` - Complete phase and create PR
 3. PR merged (manual GitHub action)
 4. `/post-pr` - Update documentation ← **You are here**
@@ -502,7 +528,8 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 ### Related Commands
 
-- **`/phase-task`** - Individual task implementation
+- **`/task-phase`** - Phase task implementation
+- **`/task-release`** - Release transition task implementation
 - **`/pr --phase [N]`** - Phase completion and PR workflow
 - **`/post-pr`** - Post-merge documentation updates (this command)
 - **`/int-opp`** - Document phase learnings (run after post-pr)
@@ -613,8 +640,14 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 - `docs/maintainers/planning/features/projects/fix/README.md`
 
 **Related Commands:**
-- `/phase-task` - Individual task implementation
+- `/task-phase` - Phase task implementation
+- `/task-release` - Release transition task implementation
 - `/pr --phase [N]` - Phase completion and PR workflow
+- `/pr --fix [batch-name]` - Fix batch PR workflow
+- `/pr --release [version]` - Release PR workflow
+- `/post-pr --phase [N]` - Update docs after phase PR merge
+- `/post-pr --fix [batch-name]` - Update docs after fix PR merge
+- `/post-pr --release [version]` - Update docs after release PR merge
 - `/int-opp` - Document phase learnings
 
 **Workflow:**
@@ -623,7 +656,7 @@ git push origin --delete fix/pr12-batch-medium-medium-01
 
 ---
 
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active  
-**Next:** Use after each PR merge to keep documentation current
+**Next:** Use after each PR merge to keep documentation current (supports phase, fix, and release modes)
 

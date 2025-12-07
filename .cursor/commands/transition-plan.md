@@ -426,7 +426,7 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 1. Review transition plan
 2. Begin implementation when ready
-3. Use `/phase-task` or `/pr` commands for implementation
+3. Use `/task-phase` or `/task-release` or `/pr` commands for implementation
 ```
 
 ---
@@ -636,7 +636,8 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 - `/reflection-artifacts` - Generate artifacts from reflection (run first, or auto-called)
 - `/reflect` - Create reflection documents
-- `/phase-task` - Implement individual tasks
+- `/task-phase` - Implement phase tasks
+- `/task-release` - Implement release transition tasks
 - `/pr` - Create PRs for completed work
 
 ---
