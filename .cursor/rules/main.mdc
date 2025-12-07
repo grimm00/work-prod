@@ -15,7 +15,7 @@ alwaysApply: true
 ### Rules Files
 
 - **[Workflow Rules](workflow.mdc)** - Development workflow and processes (Git Flow, PR review, feature planning, CI/CD)
-- **[Backend Rules](backend.mdc)** - Backend-specific patterns and conventions (when created)
+- **[Backend Rules](backend.mdc)** - Backend-specific patterns and conventions
 - **[Frontend Rules](frontend.mdc)** - Frontend-specific patterns and conventions (when created)
 
 ---
@@ -198,91 +198,8 @@ When writing code:
 
 **Domain-Specific Standards:**
 
-- **Backend:** See [backend.mdc](backend.mdc) (when created)
+- **Backend:** See [backend.mdc](backend.mdc) for backend-specific patterns, testing standards, and API design
 - **Frontend:** See [frontend.mdc](frontend.mdc) (when created)
-
-**Testing Standards (From Phase 7):**
-
-- **Edge Case Testing:** Create `test_[feature]_edge_cases.py` with categories (Unicode, special chars, boundary values, very long inputs)
-- **Uncovered Path Testing:** Create `test_[feature]_uncovered_paths.py` for coverage-driven test creation
-- **Test Assertions:** Always assert exact expected behavior, never allow multiple outcomes
-- **Coverage Targets:** Overall >80%, Models >90%, API endpoints >85%
-- **Test Organization:** Separate files for edge cases and uncovered paths
-
-### Backend Patterns (From Phase 5 & Phase 7 Learnings)
-
-**Bulk Import Pattern:**
-
-When implementing bulk import endpoints:
-
-- Return statistics (`imported`, `skipped`, `errors`) in response
-- Handle per-item errors gracefully (don't fail entire import)
-- Use duplicate detection by unique field (e.g., `remote_url`)
-- Validate request body shape strictly before processing
-
-**Edge Case Testing Pattern:**
-
-When creating test suites:
-
-- Create `test_[feature]_edge_cases.py` for comprehensive edge case coverage
-- Categories: Unicode/emoji, special characters, boundary values, very long inputs, empty/null values
-- Test naming: `test_[feature]_with_[edge_case]`
-- Document expected behavior clearly in test docstrings
-
-**Uncovered Path Testing Pattern:**
-
-When improving test coverage:
-
-- Create `test_[feature]_uncovered_paths.py` for coverage-driven test creation
-- Focus on exception handling paths identified by coverage reports
-- Use monkeypatching for error injection
-- Target specific uncovered lines efficiently
-
-**Request Body Validation:**
-
-Always validate request body shape explicitly:
-
-```python
-# Validate Content-Type
-if not request.is_json:
-    return jsonify({'error': 'Content-Type must be application/json'}), 400
-
-# Validate JSON
-try:
-    data = request.get_json()
-except Exception:
-    return jsonify({'error': 'Invalid JSON'}), 400
-
-# Validate request body shape
-if not isinstance(data, dict):
-    return jsonify({'error': 'Request body must be a JSON object'}), 400
-
-if 'field_name' not in data:
-    return jsonify({'error': "Missing 'field_name' field"}), 400
-
-field_data = data['field_name']
-if not isinstance(field_data, list):
-    return jsonify({'error': "'field_name' field must be a list"}), 400
-```
-
-**Enum Validation:**
-
-Validate enum values before database operations:
-
-- Check enum values before inserting/updating
-- Return clear error messages for invalid values
-- Add validation to mapping scripts and API endpoints
-- Prevents database enum errors and API crashes
-
-**Data Mapping Scripts:**
-
-When creating data mapping scripts:
-
-- Place in `scripts/` directory (outside main codebase)
-- Make scripts testable independently
-- Include comprehensive unit tests
-- Handle deduplication logic explicitly
-- Separate mapping logic from import logic
 
 ---
 
