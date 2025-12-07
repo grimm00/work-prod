@@ -226,10 +226,26 @@ backend/
 
 ## ⚙️ Configuration
 
-Environment variables:
-- `APP_CONFIG` - Configuration to use (development, production, testing)
-- `DATABASE_URL` - Database connection string (production)
+**Environment Variables:**
+
+See [Production Configuration Guide](PRODUCTION.md) for complete environment variable documentation.
+
+**Required (Production):**
+- `SECRET_KEY` - Flask secret key (REQUIRED in production)
+
+**Optional:**
+- `APP_CONFIG` - Configuration mode (`development`, `testing`, `production`)
+- `DATABASE_URL` - Database connection string (defaults to SQLite)
 - `CORS_ALLOWED_ORIGINS` - Comma-separated allowed origins (production)
+- `FLASK_ENV` - Legacy Flask environment variable (deprecated, use `APP_CONFIG`)
+
+**Example `.env` file:**
+```bash
+APP_CONFIG=production
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=sqlite:///instance/work_prod.db
+CORS_ALLOWED_ORIGINS=https://example.com
+```
 
 Configurations:
 - `DevelopmentConfig` - Local development (DEBUG=True)
