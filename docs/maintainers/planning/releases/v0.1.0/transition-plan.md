@@ -153,18 +153,22 @@ This transition plan guides the preparation and execution of the MVP release (v0
 - [ ] Create git tag: `git tag -a v0.1.0 -m "MVP Release v0.1.0"`
 - [ ] Push tag to remote: `git push origin v0.1.0`
 - [ ] Verify tag created correctly: `git tag -l v0.1.0`
+- [ ] **Create GitHub Release:** `gh release create v0.1.0 --title "v0.1.0 MVP Release" --notes-file docs/maintainers/planning/releases/v0.1.0/release-notes.md`
+- [ ] Verify GitHub Release page accessible
 - [ ] Update release notes with actual release date
 - [ ] Update release checklist with release date
 
 **Deliverables:**
 
 - Git tag v0.1.0 created and pushed
+- GitHub Release created with release notes
 - Release date updated in documentation
 - Release checklist updated
 
 **Definition of Done:**
 
 - Tag created and pushed successfully
+- GitHub Release created and accessible
 - Release date documented
 - Release checklist marked complete
 

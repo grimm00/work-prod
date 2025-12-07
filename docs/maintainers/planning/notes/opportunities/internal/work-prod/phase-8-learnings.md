@@ -438,15 +438,18 @@ def test_list_projects_performance(client, sample_projects):
 - Release preparation involves multiple components
 - Documentation review takes time
 - Production readiness verification important
+- GitHub Release creation was initially missed (git tag created but not GitHub Release)
 
 **Insight:**
 - Release preparation should be planned early
 - Documentation review is critical
 - Production readiness checklist valuable
+- GitHub Release creation should be part of tagging step (not separate)
 
 **Template implications:**
 - Create release preparation checklist
 - Plan release preparation in feature plan
+- Include GitHub Release creation in release workflow (Step 3)
 - Include documentation review in release process
 
 ---
