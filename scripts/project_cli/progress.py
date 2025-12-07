@@ -29,20 +29,19 @@ def spinner(console: Console, message: str = "Loading..."):
 
 
 @contextmanager
-def progress_bar(console: Console, total: int, description: str = "Processing"):
+def progress_bar(console: Console, description: str = "Processing"):
     """
     Context manager for showing a progress bar during an operation.
     
     Args:
         console: Rich Console instance
-        total: Total number of items to process
         description: Description text for the progress bar
     
     Yields:
         Progress instance that can be used to update progress
     
     Example:
-        with progress_bar(console, len(items), "Importing projects") as progress:
+        with progress_bar(console, "Importing projects") as progress:
             task = progress.add_task(description, total=len(items))
             for item in items:
                 # Process item

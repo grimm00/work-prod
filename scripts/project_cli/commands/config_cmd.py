@@ -46,9 +46,10 @@ def show_config():
     
     all_config = config.get_all()
     
-    if not all_config:
-        console.print("[yellow]No configuration found. Using defaults.[/yellow]")
-        return
+    # Check if config file exists (not whether get_all() is empty, since defaults are always present)
+    if not config.config_file.exists():
+        console.print("[yellow]No configuration file found. Using defaults.[/yellow]")
+        # Continue to show defaults anyway
     
     table = Table(title="Configuration", show_header=True, header_style="bold cyan")
     table.add_column("Section", style="cyan")
