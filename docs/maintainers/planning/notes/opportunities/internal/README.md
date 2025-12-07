@@ -11,13 +11,13 @@
 
 ### Work-Prod Learnings
 - **[Work-Prod Learnings Hub](work-prod/README.md)** - Comprehensive learnings from work-prod implementation
-  - Phase 1-5 learnings documents
+  - Phase 1-8 learnings documents
   - Fix management learnings
   - Process improvements and patterns
 
 ### Dev-Infra Improvements
 - **[Dev-Infra Improvements Hub](dev-infra/README.md)** - Actionable checklists for template updates
-  - Phase 1-5 improvement checklists
+  - Phase 1-8 improvement checklists
   - Fix management improvements
   - Template pattern documentation
 
@@ -85,10 +85,12 @@ Actionable checklists for updating dev-infra:
 | Fix Management | [work-prod/fix-management-learnings.md](work-prod/fix-management-learnings.md) | ✅ Complete | 🟡 Pending |
 | Phase 5 | [work-prod/phase-5-learnings.md](work-prod/phase-5-learnings.md) | ✅ Complete | 🟡 Pending |
 | Phase 6 | [work-prod/phase-6-learnings.md](work-prod/phase-6-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 7 | [work-prod/phase-7-learnings.md](work-prod/phase-7-learnings.md) | ✅ Complete | 🟡 Pending |
+| Phase 8 | [work-prod/phase-8-learnings.md](work-prod/phase-8-learnings.md) | ✅ Complete | 🟡 Pending |
 
 ---
 
-**Last Updated:** 2025-12-06  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Active  
-**Next:** Apply Phase 1-6 and Fix Management learnings to dev-infra template
+**Next:** Apply Phase 1-8 and Fix Management learnings to dev-infra template
 

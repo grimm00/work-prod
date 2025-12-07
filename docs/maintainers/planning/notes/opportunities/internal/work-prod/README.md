@@ -18,6 +18,7 @@
 - **[Phase 5 Learnings](phase-5-learnings.md)** - Import Projects from JSON + Validation Improvements
 - **[Phase 6 Learnings](phase-6-learnings.md)** - CLI Enhancement & Daily Use Tools
 - **[Phase 7 Learnings](phase-7-learnings.md)** - Automated Testing & Bug Fixes
+- **[Phase 8 Learnings](phase-8-learnings.md)** - MVP Polish / Production Ready
 
 ### Process Learnings
 
@@ -39,8 +40,8 @@ These learnings inform the dev-infra improvement checklists in the `dev-infra/` 
 
 ## 📊 Summary
 
-**Total Learning Documents:** 8  
-**Coverage:** Phases 1-7 + Fix Management
+**Total Learning Documents:** 9  
+**Coverage:** Phases 1-8 + Fix Management
 
 **Completion Status:**
 
@@ -54,6 +55,7 @@ These learnings inform the dev-infra improvement checklists in the `dev-infra/` 
 | Phase 5 | phase-5-learnings.md | ✅ Complete | 🟡 Pending |
 | Phase 6 | phase-6-learnings.md | ✅ Complete | 🟡 Pending |
 | Phase 7 | phase-7-learnings.md | ✅ Complete | 🟡 Pending |
+| Phase 8 | phase-8-learnings.md | ✅ Complete | 🟡 Pending |
 | Fix Management | fix-management-learnings.md | ✅ Complete | 🟡 Pending |
 
 ---
