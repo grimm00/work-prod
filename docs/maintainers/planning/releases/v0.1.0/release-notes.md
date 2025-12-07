@@ -1,6 +1,6 @@
 # Release Notes - v0.1.0
 
-**Release Date:** TBD  
+**Release Date:** 2025-12-07  
 **Status:** Stable  
 **Source:** reflection-2025-12-07-mvp-complete.md  
 **Type:** MVP Release
@@ -81,8 +81,9 @@
 ### Testing
 
 - **Test Coverage:** 97% coverage (exceeds 80% requirement)
-  - 151 backend tests (100% pass rate)
+  - 166 backend tests (100% pass rate)
   - 63 CLI tests (100% pass rate)
+  - 214 total tests (229 including test infrastructure)
   - 26 edge case tests
   - 8 uncovered path tests
   - 7 performance tests
@@ -153,7 +154,7 @@ This is the initial MVP release. No breaking changes from previous versions.
 - **Database:** SQLite (local-first)
 - **ORM:** SQLAlchemy + Flask-Migrate
 - **CLI:** Click
-- **Testing:** pytest (97% coverage)
+- **Testing:** pytest (97% coverage, 214 tests)
 - **Production Server:** Gunicorn
 
 ### API Specification
