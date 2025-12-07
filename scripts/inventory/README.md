@@ -2,7 +2,8 @@
 
 **Purpose:** Automated discovery and cataloging of repositories and projects  
 **Created:** 2025-11-26  
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-12-07  
+**Status:** 🟡 POC Complete - Repository Separation Planned (Week 4)
 
 ---
 
@@ -279,7 +280,65 @@ Install required modules: `pip3 install [module-name]`
 
 ---
 
-**Last Updated:** 2025-11-26  
-**Status:** ✅ Scripts ready to use
+## 🔄 Repository Separation Plan
+
+**Decision:** ✅ Separate Repository Recommended  
+**Timeline:** Week 4 (December 2025)  
+**Rationale:** See [Inventory POC Repository Placement Reflection](../../docs/maintainers/planning/notes/reflections/reflection-inventory-poc-repository-placement-2025-12-07.md)
+
+### Why Separate?
+
+**Initial Context:**
+- Inventory was one-time POC during exploration phase (Dec 1, 2025)
+- Generated seed data for Projects API (59 projects, 24 languages)
+- Projects API + CLI solved immediate need for project management
+
+**Future Need:**
+- **Project explosion anticipated** - Significant growth in project count expected
+- **Periodic refresh required** - Ongoing discovery and sync will be necessary
+- **Automation needed** - Manual discovery won't scale with project growth
+- **Integration opportunity** - Inventory can sync discovered projects to Projects API
+
+**Separation Benefits:**
+- Clear separation of concerns (discovery tool vs production app)
+- Independent evolution without affecting main repo
+- Reusability for others
+- Cleaner main repo focused on production code
+- Technical debt isolation
+
+### Mapping Script Placement
+
+**Current:** `scripts/map_inventory_to_projects.py` (in main repo)  
+**Decision:** Keep in main repo initially (used for import into Projects API)  
+**Future:** Revisit after Week 4 research and repository separation
+
+### Timeline
+
+**Phase 1 (Now):**
+- ✅ Document separation plan (this document)
+- ✅ Update main repo documentation
+- ✅ Add to Week 4 research plan
+
+**Phase 2 (Week 4):**
+- Create separate repository
+- Move inventory scripts to new repo
+- Update references and documentation
+- Address technical debt (7 known issues)
+
+**Phase 3 (Week 4+):**
+- Enhance inventory system with periodic refresh
+- Add Projects API integration for automatic import
+- Implement continuous sync capability
+
+### Related Documentation
+
+- **[Reflection Document](../../docs/maintainers/planning/notes/reflections/reflection-inventory-poc-repository-placement-2025-12-07.md)** - Complete analysis and decision rationale
+- **[POC Analysis](../../docs/maintainers/research/automation/inventory-system-poc-analysis.md)** - Technical debt and research questions
+- **[Research Register](../../docs/maintainers/research/research-register.md)** - Week 4 research topic entry
+
+---
+
+**Last Updated:** 2025-12-07  
+**Status:** 🟡 POC Complete - Repository Separation Planned (Week 4)
 
 

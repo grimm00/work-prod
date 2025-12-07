@@ -14,6 +14,7 @@
 - **[Reflection MVP Complete](reflection-2025-12-07-mvp-complete.md)** - Full project reflection after MVP completion (Phase 8)
 - **[Reflection 2025-12-07](reflection-2025-12-07.md)** - Full project reflection after Phase 7 completion and cursor rules split
 - **[Reflection 2025-12-05](reflection-2025-12-05.md)** - Full project reflection (7-day period)
+- **[Inventory POC Repository Placement](reflection-inventory-poc-repository-placement-2025-12-07.md)** - Analysis of whether inventory system should be separate repository (✅ Separate repo recommended)
 
 ### Phase-Specific Reflections
 
@@ -24,8 +25,8 @@
 
 ## 📊 Summary
 
-**Total Reflections:** 6  
-**Latest:** 2025-12-07 (Release Complete)
+**Total Reflections:** 7  
+**Latest:** 2025-12-07 (Inventory POC Repository Placement)
 
 ---
 
@@ -61,5 +62,5 @@ Focused analysis of individual phases:
 
 ---
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-07
 

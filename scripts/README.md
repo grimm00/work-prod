@@ -10,7 +10,7 @@
 
 ### Script Categories
 
-- **[Project Inventory Scripts](inventory/README.md)** - Automated discovery and cataloging of repositories and projects (✅ Active)
+- **[Project Inventory Scripts](inventory/README.md)** - Automated discovery and cataloging of repositories and projects (🟡 POC Complete - Repository Separation Planned Week 4)
 - **[Project Management CLI](project_cli/README.md)** - Command-line interface for managing projects via the Projects API (✅ Phase 8 Complete - MVP Ready)
 
 ---
@@ -140,9 +140,23 @@ cd project_cli
 
 ## 📊 Status
 
-**Project Inventory Scripts:** ✅ Active - Used for initial project discovery  
+**Project Inventory Scripts:** 🟡 POC Complete - Repository Separation Planned (Week 4)  
 **Project Management CLI:** ✅ Phase 8 Complete - MVP Ready  
 **Utility Scripts:** ✅ Active
+
+### Inventory System Repository Separation
+
+**Decision:** ✅ Separate Repository Recommended  
+**Timeline:** Week 4 (December 2025)  
+**Rationale:** Periodic refresh requirement, different purpose, cleaner separation
+
+**See:** [Inventory POC Repository Placement Reflection](../docs/maintainers/planning/notes/reflections/reflection-inventory-poc-repository-placement-2025-12-07.md) for complete analysis.
+
+**Current State:**
+
+- Inventory scripts remain in `scripts/inventory/` until Week 4
+- Mapping script (`map_inventory_to_projects.py`) will remain in main repo
+- Separation will occur during Week 4 research and refactoring phase
 
 ---
 
