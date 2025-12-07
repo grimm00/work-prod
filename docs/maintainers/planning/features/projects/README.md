@@ -24,7 +24,8 @@
 - **[Phase 4: Import Projects](phase-4.md)** - Import 59 existing projects (🔴 Not Started)
 - **[Phase 5: Search and Filtering](phase-5.md)** - Find projects quickly (🔴 Not Started)
 - **[Phase 6: CLI Enhancement & Daily Use Tools](phase-6.md)** - Polish CLI for daily use (🔴 Not Started)
-- **[Phase 7: Polish and MVP](phase-7.md)** - Production-ready MVP (🔴 Not Started)
+- **[Phase 7: Automated Testing & Bug Fixes](phase-7.md)** - Test coverage, documentation, code quality (✅ Complete)
+- **[Phase 8: MVP Polish / Production Ready](phase-8.md)** - Final polish and production readiness (🔴 Not Started)
 
 ### Planning Outputs
 
