@@ -2,7 +2,8 @@
 
 **Purpose:** Central hub for maintainer-facing documentation and project management  
 **Status:** ✅ Active  
-**Last Updated:** 2025-11-26
+**Version:** v0.1.0 MVP Released (2025-12-07)  
+**Last Updated:** 2025-12-07
 
 ---
 

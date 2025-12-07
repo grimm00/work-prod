@@ -164,6 +164,7 @@ Used consistently across all documentation:
 
 ---
 
-**Last Updated:** 2025-12-03  
+**Last Updated:** 2025-12-07  
 **Status:** ✅ Maintainers documentation active and comprehensive  
+**Version:** v0.1.0 MVP Released (2025-12-07)  
 **Next:** Continue updating after each phase completion
