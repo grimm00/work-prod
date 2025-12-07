@@ -10,15 +10,15 @@
 
 ### Releases
 
-- **[v0.1.0](v0.1.0/README.md)** - MVP Release (🔴 Not Started)
+- **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 
 ---
 
 ## 📊 Summary
 
-**Total Releases:** 1 planned  
-**Latest Release:** v0.1.0 (MVP)  
-**Status:** 🔴 Not Started
+**Total Releases:** 1 released  
+**Latest Release:** v0.1.0 (MVP) - Released 2025-12-07  
+**Status:** ✅ Released
 
 ---
 
@@ -43,7 +43,7 @@ Each release includes:
 
 | Version | Status | Release Date | Type | Description |
 |---------|--------|--------------|------|-------------|
-| v0.1.0 | 🔴 Not Started | TBD | MVP | Backend MVP Release |
+| v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
 
 ---
 
@@ -51,7 +51,8 @@ Each release includes:
 
 ### v0.1.0 - MVP Release
 
-**Status:** 🔴 Not Started  
+**Status:** ✅ Released  
+**Release Date:** 2025-12-07  
 **Created:** 2025-12-07  
 **Source:** reflection-2025-12-07-mvp-complete.md
 
@@ -70,7 +71,20 @@ Each release includes:
 
 ## 📝 Release History
 
-_No releases completed yet. First release (v0.1.0) in preparation._
+### v0.1.0 - MVP Release (2025-12-07)
+
+**Status:** ✅ Released  
+**Type:** MVP Release
+
+**Key Features:**
+- Full CRUD API
+- Search and filter
+- Bulk import
+- CLI tool
+- Production ready
+- 97% test coverage
+
+**Release Notes:** [v0.1.0/release-notes.md](v0.1.0/release-notes.md)
 
 ---
 
