@@ -10,6 +10,7 @@
 
 ### Project-Wide Reflections
 
+- **[Reflection 2025-12-07](reflection-2025-12-07.md)** - Full project reflection after Phase 7 completion and cursor rules split
 - **[Reflection 2025-12-05](reflection-2025-12-05.md)** - Full project reflection (7-day period)
 
 ### Phase-Specific Reflections
@@ -21,8 +22,8 @@
 
 ## 📊 Summary
 
-**Total Reflections:** 3  
-**Latest:** 2025-12-06
+**Total Reflections:** 4  
+**Latest:** 2025-12-07
 
 ---
 
