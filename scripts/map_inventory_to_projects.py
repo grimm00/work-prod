@@ -4,6 +4,15 @@ Map inventory classifications to Project model format.
 
 Reads classifications-merged.json and maps to the format expected by
 POST /api/projects/import endpoint.
+
+**Repository Placement Decision:**
+This script remains in the main work-prod repository (not moved to inventory repo)
+because it's used to import inventory data into the Projects API, which belongs
+to the main project. The inventory system will be separated into its own repository
+during Week 4, but this mapping script stays here as it's part of the Projects API
+import workflow.
+
+See: docs/maintainers/planning/infrastructure/inventory-repository-separation/transition-plan.md
 """
 
 import json
