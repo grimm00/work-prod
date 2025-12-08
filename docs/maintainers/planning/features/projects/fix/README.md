@@ -14,6 +14,7 @@
 ### Active PRs
 
 - **[PR #2](pr02/README.md)** - Phase 1: List & Get Projects (🟡 Partial - 4 MEDIUM issues planned)
+- **[PR #8](pr08/README.md)** - Phase 2: Create & Update Projects (✅ Complete - 2 CRITICAL/HIGH fixed, 16 deferred)
 - **[PR #12](pr12/README.md)** - Phase 4: Search & Filter Projects (🟡 Partial - 2/3 batches complete via PR #13, #19)
 - **[PR #16](pr16/README.md)** - Phase 5: Import Projects from JSON (✅ Complete - 1 HIGH fixed, 11 deferred)
 - **[PR #18](pr18/README.md)** - CLI table display improvements (✅ Complete - 2 issues fixed, 2 deferred)
