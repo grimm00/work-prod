@@ -8,6 +8,10 @@
 
 ## 📋 Quick Links
 
+### Process
+
+- **[Release Process](PROCESS.md)** - Standard release workflow and documentation
+
 ### Releases
 
 - **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
@@ -98,6 +102,6 @@ Each release includes:
 
 ---
 
-**Last Updated:** 2025-12-07  
-**Next Release:** v0.1.0 MVP Release
+**Last Updated:** 2025-12-16  
+**Next Release:** TBD (v0.2.0 when planned)
 

@@ -35,6 +35,10 @@
 
 - **[Manual Testing Guide](manual-testing.md)** - Phase 2 comprehensive testing scenarios (✅ Complete)
 
+### Maintenance
+
+- **[Post-MVP Maintenance Checklist](post-mvp-maintenance-checklist.md)** - Documentation cleanup tasks (🟠 In Progress)
+
 ### Code Quality
 
 - **[Fix Tracking](fix/README.md)** - Issues identified through code review (✅ Active)
@@ -181,8 +185,8 @@
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ MVP Complete - v0.1.0 Released  
-**Next:** Post-MVP improvements and deferred issues
+**Next:** Complete post-MVP maintenance checklist
 
 
