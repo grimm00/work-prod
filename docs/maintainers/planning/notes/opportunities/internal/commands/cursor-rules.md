@@ -133,6 +133,250 @@ ls -la .cursor/rules/
    - Fix tracking processes
    - Documentation processes
 
+**Process:**
+
+1. **Create split files:**
+
+   ```bash
+   # Create backend rules
+   touch .cursor/rules/backend.mdc
+   
+   # Create frontend rules
+   touch .cursor/rules/frontend.mdc
+   
+   # Create workflow rules
+   touch .cursor/rules/workflow.mdc
+   ```
+
+2. **Move sections to split files:**
+   - Extract backend section → `backend.mdc`
+   - Extract frontend section → `frontend.mdc`
+   - Extract workflow section → `workflow.mdc`
+
+3. **Update main.mdc:**
+   - Keep core sections
+   - Add references to split files
+   - Update "Last Updated" date
+
+**Updated main.mdc structure:**
+
+```markdown
+---
+alwaysApply: true
+---
+
+# Work Productivity Project - Cursor AI Rules
+
+**Purpose:** Guide AI assistance to align with project best practices and workflow  
+**Last Updated:** YYYY-MM-DD  
+**Status:** ✅ Active
+
+---
+
+## 📋 Quick Links
+
+### Rules Files
+
+- **[Backend Rules](backend.mdc)** - Backend-specific patterns and conventions
+- **[Frontend Rules](frontend.mdc)** - Frontend-specific patterns and conventions
+- **[Workflow Rules](workflow.mdc)** - Development workflow and processes
+
+---
+
+## 🎯 Project Overview
+
+[Core project overview - keep concise]
+
+---
+
+## 📁 Documentation Standards
+
+[Documentation standards - keep in main]
+
+---
+
+## 🏗️ Project Structure
+
+[Project structure - keep in main]
+
+---
+
+## 🎨 Code Standards
+
+[General code standards - keep in main]
+
+**Domain-Specific Standards:**
+
+- **Backend:** See [backend.mdc](backend.mdc)
+- **Frontend:** See [frontend.mdc](frontend.mdc)
+
+---
+
+## 🔄 Workflow Processes
+
+[General workflow - keep concise]
+
+**Detailed Workflows:**
+
+- See [workflow.mdc](workflow.mdc) for complete workflow documentation
+
+---
+
+## 🎯 AI Assistant Guidelines
+
+[AI assistant guidelines - keep in main]
+
+---
+
+**Last Updated:** YYYY-MM-DD  
+**Status:** ✅ Active
+```
+
+**Split file structure:**
+
+**backend.mdc:**
+
+```markdown
+---
+alwaysApply: true
+---
+
+# Backend Rules
+
+**Purpose:** Backend-specific patterns, conventions, and standards  
+**Last Updated:** YYYY-MM-DD  
+**Applies To:** `backend/` directory
+
+---
+
+## Backend Technology Stack
+
+- Python 3.11+
+- Flask (application factory pattern)
+- SQLAlchemy ORM + Flask-Migrate
+- SQLite (local-first database)
+- pytest for testing
+
+---
+
+## Backend Architecture Patterns
+
+### Application Factory Pattern
+
+[Flask app factory details]
+
+### Database Patterns
+
+[SQLAlchemy patterns]
+
+### API Design Patterns
+
+[REST API conventions]
+
+---
+
+## Backend Code Standards
+
+[Backend-specific code standards]
+
+---
+
+## Backend Testing Standards
+
+[Backend testing patterns]
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**frontend.mdc:**
+
+```markdown
+---
+alwaysApply: true
+---
+
+# Frontend Rules
+
+**Purpose:** Frontend-specific patterns, conventions, and standards  
+**Last Updated:** YYYY-MM-DD  
+**Applies To:** `frontend/` directory
+
+---
+
+## Frontend Technology Stack
+
+- React 18
+- Vite build tool
+- Zustand (state management)
+- React Router v6
+- Axios (API client)
+
+---
+
+## Frontend Architecture Patterns
+
+[React patterns, component structure]
+
+---
+
+## Frontend Code Standards
+
+[Frontend-specific code standards]
+
+---
+
+## Frontend Testing Standards
+
+[Frontend testing patterns]
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
+**workflow.mdc:**
+
+```markdown
+---
+alwaysApply: true
+---
+
+# Workflow Rules
+
+**Purpose:** Development workflow processes and commands  
+**Last Updated:** YYYY-MM-DD
+
+---
+
+## Development Workflow
+
+[Git Flow, branching strategy]
+
+---
+
+## Command Workflows
+
+[Command documentation references]
+
+---
+
+## PR Processes
+
+[PR creation, review, merge processes]
+
+---
+
+## Fix Tracking
+
+[Fix batch system, tracking]
+
+---
+
+**Last Updated:** YYYY-MM-DD
+```
+
 **Checklist:**
 
 - [ ] Split files created
@@ -163,6 +407,14 @@ ls -la .cursor/rules/
    - Frontend patterns → frontend.mdc
    - Workflow changes → workflow.mdc
 
+**Example updates:**
+
+**From Phase 4 learnings:**
+
+- Query parameter filtering pattern → backend.mdc
+- Fix batch system → workflow.mdc
+- Cross-PR batch structure → workflow.mdc
+
 **Checklist:**
 
 - [ ] Learnings reviewed
@@ -187,6 +439,13 @@ wc -l .cursor/rules/*.mdc
 grep -r "\.mdc" .cursor/rules/
 ```
 
+**Verify Cursor can read:**
+
+- All files have proper frontmatter
+- References are correct
+- No broken links
+- File sizes reasonable
+
 **Checklist:**
 
 - [ ] All files exist and are readable
@@ -209,6 +468,16 @@ Examples:
 - Split main.mdc into backend/frontend/workflow
 - Add backend-specific patterns from Phase 4 learnings
 - Update workflow rules with fix batch system
+```
+
+**Steps:**
+
+```bash
+# Stage rules changes
+git add .cursor/rules/
+
+# Commit with proper message
+git commit -m "docs(cursor-rules): [description]"
 ```
 
 **Checklist:**
@@ -324,3 +593,4 @@ Examples:
 **Next:** Use after `/int-opp` to keep rules current with project evolution
 
 --- End Command ---
+

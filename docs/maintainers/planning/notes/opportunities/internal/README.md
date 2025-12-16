@@ -3,7 +3,7 @@
 **Purpose:** Export learnings from work-prod to other projects  
 **Primary Target:** ~/Projects/dev-infra template  
 **Status:** ✅ Active  
-**Last Updated:** 2025-12-07
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -21,6 +21,11 @@
   - Fix management improvements
   - Template pattern documentation
   - Command adaptations for dev-infra
+
+### Commands
+- **[Commands Hub](commands/README.md)** - Command documentation and adaptations
+  - `/int-opp` - Document internal opportunities
+  - `/cursor-rules` - Cursor rules management
 
 ---
 
@@ -43,9 +48,13 @@ internal/
 │   ├── README.md                # Work-prod hub
 │   ├── phase-*-learnings.md     # Phase learnings documents
 │   └── fix-management-learnings.md
-└── dev-infra/                    # Dev-infra improvements
-    ├── README.md                # Dev-infra hub
-    └── dev-infra-improvements*.md  # Improvement checklists
+├── dev-infra/                    # Dev-infra improvements
+│   ├── README.md                # Dev-infra hub
+│   └── dev-infra-improvements*.md  # Improvement checklists
+└── commands/                     # Command documentation
+    ├── README.md                # Commands hub
+    ├── int-opp.md               # Internal opportunities command
+    └── cursor-rules.md          # Cursor rules management
 ```
 
 ## 📝 Documentation Types
@@ -91,7 +100,7 @@ Actionable checklists for updating dev-infra:
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
 **Next:** Apply Phase 1-8 and Fix Management learnings to dev-infra template
 
