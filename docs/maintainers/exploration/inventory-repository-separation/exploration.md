@@ -15,6 +15,7 @@ Deep dive into the inventory system separation to:
 4. Design configuration management approach
 5. Plan integration patterns with work-prod
 6. Prioritize technical debt items for resolution
+7. **NEW:** Consider making a unified CLI tool that manages inventory (central app with commands/flags)
 
 ---
 
@@ -48,6 +49,54 @@ The inventory system (scripts in `scripts/inventory/`) is being separated into i
 | `project-discovery` | Forward-looking | Vague |
 
 **Leaning toward:** `project-inventory` or `inventory-tools`
+
+### 🆕 Unified CLI Tool Consideration
+
+**New Idea (2025-12-16):** Instead of just separating inventory scripts, create a **unified CLI tool** that:
+- Manages inventory scanning (GitHub, local projects)
+- Provides commands for analysis, classification, deduplication
+- Has subcommands like `proj scan`, `proj analyze`, `proj export`
+- Could be the central "project management" CLI
+
+**Potential Architecture:**
+
+```
+proj (or pinv, inventory-cli)
+├── scan
+│   ├── github     # Scan GitHub repos
+│   ├── local      # Scan local projects
+│   └── all        # Combined scan
+├── analyze
+│   ├── tech-stack # Analyze technologies
+│   └── classify   # Classify by type
+├── process
+│   ├── dedupe     # Deduplicate
+│   └── report     # Generate reports
+├── export
+│   ├── json       # Export to JSON
+│   └── api        # Push to work-prod API
+└── config
+    ├── show       # Show config
+    └── set        # Set config values
+```
+
+**Pros:**
+- Single tool to learn/use
+- Consistent UX across all operations
+- Can add commands incrementally
+- Professional CLI experience (argparse/click/typer)
+- Easier to distribute and install
+
+**Cons:**
+- More upfront work than separating scripts
+- Need to decide on CLI framework
+- Potential scope creep
+
+**Naming options with CLI focus:**
+- `proj` - Short, memorable (but may conflict with work-prod's `proj`)
+- `pinv` - Project inventory, short
+- `inventory` - Clear but long
+- `project-scanner` - Descriptive
 
 ### Script Organization
 
@@ -106,6 +155,9 @@ inventory/
 - [ ] **Q5:** How should the new repo integrate with work-prod's Projects API?
 - [ ] **Q6:** Which technical debt items are critical vs. nice-to-have?
 - [ ] **Q7:** Should we add CLI tooling (argparse/click) to scripts?
+- [ ] **Q8 (NEW):** Should we create a unified CLI tool instead of just separating scripts?
+- [ ] **Q9 (NEW):** If CLI, what framework? (argparse/click/typer)
+- [ ] **Q10 (NEW):** How does this change the naming/scope of the new repo?
 
 ---
 
@@ -161,6 +213,31 @@ project-inventory repo --> API client --> POST /api/projects/import
 ```
 
 **Recommended:** Start with Option A, build toward Option C
+
+### 🆕 Option D: Unified CLI Tool (New Consideration)
+
+If we build a unified CLI tool, integration becomes native:
+
+```
+# From new inventory repo
+pinv scan all                    # Scan GitHub + local
+pinv analyze tech-stack          # Analyze technologies
+pinv process dedupe              # Deduplicate
+pinv export json                 # Export to JSON
+pinv export api --url http://localhost:5000  # Push to work-prod
+
+# Or combined workflow
+pinv sync --to-api http://localhost:5000     # All-in-one
+```
+
+**Benefits of Option D:**
+- API integration is a first-class command
+- Configuration handles URLs, credentials
+- Better error handling and progress feedback
+- Can do incremental/diff-based syncs
+- Logging and audit trails
+
+**This changes the recommendation:** If CLI tool, start with Option D architecture
 
 ---
 

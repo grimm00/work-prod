@@ -169,6 +169,7 @@ inventory scripts → inventory-data.json → map_inventory.py → API import
 - A: Manual workflow (copy files between repos)
 - B: Export command (new repo outputs work-prod format)
 - C: Direct API (new repo has API client)
+- D: Unified CLI tool with native API commands (new consideration)
 
 **Priority:** 🟡 MEDIUM
 
@@ -178,6 +179,90 @@ inventory scripts → inventory-data.json → map_inventory.py → API import
 - Document current workflow in detail
 - Evaluate automation opportunities
 - Recommend phased approach
+
+---
+
+### Research Topic 7: Unified CLI Tool Architecture 🆕
+
+**Question:** Should we create a unified CLI tool instead of just separating scripts?
+
+**Why:** A CLI tool provides better UX, consistent interface, and makes API integration a first-class feature. This changes the scope from "move scripts" to "create a professional tool."
+
+**Sub-questions:**
+- Is a CLI tool worth the additional effort?
+- What framework? (argparse/click/typer)
+- What should the command structure look like?
+- How does this affect repository naming?
+- Should it be installable via pip?
+
+**CLI Framework Options:**
+
+| Framework | Pros | Cons |
+|-----------|------|------|
+| `argparse` | Built-in, no deps | Verbose, basic UX |
+| `click` | Clean API, good UX | Dependency |
+| `typer` | Modern, type hints | Newer, smaller community |
+| `fire` | Auto-generates CLI | Less control |
+
+**Proposed Command Structure:**
+```
+pinv scan github          # Scan GitHub repos
+pinv scan local           # Scan local projects  
+pinv analyze tech-stack   # Analyze technologies
+pinv process dedupe       # Deduplicate
+pinv export json          # Export to JSON
+pinv export api           # Push to work-prod API
+pinv sync                 # All-in-one workflow
+```
+
+**Priority:** 🔴 HIGH (Changes scope significantly)
+
+**Status:** 🔴 Not Started
+
+**Approach:**
+- Evaluate CLI frameworks (quick comparison)
+- Define minimum viable command set
+- Estimate effort vs. script separation only
+- Decide on scope: scripts vs. CLI tool
+
+**Decision Impact:**
+- If YES → Repository becomes a proper Python package with CLI entry point
+- If NO → Stick with script separation as originally planned
+
+---
+
+### Research Topic 8: CLI Tool Naming & Distribution 🆕
+
+**Question:** If we build a CLI tool, what should it be named and how should it be distributed?
+
+**Why:** The name affects usability and the distribution method affects installation.
+
+**Naming Options:**
+
+| Name | Pros | Cons |
+|------|------|------|
+| `pinv` | Short, unique | Not immediately clear |
+| `proj-inv` | Clear, unique | Hyphen awkward |
+| `inventory` | Clear | Generic, may conflict |
+| `project-scanner` | Descriptive | Long |
+| `pscan` | Short | Vague |
+
+**Distribution Options:**
+- `pip install` from GitHub (recommended)
+- PyPI publication (later, if useful to others)
+- Local scripts with PATH entry
+- Shell alias to Python module
+
+**Depends on:** Research Topic 7 decision
+
+**Priority:** 🟡 MEDIUM (Only if CLI tool approved)
+
+**Status:** 🔴 Not Started
+
+**Approach:**
+- Survey similar tools for naming conventions
+- Evaluate distribution complexity
+- Recommend based on usage patterns
 
 ---
 
@@ -194,14 +279,26 @@ inventory scripts → inventory-data.json → map_inventory.py → API import
 
 | Topic | Priority | Blocking? | Effort | Order |
 |-------|----------|-----------|--------|-------|
-| Repository Naming | HIGH | Yes | LOW | 1st |
-| Configuration Management | HIGH | Yes | MEDIUM | 2nd |
-| Technical Debt Prioritization | HIGH | Yes | LOW | 3rd |
-| Git History | MEDIUM | No | MEDIUM | 4th |
-| Script Organization | MEDIUM | No | MEDIUM | 5th |
-| Integration Patterns | MEDIUM | No | LOW | 6th |
+| **7. Unified CLI Tool** | 🔴 HIGH | Yes (scope decision) | LOW | **1st** |
+| Repository Naming | HIGH | Yes | LOW | 2nd |
+| Configuration Management | HIGH | Yes | MEDIUM | 3rd |
+| Technical Debt Prioritization | HIGH | Yes | LOW | 4th |
+| **8. CLI Naming & Distribution** | MEDIUM | Conditional | LOW | 5th |
+| Git History | MEDIUM | No | MEDIUM | 6th |
+| Script Organization | MEDIUM | No | MEDIUM | 7th |
+| Integration Patterns | MEDIUM | No | LOW | 8th |
 
-**Recommended approach:** Research topics 1, 4, 5 first (blocking decisions), then 2, 3, 6 (implementation details).
+**🆕 Recommended approach (Updated):**
+
+1. **First: Topic 7 (CLI Tool)** - This is the gating decision that affects everything else
+   - If YES → Repository becomes a Python package with CLI
+   - If NO → Continue with original script separation plan
+
+2. **Then, based on Topic 7 decision:**
+   - If CLI: Topics 8, 1, 4, 3 (CLI naming, repo naming, config, tech debt)
+   - If Scripts: Topics 1, 4, 5 (repo naming, config, tech debt)
+
+3. **Finally:** Remaining topics (history, organization, integration)
 
 ---
 
