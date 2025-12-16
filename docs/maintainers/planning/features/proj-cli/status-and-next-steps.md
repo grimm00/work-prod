@@ -1,7 +1,7 @@
 # proj-cli - Status and Next Steps
 
 **Feature:** Unified CLI Tool  
-**Status:** 🔴 Not Started  
+**Status:** 🟠 In Progress  
 **Last Updated:** 2025-12-16
 
 ---
@@ -10,7 +10,7 @@
 
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
-| 1 | Repository Setup | ~2-3 hrs | 🔴 Not Started |
+| 1 | Repository Setup | ~2-3 hrs | 🟠 In Progress |
 | 2 | Migrate Project Commands | ~3-4 hrs | 🔴 Not Started |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
@@ -20,29 +20,32 @@
 
 ## ✅ Completed
 
-*Nothing completed yet.*
+- **Repository created:** https://github.com/grimm00/proj-cli (2025-12-16)
+- **Template applied:** dev-infra experimental template
 
 ---
 
 ## 🟠 In Progress
 
-*Nothing in progress yet.*
+- **Phase 1:** Repository Setup - Adapting template for CLI-only structure
 
 ---
 
 ## 🔜 Next Steps
 
-### Immediate (Pre-requisites)
+### Immediate (Phase 1)
 
-1. **Create `proj-cli` repository:**
+1. **Clone and restructure repository:**
    ```bash
-   cd ~/Projects/dev-infra
-   ./new-project.sh proj-cli
+   cd ~/Projects
+   git clone https://github.com/grimm00/proj-cli.git
+   cd proj-cli
    ```
 
-2. **Begin Phase 1 implementation:**
-   - Use `/task-phase --phase 1` in proj-cli project
-   - Follow TDD workflow in `phase-1.md`
+2. **Adapt template for CLI-only:**
+   - Remove web app structure (backend/, frontend/)
+   - Create CLI package structure (src/proj/)
+   - Update pyproject.toml for CLI entry point
 
 ### Phase 1 Key Tasks
 

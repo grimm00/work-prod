@@ -2,23 +2,25 @@
 
 **Phase:** 1 of 4  
 **Duration:** ~2-3 hours  
-**Status:** 🔴 Not Started  
-**Prerequisites:** `dev-infra` template available
+**Status:** 🟠 In Progress  
+**Prerequisites:** Repository created at https://github.com/grimm00/proj-cli
 
 ---
 
 ## 📋 Overview
 
-Create the `proj-cli` repository with proper Python package structure, Typer CLI framework, and Pydantic configuration. This phase establishes the foundation for all subsequent work.
+Restructure the `proj-cli` repository from the dev-infra template into a proper Python CLI package with Typer framework and Pydantic configuration. The repository exists but needs restructuring for CLI-only focus.
 
 **Success Definition:** Running `proj --version` shows version, `proj --help` shows command structure, and config loads from XDG paths.
+
+**Note:** Repository was created from dev-infra template (full app structure). We need to adapt it for a CLI-only package.
 
 ---
 
 ## 🎯 Goals
 
-1. Create `proj-cli` repository using `dev-infra/new-project.sh`
-2. Set up proper Python package structure with `src/` layout
+1. ~~Create `proj-cli` repository using `dev-infra/new-project.sh`~~ ✅ Done
+2. Restructure repository for CLI-only package (`src/proj/` layout)
 3. Create `pyproject.toml` with entry point for `proj` command
 4. Implement Pydantic configuration with XDG compliance
 5. Create basic Typer app with placeholder commands
@@ -27,30 +29,46 @@ Create the `proj-cli` repository with proper Python package structure, Typer CLI
 
 ## 📝 Tasks
 
-### Task 1: Create Repository (Setup)
+### Task 1: Clone and Restructure Repository (Setup)
 
-**Goal:** Initialize `proj-cli` repository from template
+**Goal:** Clone the existing repository and restructure for CLI-only
 
 **Steps:**
 
-- [ ] Navigate to `~/Projects/dev-infra/`
-- [ ] Run `./new-project.sh proj-cli`
-- [ ] Navigate to new `~/Projects/proj-cli/` directory
-- [ ] Verify template files created
-- [ ] Update README.md with project description
+- [x] Repository created at https://github.com/grimm00/proj-cli ✅
+- [ ] Clone repository locally
+- [ ] Remove web app directories (backend/, frontend/)
+- [ ] Create CLI package structure (src/proj/)
+- [ ] Update README.md for CLI-only project
 
 **Commands:**
 
 ```bash
-cd ~/Projects/dev-infra
-./new-project.sh proj-cli
-cd ~/Projects/proj-cli
-ls -la
+cd ~/Projects
+git clone https://github.com/grimm00/proj-cli.git
+cd proj-cli
+```
+
+**Restructure:**
+
+```bash
+# Remove web app directories (keep useful parts)
+rm -rf backend/ frontend/
+
+# Create CLI package structure
+mkdir -p src/proj/commands
+touch src/proj/__init__.py
+touch src/proj/__main__.py
+touch src/proj/cli.py
+touch src/proj/config.py
+touch src/proj/commands/__init__.py
 ```
 
 **Notes:**
-- Repository will be created in `~/Projects/proj-cli/`
-- Template provides basic Python structure
+- Repository exists with dev-infra template
+- Need to restructure for CLI-only focus
+- Keep: .cursor/, docs/, scripts/ (useful), tests/, .github/
+- Remove: backend/, frontend/ (not needed for CLI)
 
 ---
 
