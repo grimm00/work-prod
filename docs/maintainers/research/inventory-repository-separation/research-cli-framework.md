@@ -26,6 +26,7 @@ If we build a CLI tool, which framework provides the best balance of features, s
 ## 📚 Research Methodology
 
 **Sources:**
+
 - [x] Typer documentation (https://typer.tiangolo.com/) - 18.5k GitHub stars
 - [x] Click documentation (https://click.palletsprojects.com/) - 15k+ GitHub stars
 - [x] Python argparse documentation
@@ -38,18 +39,18 @@ If we build a CLI tool, which framework provides the best balance of features, s
 
 ### Finding 1: Framework Comparison Matrix
 
-| Feature | argparse | Click | Typer |
-|---------|----------|-------|-------|
-| **Built-in** | ✅ Yes | ❌ No | ❌ No |
-| **Type Hints** | ❌ No | ❌ Limited | ✅ Yes |
-| **Auto-Completion** | ❌ Manual | ✅ Built-in | ✅ Built-in |
-| **Help Generation** | Basic | Good | Excellent |
-| **Nesting Commands** | Complex | Easy | Easy |
-| **Learning Curve** | Medium | Low | Low |
-| **Community Size** | Huge | Large | Growing |
-| **Dependencies** | None | click pkg | typer, click |
-| **Progress Bars** | ❌ No | ❌ Add-on | ✅ Via rich |
-| **Colors** | ❌ No | ✅ Built-in | ✅ Built-in |
+| Feature              | argparse  | Click       | Typer        |
+| -------------------- | --------- | ----------- | ------------ |
+| **Built-in**         | ✅ Yes    | ❌ No       | ❌ No        |
+| **Type Hints**       | ❌ No     | ❌ Limited  | ✅ Yes       |
+| **Auto-Completion**  | ❌ Manual | ✅ Built-in | ✅ Built-in  |
+| **Help Generation**  | Basic     | Good        | Excellent    |
+| **Nesting Commands** | Complex   | Easy        | Easy         |
+| **Learning Curve**   | Medium    | Low         | Low          |
+| **Community Size**   | Huge      | Large       | Growing      |
+| **Dependencies**     | None      | click pkg   | typer, click |
+| **Progress Bars**    | ❌ No     | ❌ Add-on   | ✅ Via rich  |
+| **Colors**           | ❌ No     | ✅ Built-in | ✅ Built-in  |
 
 **Source:** Documentation review and web research
 
@@ -60,6 +61,7 @@ If we build a CLI tool, which framework provides the best balance of features, s
 ### Finding 2: Typer is Built on Click
 
 **Description:** Typer is essentially a modern wrapper around Click that uses Python type hints. This means:
+
 - All Click features are available
 - Type hints define arguments/options
 - Less boilerplate code
@@ -68,6 +70,7 @@ If we build a CLI tool, which framework provides the best balance of features, s
 **Example Comparison:**
 
 **argparse:**
+
 ```python
 import argparse
 parser = argparse.ArgumentParser()
@@ -77,6 +80,7 @@ print(f"Hello {args.name}")
 ```
 
 **Click:**
+
 ```python
 import click
 @click.command()
@@ -86,6 +90,7 @@ def main(name: str):
 ```
 
 **Typer:**
+
 ```python
 import typer
 def main(name: str):
@@ -102,6 +107,7 @@ typer.run(main)
 ### Finding 3: Work-Prod Uses argparse
 
 **Description:** The existing `project_cli` uses argparse with a custom structure. Key observations:
+
 - Works well for current needs
 - More verbose than alternatives
 - Familiar pattern already in use
@@ -115,6 +121,7 @@ typer.run(main)
 ### Finding 4: Typer Has Best Developer Experience
 
 **Description:** Typer provides:
+
 - **Auto-generated help:** From function signatures and docstrings
 - **Type validation:** Automatic argument type checking
 - **Shell completion:** Built-in for bash/zsh/fish/PowerShell
@@ -130,6 +137,7 @@ typer.run(main)
 ### Finding 5: Click Is More Battle-Tested
 
 **Description:** Click (8.3.x) is:
+
 - Used by Flask, Ansible, and many major projects
 - Extremely stable and well-documented
 - More explicit (decorators instead of type hints)
@@ -146,11 +154,13 @@ typer.run(main)
 ### Option A: argparse (Stay Consistent)
 
 **Pros:**
+
 - No new dependencies
 - Familiar from work-prod CLI
 - Built into Python
 
 **Cons:**
+
 - More verbose
 - Manual help text
 - No shell completion out of box
@@ -163,12 +173,14 @@ typer.run(main)
 ### Option B: Click (Battle-Tested)
 
 **Pros:**
+
 - Widely used, stable
 - Good documentation
 - Decorator-based (explicit)
 - Shell completion
 
 **Cons:**
+
 - New dependency
 - More verbose than Typer
 - Learning new patterns
@@ -180,6 +192,7 @@ typer.run(main)
 ### Option C: Typer (Modern DX)
 
 **Pros:**
+
 - Least boilerplate
 - Best auto-generated help
 - Type hints = arguments
@@ -187,6 +200,7 @@ typer.run(main)
 - Fun to use
 
 **Cons:**
+
 - Adds dependency (typer + click)
 - Newer (2020+), smaller community
 - Magic can be confusing
@@ -200,6 +214,7 @@ typer.run(main)
 ### Primary Recommendation: Typer
 
 **Rationale:**
+
 1. **Least boilerplate:** Type hints define CLI automatically
 2. **Best help generation:** Documentation from docstrings
 3. **Modern Python:** Uses type hints we already use
@@ -256,6 +271,7 @@ If type hint magic is uncomfortable, Click is a solid alternative with explicit 
 **Decision:** ✅ Use Typer
 
 **Rationale:**
+
 1. Modern, clean syntax
 2. Best developer experience
 3. Auto-generates beautiful help
@@ -263,9 +279,9 @@ If type hint magic is uncomfortable, Click is a solid alternative with explicit 
 5. Learning opportunity for modern Python CLI patterns
 
 **Dependencies to add:**
+
 - `typer[all]` (includes rich, shellingham)
 
 ---
 
 **Last Updated:** 2025-12-16
-
