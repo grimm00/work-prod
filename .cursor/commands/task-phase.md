@@ -57,25 +57,111 @@ Use this command to implement phase tasks step-by-step, following TDD workflow a
 
 ---
 
+## Pre-Task Branch Validation (BLOCKING)
+
+**CRITICAL:** This validation MUST pass before any work begins. Do NOT proceed if validation fails.
+
+### Validation Steps
+
+1. **Check Current Branch:**
+   ```bash
+   git branch --show-current
+   ```
+   
+2. **Expected Pattern:** `feat/[feature-name]-phase-N-*` or `feat/phase-N-*`
+
+3. **Validation Logic:**
+   - If on `develop` or `main` → **ERROR: Wrong branch**
+   - If on different feature branch → **ERROR: Wrong feature**
+   - If branch in worktree elsewhere → **ERROR: Worktree conflict**
+
+### Error Handling
+
+**Wrong Branch Error:**
+```
+❌ BLOCKING: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
+   
+   Resolution:
+   1. Check out the correct feature branch: git checkout feat/[feature]-phase-N-[desc]
+   2. If branch exists in worktree, work from that worktree instead
+   3. If starting new phase, create branch: git checkout -b feat/[feature]-phase-N-[desc]
+```
+
+**Worktree Conflict Error:**
+```
+❌ BLOCKING: Branch 'feat/...' is checked out in worktree at '/path/to/worktree'
+   
+   Resolution:
+   1. Work from the worktree: cd /path/to/worktree
+   2. Or delete the worktree: git worktree remove /path/to/worktree
+   3. Then checkout: git checkout feat/...
+```
+
+### Enforcement
+
+- This check runs at the START of every `/task-phase` invocation
+- If validation fails, the command STOPS immediately
+- No code changes should be made until validation passes
+
+---
+
 ## Step-by-Step Process
 
 ### 1. Start a Phase Task
 
 **What to do:**
-1. Read the phase document: `docs/maintainers/planning/features/projects/phase-N.md`
-2. Identify the current task (numbered in the document)
-3. Check prerequisites (previous tasks, phase status)
-4. Create feature branch if starting phase: `feat/phase-N-[description]`
+1. **Branch validation passed** (checked above)
+2. Read the phase document: `docs/maintainers/planning/features/[feature-name]/phase-N.md`
+3. Identify the current task (numbered in the document)
+4. Check prerequisites (previous tasks, phase status)
+5. Create feature branch if starting phase: `feat/[feature-name]-phase-N-[description]` or `feat/phase-N-[description]`
 
 **Branch naming:**
-- First task: `feat/phase-N-[description]` (e.g., `feat/phase-3-delete-archive`)
+- First task: `feat/[feature-name]-phase-N-[description]` (e.g., `feat/projects-phase-3-delete-archive`)
+- Or: `feat/phase-N-[description]` if no feature name
 - Subsequent tasks: Use same branch
 
+**Status Update (Start of Phase):**
+
+**Auto-Update Phase Status:**
+
+When starting a phase (first task of the phase), automatically update status:
+
+1. **Read phase document:**
+   - Feature-specific: `docs/maintainers/planning/features/[feature-name]/phase-N.md`
+   - Project-wide: `docs/maintainers/planning/phases/phase-N.md`
+
+2. **Check current status:**
+   - If status is "🔴 Not Started" or missing, update to "🟠 In Progress"
+   - If status is already "🟠 In Progress", leave as is (may be resuming)
+   - If status is "✅ Complete", warn user (shouldn't happen)
+
+3. **Update phase document:**
+   - Change `**Status:** 🔴 Not Started` to `**Status:** 🟠 In Progress`
+   - Update `**Last Updated:**` field to today's date
+
+4. **Update feature status document (if first phase):**
+   - File: `docs/maintainers/planning/features/[feature-name]/status-and-next-steps.md`
+   - Update `**Status:**` to "🟠 In Progress" if still "🔴 Not Started"
+   - Update `**Current Phase:**` to reflect starting phase
+   - Update `**Last Updated:**` field
+
+5. **Commit status updates:**
+   - Commit message: `docs(phase-N): update phase status to In Progress`
+   - Include both phase document and feature status document if updated
+   - Commit immediately after updating (before starting work)
+
+**Note:** Status updates are committed immediately at phase start to ensure status is current from the beginning.
+
 **Checklist:**
+- [ ] Branch validation passed
 - [ ] Phase document read and understood
 - [ ] Prerequisites met (previous phase complete)
 - [ ] Feature branch created (if first task)
 - [ ] Current task identified and understood
+- [ ] Phase status auto-updated to "🟠 In Progress" (if starting phase)
+- [ ] Feature status auto-updated (if first phase)
+- [ ] Status updates committed
 
 ---
 
@@ -178,6 +264,27 @@ git commit -m "feat(phase-3): add proj delete CLI command"
 - Mark task items as complete: `- [x]` instead of `- [ ]`
 - Don't commit phase doc changes until phase complete
 
+**Auto-Status Update (MANDATORY):**
+
+After task implementation is complete, AUTOMATICALLY:
+
+1. **Update Phase Document:**
+   - Mark task checkboxes as complete: `- [ ]` → `- [x]`
+   - Update Last Updated field
+
+2. **Commit Status Update:**
+   ```bash
+   git add [phase-document]
+   git commit -m "docs(phase-N): mark Task M complete"
+   ```
+
+3. **Verify Commit Location:**
+   ```bash
+   # Confirm commit is on feature branch, NOT develop
+   git branch --show-current  # Should be feat/...
+   git log --oneline -1       # Should show status commit
+   ```
+
 ---
 
 ### 5. Stop After Task Group Completion
@@ -208,6 +315,46 @@ git commit -m "feat(phase-3): add proj delete CLI command"
 - [ ] Phase document updated (all tasks marked complete)
 - [ ] README/docs updated (if needed)
 - [ ] No linter errors
+
+**Status Update (Phase Completion):**
+
+**Auto-Update Phase Status:**
+
+When all tasks in phase are complete, automatically update status:
+
+1. **Read phase document:**
+   - Feature-specific: `docs/maintainers/planning/features/[feature-name]/phase-N.md`
+   - Project-wide: `docs/maintainers/planning/phases/phase-N.md`
+
+2. **Verify all tasks complete:**
+   - Check all task checkboxes are marked `- [x]`
+   - Verify no incomplete tasks remain
+
+3. **Update phase document:**
+   - Change `**Status:** 🟠 In Progress` to `**Status:** ✅ Complete`
+   - Add completion date: `**Completed:** YYYY-MM-DD`
+   - Update `**Last Updated:**` field
+
+4. **Update feature status document:**
+   - File: `docs/maintainers/planning/features/[feature-name]/status-and-next-steps.md`
+   - Update `**Current Phase:**` to reflect completed phase
+   - Update `**Progress:**` percentage (calculate based on completed phases)
+   - Add completed milestone entry
+   - Update `**Last Updated:**` field
+
+5. **Commit status updates:**
+   - Commit message: `docs(phase-N): update phase status to Complete`
+   - Include both phase document and feature status document
+   - Commit before creating PR
+
+**Note:** Status updates are committed before PR creation to ensure status is current.
+
+**Checklist:**
+- [ ] Phase status auto-updated to "✅ Complete"
+- [ ] Completion date added to phase document
+- [ ] Feature status document updated with phase completion
+- [ ] Progress tracking updated
+- [ ] Status updates committed
 
 **Create PR:**
 1. Push final commits to feature branch

@@ -249,11 +249,16 @@ Analyze project state, recent work, and patterns to provide actionable suggestio
 ### 6. Generate Reflection Report
 
 **IMPORTANT:** Reflection files must be saved to the `reflections/` subdirectory:
-- **Location:** `docs/maintainers/planning/notes/reflections/reflection-[scope]-[date].md`
+
+**File Location:**
+
+**IMPORTANT:** All reflections are centralized in `docs/maintainers/planning/notes/reflections/` regardless of whether they're feature-specific or project-wide. This ensures all reflections are in one place for easy discovery and maintenance.
+
+- **Centralized location:** `docs/maintainers/planning/notes/reflections/reflection-[scope]-[date].md`
 - **Examples:**
-  - `docs/maintainers/planning/notes/reflections/reflection-phase6-cli-enhancement-2025-12-06.md`
-  - `docs/maintainers/planning/notes/reflections/reflection-2025-12-06.md` (full project)
-  - `docs/maintainers/planning/notes/reflections/reflection-workflow-2025-12-06.md`
+  - Feature reflection: `docs/maintainers/planning/notes/reflections/reflection-projects-phase6-cli-enhancement-2025-12-06.md`
+  - Full project: `docs/maintainers/planning/notes/reflections/reflection-2025-12-06.md`
+  - Workflow: `docs/maintainers/planning/notes/reflections/reflection-workflow-2025-12-06.md`
 
 **Report structure:**
 

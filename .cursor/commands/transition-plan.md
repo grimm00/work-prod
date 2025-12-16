@@ -373,7 +373,100 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 ---
 
-### 5. Update Planning Hubs
+### 5. Create Phase Documents (For Feature Transitions)
+
+**When this applies:** Only for Feature transitions. Release and CI/CD transitions use transition plans directly.
+
+**Process:**
+
+1. **Extract phases from transition plan:**
+   - Read `transition-plan.md` created in Step 4
+   - Extract phase/step number, name, goal, tasks, deliverables, prerequisites, effort
+   - Identify all phases/steps (Phase/Step 1, Phase/Step 2, Phase/Step 3, etc.)
+
+2. **For each phase/step, create `phase-#.md` file:**
+   - Use phase document template (see `docs/PHASE-DOCUMENT-TEMPLATE.md` if exists)
+   - Populate with extracted phase/step information
+   - **For Feature Transitions:** Expand tasks with TDD flow structure (RED → GREEN → REFACTOR)
+   - Add project-specific implementation notes
+
+3. **Phase document structure:**
+   - Header: Phase number, name, duration, status, prerequisites
+   - Overview: What phase delivers, success definition
+   - Goals: Numbered list of phase goals
+   - Tasks: Detailed TDD flow with proper ordering
+   - Completion Criteria: Checklist of completion requirements
+   - Deliverables: What gets created/delivered
+   - Dependencies: Prerequisites, external dependencies, blocks
+   - Risks: Risk assessment with mitigation (if applicable)
+   - Progress Tracking: Status tracking by category
+   - Implementation Notes: TDD workflow, patterns, examples
+   - Related Documents: Links to related docs
+
+**File locations:**
+
+- Feature-specific: `docs/maintainers/planning/features/[feature-name]/phase-N.md`
+- Project-wide: `docs/maintainers/planning/phases/phase-N.md`
+
+**Key sections to populate:**
+
+- **Header:** Extract from transition plan phase header
+- **Overview:** Expand phase goal into detailed overview with success definition
+- **Goals:** Extract and expand phase goals
+- **Tasks:** Expand transition plan tasks into detailed TDD flow with proper ordering:
+  - **TDD Task Ordering (IMPORTANT):** Order tasks following RED → GREEN → REFACTOR:
+    1. **Tests first (RED):** Write tests before implementation code
+    2. **Implementation second (GREEN):** Write minimum code to pass tests
+    3. **Refactor/documentation last:** Clean up and document
+  - Group tasks into RED/GREEN pairs where applicable
+  - Add detailed sub-tasks with checkboxes
+  - Include code examples where applicable
+  - Add testing commands and manual testing steps
+  - **Example TDD Task Order:**
+    - Task 1: Write tests for feature X (RED)
+    - Task 2: Implement feature X (GREEN)
+    - Task 3: Write tests for feature Y (RED)
+    - Task 4: Implement feature Y (GREEN)
+    - Task 5: Documentation and cleanup
+- **Completion Criteria:** Extract from transition plan "Definition of Done"
+- **Deliverables:** Extract from transition plan deliverables
+- **Dependencies:** Extract prerequisites, add external dependencies if known
+- **Risks:** Add risk assessment if applicable
+- **Progress Tracking:** Add status tracking sections
+- **Implementation Notes:** Add TDD workflow guidance, patterns, examples
+- **Related Documents:** Link to previous/next phases, feature plan, hub
+
+**Task Ordering Patterns:**
+
+Depending on the phase type, use the appropriate task ordering pattern:
+
+| Phase Type | Task Order | Example |
+|------------|------------|---------|
+| **Code + Tests (TDD)** | Tests → Implementation → Docs | Write tests, implement code, document |
+| **Scripts (TDD)** | Tests → Script → Integration | Write bats tests, create script, integrate |
+| **Documentation Only** | Create → Link → Verify | Create docs, add links, verify links work |
+| **Configuration** | Plan → Implement → Validate | Define config, apply changes, verify |
+
+**When ordering tasks, ask:** "What needs to exist first for TDD to work?"
+
+- **If tests can be written:** Put test tasks BEFORE implementation tasks
+- **If no tests apply:** Put validation/verification tasks LAST
+- **If documentation phase:** Put doc creation before linking/integration
+
+**Checklist:**
+
+- [ ] All phases/steps extracted from transition plan
+- [ ] Phase documents created (`phase-1.md`, `phase-2.md`, etc.)
+- [ ] Phase documents follow template structure
+- [ ] Tasks expanded with TDD workflow
+- [ ] Tasks ordered correctly (tests before implementation)
+- [ ] Implementation notes added
+- [ ] Related documents linked
+- [ ] Phase documents are detailed (~200-300+ lines)
+
+---
+
+### 6. Update Planning Hubs
 
 **Update relevant hub files:**
 
@@ -401,7 +494,7 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 ---
 
-### 6. Summary Report
+### 7. Summary Report
 
 **Present to user:**
 
