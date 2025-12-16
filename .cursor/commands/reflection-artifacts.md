@@ -29,6 +29,7 @@ Extracts structured planning artifacts from reflection documents. Creates featur
 - `/reflection-artifacts --type all` - Generate all artifact types (default)
 - `/reflection-artifacts --output-dir releases/v0.1.0` - Custom output directory
 - `/reflection-artifacts --dry-run` - Show what would be created without creating files
+- `/reflection-artifacts --inline` - Execute simple tasks immediately (⚠️ use with caution)
 
 **Options:**
 
@@ -36,6 +37,7 @@ Extracts structured planning artifacts from reflection documents. Creates featur
 - `--type TYPE` - Artifact type to generate (`feature`, `release`, `ci-cd`, `infrastructure`, `all`)
 - `--output-dir DIR` - Custom output directory (default: appropriate planning directory)
 - `--dry-run` - Show artifact plan without creating files
+- `--inline` - Execute simple tasks immediately instead of creating planning artifacts (⚠️ cautionary use)
 
 ---
 
@@ -530,6 +532,107 @@ Create release directory structure and templates...
 
 ---
 
+## Inline Execution Mode (`--inline`)
+
+**⚠️ CAUTIONARY USE:** This flag executes tasks immediately rather than creating planning artifacts. Only use when you are certain:
+
+1. The reflection contains simple, well-defined tasks
+2. Tasks have clear scope and low complexity
+3. You trust the AI agent to make correct inline decisions
+4. Immediate execution is preferred over planning documentation
+
+### When to Use `--inline`
+
+**Good candidates for inline execution:**
+
+| Task Type | Effort | Example |
+|-----------|--------|---------|
+| File creation | LOW (< 30 min) | Create a status report, add a README |
+| Hub updates | LOW (< 15 min) | Add links to existing hub files |
+| Documentation | LOW (< 30 min) | Document patterns, create examples |
+| Simple fixes | LOW (< 15 min) | Update dates, fix broken links |
+
+**Not suitable for inline execution:**
+
+| Task Type | Reason |
+|-----------|--------|
+| Complex features | Needs phased planning |
+| Multi-file refactors | High risk, needs review |
+| Infrastructure changes | Requires careful planning |
+| Breaking changes | Needs migration planning |
+
+### Inline Decision Criteria
+
+The AI agent will evaluate each suggestion using:
+
+1. **Effort estimate:** LOW (< 30 min) is inline-eligible
+2. **Complexity:** Single-file or related-files only
+3. **Risk:** No breaking changes, no data migrations
+4. **Scope:** Clear and bounded, no dependencies
+
+### Inline Execution Flow
+
+```
+1. Parse reflection suggestions
+2. For each suggestion:
+   - Evaluate inline eligibility
+   - If eligible AND --inline flag:
+     - Execute immediately
+     - Report completion
+   - If not eligible:
+     - Create planning artifact (normal behavior)
+3. Report summary:
+   - Tasks executed inline
+   - Artifacts created for complex tasks
+```
+
+### Example Output with `--inline`
+
+```markdown
+## Reflection Artifacts - Inline Mode
+
+**Reflection:** reflection-documentation-structure-2025-12-16.md
+
+### Executed Inline ✅
+
+| Task | Status | Files |
+|------|--------|-------|
+| Create status report | ✅ Complete | status-report.md |
+| Create examples hub | ✅ Complete | examples/README.md |
+| Update planning hub | ✅ Complete | README.md |
+
+### Created as Artifacts (Complex)
+
+| Suggestion | Artifact |
+|------------|----------|
+| SQLAlchemy migration | infrastructure/sqlalchemy-migration/improvement-plan.md |
+
+### Summary
+
+- **Inline executed:** 3 tasks
+- **Artifacts created:** 1 artifact
+- **Skipped:** 0
+```
+
+### Safety Guidelines
+
+**Before using `--inline`:**
+
+1. Review the reflection document first
+2. Ensure you understand all suggestions
+3. Confirm tasks are truly simple
+4. Be prepared to revert if needed
+
+**The AI agent will NOT inline:**
+
+- Tasks with unclear scope
+- Tasks requiring user decisions
+- Tasks with HIGH effort estimates
+- Tasks affecting critical paths
+- Tasks with potential breaking changes
+
+---
+
 ## Reference
 
 **Reflection Files:**
@@ -551,9 +654,9 @@ Create release directory structure and templates...
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Use `/transition-plan` to create transition plans from artifacts, or use artifacts directly for planning
+**Next:** Use `/transition-plan` to create transition plans from artifacts, or use `--inline` for simple tasks
 
 --- End Command ---
 
