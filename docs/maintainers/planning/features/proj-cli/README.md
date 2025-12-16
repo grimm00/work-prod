@@ -66,19 +66,20 @@ proj inv export api    # Push to work-prod API
 
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
-| 1 | Repository Setup | ~2-3 hrs | 🟠 In Progress |
+| 1 | Repository Setup | ~2-3 hrs | ✅ Complete |
 | 2 | Migrate Project Commands | ~3-4 hrs | 🔴 Not Started |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
-| **Total** | | **~10-14 hrs** | |
+| **Total** | | **~10-14 hrs** | **25%** |
 
 ---
 
 ## 🚀 Next Steps
 
 1. ~~Create `proj-cli` repository~~ ✅ Done (https://github.com/grimm00/proj-cli)
-2. Complete Phase 1: Repository Setup (tests remaining)
-3. Use `/task-phase 1` to continue implementation
+2. ~~Phase 1: Repository Setup~~ ✅ Complete (13 tests passing)
+3. Create PR for Phase 1: `/pr --phase 1`
+4. Start Phase 2: `/task-phase 2 1`
 
 ---
 
