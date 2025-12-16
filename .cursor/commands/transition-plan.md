@@ -12,7 +12,7 @@ Creates transition planning documents from reflection artifacts or directly from
 - To plan transition to next stage (feature, release, infrastructure)
 - When ready to move from reflection to implementation planning
 
-**Key principle:** Transform reflection artifacts into actionable transition plans ready for implementation, following established planning patterns.
+**Key principle:** Transform reflection artifacts into actionable transition plans ready for implementation, following established planning patterns. For feature transitions, also create detailed phase documents (`phase-#.md`) following comprehensive phase structure with TDD workflow.
 
 ---
 
@@ -144,9 +144,11 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 **Parse implementation steps:**
 
 - Extract actionable steps
+- **Extract ALL phases** from artifact (Phase 1, Phase 2, Phase 3, etc.)
 - Organize into logical phases (if feature)
-- Identify dependencies
-- Estimate effort
+- Preserve phase structure, goals, tasks, deliverables, and effort estimates
+- Identify dependencies between phases
+- Estimate effort per phase
 
 **Example parsing:**
 
@@ -163,7 +165,9 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 **Checklist:**
 
 - [ ] Artifact content parsed
+- [ ] **ALL phases extracted** (not just Phase 1 and Phase 2)
 - [ ] Implementation steps extracted
+- [ ] Phase structure preserved (goals, tasks, deliverables, effort)
 - [ ] Dependencies identified
 - [ ] Effort estimated
 
@@ -278,17 +282,95 @@ ls docs/maintainers/planning/releases/v0.1.0/checklist.md
 
 [Extracted from artifact implementation steps, organized into phases]
 
+**IMPORTANT:** Extract **ALL phases** from the artifact (Phase 1, Phase 2, Phase 3, Phase 4, etc.). Do not stop at Phase 2.
+
 ### Phase 1: [Phase Name]
+
+**Goal:** [Extracted from artifact phase goal]
+
+**Estimated Effort:** [X] hours/days
+
+**Prerequisites:**
+
+- [ ] [Prerequisite 1]
+- [ ] [Prerequisite 2]
+
+**Tasks:**
 
 - [ ] Task 1
 - [ ] Task 2
-- Estimated: [X] hours
+- [ ] Task 3
+
+**Deliverables:**
+
+- [Deliverable 1]
+- [Deliverable 2]
+
+**Definition of Done:**
+
+- [ ] All tasks complete
+- [ ] Deliverables created
+- [ ] Ready for Phase 2
+
+---
 
 ### Phase 2: [Phase Name]
 
+**Goal:** [Extracted from artifact phase goal]
+
+**Estimated Effort:** [X] hours/days
+
+**Prerequisites:**
+
+- [ ] Phase 1 complete
+- [ ] [Additional prerequisites]
+
+**Tasks:**
+
 - [ ] Task 1
 - [ ] Task 2
-- Estimated: [X] hours
+- [ ] Task 3
+
+**Deliverables:**
+
+- [Deliverable 1]
+- [Deliverable 2]
+
+**Definition of Done:**
+
+- [ ] All tasks complete
+- [ ] Deliverables created
+- [ ] Ready for Phase 3 (or post-transition if last phase)
+
+---
+
+### Phase 3: [Phase Name]
+
+[Continue extracting ALL phases from artifact. Include Phase 3, Phase 4, Phase 5, etc. as they exist in the artifact.]
+
+**Goal:** [Extracted from artifact phase goal]
+
+**Estimated Effort:** [X] hours/days
+
+**Prerequisites:**
+
+- [ ] Phase 2 complete
+- [ ] [Additional prerequisites]
+
+**Tasks:**
+
+- [ ] Task 1
+- [ ] Task 2
+
+**Deliverables:**
+
+- [Deliverable 1]
+
+**Definition of Done:**
+
+- [ ] All tasks complete
+- [ ] Deliverables created
+- [ ] Ready for post-transition (if last phase)
 
 ## Post-Transition
 
@@ -507,19 +589,28 @@ Depending on the phase type, use the appropriate task ordering pattern:
 ### Transition Planning Documents Created
 
 - `transition-plan.md` - Detailed transition plan
+- `phase-1.md`, `phase-2.md`, `phase-3.md`, etc. - Detailed phase documents (for feature transitions)
 - Updated artifact files with transition details
 
 ### Transition Steps
 
-- [N] steps identified
+- [N] steps/phases identified
 - Estimated effort: [X] hours
 - Estimated duration: [Y] days
+
+### Phase Documents (Feature Transitions)
+
+- [N] phase documents created
+- Each phase document includes: Overview, Goals, Tasks (TDD flow), Completion Criteria, Deliverables, Dependencies, Implementation Notes
+- Phase documents are detailed (~200-300+ lines each)
 
 ### Next Steps
 
 1. Review transition plan
-2. Begin implementation when ready
-3. Use `/task-phase` or `/task-release` or `/pr` commands for implementation
+2. Review phase documents (if created)
+3. Begin implementation when ready
+4. Use `/task-phase` to implement phases (reads `phase-#.md` files)
+5. Use `/task-release` or `/pr` commands for releases
 ```
 
 ---
@@ -735,9 +826,9 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Use after `/reflection-artifacts` to create transition plans, or use `--from-reflection` to streamline workflow
+**Next:** Use after `/reflection-artifacts` to create transition plans, or use `--from-reflection` to streamline workflow (enforces TDD task ordering for feature transitions)
 
 --- End Command ---
 
