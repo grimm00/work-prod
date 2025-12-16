@@ -8,6 +8,10 @@
 
 ## 📋 Quick Links
 
+### Active Explorations
+
+- **[Inventory Repository Separation](inventory-repository-separation/README.md)** - Deep dive into inventory system separation (🟠 Exploration)
+
 ### Exploration Documents
 
 - **[Scope Clarification Questionnaire](scope-clarification-questionnaire.md)** - Feature scope and expansion opportunities (✅ Complete)
@@ -116,10 +120,12 @@ The exploration directory contains research and requirements gathering documents
 - Requirements documentation
 - Feature prioritization refinement
 
-### 🟡 Scheduled
+### 🟠 Active Exploration
 
-- **Project Inventory System Refactoring (Week 4)** - POC works and delivered data, but has technical debt. Full research and ADR-0005 scheduled for Week 4 alongside other medium priority topics. See [POC Analysis](../research/automation/inventory-system-poc-analysis.md).
-- **Inventory Repository Separation (Week 4)** - Inventory system will be separated into its own repository. See [Transition Plan](../planning/infrastructure/inventory-repository-separation/transition-plan.md) for details.
+- **Inventory Repository Separation** - Deep exploration started 2025-12-16
+  - [Exploration Hub](inventory-repository-separation/README.md)
+  - [Research Topics](inventory-repository-separation/research-topics.md) - 6 topics identified
+  - Next: Conduct research, then implement separation
 
 ### 📝 Historical Artifacts
 
@@ -167,6 +173,6 @@ The exploration directory contains research and requirements gathering documents
 
 ---
 
-**Last Updated:** 2025-12-07  
+**Last Updated:** 2025-12-16  
 **Status:** 🟠 In Progress  
 **Next:** Begin Week 2 HIGH priority research
