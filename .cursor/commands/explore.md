@@ -8,16 +8,13 @@ Initiate exploration cycles for proof of concepts or abstract ideas. Creates exp
 
 **Path Detection:**
 
-This command supports multiple project organization patterns:
+This command supports project organization patterns:
 
-1. **Dev-Infra Structure (default):**
-   - Explorations: `admin/explorations/[topic]/`
+1. **Template Structure (for generated projects):**
+   - Explorations: `docs/maintainers/exploration/[topic]/`
 
-2. **Template Structure (for generated projects):**
-   - Explorations: `docs/maintainers/planning/explorations/[topic]/`
-
-3. **Project-Wide Structure:**
-   - Explorations: `docs/maintainers/planning/explorations/[topic]/`
+2. **Project-Wide Structure:**
+   - Explorations: `docs/maintainers/exploration/[topic]/`
 
 **Topic Detection:**
 - Use `--topic` option if provided
@@ -90,19 +87,17 @@ This command supports multiple project organization patterns:
 
 **Location Detection:**
 
-- **Dev-Infra:** `admin/explorations/[topic]/`
-- **Template Structure:** `docs/maintainers/planning/explorations/[topic]/`
-- **Project-Wide:** `docs/maintainers/planning/explorations/[topic]/`
+- **Template Structure:** `docs/maintainers/exploration/[topic]/`
+- **Project-Wide:** `docs/maintainers/exploration/[topic]/`
 
 **Auto-detection:**
-- Check if `admin/explorations/` exists → use dev-infra structure
-- Check if `docs/maintainers/planning/explorations/` exists → use template structure
+- Check if `docs/maintainers/exploration/` exists → use template structure
 - Otherwise → use project-wide structure
 
 **Directory structure:**
 
 ```
-explorations/[topic]/
+exploration/[topic]/
 ├── README.md                    # Exploration hub
 ├── exploration.md                # Main exploration document
 └── research-topics.md            # List of research topics/questions
@@ -110,7 +105,7 @@ explorations/[topic]/
 
 **Create exploration hub:**
 
-**File:** `docs/maintainers/planning/explorations/[topic]/README.md`
+**File:** `docs/maintainers/exploration/[topic]/README.md`
 
 ```markdown
 # [Topic Name] - Exploration Hub
@@ -147,7 +142,7 @@ explorations/[topic]/
 
 **Create exploration document:**
 
-**File:** `docs/maintainers/planning/explorations/[topic]/exploration.md`
+**File:** `docs/maintainers/exploration/[topic]/exploration.md`
 
 ```markdown
 # [Topic Name] - Exploration
@@ -204,7 +199,7 @@ explorations/[topic]/
 
 **Create research topics document:**
 
-**File:** `docs/maintainers/planning/explorations/[topic]/research-topics.md`
+**File:** `docs/maintainers/exploration/[topic]/research-topics.md`
 
 ```markdown
 # Research Topics - [Topic Name]
@@ -269,9 +264,8 @@ This document lists research topics and questions that need investigation before
 **Update explorations hub:**
 
 **File location (auto-detected):**
-- **Dev-Infra:** `admin/explorations/README.md`
-- **Template Structure:** `docs/maintainers/planning/explorations/README.md`
-- **Project-Wide:** `docs/maintainers/planning/explorations/README.md`
+- **Template Structure:** `docs/maintainers/exploration/README.md`
+- **Project-Wide:** `docs/maintainers/exploration/README.md`
 
 ```markdown
 # Explorations Hub
@@ -393,10 +387,9 @@ This directory contains active explorations, proof of concepts, and abstract ide
 
 **Exploration Structure:**
 
-- **Dev-Infra:** `admin/explorations/[topic]/`
-- **Template Structure:** `docs/maintainers/planning/explorations/[topic]/`
-- **Project-Wide:** `docs/maintainers/planning/explorations/[topic]/`
-- Research Topics: `[explorations-path]/[topic]/research-topics.md`
+- **Template Structure:** `docs/maintainers/exploration/[topic]/`
+- **Project-Wide:** `docs/maintainers/exploration/[topic]/`
+- Research Topics: `[exploration-path]/[topic]/research-topics.md`
 
 **Related Commands:**
 

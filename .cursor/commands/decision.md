@@ -8,19 +8,14 @@ Make decisions based on research findings. Creates Architecture Decision Records
 
 **Path Detection:**
 
-This command supports multiple project organization patterns:
+This command supports project organization patterns:
 
-1. **Dev-Infra Structure (default):**
-   - Decisions: `admin/decisions/[topic]/`
-   - Research: `admin/research/[topic]/`
-   - Requirements: `admin/research/[topic]/requirements.md`
-
-2. **Template Structure (for generated projects):**
+1. **Template Structure (for generated projects):**
    - Decisions: `docs/maintainers/decisions/[topic]/`
    - Research: `docs/maintainers/research/[topic]/`
    - Requirements: `docs/maintainers/research/[topic]/requirements.md`
 
-3. **Project-Wide Structure:**
+2. **Project-Wide Structure:**
    - Decisions: `docs/maintainers/decisions/[topic]/`
    - Research: `docs/maintainers/research/[topic]/`
    - Requirements: `docs/maintainers/research/[topic]/requirements.md`
@@ -81,17 +76,14 @@ This command supports multiple project organization patterns:
 **Read research documents:**
 
 1. **Read research summary:**
-   - **Dev-Infra:** `admin/research/[topic]/research-summary.md`
    - **Template Structure:** `docs/maintainers/research/[topic]/research-summary.md`
    - Extract key findings and recommendations
 
 2. **Read research documents:**
-   - **Dev-Infra:** `admin/research/[topic]/research-*.md`
    - **Template Structure:** `docs/maintainers/research/[topic]/research-*.md`
    - Extract findings and analysis
 
 3. **Read requirements (if exists):**
-   - **Dev-Infra:** `admin/research/[topic]/requirements.md`
    - **Template Structure:** `docs/maintainers/research/[topic]/requirements.md`
    - Extract functional and non-functional requirements
 
@@ -130,12 +122,10 @@ This command supports multiple project organization patterns:
 
 **Location Detection:**
 
-- **Dev-Infra:** `admin/decisions/[topic]/`
 - **Template Structure:** `docs/maintainers/decisions/[topic]/`
 - **Project-Wide:** `docs/maintainers/decisions/[topic]/`
 
 **Auto-detection:**
-- Check if `admin/decisions/` exists → use dev-infra structure
 - Check if `docs/maintainers/decisions/` exists → use template structure
 - Otherwise → use project-wide structure
 
@@ -421,7 +411,6 @@ decisions/[topic]/
 **Update decisions hub:**
 
 **File location (auto-detected):**
-- **Dev-Infra:** `admin/decisions/README.md`
 - **Template Structure:** `docs/maintainers/decisions/README.md`
 - **Project-Wide:** `docs/maintainers/decisions/README.md`
 
@@ -540,7 +529,6 @@ This directory contains Architecture Decision Records (ADRs) documenting key dec
 
 **Decision Structure:**
 
-- **Dev-Infra:** `admin/decisions/[topic]/`
 - **Template Structure:** `docs/maintainers/decisions/[topic]/`
 - **Project-Wide:** `docs/maintainers/decisions/[topic]/`
 - ADRs: `[decisions-path]/[topic]/adr-[number]-[decision-name].md`

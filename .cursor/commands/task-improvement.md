@@ -11,16 +11,16 @@ Use this command to implement CI/CD improvement phase tasks step-by-step, follow
 This command supports CI/CD improvement phase organization:
 
 - **CI/CD Improvement Phases:**
-  - Path: `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`
+  - Path: `docs/maintainers/planning/infrastructure/[improvement-name]/phase-N.md`
   - Improvement name auto-detected from context or configuration
-  - Example: `docs/maintainers/planning/ci/status-tracking-automation/phase-1.md`
+  - Example: `docs/maintainers/planning/infrastructure/status-tracking-automation/phase-1.md`
   - Use `--improvement [name]` option to specify improvement name
 
 **Improvement Detection:**
 
 - Use `--improvement` option if provided
 - Otherwise, auto-detect:
-  - Check if `docs/maintainers/planning/ci/` exists
+  - Check if `docs/maintainers/planning/infrastructure/` exists
   - If multiple improvements exist, search for phase documents in each
   - If single improvement exists, use that improvement name
   - If no improvements exist, prompt user or error
@@ -115,13 +115,13 @@ This command supports CI/CD improvement phase organization:
 1. **Detect improvement structure:**
    - Use `--improvement` option if provided
    - Otherwise, auto-detect:
-     - Check if `docs/maintainers/planning/ci/` exists
+     - Check if `docs/maintainers/planning/infrastructure/` exists
      - If multiple improvements exist, search for phase documents in each
      - If single improvement exists, use that improvement name
      - If no improvements exist, prompt user or error
 
 2. **Read the phase document:**
-   - CI/CD improvement: `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`
+   - CI/CD improvement: `docs/maintainers/planning/infrastructure/[improvement-name]/phase-N.md`
    - Support alternative structures: `milestone-N.md`, `sprint-N.md` (if configured)
 
 3. **Identify the current task** (numbered in the document)
@@ -264,7 +264,7 @@ git commit -m "docs(ci/documentation-validation): create validation checklist te
 
 **Improvement plan location:**
 
-- `docs/maintainers/planning/ci/[improvement-name]/improvement-plan.md`
+- `docs/maintainers/planning/infrastructure/[improvement-name]/improvement-plan.md`
 
 ---
 
@@ -348,8 +348,8 @@ ci: [Phase N Description] ([Improvement Name] - Phase N)
 
 ## Related
 
-- **Phase Plan:** `docs/maintainers/planning/ci/[improvement-name]/phase-N.md`
-- **Improvement Plan:** `docs/maintainers/planning/ci/[improvement-name]/improvement-plan.md`
+- **Phase Plan:** `docs/maintainers/planning/infrastructure/[improvement-name]/phase-N.md`
+- **Improvement Plan:** `docs/maintainers/planning/infrastructure/[improvement-name]/improvement-plan.md`
 ```
 
 **After PR Created:**
@@ -533,8 +533,8 @@ Tasks are typically numbered in phase documents:
 
 **Improvement Planning:**
 
-- `docs/maintainers/planning/ci/[improvement-name]/improvement-plan.md`
-- `docs/maintainers/planning/ci/[improvement-name]/README.md`
+- `docs/maintainers/planning/infrastructure/[improvement-name]/improvement-plan.md`
+- `docs/maintainers/planning/infrastructure/[improvement-name]/README.md`
 
 **Workflow:**
 
