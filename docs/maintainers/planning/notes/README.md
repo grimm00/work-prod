@@ -2,7 +2,7 @@
 
 **Purpose:** Project planning notes, reflections, and learnings  
 **Status:** ✅ Active  
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -21,6 +21,10 @@
 ### Chatlogs
 
 - **[Chatlogs](chatlogs/)** - Important conversation logs
+
+### Examples
+
+- **[Documentation Examples](examples/README.md)** - Best practices and patterns
 
 ### Strategy & Reference
 
@@ -43,6 +47,10 @@ notes/
 ├── reflections/                 # Reflection reports
 │   ├── reflection-*.md         # Project-wide reflections
 │   └── reflection-phase*.md    # Phase-specific reflections
+├── examples/                    # Documentation examples
+│   ├── README.md               # Examples hub
+│   ├── hub-and-spoke-pattern.md
+│   └── feature-planning-example.md
 ├── chatlogs/                    # Conversation logs
 │   └── chatlog-*.md            # Important conversations
 ├── projects-first-strategy.md   # Development strategy
@@ -125,5 +133,5 @@ This directory contains:
 
 ---
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-16
 

@@ -8,9 +8,13 @@
 
 ## 📋 Quick Links
 
+### Project Status
+
+- **[Status Report](status-report.md)** - Overall project status and metrics (✅ Active)
+
 ### MVP Roadmap
 
-- **[Projects MVP Roadmap](mvp-roadmap.md)** - 7-phase implementation plan for Projects feature (🟡 Planned)
+- **[Projects MVP Roadmap](mvp-roadmap.md)** - 8-phase implementation plan for Projects feature (✅ Complete)
 
 ### Core Planning
 
@@ -97,26 +101,25 @@ planning/
 
 ## 📊 Current Status
 
-### ✅ Active Planning
+### ✅ Complete
 
-- Git Flow branching strategy established (main + develop branches)
-- MVP roadmap created with 7-phase implementation plan
-- Testing strategy research topic added to Week 2
+- **Projects Feature MVP** - v0.1.0 released (2025-12-07)
+  - All 8 phases complete
+  - 229 tests passing, 97% coverage
+  - 48 projects imported
+  - Full CLI tool operational
 
-### 🟡 Planned Items
+### 🟡 Active
 
-- **Projects Feature MVP** - 16-day implementation plan (Phases 0-7)
-  - Prerequisites: Testing strategy research → ADR-0006
-  - Target: Mid-December completion
-  - Success: All 59 projects organized and searchable
-- **Testing Strategy Research** - Week 2 prerequisite (2-3 days)
+- **Post-MVP Maintenance** - Documentation cleanup and improvements
+- **Documentation Examples** - Best practices documentation
 
-### 📈 Planning Metrics
+### 📈 Project Metrics
 
-- MVP Timeline: 16 days (3 weeks) estimated
-- Prerequisites: 1 research topic (Testing Strategy)
-- Implementation Phases: 8 phases (Phase 0 setup + Phases 1-7 features)
-- Success Criteria: 8 deliverables defined
+- **Version:** v0.1.0 (MVP Released)
+- **Phases Complete:** 8/8 (100%)
+- **Test Coverage:** 97%
+- **CLI Commands:** 12 commands
 
 ---
 
@@ -160,6 +163,6 @@ planning/
 
 ---
 
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Complete testing strategy research (Week 2) → Begin Phase 0 (Development Environment)
+**Next:** Post-MVP maintenance and v0.2.0 planning
