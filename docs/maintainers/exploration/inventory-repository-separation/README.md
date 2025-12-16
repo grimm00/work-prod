@@ -1,7 +1,7 @@
 # Inventory Repository Separation - Exploration Hub
 
 **Purpose:** Deep exploration of inventory system separation into dedicated repository  
-**Status:** 🟠 Exploration  
+**Status:** ✅ Research Complete  
 **Created:** 2025-12-16  
 **Last Updated:** 2025-12-16
 
@@ -49,9 +49,10 @@ This changes the scope from "move scripts to new repo" to "create a professional
 
 ## 📊 Status
 
-**Current Phase:** Exploration  
+**Current Phase:** ✅ Research Complete  
 **Prior Work:** Phase 1 of transition plan complete (documentation)  
-**Next Step:** Conduct research on topics identified in research-topics.md
+**Research:** [Research Hub](../../research/inventory-repository-separation/README.md) - All topics researched  
+**Next Step:** Use `/decision` to create ADR, then update transition plan
 
 ---
 
@@ -65,18 +66,21 @@ This changes the scope from "move scripts to new repo" to "create a professional
 | Mapping script stays in work-prod | ✅ Decided | Transition plan |
 | Historical artifacts preserved | ✅ Decided | Exploration README |
 
-### What Needs Research
+### Research Complete ✅
 
-| Topic | Priority | Status |
-|-------|----------|--------|
-| **🆕 Unified CLI Tool (gating)** | 🔴 HIGH | 🔴 Not Started |
-| Repository name | HIGH | 🔴 Not Started |
-| **🆕 CLI Naming & Distribution** | MEDIUM | 🔴 Not Started |
-| Git history preservation | MEDIUM | 🔴 Not Started |
-| Script organization patterns | MEDIUM | 🔴 Not Started |
-| Configuration management | HIGH | 🔴 Not Started |
-| Technical debt prioritization | HIGH | 🔴 Not Started |
-| Integration patterns | MEDIUM | 🔴 Not Started |
+| Topic | Priority | Status | Decision |
+|-------|----------|--------|----------|
+| **Unified CLI Tool** | 🔴 HIGH | ✅ Complete | YES - Build CLI |
+| **CLI Framework** | 🔴 HIGH | ✅ Complete | Typer |
+| **Configuration** | 🔴 HIGH | ✅ Complete | YAML + Pydantic |
+| **Tech Debt Priority** | 🔴 HIGH | ✅ Complete | Fix P0 + P1 |
+| Repository name | HIGH | 🟡 Addressed | `project-inventory` |
+| CLI Naming | MEDIUM | 🟡 Addressed | `pinv` |
+| Git history | MEDIUM | ⏳ Deferred | TBD |
+| Script organization | MEDIUM | 🟡 Addressed | Package structure |
+| Integration patterns | MEDIUM | 🟡 Addressed | API command |
+
+**Full Research:** [Research Hub](../../research/inventory-repository-separation/README.md)
 
 ---
 

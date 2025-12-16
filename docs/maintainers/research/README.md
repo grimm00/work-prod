@@ -13,6 +13,10 @@
 - **[Research Register](research-register.md)** - Catalog of all research topics (🟠 In Progress)
 - **[Research Progress Tracker](research-progress.md)** - Detailed progress tracking (🟠 In Progress)
 
+### Active Research
+
+- **[Inventory Repository Separation](inventory-repository-separation/README.md)** - CLI tool and repo separation research (✅ Complete)
+
 ### Week 1: Critical Foundation (✅ Complete)
 
 - **[Python Flask Backend Architecture](tech-stack/flask-backend-architecture.md)** - Backend foundation research (✅ Complete)
@@ -122,6 +126,11 @@ Research Document → Analysis → Recommendation → ADR (if architectural)
 - [React Frontend Architecture](tech-stack/react-frontend-architecture.md) (Week 1) ✅
 - [SQLite Database Design](tech-stack/sqlite-database-design.md) (Week 1) ✅
 - [Flask + React Integration](tech-stack/flask-react-integration.md) (Week 1) ✅
+- **[Inventory Repository Separation](inventory-repository-separation/README.md)** ✅ (2025-12-16)
+  - CLI Tool Architecture (YES - build unified CLI)
+  - CLI Framework (Typer)
+  - Configuration Management (YAML + Pydantic)
+  - Technical Debt Prioritization (P0 + P1)
 
 ### 🟠 In Progress
 
@@ -264,7 +273,7 @@ Research Document → Analysis → Recommendation → ADR (if architectural)
 
 ---
 
-**Last Updated:** 2025-11-26  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Week 1 Complete (Ahead of Schedule!)  
 **Next:** Begin implementation OR continue Week 2 research
 
