@@ -4,6 +4,38 @@ Creates transition planning documents from reflection artifacts or directly from
 
 ---
 
+## Configuration
+
+**Path Detection:**
+
+This command supports multiple project organization patterns:
+
+1. **Feature-Specific Structure (default):**
+
+   - Artifacts: `docs/maintainers/planning/features/[feature-name]/feature-plan.md`
+   - Transition plans: `docs/maintainers/planning/features/[feature-name]/transition-plan.md`
+
+2. **Project-Wide Structure:**
+   - Artifacts: `docs/maintainers/planning/releases/[version]/checklist.md`
+   - Transition plans: `docs/maintainers/planning/releases/[version]/transition-plan.md`
+
+**Feature Detection:**
+
+- Use `--feature` option if provided
+- Otherwise, auto-detect:
+  - Check if `docs/maintainers/planning/features/` exists
+  - If single feature exists, use that feature name
+  - If multiple features exist, search for artifact files in each
+  - If no features exist, use project-wide structure
+
+**Artifact Paths:**
+
+- **Release Artifacts:** `docs/maintainers/planning/releases/[version]/checklist.md` or `release-notes.md`
+- **Feature Artifacts:** `docs/maintainers/planning/features/[feature-name]/feature-plan.md`
+- **Infrastructure Artifacts:** `docs/maintainers/planning/infrastructure/[improvement-name]/improvement-plan.md` (if exists)
+
+---
+
 ## Workflow Overview
 
 **When to use:**
@@ -18,20 +50,26 @@ Creates transition planning documents from reflection artifacts or directly from
 
 ## Usage
 
-**Command:** `/transition-plan [--from-artifacts|--from-reflection] [options]`
+**Command:** `/transition-plan [--from-artifacts|--from-reflection|--from-adr] [options]`
 
 **Examples:**
 
 - `/transition-plan --from-reflection reflection-2025-12-07-mvp-complete.md` - Create transition plan from reflection (auto-generates artifacts first)
 - `/transition-plan --from-artifacts releases/v0.1.0/checklist.md` - Create transition plan from specific artifact
+- `/transition-plan --from-adr decisions/auth-system/adr-001-auth-system.md` - Create transition plan from ADR document
+- `/transition-plan --from-adr decisions/auth-system/adr-001-auth-system.md --requirements research/auth-system/requirements.md` - Include requirements explicitly
 - `/transition-plan --type release` - Force release transition type
 - `/transition-plan --type feature` - Force feature transition type
+- `/transition-plan --feature my-feature` - Specify feature name
 - `/transition-plan --dry-run` - Show transition plan without creating files
 
 **Options:**
 
 - `--from-reflection FILE` - Use reflection file (auto-generates artifacts first, then creates plans)
 - `--from-artifacts PATH` - Use specific artifact file (e.g., `releases/v0.1.0/checklist.md`)
+- `--from-adr PATH` - Use ADR document (e.g., `decisions/auth-system/adr-001-auth-system.md`)
+- `--requirements PATH` - Use requirements document (optional, auto-detected if exists in research directory)
+- `--feature [name]` - Specify feature name (overrides auto-detection)
 - `--type TYPE` - Force transition type (`feature`, `release`, `ci-cd`, `infrastructure`, `auto`)
 - `--dry-run` - Show transition plan without creating files
 
@@ -41,9 +79,10 @@ Creates transition planning documents from reflection artifacts or directly from
 
 ### Mode Selection
 
-**Two modes of operation:**
+**Three modes of operation:**
 
 1. **Artifact Mode (default):** Create plans from existing artifacts
+
    - Use: `/transition-plan --from-artifacts [path]`
    - Reads: Artifact files created by `/reflection-artifacts`
    - Creates: Transition planning documents
@@ -54,7 +93,14 @@ Creates transition planning documents from reflection artifacts or directly from
    - Internally calls `/reflection-artifacts` first
    - Then creates transition plans from artifacts
 
-**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**
+3. **ADR Mode:** Create plans from ADR documents
+   - Use: `/transition-plan --from-adr [path]`
+   - Reads: ADR document from `/decision` command
+   - Automatically reads requirements if they exist in research directory
+   - Creates: Transition planning documents
+
+**If `--from-reflection` is specified, skip to "From Reflection Mode" section below.**  
+**If `--from-adr` is specified, skip to "From ADR Mode" section below.**
 
 ---
 
@@ -687,6 +733,184 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 ---
 
+## From ADR Mode
+
+**When to use:**
+
+- When ADR documents exist from `/decision` command
+- To transition from decisions to feature planning
+- When research and decisions are complete
+
+**Key principle:** Read ADR documents and automatically read requirements if they exist in research directory, then create transition plans.
+
+---
+
+### 1. Load ADR Document
+
+**File location:**
+
+- ADR: `docs/maintainers/decisions/[topic]/adr-[number]-[decision-name].md`
+- Manual: `--from-adr decisions/auth-system/adr-001-auth-system.md`
+
+**Extract from ADR:**
+
+- Decision statement
+- Consequences (positive and negative)
+- Alternatives considered
+- Decision rationale
+- Requirements impact
+
+**Checklist:**
+
+- [ ] ADR file found
+- [ ] File is readable and well-formatted
+- [ ] Decision statement identified
+
+---
+
+### 2. Auto-Detect Requirements
+
+**Automatic detection:**
+
+1. **Extract topic from ADR path:**
+   - ADR path: `decisions/[topic]/adr-001-[decision].md`
+   - Topic: `[topic]`
+
+2. **Check for requirements document:**
+   - Path: `docs/maintainers/research/[topic]/requirements.md`
+   - If exists, read automatically
+   - If `--requirements` specified, use that path instead
+
+3. **Extract from requirements:**
+   - Functional requirements
+   - Non-functional requirements
+   - Constraints
+   - Assumptions
+
+**Checklist:**
+
+- [ ] Topic extracted from ADR path
+- [ ] Requirements document checked
+- [ ] Requirements read (if exists)
+- [ ] Requirements extracted
+
+---
+
+### 3. Determine Transition Type
+
+**Auto-detection logic:**
+
+- **Feature Transition (default):** Most ADRs lead to feature planning
+- **Infrastructure Transition:** If ADR mentions infrastructure, monitoring, logging
+
+**Manual override:**
+
+- Use `--type` option to force specific type
+
+**Checklist:**
+
+- [ ] Transition type determined
+- [ ] Type is appropriate for ADR content
+
+---
+
+### 4. Parse ADR and Requirements Content
+
+**Extract from ADR:**
+
+- Decision statement → Feature/improvement description
+- Consequences → Benefits and risks
+- Alternatives considered → Options evaluated
+- Decision rationale → Context and justification
+- Requirements impact → Requirements to consider
+
+**Extract from requirements (if exists):**
+
+- Functional requirements → Feature requirements
+- Non-functional requirements → Quality requirements
+- Constraints → Implementation constraints
+- Assumptions → Planning assumptions
+
+**Organize into phases:**
+
+- Break down implementation into logical phases
+- Use decision rationale to inform phase structure
+- Use requirements to define phase deliverables
+
+**Checklist:**
+
+- [ ] ADR content parsed
+- [ ] Requirements content parsed (if exists)
+- [ ] Implementation steps identified
+- [ ] Phases organized
+
+---
+
+### 5. Create Transition Planning Documents
+
+**Follow same structure as Artifact Mode (step 4 above):**
+
+- Create transition plan document
+- Include decision context
+- Include requirements (if available)
+- Organize into phases
+
+**For Feature Transitions:**
+
+- Create `feature-plan.md` with decision context
+- Create `transition-plan.md` with phase breakdown
+- Include requirements in feature plan
+
+**Checklist:**
+
+- [ ] Transition plan created
+- [ ] Decision context included
+- [ ] Requirements included (if available)
+- [ ] Phases/steps organized
+
+---
+
+### 6. Create Phase Documents
+
+**Follow same structure as Artifact Mode (step 5 above):**
+
+- Extract phases from transition plan
+- Create detailed `phase-#.md` files
+- Include requirements in phase documents
+- Link to ADR and research documents
+
+**For Feature Transitions:**
+
+- Use `/task-phase` workflow (TDD)
+- Include requirements in phase deliverables
+- Reference ADR in phase documents
+
+**Checklist:**
+
+- [ ] Phase documents created
+- [ ] Requirements included in phases
+- [ ] ADR referenced in phase documents
+- [ ] Research documents linked
+
+---
+
+### 7. Update Planning Hubs
+
+**Follow same structure as Artifact Mode (step 6 above):**
+
+- Update feature hub
+- Add transition plan link
+- Add phase document links
+- Reference ADR and requirements
+
+**Checklist:**
+
+- [ ] Planning hubs updated
+- [ ] Links added
+- [ ] ADR and requirements referenced
+
+---
+
 ## Transition Type Details
 
 ### Release Transition
@@ -804,31 +1028,53 @@ Depending on the phase type, use the appropriate task ordering pattern:
 
 - Releases: `docs/maintainers/planning/releases/vX.Y.Z/checklist.md`
 - Features: `docs/maintainers/planning/features/[feature-name]/feature-plan.md`
-- CI/CD: `docs/maintainers/planning/ci/[improvement-name]/improvement-plan.md`
+- Infrastructure: `docs/maintainers/planning/infrastructure/[improvement-name]/improvement-plan.md`
 
 **Reflection Files:**
 
-- `docs/maintainers/planning/notes/reflections/reflection-*.md`
+- Feature-specific: `docs/maintainers/planning/features/[feature-name]/reflections/reflection-*.md`
+- Project-wide: `docs/maintainers/planning/notes/reflections/reflection-*.md`
+
+**ADR Files:**
+
+- `docs/maintainers/decisions/[topic]/adr-[number]-[decision-name].md`
+
+**Requirements Files:**
+
+- `docs/maintainers/research/[topic]/requirements.md`
 
 **Transition Plans:**
 
 - `docs/maintainers/planning/releases/vX.Y.Z/transition-plan.md`
 - `docs/maintainers/planning/features/[feature-name]/transition-plan.md`
-- `docs/maintainers/planning/ci/[improvement-name]/transition-plan.md`
+- `docs/maintainers/planning/infrastructure/[improvement-name]/transition-plan.md`
+
+**Phase Documents:**
+
+- Feature-specific: `docs/maintainers/planning/features/[feature-name]/phase-N.md`
+- Project-wide: `docs/maintainers/planning/phases/phase-N.md`
 
 **Related Commands:**
 
+- `/explore` - Start exploration and identify research topics
+- `/research` - Conduct research and extract requirements
+- `/decision` - Make decisions and create ADR documents
 - `/reflection-artifacts` - Generate artifacts from reflection (run first, or auto-called)
-- `/reflect` - Create reflection documents
-- `/task-phase` - Implement phase tasks
+- `/reflect` - Create reflection documents (if available)
+- `/task-phase` - Implement feature phase tasks (reads `phase-#.md` files created by this command)
 - `/task-release` - Implement release transition tasks
+- `/pre-phase-review` - Review phase plans before implementation
 - `/pr` - Create PRs for completed work
+
+**Related Templates:**
+
+- `docs/PHASE-DOCUMENT-TEMPLATE.md` - Template for phase documents (used when creating phase-#.md files)
 
 ---
 
 **Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Use after `/reflection-artifacts` to create transition plans, or use `--from-reflection` to streamline workflow (enforces TDD task ordering for feature transitions)
+**Next:** Use after `/decision` to transition from ADRs to planning, or use `--from-reflection` or `--from-artifacts` for other workflows (supports feature-specific and project-wide structures, enforces TDD task ordering)
 
 --- End Command ---
 
