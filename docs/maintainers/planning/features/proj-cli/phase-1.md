@@ -640,7 +640,7 @@ python -c "from proj.config import get_config_dir, get_data_dir; print(get_confi
 ### Package
 
 - [x] Package structure created (`src/proj/`) ✅
-- [ ] Tests written (deferred to Phase 4)
+- [x] Tests written (`tests/test_package.py`) ✅
 
 ### Configuration
 
