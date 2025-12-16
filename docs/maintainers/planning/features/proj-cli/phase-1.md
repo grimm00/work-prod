@@ -652,7 +652,7 @@ python -c "from proj.config import get_config_dir, get_data_dir; print(get_confi
 - [x] CLI basic structure working ✅
 - [x] `proj --version` verified ✅
 - [x] `proj --help` verified ✅
-- [ ] CLI integration tests (deferred to Phase 4)
+- [x] CLI integration tests written (`tests/test_cli.py`) ✅
 
 > **Note:** TDD tests deferred to Phase 4 (Polish & Cleanup) per pre-phase review decision. Implementation-first approach taken for Phase 1 due to template adaptation needs.
 
