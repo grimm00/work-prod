@@ -645,7 +645,7 @@ python -c "from proj.config import get_config_dir, get_data_dir; print(get_confi
 ### Configuration
 
 - [x] Config implemented (Pydantic + XDG) ✅
-- [ ] Config tests written (deferred to Phase 4)
+- [x] Config tests written (`tests/test_config.py`) ✅
 
 ### Integration
 
