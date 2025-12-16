@@ -13,6 +13,8 @@ Final phase for testing, documentation, UI polish, and cleaning up work-prod. Th
 
 **Success Definition:** All tests passing, CLI has Rich UI enhancements, documentation complete, and work-prod `scripts/project_cli/` removed.
 
+> **Note:** This phase also includes deferred tests from Phase 1 (package structure, configuration, CLI integration tests) that were skipped due to template adaptation needs.
+
 ---
 
 ## 🎯 Goals

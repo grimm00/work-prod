@@ -1,6 +1,6 @@
 # proj-cli - Feature Plan
 
-**Status:** 🔴 Not Started  
+**Status:** 🟠 In Progress  
 **Created:** 2025-12-16  
 **Priority:** High  
 **ADR:** [ADR-0007](../../../decisions/ADR-0007-inventory-system-cli-tool-architecture.md)

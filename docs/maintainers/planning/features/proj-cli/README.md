@@ -1,7 +1,7 @@
 # proj-cli Feature Hub
 
 **Feature:** Unified CLI Tool  
-**Status:** 🔴 Not Started  
+**Status:** 🟠 In Progress  
 **Created:** 2025-12-16  
 **ADR:** [ADR-0007](../../../decisions/ADR-0007-inventory-system-cli-tool-architecture.md)
 
@@ -17,7 +17,7 @@
 
 ### Phase Documents
 
-- **[Phase 1: Repository Setup](phase-1.md)** - Create proj-cli repository (~2-3 hours) 🔴
+- **[Phase 1: Repository Setup](phase-1.md)** - Create proj-cli repository (~2-3 hours) 🟠
 - **[Phase 2: Migrate Project Commands](phase-2.md)** - Move proj commands (~3-4 hours) 🔴
 - **[Phase 3: Add Inventory Commands](phase-3.md)** - Add proj inv subcommands (~3-4 hours) 🔴
 - **[Phase 4: Polish & Cleanup](phase-4.md)** - Testing, docs, work-prod cleanup (~2-3 hours) 🔴
@@ -66,7 +66,7 @@ proj inv export api    # Push to work-prod API
 
 | Phase | Focus | Effort | Status |
 |-------|-------|--------|--------|
-| 1 | Repository Setup | ~2-3 hrs | 🔴 Not Started |
+| 1 | Repository Setup | ~2-3 hrs | 🟠 In Progress |
 | 2 | Migrate Project Commands | ~3-4 hrs | 🔴 Not Started |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
 | 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
@@ -76,9 +76,9 @@ proj inv export api    # Push to work-prod API
 
 ## 🚀 Next Steps
 
-1. Create `proj-cli` repository using `dev-infra/new-project.sh`
-2. Begin Phase 1: Repository Setup
-3. Use `/task-phase --phase 1` to implement
+1. ~~Create `proj-cli` repository~~ ✅ Done (https://github.com/grimm00/proj-cli)
+2. Complete Phase 1: Repository Setup (tests remaining)
+3. Use `/task-phase 1` to continue implementation
 
 ---
 
