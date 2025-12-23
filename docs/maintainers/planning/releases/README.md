@@ -14,17 +14,17 @@
 
 ### Releases
 
-- **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (🟡 Ready for Release)
+- **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (✅ Released 2025-12-23)
 - **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 
 ---
 
 ## 📊 Summary
 
-**Total Releases:** 1 released, 1 ready  
-**Latest Release:** v0.1.0 (MVP) - Released 2025-12-07  
-**Next Release:** v0.2.0 (API-Only) - Ready for release  
-**Status:** 🟡 v0.2.0 ready for release
+**Total Releases:** 2 released  
+**Latest Release:** v0.2.0 (API-Only) - Released 2025-12-23  
+**Next Release:** TBD  
+**Status:** ✅ v0.2.0 released
 
 ---
 
@@ -49,19 +49,28 @@ Each release includes:
 
 | Version | Status | Release Date | Type | Description |
 |---------|--------|--------------|------|-------------|
-| v0.2.0 | 🟡 Ready | 2025-12-23 | Minor | API-Only Architecture |
+| v0.2.0 | ✅ Released | 2025-12-23 | Minor | API-Only Architecture |
 | v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
 
 ---
 
 ## 🚀 Upcoming Releases
 
-### v0.2.0 - API-Only Architecture
+### Next Release
 
-**Status:** 🟡 Ready for Release  
-**Release Date:** 2025-12-23  
-**Created:** 2025-12-23  
-**Source:** proj-cli feature (ADR-0007, PR #38)
+No release currently planned. Start planning with:
+- `/release-prep v0.3.0` for next minor release
+- `/release-prep v0.2.1` for patch release
+
+---
+
+## 📝 Release History
+
+### v0.2.0 - API-Only Architecture (2025-12-23)
+
+**Status:** ✅ Released  
+**PR:** #39  
+**Type:** Minor Release (Architectural Change)
 
 **Key Changes:**
 - CLI removed (migrated to proj-cli)
@@ -69,13 +78,9 @@ Each release includes:
 - work-prod is now API-only
 - Documentation updated
 
-**Checklist:** [v0.2.0/checklist.md](v0.2.0/checklist.md)  
-**Release Notes:** [v0.2.0/release-notes.md](v0.2.0/release-notes.md)  
-**Transition Plan:** [v0.2.0/transition-plan.md](v0.2.0/transition-plan.md)
+**Release Notes:** [v0.2.0/release-notes.md](v0.2.0/release-notes.md)
 
 ---
-
-## 📝 Release History
 
 ### v0.1.0 - MVP Release (2025-12-07)
 
@@ -105,5 +110,5 @@ Each release includes:
 ---
 
 **Last Updated:** 2025-12-23  
-**Next Release:** v0.2.0 (API-Only Architecture) - In preparation
+**Latest Release:** v0.2.0 (API-Only Architecture) - Released 2025-12-23
 

@@ -1,9 +1,10 @@
 # Release v0.2.0 - API-Only Architecture
 
 **Version:** v0.2.0  
-**Status:** 🟡 Ready for Release  
+**Status:** ✅ Released  
 **Release Date:** 2025-12-23  
 **Created:** 2025-12-23  
+**Merged:** PR #39 (to main)  
 **Source:** proj-cli feature development (PR #38)  
 **Type:** Minor Release (Architectural Change)
 
@@ -22,7 +23,7 @@
 
 **Version:** v0.2.0 - API-Only Architecture  
 **Release Date:** 2025-12-23  
-**Status:** 🟡 Ready for Release
+**Status:** ✅ Released
 
 **Key Changes:**
 - **Removed:** CLI tool (`scripts/project_cli/`) - Now in separate proj-cli repo
@@ -49,14 +50,14 @@
 - [x] CHANGELOG updated
 
 **Release:**
-- [ ] Version tagged in git
-- [x] Release notes finalized
-- [x] Documentation updated with version
+- [x] Version tagged in git ✅ Tagged v0.2.0
+- [x] Release notes finalized ✅
+- [x] Documentation updated with version ✅
 
 **Post-Release:**
-- [ ] Main merged to develop
-- [ ] Release branch cleaned up
-- [ ] Release docs updated
+- [x] Main merged to develop ✅
+- [x] Release branch cleaned up ✅
+- [x] Release docs updated ✅
 
 ---
 
