@@ -232,3 +232,63 @@ def test_project_to_dict_includes_extended_fields(app):
     assert project_dict['description'] == "Full description"
     assert project_dict['remote_url'] == "https://github.com/user/repo"
 
+
+# Project Type Field Tests (Phase 1)
+
+
+def test_project_valid_project_type_values(app):
+    """Test that valid project_type values are accepted."""
+    from app import db
+    
+    valid_project_types = ['Work', 'Personal', 'Learning', 'Inactive']
+    
+    for project_type in valid_project_types:
+        project = Project(name=f"Project {project_type}", project_type=project_type)
+        db.session.add(project)
+        db.session.commit()
+        
+        assert project.project_type == project_type
+        db.session.rollback()  # Clean up for next iteration
+
+
+def test_project_project_type_can_be_null(app):
+    """Test that project_type field can be null."""
+    from app import db
+    
+    project = Project(name="Test Project")
+    db.session.add(project)
+    db.session.commit()
+    
+    assert project.project_type is None
+
+
+def test_project_to_dict_includes_project_type(app):
+    """Test that to_dict() includes project_type field."""
+    from app import db
+    
+    project = Project(
+        name="Test Project",
+        project_type="Work"
+    )
+    db.session.add(project)
+    db.session.commit()
+    
+    project_dict = project.to_dict()
+    
+    assert 'project_type' in project_dict
+    assert project_dict['project_type'] == "Work"
+
+
+def test_project_to_dict_includes_null_project_type(app):
+    """Test that to_dict() includes project_type even when null."""
+    from app import db
+    
+    project = Project(name="Test Project")
+    db.session.add(project)
+    db.session.commit()
+    
+    project_dict = project.to_dict()
+    
+    assert 'project_type' in project_dict
+    assert project_dict['project_type'] is None
+
