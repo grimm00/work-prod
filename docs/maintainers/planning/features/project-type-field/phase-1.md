@@ -52,6 +52,7 @@ class Project(db.Model):
 - [ ] Enum values: Work, Personal, Learning, Inactive
 - [ ] Column is nullable
 - [ ] Index is added
+- [ ] `to_dict()` method updated to include `project_type`
 
 ---
 
