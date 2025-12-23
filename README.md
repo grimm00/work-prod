@@ -2,9 +2,9 @@
 
 **Purpose:** Manage Productivity and Engagement for Work  
 **Version:** v0.1.0 (MVP Release)  
-**Last Updated:** 2025-12-07  
-**Status:** ✅ Backend MVP Complete (Phases 1-8), Ready for Production  
-**Approach:** Backend-First API Development with CLI Tools
+**Last Updated:** 2025-12-18  
+**Status:** ✅ Backend API Complete, API-Only (CLI migrated to [proj-cli](https://github.com/grimm00/proj-cli))  
+**Approach:** Backend-First API Development
 
 ---
 
@@ -43,29 +43,32 @@ python run.py
 
 ### Using the CLI Tool
 
+The `proj` CLI has been migrated to a **separate repository**: [proj-cli](https://github.com/grimm00/proj-cli)
+
 ```bash
-# Install CLI dependencies
-cd scripts/project_cli
-pip install -r requirements.txt
-chmod +x proj
+# Install from GitHub
+pip install git+https://github.com/grimm00/proj-cli.git
+
+# Initialize configuration
+proj init
 
 # List all projects
-./proj list
+proj list
 
 # Get project details
-./proj get 1
+proj get 1
 
 # Create a project
-./proj create --name "My Project" --org work --classification primary
+proj create "My Project" --org work --classification primary
 
 # Show statistics
-./proj stats
+proj stats
 
 # For help
-./proj --help
+proj --help
 ```
 
-**See [CLI Usage Guide](#cli-usage-guide) below for complete documentation.**
+**See [proj-cli README](https://github.com/grimm00/proj-cli#readme) for complete CLI documentation.**
 
 ### First Steps
 
@@ -81,10 +84,11 @@ chmod +x proj
    curl http://localhost:5000/api/health
    ```
 
-3. **Use CLI to interact:**
+3. **Install and use CLI:**
    ```bash
-   cd scripts/project_cli
-   ./proj list
+   pip install git+https://github.com/grimm00/proj-cli.git
+   proj init
+   proj list
    ```
 
 4. **Run tests:**
@@ -111,11 +115,18 @@ This project follows a **hub-and-spoke documentation pattern**:
   - `decisions/` - Architecture Decision Records (ADRs)
   - `feedback/` - External code reviews (Sourcery)
 - **`backend/`** - Flask API application ([Backend Guide](backend/README.md))
-- **`scripts/project_cli/`** - Command-line interface tools ([CLI Guide](scripts/project_cli/README.md))
-- **`scripts/inventory/`** - Project inventory automation
 - **`tests/`** - End-to-end testing (E2E only)
-- **`frontend/`** - React application (deferred to Phase 8)
+- **`frontend/`** - React application (deferred to future phase)
 - **`docs/`** - User documentation
+
+### External CLI Tool
+
+The `proj` CLI has been migrated to a **separate repository**: [proj-cli](https://github.com/grimm00/proj-cli)
+
+This repository is now **API-only**. The CLI provides:
+- Project management commands (`proj list`, `proj get`, `proj create`, etc.)
+- Inventory scanning (`proj inv scan github`, `proj inv scan local`)
+- Inventory export to API (`proj inv export api`)
 
 ---
 
@@ -281,153 +292,44 @@ The backend MVP provides a complete REST API for managing projects with a comman
 
 ---
 
-## 💻 CLI Usage Guide
+## 💻 CLI Tool
 
-The `proj` CLI tool provides a user-friendly interface for managing projects.
+The `proj` CLI tool has been **migrated to a separate repository**: [proj-cli](https://github.com/grimm00/proj-cli)
 
 ### Installation
 
 ```bash
-# Install CLI dependencies
-cd scripts/project_cli
-pip install -r requirements.txt
-chmod +x proj
+# Install from GitHub
+pip install git+https://github.com/grimm00/proj-cli.git
+
+# Initialize configuration
+proj init
 
 # Verify installation
-./proj --help
+proj --help
 ```
 
-### Configuration
-
-Configuration is stored in `~/.projrc`. Use `proj config` to manage settings:
+### Quick Reference
 
 ```bash
-# Show current configuration
-./proj config show
+# Project management
+proj list                 # List all projects
+proj get 1                # Get project details
+proj create "My Project"  # Create project
+proj update 1 --status paused  # Update project
+proj delete 1             # Delete project
+proj archive 1            # Archive project
 
-# Set API URL
-./proj config set api.url http://localhost:5000/api
-
-# Get specific setting
-./proj config get api.url
+# Inventory management
+proj inv scan github      # Scan GitHub repos
+proj inv scan local       # Scan local directories
+proj inv analyze          # Analyze tech stack
+proj inv dedupe           # Remove duplicates
+proj inv export api       # Push to work-prod API
+proj inv status           # Show inventory stats
 ```
 
-**Environment Variable:**
-```bash
-export PROJ_API_URL=http://localhost:5000/api
-```
-
-### Basic Commands
-
-#### List Projects
-```bash
-# List all projects
-./proj list
-
-# Filter by status
-./proj list --status active
-
-# Filter by organization
-./proj list --org work
-
-# Filter by classification
-./proj list --classification primary
-
-# Search projects
-./proj list --search "productivity"
-
-# Combine filters
-./proj list --status active --org work --search "project"
-
-# Wide format (show all columns)
-./proj list --wide
-```
-
-#### Get Project
-```bash
-# Get project by ID
-./proj get 1
-```
-
-#### Create Project
-```bash
-# Minimal (name only)
-./proj create --name "My Project"
-
-# Full project
-./proj create \
-  --name "My Project" \
-  --path "/path/to/project" \
-  --org work \
-  --classification primary \
-  --status active \
-  --description "Project description" \
-  --remote-url "https://github.com/user/repo"
-```
-
-#### Update Project
-```bash
-# Update single field
-./proj update 1 --status paused
-
-# Update multiple fields
-./proj update 1 --status completed --description "Updated description"
-```
-
-#### Delete Project
-```bash
-# Delete with confirmation prompt
-./proj delete 1
-```
-
-#### Archive Project
-```bash
-# Archive project (sets classification=archive, status=completed)
-./proj archive 1
-```
-
-#### Import Projects
-```bash
-# Import from JSON file
-./proj import projects.json
-
-# JSON format:
-# {
-#   "projects": [
-#     {"name": "Project 1", "path": "/path/1", ...},
-#     {"name": "Project 2", ...}
-#   ]
-# }
-```
-
-### Convenience Commands
-
-```bash
-# Show statistics
-./proj stats
-
-# Show recent projects
-./proj recent
-
-# Show active projects
-./proj active
-
-# Show your projects (filtered by organization)
-./proj mine --org work
-```
-
-### Getting Help
-
-```bash
-# General help
-./proj --help
-
-# Command-specific help
-./proj list --help
-./proj create --help
-```
-
-**📚 Complete CLI Documentation:** See [`scripts/project_cli/README.md`](scripts/project_cli/README.md) for detailed CLI documentation.
+**📚 Complete CLI Documentation:** See [proj-cli README](https://github.com/grimm00/proj-cli#readme) for detailed documentation.
 
 ---
 
@@ -562,10 +464,9 @@ pip install -r requirements.txt
 # Initialize database
 flask db upgrade
 
-# Install CLI dependencies
-cd ../scripts/project_cli
-pip install -r requirements.txt
-chmod +x proj
+# Install CLI (separate package)
+pip install git+https://github.com/grimm00/proj-cli.git
+proj init
 ```
 
 ### Running the Backend
@@ -592,9 +493,6 @@ pytest --cov=app --cov-report=html
 
 # Run specific test file
 pytest tests/integration/api/test_projects.py
-
-# Run CLI tests
-pytest scripts/project_cli/tests/
 ```
 
 ### Database Migrations
@@ -623,8 +521,7 @@ flask db downgrade
 
 2. **Test with CLI:**
    ```bash
-   cd scripts/project_cli
-   ./proj list
+   proj list
    ```
 
 3. **Run Tests:**
@@ -681,6 +578,8 @@ pip install -r requirements.txt
 
 ### CLI Issues
 
+The CLI tool is now a **separate package**: [proj-cli](https://github.com/grimm00/proj-cli)
+
 #### Connection Refused
 **Problem:** `Connection refused` when running CLI commands
 
@@ -699,35 +598,26 @@ pip install -r requirements.txt
 
 3. **Check API URL configuration:**
    ```bash
-   ./proj config show
+   proj config show
    # Or set via environment variable:
-   export PROJ_API_URL=http://localhost:5000/api
+   export PROJ_API_URL=http://localhost:5000
    ```
 
-#### Permission Denied
-**Problem:** `Permission denied` when running `./proj`
+#### CLI Not Found
+**Problem:** `command not found: proj`
 
 **Solution:**
 ```bash
-chmod +x scripts/project_cli/proj
-```
-
-#### Module Not Found (CLI)
-**Problem:** `ModuleNotFoundError` when running CLI
-
-**Solution:**
-```bash
-cd scripts/project_cli
-pip install -r requirements.txt
+pip install git+https://github.com/grimm00/proj-cli.git
 ```
 
 #### Invalid Project ID
 **Problem:** `Invalid project ID format` or `Project not found`
 
 **Solution:**
-- Use numeric ID: `./proj get 1` (not `./proj get "1"`)
-- Check project exists: `./proj list`
-- Verify ID is correct: `./proj get <id>`
+- Use numeric ID: `proj get 1` (not `proj get "1"`)
+- Check project exists: `proj list`
+- Verify ID is correct: `proj get <id>`
 
 ### Configuration Issues
 
@@ -735,23 +625,19 @@ pip install -r requirements.txt
 **Problem:** Configuration file doesn't exist
 
 **Solution:**
-- Config file is created automatically on first use
-- Use `./proj config set` to create and configure
-- Default location: `~/.projrc`
+- Run `proj init` to create config interactively
+- Config file location: `~/.config/proj/config.yaml`
 
 #### Invalid API URL
 **Problem:** CLI can't connect to backend
 
 **Solution:**
 ```bash
-# Check current API URL
-./proj config get api.url
-
-# Set correct API URL
-./proj config set api.url http://localhost:5000/api
+# Reinitialize configuration
+proj init
 
 # Or use environment variable
-export PROJ_API_URL=http://localhost:5000/api
+export PROJ_API_URL=http://localhost:5000
 ```
 
 ### Testing Issues
@@ -785,7 +671,7 @@ pytest --cov=app --cov-report=html
 ### Quick References
 
 - **[Backend README](backend/README.md)** - Backend API documentation
-- **[CLI README](scripts/project_cli/README.md)** - Complete CLI usage guide
+- **[proj-cli](https://github.com/grimm00/proj-cli)** - CLI tool (separate repository)
 - **[OpenAPI Spec](backend/openapi.yaml)** - Full API specification
 
 ### Planning Documents
@@ -892,6 +778,6 @@ npm run build
 
 ---
 
-**Last Updated:** 2025-12-06  
-**Status:** ✅ Backend MVP Complete (Phases 1-6), Phase 7 In Progress  
-**Next:** Complete Phase 7 (Testing & Documentation), then Phase 8 (Frontend)
+**Last Updated:** 2025-12-18  
+**Status:** ✅ Backend MVP Complete (v0.1.0), API-Only  
+**CLI:** [proj-cli](https://github.com/grimm00/proj-cli) (separate repository)
