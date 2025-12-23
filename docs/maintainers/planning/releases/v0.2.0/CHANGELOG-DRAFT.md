@@ -1,7 +1,7 @@
 # CHANGELOG Draft - v0.2.0
 
 **Draft Created:** 2025-12-23  
-**Status:** 🔴 Draft - Needs Review
+**Status:** ✅ Merged into CHANGELOG.md (2025-12-23)
 
 ---
 
@@ -44,10 +44,10 @@ All previous CLI commands are available in proj-cli with the same syntax.
 - [x] PR numbers accurate
 - [x] Descriptions clear and user-facing
 - [x] Migration instructions included
-- [ ] Ready to merge into CHANGELOG.md
+- [x] Ready to merge into CHANGELOG.md ✅
 
 ---
 
-**Ready for merge:** [ ] Yes / [x] No - Needs review
+**Ready for merge:** [x] Yes - Merged 2025-12-23
 
 

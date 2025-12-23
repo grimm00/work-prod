@@ -14,17 +14,17 @@
 
 ### Releases
 
-- **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (🔴 Draft)
+- **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (🟡 Ready for Release)
 - **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 
 ---
 
 ## 📊 Summary
 
-**Total Releases:** 1 released, 1 in progress  
+**Total Releases:** 1 released, 1 ready  
 **Latest Release:** v0.1.0 (MVP) - Released 2025-12-07  
-**Next Release:** v0.2.0 (API-Only) - Draft  
-**Status:** 🟠 v0.2.0 in preparation
+**Next Release:** v0.2.0 (API-Only) - Ready for release  
+**Status:** 🟡 v0.2.0 ready for release
 
 ---
 
@@ -49,7 +49,7 @@ Each release includes:
 
 | Version | Status | Release Date | Type | Description |
 |---------|--------|--------------|------|-------------|
-| v0.2.0 | 🔴 Draft | 2025-12-23 | Minor | API-Only Architecture |
+| v0.2.0 | 🟡 Ready | 2025-12-23 | Minor | API-Only Architecture |
 | v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
 
 ---
@@ -58,8 +58,8 @@ Each release includes:
 
 ### v0.2.0 - API-Only Architecture
 
-**Status:** 🔴 Draft  
-**Target Date:** 2025-12-23  
+**Status:** 🟡 Ready for Release  
+**Release Date:** 2025-12-23  
 **Created:** 2025-12-23  
 **Source:** proj-cli feature (ADR-0007, PR #38)
 
