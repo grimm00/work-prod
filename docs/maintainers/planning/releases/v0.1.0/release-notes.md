@@ -1,6 +1,6 @@
 # Release Notes - v0.1.0
 
-**Release Date:** TBD  
+**Release Date:** 2025-12-07  
 **Status:** Stable  
 **Source:** reflection-2025-12-07-mvp-complete.md  
 **Type:** MVP Release

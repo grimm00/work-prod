@@ -1,9 +1,9 @@
 # Architecture Decision Records (ADRs)
 
 **Purpose:** Document significant architectural and technical decisions  
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**ADRs Created:** 6 (Week 1 tech stack + Week 2 architecture + testing strategy)
+**ADRs Created:** 7 (Week 1 tech stack + Week 2 architecture + testing strategy + inventory CLI)
 
 ---
 
@@ -20,6 +20,10 @@
 ### Feature Architecture Decisions
 
 - **[ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md)** - Strategic pivot: Projects promoted to Priority #1 core feature based on inventory data (✅ Accepted)
+
+### Infrastructure Decisions
+
+- **[ADR-0007: Inventory System CLI Tool Architecture](ADR-0007-inventory-system-cli-tool-architecture.md)** - Unified CLI tool (`pinv`) with Typer, YAML config, XDG compliance (✅ Accepted)
 
 ---
 
@@ -173,6 +177,10 @@ Optional: Specific guidance for implementing this decision
 
 - [ADR-0005: Projects as Foundation Architecture](ADR-0005-projects-as-foundation-architecture.md) - 2025-12-01
 
+**Infrastructure:**
+
+- [ADR-0007: Inventory System CLI Tool Architecture](ADR-0007-inventory-system-cli-tool-architecture.md) - 2025-12-16
+
 ### 🟡 Proposed (0)
 
 None currently
@@ -231,6 +239,7 @@ None yet
 - **2025-11-26:** ADR-0001, ADR-0002, ADR-0003, ADR-0004 (Week 1 tech stack)
 - **2025-12-01:** ADR-0005 (Week 2 architecture pivot), ADR-0003 updated (Projects-First schema)
 - **2025-12-02:** ADR-0006 (Testing strategy)
+- **2025-12-16:** ADR-0007 (Inventory CLI tool architecture)
 
 ---
 
@@ -251,6 +260,6 @@ None yet
 
 ---
 
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**ADR Count:** 6 accepted (1 updated)
+**ADR Count:** 7 accepted (1 updated)

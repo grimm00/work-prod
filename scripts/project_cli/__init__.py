@@ -1,2 +1,0 @@
-"""Project CLI tool package."""
-

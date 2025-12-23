@@ -120,6 +120,8 @@ Use this command to implement release transition tasks step-by-step, following t
 - [ ] Create git tag: `git tag -a [version] -m "[Version] Release"`
 - [ ] Push tag to remote: `git push origin [version]`
 - [ ] Verify tag created correctly: `git tag -l [version]`
+- [ ] **Create GitHub Release:** `gh release create [version] --title "[version] [Description]" --notes-file docs/maintainers/planning/releases/[version]/release-notes.md`
+- [ ] Verify GitHub Release page accessible
 - [ ] Update release notes with actual release date
 - [ ] Update release checklist with release date
 - [ ] Commit: `chore(release): tag release [version]`

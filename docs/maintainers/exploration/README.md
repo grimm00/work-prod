@@ -8,11 +8,15 @@
 
 ## 📋 Quick Links
 
+### Active Explorations
+
+- **[Inventory Repository Separation](inventory-repository-separation/README.md)** - Deep dive into inventory system separation (🟠 Exploration)
+
 ### Exploration Documents
 
 - **[Scope Clarification Questionnaire](scope-clarification-questionnaire.md)** - Feature scope and expansion opportunities (✅ Complete)
-- **[Current State Inventory](current-state-inventory.md)** - Deduplicated projects and repos (✅ Complete - 59 unique projects)
-- **[Discovered Skills](discovered-skills.md)** - Technologies extracted for Skills Matrix (✅ Complete - 24 languages identified)
+- **[Current State Inventory](current-state-inventory.md)** - Deduplicated projects and repos (✅ Complete - 59 unique projects, 📝 Historical artifact from inventory POC)
+- **[Discovered Skills](discovered-skills.md)** - Technologies extracted for Skills Matrix (✅ Complete - 24 languages identified, 📝 Historical artifact from inventory POC)
 - **[Requirements](requirements.md)** - Comprehensive requirements gathering (🟠 In Progress)
 - **[Workflow Analysis](workflow-analysis.md)** - Current vs. ideal workflows (🔴 Not Started)
 
@@ -116,9 +120,20 @@ The exploration directory contains research and requirements gathering documents
 - Requirements documentation
 - Feature prioritization refinement
 
-### 🟡 Scheduled
+### 🟠 Active Exploration
 
-- **Project Inventory System Refactoring (Week 4)** - POC works and delivered data, but has technical debt. Full research and ADR-0005 scheduled for Week 4 alongside other medium priority topics. See [POC Analysis](../research/automation/inventory-system-poc-analysis.md).
+- **Inventory Repository Separation** - Deep exploration started 2025-12-16
+  - [Exploration Hub](inventory-repository-separation/README.md)
+  - [Research Topics](inventory-repository-separation/research-topics.md) - 6 topics identified
+  - Next: Conduct research, then implement separation
+
+### 📝 Historical Artifacts
+
+**Inventory POC Outputs (Exploration Phase):**
+- `current-state-inventory.md` - Generated during exploration phase (Dec 1, 2025) from inventory POC
+- `discovered-skills.md` - Generated during exploration phase (Dec 1, 2025) from inventory POC
+
+**Note:** These documents are historical artifacts from the exploration phase. The inventory system that generated them will be separated into its own repository during Week 4. These documents remain in exploration as historical reference for the Projects feature planning and initial data import.
 
 ### 🟡 Planned Exploration
 
@@ -158,6 +173,6 @@ The exploration directory contains research and requirements gathering documents
 
 ---
 
-**Last Updated:** 2025-12-01  
+**Last Updated:** 2025-12-16  
 **Status:** 🟠 In Progress  
 **Next:** Begin Week 2 HIGH priority research

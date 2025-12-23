@@ -50,6 +50,80 @@ Centralized command for creating pull requests for phases and fix batches. Provi
 
 ## Step-by-Step Process
 
+### Pre-Command Branch Validation (BLOCKING)
+
+**CRITICAL:** This validation MUST pass before any PR work begins.
+
+#### 1. Detect Expected Branch
+
+**For Phase PRs (`--phase N`):**
+- Expected pattern: `feat/[feature-name]-phase-N-*` or `feat/phase-N-*`
+- Example: `feat/projects-phase-3-delete-archive`
+
+**For Fix PRs (`--fix [batch-name]`):**
+- Expected pattern: `fix/[batch-name]`
+- Example: `fix/pr32-batch-high-low-01`
+
+**For Release PRs (`--release [version]`):**
+- Expected pattern: `release/[version]`
+- Example: `release/v0.1.0`
+
+#### 2. Check Current Branch
+
+```bash
+git branch --show-current
+```
+
+#### 3. Branch Mismatch Handling
+
+**If on wrong branch (e.g., `develop`, `main`, or different feature):**
+
+1. **Check for worktree with correct branch:**
+   ```bash
+   git worktree list | grep [expected-branch-pattern]
+   ```
+
+2. **If worktree exists:**
+   ```
+   ⚠️ BRANCH MISMATCH: Currently on 'develop', expected 'feat/[feature]-phase-N-*'
+   
+   Found worktree with expected branch:
+   → /path/to/worktree [feat/feature-phase-3-name]
+   
+   Resolution:
+   1. Switch to worktree: cd /path/to/worktree
+   2. Then re-run: /pr --phase N --feature [feature]
+   ```
+
+3. **If no worktree but branch exists:**
+   ```bash
+   git checkout [expected-branch]
+   ```
+
+4. **If branch doesn't exist:**
+   ```
+   ❌ BLOCKING: Expected branch not found
+   
+   Resolution:
+   1. Create branch from develop: git checkout -b feat/[feature]-phase-N-[desc]
+   2. Ensure phase work is committed to this branch
+   3. Then re-run: /pr --phase N
+   ```
+
+#### 4. Auto-Detection Logic
+
+**Branch pattern matching:**
+- Phase PRs: Search for `feat/*phase-N*` or `feat/*[feature]*phase-N*`
+- Fix PRs: Search for `fix/[batch-name]`
+- Release PRs: Search for `release/[version]`
+
+**Worktree awareness:**
+- Check `git worktree list` for active worktrees
+- If correct branch is in a worktree, direct user to that worktree
+- Do NOT checkout branch that's in use by another worktree
+
+---
+
 ### Mode Selection
 
 **Determine mode:**

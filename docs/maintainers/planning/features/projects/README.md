@@ -25,7 +25,7 @@
 - **[Phase 5: Search and Filtering](phase-5.md)** - Find projects quickly (🔴 Not Started)
 - **[Phase 6: CLI Enhancement & Daily Use Tools](phase-6.md)** - Polish CLI for daily use (🔴 Not Started)
 - **[Phase 7: Automated Testing & Bug Fixes](phase-7.md)** - Test coverage, documentation, code quality (✅ Complete)
-- **[Phase 8: MVP Polish / Production Ready](phase-8.md)** - Final polish and production readiness (🔴 Not Started)
+- **[Phase 8: MVP Polish / Production Ready](phase-8.md)** - Final polish and production readiness (✅ Complete)
 
 ### Planning Outputs
 
@@ -34,6 +34,10 @@
 ### Testing
 
 - **[Manual Testing Guide](manual-testing.md)** - Phase 2 comprehensive testing scenarios (✅ Complete)
+
+### Maintenance
+
+- **[Post-MVP Maintenance Checklist](post-mvp-maintenance-checklist.md)** - Documentation cleanup tasks (🟠 In Progress)
 
 ### Code Quality
 
@@ -79,10 +83,11 @@
 
 ## 📊 Current Status
 
-**Phase:** Phase 6 Complete  
-**Progress:** 6/8 phases complete (75.0%)  
+**Phase:** Phase 8 Complete - MVP Released  
+**Progress:** 8/8 phases complete (100%)  
+**Version:** v0.1.0 (Released 2025-12-07)  
 **Blockers:** None  
-**Next:** Phase 7: Manual Testing & Bug Fixes
+**Next:** Post-MVP improvements and deferred issues
 
 ### Completed
 
@@ -97,14 +102,12 @@
 - ✅ Phase 4: Search & Filter Projects (PR #12)
 - ✅ Phase 5: Import Projects from JSON (PR #16)
 - ✅ Phase 6: CLI Enhancement & Daily Use Tools (PR #24)
+- ✅ Phase 7: Automated Testing & Bug Fixes (PR #27)
+- ✅ Phase 8: MVP Polish / Production Ready (PR #35)
 
-### In Progress
+### Released
 
-- 🟡 Phase 7: Manual Testing & Bug Fixes (ready to begin)
-
-### Upcoming
-
-- 🟡 Phase 8: Projects API - Relationships (if needed, may be deferred)
+- ✅ v0.1.0 MVP Release (2025-12-07) - All 8 phases complete, production-ready backend
 
 ---
 
@@ -182,8 +185,8 @@
 
 ---
 
-**Last Updated:** 2025-12-02  
-**Status:** 🟡 Planned  
-**Next:** Complete testing strategy research → Begin Phase 0
+**Last Updated:** 2025-12-16  
+**Status:** ✅ MVP Complete - v0.1.0 Released  
+**Next:** Complete post-MVP maintenance checklist
 
 

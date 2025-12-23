@@ -374,11 +374,20 @@ When Week 4 arrives, research should address:
 - Link to Daily Focus (project context)?
 - GitHub activity integration?
 
+**Repository Separation:**
+
+- Should inventory be separate repository or remain in work-prod?
+- What is ongoing role (one-time vs periodic refresh)?
+- How to handle mapping script (`map_inventory_to_projects.py`)?
+- What integration patterns needed (Projects API sync)?
+- How to preserve historical context (exploration artifacts)?
+
 ---
 
 ## 🔗 Related Documents
 
 - [Research Register](../research-register.md) - Week 4 research topic entry
+- [Inventory POC Repository Placement Reflection](../../planning/notes/reflections/reflection-inventory-poc-repository-placement-2025-12-07.md) - Repository separation decision and rationale ✅
 - [Current State Inventory](../../exploration/current-state-inventory.md) - Generated output
 - [Discovered Skills](../../exploration/discovered-skills.md) - Generated output
 - [Scripts README](../../../scripts/inventory/README.md) - POC implementation docs
@@ -395,9 +404,9 @@ When Week 4 arrives, research should address:
 
 ---
 
-**Last Updated:** 2025-12-01  
-**Status:** 🟡 POC Complete - Research Scheduled Week 4  
-**Next:** Proceed with Week 2-3 HIGH priority research, return to this in Week 4
+**Last Updated:** 2025-12-07  
+**Status:** 🟡 POC Complete - Repository Separation Planned (Week 4)  
+**Next:** Proceed with Week 2-3 HIGH priority research, return to this in Week 4 for repository separation and refactoring
 
 
 

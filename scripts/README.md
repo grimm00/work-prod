@@ -1,45 +1,45 @@
 # Scripts
 
-**Purpose:** Automation and utility scripts  
-**Status:** 🔴 Not Started  
-**Last Updated:** {{CURRENT_DATE}}
+**Purpose:** Placeholder directory for future automation scripts  
+**Status:** ⚠️ Migrated to [proj-cli](https://github.com/grimm00/proj-cli)  
+**Last Updated:** 2025-12-18
 
 ---
 
-## 📋 Quick Links
+## ⚠️ Migration Notice
 
-### Script Categories
-- **[Build Scripts](build/README.md)** - Build and compilation scripts
-- **[Deployment Scripts](deploy/README.md)** - Deployment automation
-- **[Database Scripts](database/README.md)** - Database management
-- **[Utility Scripts](utils/README.md)** - General utility scripts
+All CLI and inventory scripts have been **migrated to the separate [proj-cli](https://github.com/grimm00/proj-cli) repository**.
 
----
+### What was migrated:
 
-## 🎯 Overview
+| Former Location | New Location |
+|-----------------|--------------|
+| `scripts/project_cli/` | [proj-cli](https://github.com/grimm00/proj-cli) (`proj` command) |
+| `scripts/inventory/` | [proj-cli](https://github.com/grimm00/proj-cli) (`proj inv` subcommand) |
+| `scripts/map_inventory_to_projects.py` | [proj-cli](https://github.com/grimm00/proj-cli) (`proj inv export api`) |
 
-The scripts directory contains automation scripts for building, deploying, and maintaining the application.
+### New unified CLI
 
-### Script Types
-1. **Build Scripts** - Compilation and build automation
-2. **Deployment Scripts** - Deployment and release automation
-3. **Database Scripts** - Database setup and migration
-4. **Utility Scripts** - General maintenance and utilities
+Install and use the new `proj` command:
 
----
+```bash
+# Install
+pip install git+https://github.com/grimm00/proj-cli.git
 
-## 📁 Directory Structure
+# Project management
+proj list           # List all projects
+proj get 1          # Get project details
+proj create "Name"  # Create new project
 
+# Inventory management
+proj inv scan github   # Scan GitHub repos
+proj inv scan local    # Scan local directories
+proj inv analyze       # Analyze tech stack
+proj inv export api    # Push to work-prod API
 ```
-scripts/
-├── build/           # Build automation
-├── deploy/          # Deployment scripts
-├── database/        # Database management
-└── utils/           # Utility scripts
-```
+
+See [proj-cli README](https://github.com/grimm00/proj-cli#readme) for full documentation.
 
 ---
 
-**Last Updated:** {{CURRENT_DATE}}  
-**Status:** 🔴 Not Started  
-**Next:** [Build Scripts](build/README.md)
+**Last Updated:** 2025-12-18

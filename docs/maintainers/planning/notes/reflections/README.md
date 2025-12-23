@@ -2,7 +2,7 @@
 
 **Purpose:** Project and phase reflection reports  
 **Status:** ✅ Active  
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -10,9 +10,14 @@
 
 ### Project-Wide Reflections
 
+- **[Documentation Structure Reflection](reflection-documentation-structure-2025-12-16.md)** - Documentation gaps analysis and improvement opportunities (2025-12-16)
+- **[Work-Prod Integration Reflection](reflection-work-prod-integration-2025-12-16.md)** - Post-MVP integration, command sync, and project analysis (2025-12-16)
+- **[Command Adaptations & Dev-Infra Handoff](reflection-command-adaptations-dev-infra-handoff-2025-12-07.md)** - Reflection on command adaptation documentation and dev-infra handoff preparation
+- **[Reflection Release Complete](reflection-2025-12-07-release-complete.md)** - Release completion reflection after v0.1.0 release
 - **[Reflection MVP Complete](reflection-2025-12-07-mvp-complete.md)** - Full project reflection after MVP completion (Phase 8)
 - **[Reflection 2025-12-07](reflection-2025-12-07.md)** - Full project reflection after Phase 7 completion and cursor rules split
 - **[Reflection 2025-12-05](reflection-2025-12-05.md)** - Full project reflection (7-day period)
+- **[Inventory POC Repository Placement](reflection-inventory-poc-repository-placement-2025-12-07.md)** - Analysis of whether inventory system should be separate repository (✅ Separate repo recommended)
 
 ### Phase-Specific Reflections
 
@@ -23,8 +28,8 @@
 
 ## 📊 Summary
 
-**Total Reflections:** 5  
-**Latest:** 2025-12-07 (MVP Complete)
+**Total Reflections:** 10  
+**Latest:** 2025-12-16 (Documentation Structure Reflection)
 
 ---
 
@@ -60,5 +65,5 @@ Focused analysis of individual phases:
 
 ---
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-16
 

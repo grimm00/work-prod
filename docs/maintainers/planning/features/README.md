@@ -2,7 +2,7 @@
 
 **Purpose:** Feature-based planning and tracking using hub-and-spoke documentation  
 **Status:** ✅ Active  
-**Last Updated:** 2025-12-02
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -10,11 +10,12 @@
 
 ### Active Features
 
-- **[Projects](projects/README.md)** - Project organization and management (#1 Foundation Feature) (🟡 Planned)
+- **[Projects](projects/README.md)** - Project organization and management (#1 Foundation Feature) (✅ Complete - v0.1.0)
+- **[proj-cli](proj-cli/README.md)** - Unified CLI tool for project and inventory management (🔴 Not Started)
 
 ### Planned Features
 
-*Other features will be added after Projects MVP is complete*
+*Other features will be added after proj-cli is complete*
 
 ### Feature Templates
 
@@ -127,19 +128,17 @@ features/
 
 ### ✅ Completed Features
 
-*No features completed yet*
+| Feature     | Version | Completed | Description |
+| ----------- | ------- | --------- | ----------- |
+| [Projects](projects/README.md) | v0.1.0 | 2025-12-07 | Backend API + CLI for project management |
 
-### 🟠 In Progress Features
-
-*No features in progress yet*
-
-### 🟡 Planned Features
+### 🔴 Not Started Features
 
 | Feature     | Priority | Estimated | Dependencies   | Status |
 | ----------- | -------- | --------- | -------------- | ------ |
-| [Projects](projects/README.md) | #1 Foundation | 16 days | ADR-0006 (Testing Strategy) | 🟡 Planned |
+| [proj-cli](proj-cli/README.md) | High | 10-14 hours | ADR-0007 | 🔴 Not Started |
 
-**Note:** Projects is the foundation feature. Other features (Daily Focus, Skills Matrix, Learning Journal, Goals) will leverage the Projects feature and begin after Projects MVP is complete.
+**Note:** proj-cli will unify the existing `proj` commands with new inventory scanning into a single CLI tool in a separate repository. See [ADR-0007](../../decisions/ADR-0007-inventory-system-cli-tool-architecture.md) for architecture decisions.
 
 ---
 
@@ -264,6 +263,6 @@ features/
 
 ---
 
-**Last Updated:** 2025-12-02  
+**Last Updated:** 2025-12-16  
 **Status:** ✅ Active  
-**Next:** Complete testing strategy research → Begin Projects Phase 0
+**Next:** Begin proj-cli Phase 1 (Repository Setup)
