@@ -17,10 +17,10 @@
 
 ### Phase Documents
 
-- **[Phase 1: Repository Setup](phase-1.md)** - Create proj-cli repository (~2-3 hours) 🟠
+- **[Phase 1: Repository Setup](phase-1.md)** - Create proj-cli repository (~2-3 hours) ✅
 - **[Phase 2: Migrate Project Commands](phase-2.md)** - Move proj commands (~3-4 hours) 🔴
 - **[Phase 3: Add Inventory Commands](phase-3.md)** - Add proj inv subcommands (~3-4 hours) 🔴
-- **[Phase 4: Polish & Cleanup](phase-4.md)** - Testing, docs, work-prod cleanup (~2-3 hours) 🔴
+- **[Phase 4: Polish & Cleanup](phase-4.md)** - Testing, docs, work-prod cleanup (~2-3 hours) 🟠 (Task 5 done)
 
 ### Supporting Documents
 
@@ -69,8 +69,8 @@ proj inv export api    # Push to work-prod API
 | 1 | Repository Setup | ~2-3 hrs | ✅ Complete |
 | 2 | Migrate Project Commands | ~3-4 hrs | 🔴 Not Started |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
-| 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
-| **Total** | | **~10-14 hrs** | **25%** |
+| 4 | Polish & Cleanup | ~2-3 hrs | 🟠 Partial (Task 5 done) |
+| **Total** | | **~10-14 hrs** | **~30%** |
 
 ---
 
@@ -83,5 +83,5 @@ proj inv export api    # Push to work-prod API
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-23
 

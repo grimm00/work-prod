@@ -2,8 +2,8 @@
 
 **Feature:** Unified CLI Tool  
 **Status:** 🟠 In Progress  
-**Current Phase:** Phase 1 Complete → Ready for Phase 2  
-**Last Updated:** 2025-12-16
+**Current Phase:** Phase 1 Complete, Phase 4 Task 5 Complete → Ready for Phase 2  
+**Last Updated:** 2025-12-23
 
 ---
 
@@ -14,8 +14,8 @@
 | 1 | Repository Setup | ~2-3 hrs | ✅ Complete |
 | 2 | Migrate Project Commands | ~3-4 hrs | 🔴 Not Started |
 | 3 | Add Inventory Commands | ~3-4 hrs | 🔴 Not Started |
-| 4 | Polish & Cleanup | ~2-3 hrs | 🔴 Not Started |
-| **Total** | | **~10-14 hrs** | **25%** |
+| 4 | Polish & Cleanup | ~2-3 hrs | 🟠 Partial (Task 5 done) |
+| **Total** | | **~10-14 hrs** | **~30%** |
 
 ---
 
@@ -29,6 +29,13 @@
   - Configuration: Pydantic + XDG compliance
   - Tests: 13 tests passing (package, config, CLI)
   - Commands: `proj --version`, `proj --help`
+- **Phase 4 Task 5 Complete:** Clean up work-prod (2025-12-23, PR #38)
+  - Removed `scripts/project_cli/` (CLI code migrated to proj-cli)
+  - Removed `scripts/inventory/` (inventory scripts migrated to proj-cli)
+  - Removed `scripts/map_inventory_to_projects.py` and `projects.json`
+  - Updated `README.md` to point to proj-cli
+  - Updated `scripts/README.md` to redirect to proj-cli
+  - Added command usage tracking docs
 
 ---
 
@@ -97,7 +104,7 @@
 - [ ] New `proj inv` subcommands functional
 - [ ] Configuration via `~/.config/proj/config.yaml`
 - [ ] XDG directory compliance
-- [ ] work-prod `scripts/project_cli/` removed
+- [x] work-prod `scripts/project_cli/` removed ✅ (PR #38)
 - [ ] Basic tests passing
 
 ---
@@ -111,5 +118,5 @@
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-23
 
