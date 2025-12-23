@@ -2,7 +2,7 @@
 
 **Feature:** Add `project_type` field  
 **Phase:** 1 of 3  
-**Status:** 🔴 Not Started  
+**Status:** 🟠 In Progress  
 **Estimated Effort:** ~2 hours  
 **Created:** 2025-12-23  
 **Last Updated:** 2025-12-23
@@ -39,7 +39,7 @@ from sqlalchemy import Enum
 
 class Project(db.Model):
     # ... existing fields ...
-    
+
     project_type = db.Column(
         Enum('Work', 'Personal', 'Learning', 'Inactive', name='project_type_enum'),
         nullable=True,  # Nullable for migration safety
@@ -48,6 +48,7 @@ class Project(db.Model):
 ```
 
 **Acceptance Criteria:**
+
 - [ ] Field added to model
 - [ ] Enum values: Work, Personal, Learning, Inactive
 - [ ] Column is nullable
@@ -59,18 +60,21 @@ class Project(db.Model):
 ### Task 2: Create Migration (~30 min)
 
 **Command:**
+
 ```bash
 cd backend
 flask db migrate -m "Add project_type enum column"
 ```
 
 **Verify Migration File:**
+
 - Check `migrations/versions/` for new migration
 - Verify enum creation
 - Verify column addition
 - Verify index creation
 
 **Acceptance Criteria:**
+
 - [ ] Migration file created
 - [ ] Migration contains enum creation
 - [ ] Migration contains column addition
@@ -81,17 +85,20 @@ flask db migrate -m "Add project_type enum column"
 ### Task 3: Run Migration Locally (~30 min)
 
 **Command:**
+
 ```bash
 cd backend
 flask db upgrade
 ```
 
 **Verify:**
+
 - Column exists in database
 - Enum type exists
 - Index exists
 
 **Validation Query:**
+
 ```sql
 -- SQLite: Check column exists
 PRAGMA table_info(project);
@@ -101,6 +108,7 @@ SELECT project_type FROM project LIMIT 1;
 ```
 
 **Acceptance Criteria:**
+
 - [ ] Migration runs without errors
 - [ ] Column exists in database
 - [ ] All existing data preserved
@@ -112,9 +120,11 @@ SELECT project_type FROM project LIMIT 1;
 **Scope:** Model tests only. API filtering tests are in Phase 3.
 
 **File to Update:**
+
 - `backend/tests/unit/models/test_project.py`
 
 **Test Cases:**
+
 - [ ] Test model accepts valid project_type values (Work, Personal, Learning, Inactive)
 - [ ] Test model accepts NULL project_type
 - [ ] Test `to_dict()` includes project_type field
@@ -122,6 +132,7 @@ SELECT project_type FROM project LIMIT 1;
 **Note:** Integration tests for API filtering by `project_type` are deferred to Phase 3.
 
 **Acceptance Criteria:**
+
 - [ ] Unit tests added for new field
 - [ ] All existing tests pass (122 tests)
 - [ ] New tests pass
@@ -149,4 +160,3 @@ SELECT project_type FROM project LIMIT 1;
 ---
 
 **Last Updated:** 2025-12-23
-
