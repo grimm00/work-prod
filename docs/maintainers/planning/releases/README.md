@@ -14,15 +14,17 @@
 
 ### Releases
 
+- **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (🔴 Draft)
 - **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 
 ---
 
 ## 📊 Summary
 
-**Total Releases:** 1 released  
+**Total Releases:** 1 released, 1 in progress  
 **Latest Release:** v0.1.0 (MVP) - Released 2025-12-07  
-**Status:** ✅ Released
+**Next Release:** v0.2.0 (API-Only) - Draft  
+**Status:** 🟠 v0.2.0 in preparation
 
 ---
 
@@ -47,29 +49,29 @@ Each release includes:
 
 | Version | Status | Release Date | Type | Description |
 |---------|--------|--------------|------|-------------|
+| v0.2.0 | 🔴 Draft | 2025-12-23 | Minor | API-Only Architecture |
 | v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
 
 ---
 
 ## 🚀 Upcoming Releases
 
-### v0.1.0 - MVP Release
+### v0.2.0 - API-Only Architecture
 
-**Status:** ✅ Released  
-**Release Date:** 2025-12-07
-**Created:** 2025-12-07  
-**Source:** reflection-2025-12-07-mvp-complete.md
+**Status:** 🔴 Draft  
+**Target Date:** 2025-12-23  
+**Created:** 2025-12-23  
+**Source:** proj-cli feature (ADR-0007, PR #38)
 
-**Key Features:**
-- Full CRUD API
-- Search and filter
-- Bulk import
-- CLI tool
-- Production ready
-- 97% test coverage
+**Key Changes:**
+- CLI removed (migrated to proj-cli)
+- Inventory scripts removed (migrated to proj-cli)
+- work-prod is now API-only
+- Documentation updated
 
-**Checklist:** [v0.1.0/checklist.md](v0.1.0/checklist.md)  
-**Release Notes:** [v0.1.0/release-notes.md](v0.1.0/release-notes.md)
+**Checklist:** [v0.2.0/checklist.md](v0.2.0/checklist.md)  
+**Release Notes:** [v0.2.0/release-notes.md](v0.2.0/release-notes.md)  
+**Transition Plan:** [v0.2.0/transition-plan.md](v0.2.0/transition-plan.md)
 
 ---
 
@@ -102,6 +104,6 @@ Each release includes:
 
 ---
 
-**Last Updated:** 2025-12-16  
-**Next Release:** TBD (v0.2.0 when planned)
+**Last Updated:** 2025-12-23  
+**Next Release:** v0.2.0 (API-Only Architecture) - In preparation
 
