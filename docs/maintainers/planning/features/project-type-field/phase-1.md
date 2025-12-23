@@ -109,19 +109,23 @@ SELECT project_type FROM project LIMIT 1;
 
 ### Task 4: Update Tests (~30 min)
 
-**Files to Update:**
+**Scope:** Model tests only. API filtering tests are in Phase 3.
+
+**File to Update:**
 - `backend/tests/unit/models/test_project.py`
-- `backend/tests/integration/api/test_projects.py`
 
 **Test Cases:**
-- [ ] Test model accepts valid project_type values
+- [ ] Test model accepts valid project_type values (Work, Personal, Learning, Inactive)
 - [ ] Test model accepts NULL project_type
-- [ ] Test model rejects invalid project_type values
+- [ ] Test `to_dict()` includes project_type field
+
+**Note:** Integration tests for API filtering by `project_type` are deferred to Phase 3.
 
 **Acceptance Criteria:**
 - [ ] Unit tests added for new field
-- [ ] All existing tests pass
+- [ ] All existing tests pass (122 tests)
 - [ ] New tests pass
+- [ ] Test coverage maintained at >97%
 
 ---
 

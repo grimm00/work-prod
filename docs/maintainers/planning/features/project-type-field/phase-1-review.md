@@ -145,8 +145,8 @@
 **Overall Status:** ✅ Ready
 
 **Minor Gaps (non-blocking):**
-- [ ] Add `to_dict()` update to Task 1 acceptance criteria
-- [ ] Clarify integration test scope (model tests in Phase 1, API tests in Phase 3)
+- [x] Add `to_dict()` update to Task 1 acceptance criteria ✅ Addressed 2025-12-23
+- [x] Clarify integration test scope (model tests in Phase 1, API tests in Phase 3) ✅ Addressed 2025-12-23
 
 **Blockers:** None
 
@@ -154,7 +154,8 @@
 - [x] ADR-003 accepted and documented
 - [x] Feature plan complete
 - [x] Phase 1 document complete
-- [ ] **Optional:** Update phase-1.md to add `to_dict()` to Task 1
+- [x] Update phase-1.md to add `to_dict()` to Task 1 ✅ Addressed 2025-12-23
+- [x] Clarify test scope in Task 4 ✅ Addressed 2025-12-23
 - [ ] Begin implementation on `feat/project-type-field` branch
 
 ---
@@ -188,5 +189,20 @@ git checkout -b feat/project-type-field
 
 ---
 
-**Last Updated:** 2025-12-23
+## ✅ Gaps Addressed
+
+**Addressed via:** `/address-review` command  
+**Date:** 2025-12-23
+
+| Gap | Resolution |
+|-----|------------|
+| `to_dict()` missing from Task 1 | Added to acceptance criteria |
+| Test scope unclear | Clarified in Task 4: model tests in Phase 1, API tests in Phase 3 |
+
+**Ready to Start:** ✅ Yes - all gaps resolved
+
+---
+
+**Last Updated:** 2025-12-23  
+**Gaps Addressed:** 2025-12-23
 
