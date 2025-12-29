@@ -2,7 +2,7 @@
 
 **Feature:** Add `project_type` field  
 **Phase:** 2 of 3  
-**Status:** 🔴 Not Started  
+**Status:** 🟠 In Progress  
 **Estimated Effort:** ~2 hours  
 **Created:** 2025-12-23  
 **Last Updated:** 2025-12-29  
