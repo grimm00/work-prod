@@ -5,14 +5,14 @@
 **Status:** 🔴 Not Started  
 **Estimated Effort:** ~2 hours  
 **Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2025-12-29  
 **Dependencies:** Phase 1 complete
 
 ---
 
 ## 📋 Phase Overview
 
-Populate `project_type` for existing 48 projects using heuristics.
+Populate `project_type` for existing projects using heuristics.
 
 **Goal:** All existing projects have a `project_type` value based on available data.
 
@@ -46,9 +46,74 @@ From ADR-003, apply heuristics in this order:
 
 ## 📝 Tasks
 
-### Task 1: Create Backfill Script (~45 min)
+### Task 1: Write Backfill Script Tests (TDD - RED) (~30 min)
+
+**File:** `scripts/tests/test_backfill_project_type.py`
+
+Write tests for the classification heuristics before implementing:
+
+```python
+"""Tests for backfill_project_type script."""
+
+import pytest
+
+
+class TestClassifyProject:
+    """Test classify_project heuristics."""
+
+    def test_drw_organization_returns_work(self):
+        """Priority 1: DRW organization -> Work."""
+        # Arrange
+        project = MockProject(organization='DRW', path='/some/path', classification='primary')
+        # Act
+        result = classify_project(project)
+        # Assert
+        assert result == 'Work'
+
+    def test_learning_path_returns_learning(self):
+        """Priority 2: /Learning/ in path -> Learning."""
+        project = MockProject(organization=None, path='/Users/me/Learning/python', classification='primary')
+        result = classify_project(project)
+        assert result == 'Learning'
+
+    def test_archive_classification_returns_inactive(self):
+        """Priority 3: archive classification -> Inactive."""
+        project = MockProject(organization=None, path='/some/path', classification='archive')
+        result = classify_project(project)
+        assert result == 'Inactive'
+
+    def test_default_returns_personal(self):
+        """Priority 4: No match -> Personal (default)."""
+        project = MockProject(organization=None, path='/some/path', classification='primary')
+        result = classify_project(project)
+        assert result == 'Personal'
+
+    def test_drw_takes_priority_over_learning_path(self):
+        """DRW organization takes priority over Learning path."""
+        project = MockProject(organization='DRW', path='/Learning/project', classification='primary')
+        result = classify_project(project)
+        assert result == 'Work'  # DRW wins over Learning path
+
+    def test_learning_path_takes_priority_over_archive(self):
+        """Learning path takes priority over archive classification."""
+        project = MockProject(organization=None, path='/Learning/old', classification='archive')
+        result = classify_project(project)
+        assert result == 'Learning'  # Learning wins over archive
+```
+
+**Acceptance Criteria:**
+- [ ] Test file created
+- [ ] Tests for each heuristic priority
+- [ ] Tests for priority ordering (DRW > Learning > Archive > Default)
+- [ ] Tests fail initially (RED phase)
+
+---
+
+### Task 2: Create Backfill Script (TDD - GREEN) (~45 min)
 
 **File:** `scripts/backfill_project_type.py`
+
+Implement the script to make tests pass:
 
 ```python
 #!/usr/bin/env python3
@@ -61,8 +126,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 from app import create_app, db
 from app.models.project import Project
 
+
 def classify_project(project):
-    """Apply heuristics to determine project_type."""
+    """Apply heuristics to determine project_type.
+    
+    Priority order:
+    1. DRW organization -> Work
+    2. /Learning/ in path -> Learning
+    3. archive classification -> Inactive
+    4. Default -> Personal
+    """
     # Priority 1: DRW organization = Work
     if project.organization == 'DRW':
         return 'Work'
@@ -77,6 +150,7 @@ def classify_project(project):
     
     # Default: Personal
     return 'Personal'
+
 
 def backfill(dry_run=True):
     """Backfill project_type for all projects."""
@@ -118,6 +192,7 @@ def backfill(dry_run=True):
         
         return results, changes
 
+
 if __name__ == '__main__':
     dry_run = '--execute' not in sys.argv
     backfill(dry_run=dry_run)
@@ -128,12 +203,13 @@ if __name__ == '__main__':
 - [ ] Heuristics implemented in correct priority order
 - [ ] Dry-run mode by default
 - [ ] Reports results and changes
+- [ ] All tests pass (GREEN phase)
 
 ---
 
-### Task 2: Run Dry-Run Backfill (~30 min)
+### Task 3: Run Dry-Run and Execute Backfill (~30 min)
 
-**Command:**
+**Dry-Run Command:**
 ```bash
 cd scripts
 python backfill_project_type.py
@@ -150,24 +226,11 @@ python backfill_project_type.py
 - Inactive: ~5-10 projects (archive classification)
 - Personal: ~15-20 projects (remainder)
 
-**Acceptance Criteria:**
-- [ ] Dry-run completes successfully
-- [ ] Results reviewed and reasonable
-- [ ] Manual corrections documented
-
----
-
-### Task 3: Execute Backfill (~30 min)
-
-**Command:**
+**Execute Command:**
 ```bash
 cd scripts
 python backfill_project_type.py --execute
 ```
-
-**Verify:**
-- All projects have `project_type` populated
-- No NULL values remain
 
 **Validation Query:**
 ```sql
@@ -179,9 +242,11 @@ SELECT project_type, COUNT(*) FROM project GROUP BY project_type;
 ```
 
 **Acceptance Criteria:**
-- [ ] Backfill executes successfully
+- [ ] Dry-run completes successfully
+- [ ] Results reviewed and reasonable
+- [ ] Backfill executed successfully
 - [ ] All projects have project_type
-- [ ] No errors
+- [ ] No NULL values remain
 
 ---
 
@@ -202,11 +267,23 @@ Document:
 
 ## ✅ Phase Completion Criteria
 
-- [ ] Backfill script created
+- [ ] Tests written for backfill heuristics
+- [ ] Backfill script created and tests pass
 - [ ] Dry-run reviewed and approved
 - [ ] Backfill executed successfully
-- [ ] All 48 projects have `project_type`
+- [ ] All projects have `project_type`
 - [ ] Results documented
+
+---
+
+## 📊 Progress Tracking
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 1: Write Tests (RED) | 🔴 Not Started | |
+| Task 2: Create Script (GREEN) | 🔴 Not Started | |
+| Task 3: Run & Execute | 🔴 Not Started | |
+| Task 4: Document Results | 🔴 Not Started | |
 
 ---
 
@@ -220,6 +297,4 @@ Document:
 
 ---
 
-**Last Updated:** 2025-12-23
-
-
+**Last Updated:** 2025-12-29
