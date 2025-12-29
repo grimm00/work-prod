@@ -6,6 +6,7 @@
 **Estimated Effort:** ~2 hours  
 **Created:** 2025-12-23  
 **Completed:** 2025-12-29  
+**Merged:** PR #41 (2025-12-29)  
 **Last Updated:** 2025-12-29  
 **Dependencies:** Phase 1 complete
 
@@ -21,10 +22,10 @@ Populate `project_type` for existing projects using heuristics.
 
 ## 🎯 Phase Goals
 
-- [ ] Create backfill script with heuristics
-- [ ] Run backfill in dry-run mode first
-- [ ] Execute backfill on database
-- [ ] Validate and document results
+- [x] Create backfill script with heuristics
+- [x] Run backfill in dry-run mode first
+- [x] Execute backfill on database
+- [x] Validate and document results
 
 ---
 

@@ -3,7 +3,7 @@
 **Purpose:** Add `project_type` field for project type classification  
 **Status:** 🟠 In Progress  
 **Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2025-12-29  
 **Owner:** work-prod
 
 ---
@@ -14,7 +14,7 @@
 - **[Transition Plan](transition-plan.md)** - Implementation transition plan
 - **[Phase 1: Schema Migration](phase-1.md)** - Database schema changes (✅ Complete - PR #40)
 - **[Phase 1 Review](phase-1-review.md)** - Pre-implementation readiness review
-- **[Phase 2: Data Backfill](phase-2.md)** - Backfill existing data
+- **[Phase 2: Data Backfill](phase-2.md)** - Backfill existing data (✅ Complete - PR #41)
 - **[Phase 3: API Updates](phase-3.md)** - API and documentation updates
 
 ### Related ADRs (dev-infra)
@@ -43,7 +43,7 @@ Add a new `project_type` enum field to classify projects by type: `Work`, `Perso
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
 | Phase 1 | Schema Migration | ✅ Complete | ~2 hours |
-| Phase 2 | Data Backfill | 🔴 Not Started | ~2 hours |
+| Phase 2 | Data Backfill | ✅ Complete | ~2 hours |
 | Phase 3 | API Updates | 🔴 Not Started | ~3 hours |
 
 **Total Estimated Effort:** ~7 hours
@@ -64,7 +64,8 @@ Add a new `project_type` enum field to classify projects by type: `Work`, `Perso
 1. ~~Review feature plan and transition plan~~ ✅
 2. ~~Pre-phase review for Phase 1~~ ✅
 3. ~~Phase 1: Schema Migration~~ ✅ (PR #40, 2025-12-29)
-4. Begin Phase 2: Data Backfill with `/task-phase 2`
+4. ~~Phase 2: Data Backfill~~ ✅ (PR #41, 2025-12-29)
+5. Begin Phase 3: API Updates with `/task-phase 3`
 
 ---
 
@@ -77,7 +78,14 @@ Add a new `project_type` enum field to classify projects by type: `Work`, `Perso
   - Unit tests added (4 tests)
   - 126 tests passing, 97% coverage
 
+- **Phase 2: Data Backfill** ✅ (PR #41, 2025-12-29)
+  - Created backfill script with heuristic classification
+  - Priority order: DRW→Work, Learning path→Learning, Archive→Inactive, Default→Personal
+  - Tests for all 4 heuristics (6 tests)
+  - Backfilled 31 projects (all Personal - default heuristic)
+  - 132 tests passing, 97% coverage
+
 ---
 
 **Last Updated:** 2025-12-29  
-**Phase 1 Complete:** 2025-12-29 (PR #40)
+**Phase 2 Complete:** 2025-12-29 (PR #41)
