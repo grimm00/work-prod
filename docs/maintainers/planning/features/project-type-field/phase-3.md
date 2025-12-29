@@ -105,11 +105,11 @@ def test_project_response_includes_project_type(client, app):
 
 **Acceptance Criteria:**
 
-- [ ] Filter by project_type test written
-- [ ] Invalid project_type test written
-- [ ] Combined filter test written
-- [ ] Response includes project_type test written
-- [ ] Tests fail initially (RED phase - filter not implemented yet)
+- [x] Filter by project_type test written
+- [x] Invalid project_type test written
+- [x] Combined filter test written
+- [x] Response includes project_type test written
+- [x] Tests fail initially (RED phase - filter not implemented yet)
 
 ---
 
@@ -137,10 +137,10 @@ def get_projects():
 
 **Acceptance Criteria:**
 
-- [ ] Query parameter added
-- [ ] Invalid values return 400
-- [ ] Filter works correctly
-- [ ] All tests pass (GREEN phase)
+- [x] Query parameter added
+- [x] Invalid values return 400
+- [x] Filter works correctly
+- [x] All tests pass (GREEN phase)
 
 ---
 
@@ -205,8 +205,8 @@ paths:
 
 | Task                                 | Status         | Notes   |
 | ------------------------------------ | -------------- | ------- |
-| Task 1: Write API Tests (RED)        | 🔴 Not Started | ~30 min |
-| Task 2: Implement API Filter (GREEN) | 🔴 Not Started | ~45 min |
+| Task 1: Write API Tests (RED)        | ✅ Complete    | ~30 min |
+| Task 2: Implement API Filter (GREEN) | ✅ Complete    | ~45 min |
 | Task 3: Update OpenAPI               | 🔴 Not Started | ~30 min |
 
 **Total:** ~1.5 hours (3 tasks)
