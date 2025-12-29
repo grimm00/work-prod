@@ -2,8 +2,9 @@
 
 **Phase:** Phase 3  
 **Feature:** project-type-field  
-**Status:** 🟡 Needs Work  
-**Reviewed:** 2025-12-29
+**Status:** ✅ Ready  
+**Reviewed:** 2025-12-29  
+**Gaps Addressed:** 2025-12-29
 
 ---
 
@@ -175,16 +176,20 @@
 
 ### Blockers
 
-1. **Tasks 4-5 cannot be implemented** - Mapping script does not exist
-   - **Resolution:** Remove Tasks 4-5 from scope OR create separate task for mapping script
+1. ~~**Tasks 4-5 cannot be implemented** - Mapping script does not exist~~ ✅ **RESOLVED**
+   - **Resolution:** Removed Tasks 4-5 from scope. Mapping script is in proj-cli (`inventory.py`)
+   - **proj-cli feature:** `project-type-support` handles client-side `project_type`
 
 ### Action Items
 
-- [ ] **Update phase-3.md:** Remove Tasks 4-5 (mapping script) from scope
-- [ ] **Update phase goals:** Remove mapping script goal
-- [ ] **Update effort estimate:** Reduce to ~1.5 hours (3 tasks instead of 5)
-- [ ] **Update completion criteria:** Remove mapping script items
-- [ ] **Add explicit coverage goal:** Maintain 97% test coverage
+- [x] **Update phase-3.md:** Remove Tasks 4-5 (mapping script) from scope ✅ Addressed 2025-12-29
+- [x] **Update phase goals:** Remove mapping script goal ✅ Addressed 2025-12-29
+- [x] **Update effort estimate:** Reduce to ~1.5 hours (3 tasks instead of 5) ✅ Addressed 2025-12-29
+- [x] **Update completion criteria:** Remove mapping script items ✅ Addressed 2025-12-29
+- [x] **Add explicit coverage goal:** Maintain 97% test coverage ✅ Addressed 2025-12-29
+
+**Addressed via:** `/address-review` command  
+**Ready to Start:** ✅ Yes - all blockers resolved
 
 ### After Updates
 

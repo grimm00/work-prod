@@ -3,10 +3,11 @@
 **Feature:** Add `project_type` field  
 **Phase:** 3 of 3  
 **Status:** 🔴 Not Started  
-**Estimated Effort:** ~3 hours  
+**Estimated Effort:** ~1.5 hours  
 **Created:** 2025-12-23  
 **Last Updated:** 2025-12-29  
-**Dependencies:** Phase 2 complete
+**Dependencies:** Phase 2 complete  
+**Review:** [Phase 3 Review](phase-3-review.md) - ✅ Addressed
 
 ---
 
@@ -21,10 +22,12 @@ Update API to support filtering by `project_type` and update all related documen
 ## 🎯 Phase Goals
 
 - [ ] Add `project_type` query parameter to GET `/api/projects`
-- [ ] Include `project_type` in API responses
+- [ ] Include `project_type` in API responses (already done in Phase 1 via `to_dict()`)
 - [ ] Update OpenAPI specification
-- [ ] Update mapping script to populate `project_type`
 - [ ] Tests written before implementation (TDD)
+- [ ] Maintain 97% test coverage
+
+**Note:** Mapping script (`project_type` support) is handled separately in proj-cli's `project-type-support` feature.
 
 ---
 
@@ -184,116 +187,13 @@ paths:
 
 ---
 
-### Task 4: Write Mapping Script Tests (TDD - RED) (~30 min)
-
-**File:** `scripts/tests/test_map_inventory.py`
-
-Write tests for the determine_project_type function:
-
-```python
-"""Tests for map_inventory_to_projects script."""
-
-import pytest
-
-
-class TestDetermineProjectType:
-    """Test determine_project_type function."""
-
-    def test_drw_organization_returns_work(self):
-        """DRW organization -> Work."""
-        repo_data = {'organization': 'DRW', 'path': '/some/path', 'archived': False}
-        result = determine_project_type(repo_data)
-        assert result == 'Work'
-
-    def test_learning_path_returns_learning(self):
-        """/Learning/ in path -> Learning."""
-        repo_data = {'organization': None, 'path': '/Users/me/Learning/python', 'archived': False}
-        result = determine_project_type(repo_data)
-        assert result == 'Learning'
-
-    def test_archived_returns_inactive(self):
-        """Archived repo -> Inactive."""
-        repo_data = {'organization': None, 'path': '/some/path', 'archived': True}
-        result = determine_project_type(repo_data)
-        assert result == 'Inactive'
-
-    def test_default_returns_personal(self):
-        """No match -> Personal (default)."""
-        repo_data = {'organization': None, 'path': '/some/path', 'archived': False}
-        result = determine_project_type(repo_data)
-        assert result == 'Personal'
-
-    def test_drw_priority_over_learning(self):
-        """DRW takes priority over Learning path."""
-        repo_data = {'organization': 'DRW', 'path': '/Learning/project', 'archived': False}
-        result = determine_project_type(repo_data)
-        assert result == 'Work'
-```
-
-**Acceptance Criteria:**
-- [ ] Tests for each heuristic
-- [ ] Tests for priority ordering
-- [ ] Tests fail initially (RED phase)
-
----
-
-### Task 5: Update Mapping Script (TDD - GREEN) (~30 min)
-
-**File:** `scripts/map_inventory_to_projects.py`
-
-Implement to make tests pass:
-
-```python
-def determine_project_type(repo_data):
-    """Determine project_type from repository data.
-    
-    Priority order:
-    1. DRW organization -> Work
-    2. /Learning/ in path -> Learning
-    3. Archived -> Inactive
-    4. Default -> Personal
-    """
-    # Check organization
-    if repo_data.get('organization') == 'DRW':
-        return 'Work'
-    
-    # Check path for Learning
-    path = repo_data.get('path', '')
-    if '/Learning/' in path:
-        return 'Learning'
-    
-    # Check if archived
-    if repo_data.get('archived', False):
-        return 'Inactive'
-    
-    # Default to Personal
-    return 'Personal'
-```
-
-Include `project_type` in project creation:
-
-```python
-project_data = {
-    # ... existing fields ...
-    'project_type': determine_project_type(repo),
-}
-```
-
-**Acceptance Criteria:**
-- [ ] Function implemented with correct priority order
-- [ ] project_type included in project data
-- [ ] All tests pass (GREEN phase)
-
----
-
 ## ✅ Phase Completion Criteria
 
 - [ ] API filter tests written and passing
 - [ ] API endpoint updated with filter
 - [ ] OpenAPI spec updated
-- [ ] Mapping script tests written and passing
-- [ ] Mapping script updated
 - [ ] All existing tests still pass
+- [ ] Test coverage maintained at 97%
 - [ ] Ready for PR
 
 ---
@@ -302,20 +202,22 @@ project_data = {
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 1: Write API Tests (RED) | 🔴 Not Started | |
-| Task 2: Implement API Filter (GREEN) | 🔴 Not Started | |
-| Task 3: Update OpenAPI | 🔴 Not Started | |
-| Task 4: Write Mapping Tests (RED) | 🔴 Not Started | |
-| Task 5: Update Mapping Script (GREEN) | 🔴 Not Started | |
+| Task 1: Write API Tests (RED) | 🔴 Not Started | ~30 min |
+| Task 2: Implement API Filter (GREEN) | 🔴 Not Started | ~45 min |
+| Task 3: Update OpenAPI | 🔴 Not Started | ~30 min |
+
+**Total:** ~1.5 hours (3 tasks)
 
 ---
 
 ## 🚀 Post-Phase Actions
 
 After Phase 3 completion:
-1. Create PR for feature
-2. Coordinate with proj-cli for client update
-3. Update dev-infra requirements document
+1. Create PR for phase
+2. **proj-cli:** Coordinate `project-type-support` feature for client update
+   - Feature plan: `proj-cli/docs/maintainers/planning/features/project-type-support/`
+   - Update `inventory.py` to include `project_type` in export
+3. Update dev-infra requirements document (FR-2 complete)
 
 ---
 
