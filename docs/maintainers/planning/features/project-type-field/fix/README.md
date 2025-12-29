@@ -12,6 +12,7 @@
 
 - **[PR #40](pr40/README.md)** - Phase 1: Schema Migration (LOW priority issues deferred)
 - **[PR #41](pr41/README.md)** - Phase 2: Data Backfill (LOW/MEDIUM priority issues deferred)
+- **[PR #42](pr42/README.md)** - Phase 3: API Updates (LOW priority issues deferred)
 
 ### Cross-PR Batches
 
@@ -29,8 +30,9 @@
 |----|-------|-------------|----------|------|--------|-----|--------|
 | #40 | Phase 1 | 3 | 0 | 0 | 0 | 3 | 🟢 Deferred |
 | #41 | Phase 2 | 4 | 0 | 0 | 1 | 3 | 🟢 Deferred |
+| #42 | Phase 3 | 3 | 0 | 0 | 0 | 3 | 🟢 Deferred |
 
-**Total Deferred Issues:** 7 (1 MEDIUM, 6 LOW priority)
+**Total Deferred Issues:** 10 (1 MEDIUM, 9 LOW priority)
 
 ---
 
