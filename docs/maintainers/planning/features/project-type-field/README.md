@@ -12,7 +12,7 @@
 
 - **[Feature Plan](feature-plan.md)** - Feature overview and goals
 - **[Transition Plan](transition-plan.md)** - Implementation transition plan
-- **[Phase 1: Schema Migration](phase-1.md)** - Database schema changes (✅ Reviewed)
+- **[Phase 1: Schema Migration](phase-1.md)** - Database schema changes (✅ Complete - PR #40)
 - **[Phase 1 Review](phase-1-review.md)** - Pre-implementation readiness review
 - **[Phase 2: Data Backfill](phase-2.md)** - Backfill existing data
 - **[Phase 3: API Updates](phase-3.md)** - API and documentation updates
@@ -62,10 +62,22 @@ Add a new `project_type` enum field to classify projects by type: `Work`, `Perso
 ## 🚀 Next Steps
 
 1. ~~Review feature plan and transition plan~~ ✅
-2. ~~Pre-phase review for Phase 1~~ ✅ Ready
-3. Begin Phase 1: Schema Migration with `/task-phase 1`
+2. ~~Pre-phase review for Phase 1~~ ✅
+3. ~~Phase 1: Schema Migration~~ ✅ (PR #40, 2025-12-29)
+4. Begin Phase 2: Data Backfill with `/task-phase 2`
 
 ---
 
-**Last Updated:** 2025-12-23  
-**Phase 1 Reviewed:** 2025-12-23
+## 📝 Completed Milestones
+
+- **Phase 1: Schema Migration** ✅ (PR #40, 2025-12-29)
+  - Added `project_type` enum column to Project model
+  - Created Flask-Migrate migration
+  - Added index for filtering performance
+  - Unit tests added (4 tests)
+  - 126 tests passing, 97% coverage
+
+---
+
+**Last Updated:** 2025-12-29  
+**Phase 1 Complete:** 2025-12-29 (PR #40)
