@@ -16,6 +16,7 @@ projects_bp = Blueprint('projects', __name__)
 # Validation constants
 VALID_CLASSIFICATIONS = ['primary', 'secondary', 'archive', 'maintenance']
 VALID_STATUSES = ['active', 'paused', 'completed', 'cancelled']
+VALID_PROJECT_TYPES = ['Work', 'Personal', 'Learning', 'Inactive']
 
 
 def validate_project_data(data):
@@ -74,6 +75,7 @@ def list_projects():
         - status: Filter by status (active, paused, completed, cancelled)
         - organization: Filter by organization name
         - classification: Filter by classification (primary, secondary, archive, maintenance)
+        - project_type: Filter by project type (Work, Personal, Learning, Inactive)
 
     Returns:
         JSON array of projects ordered by ID, filtered by query parameters
@@ -96,6 +98,15 @@ def list_projects():
             and (classification := request.args['classification']) in VALID_CLASSIFICATIONS):
         query = query.filter_by(classification=classification)
         # If invalid classification, ignore filter (return all projects)
+
+    # Filter by project_type
+    project_type = request.args.get('project_type')
+    if project_type:
+        if project_type not in VALID_PROJECT_TYPES:
+            return jsonify({
+                'error': f"Invalid project_type. Must be one of: {VALID_PROJECT_TYPES}"
+            }), 400
+        query = query.filter(Project.project_type == project_type)
 
     # Text search in name and description
     if 'search' in request.args:

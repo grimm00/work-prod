@@ -899,3 +899,66 @@ def test_search_projects_in_description(client, app):
     # Should match projects with "work" in name or description
     assert any('work' in p.get('description', '').lower() or 'work' in p['name'].lower() for p in data)
 
+
+@pytest.mark.integration
+def test_filter_projects_by_project_type_work(client, app):
+    """Test filtering projects by project_type=Work."""
+    # Arrange: Create projects with different types
+    with app.app_context():
+        work_project = Project(name="Work Project", project_type="Work")
+        personal_project = Project(name="Personal Project", project_type="Personal")
+        db.session.add_all([work_project, personal_project])
+        db.session.commit()
+
+    # Act
+    response = client.get('/api/projects?project_type=Work')
+
+    # Assert
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert len(data) == 1
+    assert data[0]['project_type'] == 'Work'
+
+
+@pytest.mark.integration
+def test_filter_projects_by_project_type_invalid(client):
+    """Test invalid project_type returns 400."""
+    response = client.get('/api/projects?project_type=InvalidType')
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_filter_projects_by_multiple_types_combined_with_status(client, app):
+    """Test filtering by project_type combined with status filter."""
+    with app.app_context():
+        active_work = Project(name="Active Work", project_type="Work", status="active")
+        paused_work = Project(name="Paused Work", project_type="Work", status="paused")
+        db.session.add_all([active_work, paused_work])
+        db.session.commit()
+
+    response = client.get('/api/projects?project_type=Work&status=active')
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert len(data) == 1
+    assert data[0]['status'] == 'active'
+
+
+@pytest.mark.integration
+def test_project_response_includes_project_type(client, app):
+    """Test project response includes project_type field."""
+    with app.app_context():
+        project = Project(name="Test Project", project_type="Learning")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+
+    response = client.get(f'/api/projects/{project_id}')
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert 'project_type' in data
+    assert data['project_type'] == 'Learning'
+
