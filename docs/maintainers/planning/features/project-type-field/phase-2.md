@@ -2,9 +2,10 @@
 
 **Feature:** Add `project_type` field  
 **Phase:** 2 of 3  
-**Status:** 🔴 Not Started  
+**Status:** ✅ Complete  
 **Estimated Effort:** ~2 hours  
 **Created:** 2025-12-23  
+**Completed:** 2025-12-29  
 **Last Updated:** 2025-12-29  
 **Dependencies:** Phase 1 complete
 
@@ -31,14 +32,15 @@ Populate `project_type` for existing projects using heuristics.
 
 From ADR-003, apply heuristics in this order:
 
-| Priority | Condition | Result |
-|----------|-----------|--------|
-| 1 | `organization = 'DRW'` | `Work` |
-| 2 | `path LIKE '%/Learning/%'` | `Learning` |
-| 3 | `classification = 'archive'` | `Inactive` |
-| 4 | Remaining (default) | `Personal` |
+| Priority | Condition                    | Result     |
+| -------- | ---------------------------- | ---------- |
+| 1        | `organization = 'DRW'`       | `Work`     |
+| 2        | `path LIKE '%/Learning/%'`   | `Learning` |
+| 3        | `classification = 'archive'` | `Inactive` |
+| 4        | Remaining (default)          | `Personal` |
 
 **Notes:**
+
 - Heuristics are imperfect - some projects may need manual correction
 - Default to `Personal` is conservative (most common non-work type)
 
@@ -102,10 +104,11 @@ class TestClassifyProject:
 ```
 
 **Acceptance Criteria:**
-- [ ] Test file created
-- [ ] Tests for each heuristic priority
-- [ ] Tests for priority ordering (DRW > Learning > Archive > Default)
-- [ ] Tests fail initially (RED phase)
+
+- [x] Test file created
+- [x] Tests for each heuristic priority
+- [x] Tests for priority ordering (DRW > Learning > Archive > Default)
+- [x] Tests fail initially (RED phase)
 
 ---
 
@@ -129,7 +132,7 @@ from app.models.project import Project
 
 def classify_project(project):
     """Apply heuristics to determine project_type.
-    
+
     Priority order:
     1. DRW organization -> Work
     2. /Learning/ in path -> Learning
@@ -139,15 +142,15 @@ def classify_project(project):
     # Priority 1: DRW organization = Work
     if project.organization == 'DRW':
         return 'Work'
-    
+
     # Priority 2: Learning path = Learning
     if project.path and '/Learning/' in project.path:
         return 'Learning'
-    
+
     # Priority 3: Archive classification = Inactive
     if project.classification == 'archive':
         return 'Inactive'
-    
+
     # Default: Personal
     return 'Personal'
 
@@ -157,10 +160,10 @@ def backfill(dry_run=True):
     app = create_app()
     with app.app_context():
         projects = Project.query.filter(Project.project_type.is_(None)).all()
-        
+
         results = {'Work': 0, 'Personal': 0, 'Learning': 0, 'Inactive': 0}
         changes = []
-        
+
         for project in projects:
             new_type = classify_project(project)
             results[new_type] += 1
@@ -171,13 +174,13 @@ def backfill(dry_run=True):
                 'new': new_type,
                 'reason': f"org={project.organization}, path={project.path}, class={project.classification}"
             })
-            
+
             if not dry_run:
                 project.project_type = new_type
-        
+
         if not dry_run:
             db.session.commit()
-        
+
         # Print report
         print(f"\n{'DRY RUN - ' if dry_run else ''}Backfill Results:")
         print(f"  Work: {results['Work']}")
@@ -185,11 +188,11 @@ def backfill(dry_run=True):
         print(f"  Learning: {results['Learning']}")
         print(f"  Inactive: {results['Inactive']}")
         print(f"  Total: {sum(results.values())}")
-        
+
         print(f"\nChanges:")
         for c in changes:
             print(f"  {c['id']}: {c['name']} -> {c['new']} ({c['reason']})")
-        
+
         return results, changes
 
 
@@ -199,40 +202,46 @@ if __name__ == '__main__':
 ```
 
 **Acceptance Criteria:**
-- [ ] Script created
-- [ ] Heuristics implemented in correct priority order
-- [ ] Dry-run mode by default
-- [ ] Reports results and changes
-- [ ] All tests pass (GREEN phase)
+
+- [x] Script created
+- [x] Heuristics implemented in correct priority order
+- [x] Dry-run mode by default
+- [x] Reports results and changes
+- [x] All tests pass (GREEN phase)
 
 ---
 
 ### Task 3: Run Dry-Run and Execute Backfill (~30 min)
 
 **Dry-Run Command:**
+
 ```bash
 cd scripts
 python backfill_project_type.py
 ```
 
 **Review Output:**
+
 - Verify classification counts look reasonable
 - Check specific projects that may be misclassified
 - Document any manual corrections needed
 
 **Expected Distribution (approximate):**
+
 - Work: ~10-15 projects (DRW organization)
 - Learning: ~15-20 projects (/Learning/ path)
 - Inactive: ~5-10 projects (archive classification)
 - Personal: ~15-20 projects (remainder)
 
 **Execute Command:**
+
 ```bash
 cd scripts
 python backfill_project_type.py --execute
 ```
 
 **Validation Query:**
+
 ```sql
 -- Check for any NULL project_type
 SELECT COUNT(*) FROM project WHERE project_type IS NULL;
@@ -242,11 +251,12 @@ SELECT project_type, COUNT(*) FROM project GROUP BY project_type;
 ```
 
 **Acceptance Criteria:**
-- [ ] Dry-run completes successfully
-- [ ] Results reviewed and reasonable
-- [ ] Backfill executed successfully
-- [ ] All projects have project_type
-- [ ] No NULL values remain
+
+- [x] Dry-run completes successfully
+- [x] Results reviewed and reasonable
+- [x] Backfill executed successfully
+- [x] All projects have project_type
+- [x] No NULL values remain
 
 ---
 
@@ -255,35 +265,37 @@ SELECT project_type, COUNT(*) FROM project GROUP BY project_type;
 **Create:** `scripts/backfill_project_type_results.md`
 
 Document:
+
 - Final distribution counts
 - Any manual corrections made
 - Projects that may need review
 
 **Acceptance Criteria:**
-- [ ] Results documented
-- [ ] Manual corrections noted
+
+- [x] Results documented
+- [x] Manual corrections noted
 
 ---
 
 ## ✅ Phase Completion Criteria
 
-- [ ] Tests written for backfill heuristics
-- [ ] Backfill script created and tests pass
-- [ ] Dry-run reviewed and approved
-- [ ] Backfill executed successfully
-- [ ] All projects have `project_type`
-- [ ] Results documented
+- [x] Tests written for backfill heuristics
+- [x] Backfill script created and tests pass
+- [x] Dry-run reviewed and approved
+- [x] Backfill executed successfully
+- [x] All projects have `project_type`
+- [x] Results documented
 
 ---
 
 ## 📊 Progress Tracking
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 1: Write Tests (RED) | 🔴 Not Started | |
-| Task 2: Create Script (GREEN) | 🔴 Not Started | |
-| Task 3: Run & Execute | 🔴 Not Started | |
-| Task 4: Document Results | 🔴 Not Started | |
+| Task                          | Status         | Notes                                 |
+| ----------------------------- | -------------- | ------------------------------------- |
+| Task 1: Write Tests (RED)     | ✅ Complete    |                                       |
+| Task 2: Create Script (GREEN) | ✅ Complete    |                                       |
+| Task 3: Run & Execute         | ✅ Complete    | 31 projects backfilled (all Personal) |
+| Task 4: Document Results      | ✅ Complete    | Results documented                    |
 
 ---
 
