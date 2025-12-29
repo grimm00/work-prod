@@ -102,10 +102,10 @@ class TestClassifyProject:
 ```
 
 **Acceptance Criteria:**
-- [ ] Test file created
-- [ ] Tests for each heuristic priority
-- [ ] Tests for priority ordering (DRW > Learning > Archive > Default)
-- [ ] Tests fail initially (RED phase)
+- [x] Test file created
+- [x] Tests for each heuristic priority
+- [x] Tests for priority ordering (DRW > Learning > Archive > Default)
+- [x] Tests fail initially (RED phase)
 
 ---
 
@@ -199,11 +199,11 @@ if __name__ == '__main__':
 ```
 
 **Acceptance Criteria:**
-- [ ] Script created
-- [ ] Heuristics implemented in correct priority order
-- [ ] Dry-run mode by default
-- [ ] Reports results and changes
-- [ ] All tests pass (GREEN phase)
+- [x] Script created
+- [x] Heuristics implemented in correct priority order
+- [x] Dry-run mode by default
+- [x] Reports results and changes
+- [x] All tests pass (GREEN phase)
 
 ---
 
