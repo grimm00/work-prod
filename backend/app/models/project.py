@@ -27,6 +27,11 @@ class Project(db.Model):
         nullable=True,
         index=True
     )
+    project_type = db.Column(
+        Enum('Work', 'Personal', 'Learning', 'Inactive', name='project_type_enum'),
+        nullable=True,  # Nullable for migration safety
+        index=True      # Index for filtering performance
+    )
     status = db.Column(
         Enum('active', 'paused', 'completed', 'cancelled', name='status_enum'),
         nullable=False,
@@ -53,6 +58,7 @@ class Project(db.Model):
             'path': self.path,
             'organization': self.organization,
             'classification': self.classification,
+            'project_type': self.project_type,
             'status': self.status,
             'description': self.description,
             'remote_url': self.remote_url,
