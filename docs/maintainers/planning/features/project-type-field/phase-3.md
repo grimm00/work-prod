@@ -2,11 +2,14 @@
 
 **Feature:** Add `project_type` field  
 **Phase:** 3 of 3  
-**Status:** 🔴 Not Started  
-**Estimated Effort:** ~3 hours  
+**Status:** ✅ Complete  
+**Estimated Effort:** ~1.5 hours  
 **Created:** 2025-12-23  
-**Last Updated:** 2025-12-23  
-**Dependencies:** Phase 2 complete
+**Completed:** 2025-12-29  
+**Merged:** PR #42 (2025-12-29)  
+**Last Updated:** 2025-12-29  
+**Dependencies:** Phase 2 complete  
+**Review:** [Phase 3 Review](phase-3-review.md) - ✅ Addressed
 
 ---
 
@@ -20,29 +23,109 @@ Update API to support filtering by `project_type` and update all related documen
 
 ## 🎯 Phase Goals
 
-- [ ] Add `project_type` query parameter to GET `/api/projects`
-- [ ] Include `project_type` in API responses
-- [ ] Update OpenAPI specification
-- [ ] Update mapping script to populate `project_type`
-- [ ] Add/update tests
+- [x] Add `project_type` query parameter to GET `/api/projects`
+- [x] Include `project_type` in API responses (already done in Phase 1 via `to_dict()`)
+- [x] Update OpenAPI specification
+- [x] Tests written before implementation (TDD)
+- [x] Maintain 97% test coverage
+
+**Note:** Mapping script (`project_type` support) is handled separately in proj-cli's `project-type-support` feature.
 
 ---
 
 ## 📝 Tasks
 
-### Task 1: Update API Endpoint (~45 min)
+### Task 1: Write API Filter Tests (TDD - RED) (~30 min)
+
+**File:** `backend/tests/integration/api/test_projects.py`
+
+Write tests for filtering BEFORE implementing the filter:
+
+```python
+@pytest.mark.integration
+def test_filter_projects_by_project_type_work(client, app):
+    """Test filtering projects by project_type=Work."""
+    # Arrange: Create projects with different types
+    with app.app_context():
+        work_project = Project(name="Work Project", project_type="Work")
+        personal_project = Project(name="Personal Project", project_type="Personal")
+        db.session.add_all([work_project, personal_project])
+        db.session.commit()
+
+    # Act
+    response = client.get('/api/projects?project_type=Work')
+
+    # Assert
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert len(data) == 1
+    assert data[0]['project_type'] == 'Work'
+
+
+@pytest.mark.integration
+def test_filter_projects_by_project_type_invalid(client):
+    """Test invalid project_type returns 400."""
+    response = client.get('/api/projects?project_type=InvalidType')
+    assert response.status_code == 400
+    data = json.loads(response.data)
+    assert 'error' in data
+
+
+@pytest.mark.integration
+def test_filter_projects_by_multiple_types_combined_with_status(client, app):
+    """Test filtering by project_type combined with status filter."""
+    with app.app_context():
+        active_work = Project(name="Active Work", project_type="Work", status="active")
+        paused_work = Project(name="Paused Work", project_type="Work", status="paused")
+        db.session.add_all([active_work, paused_work])
+        db.session.commit()
+
+    response = client.get('/api/projects?project_type=Work&status=active')
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert len(data) == 1
+    assert data[0]['status'] == 'active'
+
+
+@pytest.mark.integration
+def test_project_response_includes_project_type(client, app):
+    """Test project response includes project_type field."""
+    with app.app_context():
+        project = Project(name="Test Project", project_type="Learning")
+        db.session.add(project)
+        db.session.commit()
+        project_id = project.id
+
+    response = client.get(f'/api/projects/{project_id}')
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert 'project_type' in data
+    assert data['project_type'] == 'Learning'
+```
+
+**Acceptance Criteria:**
+
+- [x] Filter by project_type test written
+- [x] Invalid project_type test written
+- [x] Combined filter test written
+- [x] Response includes project_type test written
+- [x] Tests fail initially (RED phase - filter not implemented yet)
+
+---
+
+### Task 2: Implement API Filter (TDD - GREEN) (~45 min)
 
 **File:** `backend/app/api/projects.py`
 
-**Changes:**
-
-1. Add `project_type` to query parameters:
+Implement the filter to make tests pass:
 
 ```python
 @api_bp.route('/projects', methods=['GET'])
 def get_projects():
     # ... existing code ...
-    
+
     # Add project_type filter
     project_type = request.args.get('project_type')
     if project_type:
@@ -50,31 +133,24 @@ def get_projects():
         if project_type not in valid_types:
             return jsonify({'error': f"Invalid project_type. Must be one of: {valid_types}"}), 400
         query = query.filter(Project.project_type == project_type)
-    
+
     # ... rest of code ...
 ```
 
-2. Ensure `project_type` is included in serialization:
-
-```python
-def serialize_project(project):
-    return {
-        # ... existing fields ...
-        'project_type': project.project_type,
-    }
-```
-
 **Acceptance Criteria:**
-- [ ] Query parameter added
-- [ ] Invalid values return 400
-- [ ] Filter works correctly
-- [ ] Field included in response
+
+- [x] Query parameter added
+- [x] Invalid values return 400
+- [x] Filter works correctly
+- [x] All tests pass (GREEN phase)
 
 ---
 
-### Task 2: Update OpenAPI Specification (~30 min)
+### Task 3: Update OpenAPI Specification (~30 min)
 
 **File:** `backend/openapi.yaml`
+
+**Note:** This is documentation - no TDD needed.
 
 **Add to Project schema:**
 
@@ -109,115 +185,45 @@ paths:
 ```
 
 **Acceptance Criteria:**
-- [ ] Schema updated with project_type field
-- [ ] Query parameter documented
-- [ ] Enum values documented
 
----
-
-### Task 3: Update Mapping Script (~45 min)
-
-**File:** `scripts/map_inventory_to_projects.py`
-
-**Changes:**
-
-1. Add `project_type` determination logic:
-
-```python
-def determine_project_type(repo_data):
-    """Determine project_type from repository data."""
-    # Check organization
-    if repo_data.get('organization') == 'DRW':
-        return 'Work'
-    
-    # Check path for Learning
-    path = repo_data.get('path', '')
-    if '/Learning/' in path:
-        return 'Learning'
-    
-    # Check if archived
-    if repo_data.get('archived', False):
-        return 'Inactive'
-    
-    # Default to Personal
-    return 'Personal'
-```
-
-2. Include `project_type` in project creation:
-
-```python
-project_data = {
-    # ... existing fields ...
-    'project_type': determine_project_type(repo),
-}
-```
-
-**Acceptance Criteria:**
-- [ ] Function added to determine project_type
-- [ ] project_type included in project data
-- [ ] Same heuristics as backfill script
-
----
-
-### Task 4: Add/Update Tests (~60 min)
-
-**Files:**
-- `backend/tests/integration/api/test_projects.py`
-- `backend/tests/unit/models/test_project.py`
-
-**Test Cases:**
-
-1. **API Filter Tests:**
-```python
-def test_filter_projects_by_type_work(client):
-    """Test filtering projects by project_type=Work."""
-    response = client.get('/api/projects?project_type=Work')
-    assert response.status_code == 200
-    data = json.loads(response.data)
-    for project in data['projects']:
-        assert project['project_type'] == 'Work'
-
-def test_filter_projects_by_type_invalid(client):
-    """Test invalid project_type returns 400."""
-    response = client.get('/api/projects?project_type=Invalid')
-    assert response.status_code == 400
-```
-
-2. **Serialization Tests:**
-```python
-def test_project_response_includes_project_type(client):
-    """Test project response includes project_type field."""
-    response = client.get('/api/projects/1')
-    assert response.status_code == 200
-    data = json.loads(response.data)
-    assert 'project_type' in data
-```
-
-**Acceptance Criteria:**
-- [ ] Filter tests added
-- [ ] Invalid value test added
-- [ ] Serialization test added
-- [ ] All tests pass
+- [x] Schema updated with project_type field
+- [x] Query parameter documented
+- [x] Enum values documented
 
 ---
 
 ## ✅ Phase Completion Criteria
 
-- [ ] API endpoint updated with filter
-- [ ] OpenAPI spec updated
-- [ ] Mapping script updated
-- [ ] Tests added and passing
-- [ ] All existing tests still pass
+- [x] API filter tests written and passing
+- [x] API endpoint updated with filter
+- [x] OpenAPI spec updated
+- [x] All existing tests still pass
+- [x] Test coverage maintained at 97%
 - [ ] Ready for PR
+
+---
+
+## 📊 Progress Tracking
+
+| Task                                 | Status      | Notes   |
+| ------------------------------------ | ----------- | ------- |
+| Task 1: Write API Tests (RED)        | ✅ Complete | ~30 min |
+| Task 2: Implement API Filter (GREEN) | ✅ Complete | ~45 min |
+| Task 3: Update OpenAPI               | ✅ Complete | ~30 min |
+
+**Total:** ~1.5 hours (3 tasks)
 
 ---
 
 ## 🚀 Post-Phase Actions
 
 After Phase 3 completion:
-1. Create PR for feature
-2. Coordinate with proj-cli for client update
-3. Update dev-infra requirements document
+
+1. Create PR for phase
+2. **proj-cli:** Coordinate `project-type-support` feature for client update
+   - Feature plan: `proj-cli/docs/maintainers/planning/features/project-type-support/`
+   - Update `inventory.py` to include `project_type` in export
+3. Update dev-infra requirements document (FR-2 complete)
 
 ---
 
@@ -231,5 +237,4 @@ After Phase 3 completion:
 
 ---
 
-**Last Updated:** 2025-12-23
-
+**Last Updated:** 2025-12-29
