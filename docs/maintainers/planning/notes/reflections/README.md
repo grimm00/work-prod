@@ -10,6 +10,7 @@
 
 ### Project-Wide Reflections
 
+- **[v0.3.0 Release Reflection](reflection-v0.3.0-project-type-field-2025-12-30.md)** - Post-release reflection for project-type-field feature (2025-12-30)
 - **[Documentation Structure Reflection](reflection-documentation-structure-2025-12-16.md)** - Documentation gaps analysis and improvement opportunities (2025-12-16)
 - **[Work-Prod Integration Reflection](reflection-work-prod-integration-2025-12-16.md)** - Post-MVP integration, command sync, and project analysis (2025-12-16)
 - **[Command Adaptations & Dev-Infra Handoff](reflection-command-adaptations-dev-infra-handoff-2025-12-07.md)** - Reflection on command adaptation documentation and dev-infra handoff preparation
@@ -28,8 +29,8 @@
 
 ## 📊 Summary
 
-**Total Reflections:** 10  
-**Latest:** 2025-12-16 (Documentation Structure Reflection)
+**Total Reflections:** 11  
+**Latest:** 2025-12-30 (v0.3.0 Release Reflection)
 
 ---
 
@@ -65,5 +66,5 @@ Focused analysis of individual phases:
 
 ---
 
-**Last Updated:** 2025-12-16
+**Last Updated:** 2025-12-30
 
