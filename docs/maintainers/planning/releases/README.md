@@ -14,6 +14,7 @@
 
 ### Releases
 
+- **[v0.3.0](v0.3.0/)** - Project Type Field (✅ Released 2025-12-30)
 - **[v0.2.0](v0.2.0/README.md)** - API-Only Architecture (✅ Released 2025-12-23)
 - **[v0.1.0](v0.1.0/README.md)** - MVP Release (✅ Released 2025-12-07)
 
@@ -21,10 +22,10 @@
 
 ## 📊 Summary
 
-**Total Releases:** 2 released  
-**Latest Release:** v0.2.0 (API-Only) - Released 2025-12-23  
+**Total Releases:** 3 released  
+**Latest Release:** v0.3.0 (Project Type Field) - Released 2025-12-30  
 **Next Release:** TBD  
-**Status:** ✅ v0.2.0 released
+**Status:** ✅ v0.3.0 released
 
 ---
 
@@ -49,6 +50,7 @@ Each release includes:
 
 | Version | Status | Release Date | Type | Description |
 |---------|--------|--------------|------|-------------|
+| v0.3.0 | ✅ Released | 2025-12-30 | Minor | Project Type Field |
 | v0.2.0 | ✅ Released | 2025-12-23 | Minor | API-Only Architecture |
 | v0.1.0 | ✅ Released | 2025-12-07 | MVP | Backend MVP Release |
 
@@ -59,12 +61,28 @@ Each release includes:
 ### Next Release
 
 No release currently planned. Start planning with:
-- `/release-prep v0.3.0` for next minor release
-- `/release-prep v0.2.1` for patch release
+- `/release-prep v0.4.0` for next minor release
+- `/release-prep v0.3.1` for patch release
 
 ---
 
 ## 📝 Release History
+
+### v0.3.0 - Project Type Field (2025-12-30)
+
+**Status:** ✅ Released  
+**PR:** #43  
+**Type:** Minor Release (New Feature)
+
+**Key Changes:**
+- Added `project_type` enum field to projects
+- API filtering by `project_type`
+- Data backfill script for existing projects
+- OpenAPI specification updated
+
+**Release Notes:** [v0.3.0/RELEASE-NOTES.md](v0.3.0/RELEASE-NOTES.md)
+
+---
 
 ### v0.2.0 - API-Only Architecture (2025-12-23)
 
@@ -109,6 +127,6 @@ No release currently planned. Start planning with:
 
 ---
 
-**Last Updated:** 2025-12-23  
-**Latest Release:** v0.2.0 (API-Only Architecture) - Released 2025-12-23
+**Last Updated:** 2025-12-30  
+**Latest Release:** v0.3.0 (Project Type Field) - Released 2025-12-30
 
