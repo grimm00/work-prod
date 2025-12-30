@@ -9,6 +9,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Changes not yet released]
 
+## [0.3.0] - 2025-12-29
+
+### Added
+
+- **Project Type Field** - New `project_type` enum for classifying projects (PR #40, #41, #42)
+  - Valid types: `Work`, `Personal`, `Learning`, `Inactive`
+  - Database column with index for filtering performance
+  - API query parameter: `GET /api/projects?project_type=Work`
+  - Invalid values return 400 error with clear message
+
+- **Backfill Script** - One-time script to classify existing projects (`scripts/backfill_project_type.py`)
+  - Heuristic-based classification
+  - Dry-run mode by default
+  - Detailed results reporting
+
+- **Manual Testing Guide** - Test scenarios for project-type-field feature
+  - 5 scenarios covering API filtering
+  - Located in feature documentation
+
+### Changed
+
+- **Project Model** - Added `project_type` field to `to_dict()` output
+- **OpenAPI Specification** - Updated with `project_type` field in all relevant schemas
+
+### Documentation
+
+- Feature hub documentation for project-type-field feature
+- Phase documents with detailed implementation plans
+- Fix tracking for deferred Sourcery review items (10 issues)
+
 ## [0.2.0] - 2025-12-23
 
 ### Changed
@@ -74,7 +104,8 @@ All previous CLI commands are available in proj-cli with the same syntax.
 
 ---
 
-[Unreleased]: https://github.com/grimm00/work-prod/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/grimm00/work-prod/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/grimm00/work-prod/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/grimm00/work-prod/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/grimm00/work-prod/releases/tag/v0.1.0
 
