@@ -1,7 +1,7 @@
 # CHANGELOG Draft - v0.3.0
 
 **Draft Created:** 2025-12-29  
-**Status:** 📝 Draft - Needs Review
+**Status:** ✅ Merged into CHANGELOG.md
 
 ---
 

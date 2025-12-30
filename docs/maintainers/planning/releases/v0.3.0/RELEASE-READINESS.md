@@ -88,5 +88,21 @@ All critical checks pass. The feature is complete and well-tested. Deferred issu
 
 ---
 
-**Generated:** 2025-12-29
+## 📋 Preparation Checklist
+
+- [x] Assessment generated (`/release-prep`)
+- [x] CHANGELOG draft created (`/release-prep`)
+- [x] Release notes draft created (`/release-prep`)
+- [x] CHANGELOG finalized (`/release-finalize`)
+- [x] Release notes finalized (`/release-finalize`)
+- [x] Release branch created (`release/v0.3.0`)
+- [ ] Release PR created (`/pr --release`)
+- [ ] Merged to main
+- [ ] Tagged v0.3.0
+- [ ] GitHub Release created
+
+---
+
+**Generated:** 2025-12-29  
+**Finalized:** 2025-12-29
 
